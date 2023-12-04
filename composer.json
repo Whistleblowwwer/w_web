@@ -1,0 +1,29 @@
+{
+    "name": "vendor/whistlober",
+    "description": "web",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Vendor\\Whistlober\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Elcale1703",
+            "email": "m.agudeloo@uniandes.edu.co"
+        }
+    ],
+    "require": {
+        "laravel/framework": "^8.0"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "Vendor\\Whistlober\\MiClase::metodoPostInstall"
+        ]
+    },
+    "config": {
+        "platform": {
+            "php": "7.4.3"
+        }
+    }
+}
