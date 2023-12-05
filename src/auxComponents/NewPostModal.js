@@ -1,10 +1,14 @@
 import React from 'react'
+import mas from '../assets/Group 99.svg';
+import CompanyAutocomplete from './CompanyAutocomplete';
+
 
 function NewPostModal(props) {
+    console.log("inner sugestions", props.suggestions)
     return (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50">
             <div className="absolute top-0 left-0 w-full h-full bg-black opacity-70"></div>
-            <div className={`z-50 bg-[#FFF] p-4 shadow-md rounded-[20px] h-[35%] w-[26%] modalres ${props.darkMode ? 'dark-register-bg' : ''}`}>
+            <div className={`z-50 bg-[#FFF] p-4 shadow-md rounded-[20px] h-[45%] w-[40%] modalres ${props.darkMode ? 'dark-register-bg' : ''}`}>
                 <div className="text-right">
                     <button
                         onClick={props.handlePostModal}
@@ -36,8 +40,36 @@ function NewPostModal(props) {
                     <div className="text-gray-500 text-sm mt-1 mr-[50%]">
                         {props.textPost.length}/{props.maxLength} palabras
                     </div>
+
                 </div>
-                <div className="flex items-center mt-2 ml-16">
+                <div className="flex items-center mt-10 mb-10 ml-[-1%]">
+                    <img src={mas} alt='mas' className='w-[38px] mr-6' />
+                    <div onClick={props.handleSearchCompanyClick}>
+                        <CompanyAutocomplete
+                            suggestions={props.suggestions}
+                            setSelectedCompany={props.setSelectedCompany}
+                            companySearchQuery={props.companySearchQuery}
+                            setCompanySearchQuery={props.setCompanySearchQuery}
+                        />
+                    </div>
+                    <div className="flex items-center ml-[-1%]">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                            <i
+                                key={star}
+                                className={`fa-solid fa-star mr-2 ${star <= props.reviewRating ? 'dark-text-white' : ''
+                                    }`}
+                                style={{
+                                    color: star <= props.reviewRating ? '#688BFF' : '#D9D9D9',
+                                    fontSize: '18px',
+                                    cursor: 'pointer',
+                                }}
+                                onClick={() => props.handleRatingClick(star)}
+                            ></i>
+                        ))}
+                    </div>
+
+                </div>
+                <div className="flex items-center mt-10 ml-16">
                     <div className="mr-20">
                         <label htmlFor="imageUpload" className={`fa-regular fa-3x fa-image mr-6 ${props.darkMode ? 'dark-text-white' : ''}`} style={{ fontSize: "18px", cursor: "pointer" }}>
                             <input
@@ -50,12 +82,11 @@ function NewPostModal(props) {
                                     const files = e.target.files;
                                     const selected = Array.from(files);
                                     props.setSelectedImages(selected);
-                                    props.setShowPublishIcon(false);
                                 }}
                             />
                         </label>
-                        <i class={`fa-solid fa-link mr-6 ${props.darkMode ? 'dark-text-white' : ''}`} style={{ fontSize: "16px" }}></i>
-                        <i class={`fa-solid fa-bolt ${props.darkMode ? 'dark-text-white' : ''}`} style={{ fontSize: "16px" }}></i>
+                        <i className={`fa-solid fa-link mr-6 ${props.darkMode ? 'dark-text-white' : ''}`} style={{ fontSize: "16px" }}></i>
+                        <i className={`fa-solid fa-bolt ${props.darkMode ? 'dark-text-white' : ''}`} style={{ fontSize: "16px" }}></i>
                     </div>
                     <div>
                         <button onClick={props.addPost} className={`w-[84px] h-[32px] bg-neutral-900 rounded-[20.50px] border ml-12 mt-1 ${props.darkMode ? 'dark-button' : ''}`}>

@@ -50,6 +50,10 @@ const Home = ({ setAuth }) => {
   const [reviewRating, setReviewRating] = useState(0)
   const [companySearchQuery, setCompanySearchQuery] = useState("")
 
+  console.log("text post", textPost)
+  console.log("suggestions", suggestions)
+  console.log("modal open", postModalOpen)
+
   const navigate = useNavigate();
   const maxLength = 1200;
 
@@ -61,7 +65,7 @@ const Home = ({ setAuth }) => {
     navigate(`/empresa/${business.name}`, { state: { business } });
   };
 
-  const handleRecentSearch = async(searchValue) => {
+  const handleRecentSearch = async (searchValue) => {
     navigate(`/search`, { state: { searchValue } });
   }
 
@@ -182,6 +186,8 @@ const Home = ({ setAuth }) => {
       setText("");
       setCompanySearchQuery("")
       setReviewRating(0)
+      handlePostModal();
+
     }
   };
 
@@ -329,14 +335,14 @@ const Home = ({ setAuth }) => {
   const formatDate = (createdAt) => {
     const parsedDate = parseISO(createdAt);
     const currentDate = new Date();
-  
+
     const millisecondsDifference = differenceInMilliseconds(currentDate, parsedDate);
     const secondsDifference = Math.floor(millisecondsDifference / 1000);
     const minutesDifference = Math.floor(secondsDifference / 60);
     const hoursDifference = differenceInHours(currentDate, parsedDate);
     const daysDifference = differenceInDays(currentDate, parsedDate);
     const monthsDifference = differenceInMonths(currentDate, parsedDate);
-  
+
     if (minutesDifference < 1) {
       return `${secondsDifference}s`;
     } else if (hoursDifference < 1) {
@@ -369,6 +375,12 @@ const Home = ({ setAuth }) => {
           setSelectedImages={setSelectedImages}
           setShowPublishIcon={setShowPublishIcon}
           addPost={handleAddPost}
+          suggestions={suggestions}
+          setSelectedCompany={setSelectedCompany}
+          companySearchQuery={companySearchQuery}
+          setCompanySearchQuery={setCompanySearchQuery}
+          handleRatingClick={handleRatingClick}
+          reviewRating={reviewRating}
         />
       )}
       {commentModalOpen && (
@@ -584,7 +596,7 @@ const Home = ({ setAuth }) => {
                   </div>
                   <div className="flex mt-4 mb-4">
                     <p className={`text-gray-400 text-s font-light leading-normal ${darkMode ? 'dark-text-white' : ''}`}>
-                    {post.is_liked ? post.likes + 1 : post.likes} me gusta
+                      {post.is_liked ? post.likes + 1 : post.likes} me gusta
                     </p>
                     <p className={`ml-4 text-gray-400 text-s font-light leading-normal ${darkMode ? 'dark-text-white' : ''}`}>
                       {post.comments} comentarios
