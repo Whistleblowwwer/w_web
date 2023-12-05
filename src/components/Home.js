@@ -226,7 +226,9 @@ const Home = ({ setAuth }) => {
   const handleComment = () => {
     async function postComment() {
       const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
       myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+
       var raw = JSON.stringify({
         "content": textComment,
         "_id_review": idReviewComment,
@@ -245,6 +247,7 @@ const Home = ({ setAuth }) => {
         console.error(err.message);
       }
     }
+    setCommentModalOpen(!commentModalOpen)
     postComment();
   }
 
