@@ -40,7 +40,7 @@ function CompanyAutocomplete(props) {
                 className="w-full p-2 border rounded-md"
             />
             {(isDropdownOpen && (props.companySearchQuery.length > 0)) && (
-                <ul className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-md">
+                <ul className="absolute z-10 w-full h-full mt-1 bg-white border rounded-md shadow-md">
                     {filteredSuggestions.map((suggestion) => (
                         <li
                             key={suggestion?._id_business}
