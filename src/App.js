@@ -6,6 +6,7 @@ import Register from './components/Register';
 import Home from './components/Home';
 import Search from './components/Search';
 import Chats from './components/Chats';
+import Review from './components/Review';
 import Profile from './components/Profile';
 import Profile_empresa from './components/Profile_empresa';
 import Profile_user from './components/Profile_user';
@@ -52,6 +53,7 @@ function App() {
           <Route path="/login" element={!isAuthenticated ? <Login setAuth={setAuth} /> : <Navigate to="/home" />} />
           <Route path="/register" element={!isAuthenticated ? <Register setAuth={setAuth} /> : <Navigate to="/login" />} />
           <Route path="/home" element={isAuthenticated ? <Home setAuth={setAuth} /> : <Navigate to="/login" />} />
+          <Route path="/review/:review" element={<Review />} />
           <Route path="/search" element={<Search />} />
           <Route path="/chats" element={<Chats />} />
           <Route path="/profile" element={<Profile />} />

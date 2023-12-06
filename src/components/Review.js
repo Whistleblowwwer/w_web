@@ -14,7 +14,13 @@ import NewCommentModal from '../auxComponents/NewCommentModal';
 import CompanyAutocomplete from '../auxComponents/CompanyAutocomplete';
 import { differenceInMilliseconds, differenceInHours, differenceInDays, differenceInMonths, format, parseISO } from 'date-fns';
 
-const Home = ({ setAuth }) => {
+const Review = ({ setAuth }) => {
+
+  //review variables
+  const [review, setReview] = useState([])
+  const [business, setBusiness] = useState([])
+  const location = useLocation();
+  const reviewValue = location.state ? location.state.reviewValue : null;
 
   //search variables
   const [search, setSearch] = useState('');
@@ -36,7 +42,6 @@ const Home = ({ setAuth }) => {
   //general variables
   const [isTyping, setIsTyping] = useState(false)
   const [activeButton, setActiveButton] = useState('home');
-  const [activeFeed, setActiveFeed] = useState('feed');
   const [activeTabView, setActiveTabView] = useState('parati');
   const [darkMode, setDarkMode] = useState(() => {
     return JSON.parse(localStorage.getItem('darkMode')) || false;
@@ -49,9 +54,9 @@ const Home = ({ setAuth }) => {
   const [reviewRating, setReviewRating] = useState(0)
   const [companySearchQuery, setCompanySearchQuery] = useState("")
 
-  console.log("text post", textPost)
-  console.log("suggestions", suggestions)
-  console.log("modal open", postModalOpen)
+  console.log("text post", textPost);
+  console.log("suggestions", suggestions);
+  console.log("modal open", postModalOpen);
 
   const navigate = useNavigate();
   const maxLength = 1200;
@@ -69,7 +74,7 @@ const Home = ({ setAuth }) => {
   }
 
   const handleReview = async (reviewValue) => {
-    navigate(`/review/${reviewValue._id_review}`, { state: { reviewValue } });
+    navigate(`/review/${reviewValue}`, { state: { reviewValue } });
   }
 
   const handleUserClick = async (users) => {
@@ -297,9 +302,12 @@ const Home = ({ setAuth }) => {
       };
 
       try {
-        const response = await fetch("http://18.220.124.246:4000/reviews/", requestOptions);
+        const response = await fetch(`http://18.220.124.246:4000/reviews/info/?_id_review=${reviewValue._id_review}`, requestOptions);
         const parseRes = await response.json();
-        setPostes(parseRes.reviews);
+        setPostes(parseRes.Comments);
+        setBusiness(parseRes.Business);
+        setReview(parseRes);
+        console.log(parseRes.content);
       } catch (err) {
         console.error(err.message);
       }
@@ -464,81 +472,57 @@ const Home = ({ setAuth }) => {
             </div>
           </div>
           <div className="w-[80%] ml-[-13px] post-container">
-            <div className={`w-[66%] h-[260px] bg-[#FFF] ${darkMode ? 'dark-register-bg' : ''} create-post`}>
-              <div className="flex justify-between items-center p-1">
-                <div className="w-[100%] flex flex-col items-center pt-5">
-                  <input
-                    className={`input-style w-full h-[120px] rounded-lg bg-gray-50 p-4 ${darkMode ? 'dark-register' : ''}`}
-                    onChange={handleTextChange2}
-                    placeholder='Escribe algo..'
-                    value={textPost}
-                    style={{ paddingBottom: '90px' }}
-                  />
-                  <div className="opacity text-gray-500 text-sm mt-1 mr-[93%]">
-                    {textPost.length}/{maxLength}
-                  </div>
-                  <div className='flex mr-[93%]'>
-                    <label htmlFor="imageUpload">
-                      <input
-                        value={[]}
-                        id="imageUpload"
-                        type="file"
-                        accept="image/*"
-                        style={{ display: "none" }}
-                        onChange={(e) => {
-                          const files = e.target.files;
-                          const selected = Array.from(files);
-                          setSelectedImages(selected);
-                        }}
+            <div className={`w-[66%] h-auto bg-[#FFF] ${darkMode ? 'dark-register-bg' : ''} create-post`}>
+                <div className="w-[100%] h-auto pb-3 pl-3 pt-1 pr-3">
+                    <div className='flex mb-[2%]'>
+                        <i class="fa-solid fa-arrow-left-long mt-2 mr-4 cursor-pointer" onClick={()=> navigate('/home')}></i>
+                        <p className='text-[20px] font-bold'>Post</p>
+                    </div>
+                    <div>
+                        <button className='w-[102.8%] mt-[-18px] ml-[-13px] bg-[#F5F5F5] h-[50px]' onClick={() => handleBusinessClick(business)}>
+                            <div className='flex justify-between items-center'>
+                            <p className='ml-4 text-black text-base font-bold'>{business.name}</p>
+                            <img src={paginaEmpre} alt='empresa' className='mr-5' />
+                            </div>
+                        </button>
+                    </div>
+                    <div className="flex items-center mt-2">
+                      <img src={proSet} alt="Imagen" className="w-[35px] h-[35px] relative ml-1" />
+                      {review.User && (
+                            <p className={`text-black text-base font-bold ml-3 ${darkMode ? 'dark-text-white' : ''}`}>
+                            {review.User.name} {review.User.last_name}
+                            <br />
+                            <span style={{ marginTop: '-7px' }} className={`flex text-center text-neutral-400 text-sm font-light ${darkMode ? 'dark-text-white' : ''}`}>
+                                {formatDate(review.createdAt)}
+                            </span>
+                            </p>
+                        )}
+                    </div>
+                    <div>
+                    <p className={`prevent-word-break text-black text-sm font-normal leading-normal tracking-wide mt-2 ${darkMode ? 'dark-text-white' : ''}`}>
+                      {review.content}
+                    </p>
+                    <div className="flex items-center mt-7 ml-[1%]">
+                      <img
+                        src={review.is_liked ? Liked : Like}
+                        alt='like'
+                        style={{ height: '25px', width: '25px' }}
+                        className='mr-2'
                       />
-                      <img src={masimagen} alt='masimagen' className='cursor-pointer w-[28px]' />
-                    </label>
-                  </div>
-                  <div className="flex items-center mt-4 ml-[-1%]">
-                    <img src={mas} alt='mas' className='w-[38px] mr-6' />
-                    {/* <p className='opacity pr-[50px]'>Selecciona una entidad</p> */}
-                    <div onClick={handleSearchCompanyClick}>
-                      <CompanyAutocomplete
-                        suggestions={suggestions}
-                        setSelectedCompany={setSelectedCompany}
-                        companySearchQuery={companySearchQuery}
-                        setCompanySearchQuery={setCompanySearchQuery}
-                      />
+                      <img src={Comment} style={{ height: '25px', width: '25px' }} className='mr-2' onClick={() => handleCommentClick(review._id_review)} />
+                      <img src={Share} alt='share' />
                     </div>
-                    <div className="flex items-center ml-[-1%]">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <i
-                          key={star}
-                          className={`fa-solid fa-star mr-2 ${star <= reviewRating ? 'dark-text-white' : ''
-                            }`}
-                          style={{
-                            color: star <= reviewRating ? '#688BFF' : '#D9D9D9',
-                            fontSize: '18px',
-                            cursor: 'pointer',
-                          }}
-                          onClick={() => handleRatingClick(star)}
-                        ></i>
-                      ))}
+                    <div className="flex mt-4 mb-4">
+                      <p className={`text-gray-400 text-s font-light leading-normal ${darkMode ? 'dark-text-white' : ''}`}>
+                        {review.is_liked ? review.likes + 1 : review.likes} me gusta
+                      </p>
+                      <p className={`ml-4 text-gray-400 text-s font-light leading-normal ${darkMode ? 'dark-text-white' : ''}`}>
+                        {review.comments} comentarios
+                      </p>
                     </div>
-                    <div className="">
-                      <button style={{
-                        display: showPublishIcon ? 'none' : 'block', background: showPublishIcon
-                          ? 'linear-gradient(267deg, #8E1DA1 0%, #2D015A 100%)'
-                          : '#F8F8FB'
-                      }} className={`w-[48px] h-[48px] bg-[#F8F8FB] rounded-full ${darkMode ? 'dark-button' : ''}`}>
-                        <i className={`fa-solid fa-arrow-right mt-1 text-[#A9A9A9] text-[22px] ${darkMode ? 'dark-text' : ''}`} ></i></button>
                     </div>
-                    <div className="">
-                      <button onClick={handleAddPost} style={{
-                        display: showPublishIcon ? 'block' : 'none', background: showPublishIcon
-                          ? 'linear-gradient(267deg, #8E1DA1 0%, #2D015A 100%)'
-                          : '#F8F8FB',
-                      }} className={`w-[48px] h-[48px] bg-[#F8F8FB] rounded-full ${darkMode ? 'dark-button' : ''}`}>
-                        <i className={`fa-solid fa-arrow-right mt-1 text-[#FFF] text-[22px] ${darkMode ? 'dark-text' : ''}`} ></i></button>
-                    </div>
-                  </div>
+                    
                 </div>
-              </div>
             </div>
             {/*
               <div className="flex mt-4">
@@ -553,13 +537,31 @@ const Home = ({ setAuth }) => {
                 </button>
               </div>
             */}
-
+            <div className='w-[66%] h-auto'>
+                <input className='input-style w-full h-auto' placeholder='Escribe un comentario'></input>
+                <div className="bg-[#FFF]">
+                    <button style={{
+                    display: showPublishIcon ? 'none' : 'block', background: showPublishIcon
+                        ? 'linear-gradient(267deg, #8E1DA1 0%, #2D015A 100%)'
+                        : '#F8F8FB'
+                    }} className={`w-[48px] h-[48px] bg-[#F8F8FB] rounded-full ${darkMode ? 'dark-button' : ''}`}>
+                    <i className={`fa-solid fa-arrow-right mt-1 text-[#A9A9A9] text-[22px] ${darkMode ? 'dark-text' : ''}`} ></i></button>
+                </div>
+                <div className="bg-[#FFF]">
+                    <button onClick={handleAddPost} style={{
+                    display: showPublishIcon ? 'block' : 'none', background: showPublishIcon
+                        ? 'linear-gradient(267deg, #8E1DA1 0%, #2D015A 100%)'
+                        : '#F8F8FB',
+                    }} className={`w-[48px] h-[48px] bg-[#F8F8FB] rounded-full ${darkMode ? 'dark-button' : ''}`}>
+                    <i className={`fa-solid fa-arrow-right mt-1 text-[#FFF] text-[22px] ${darkMode ? 'dark-text' : ''}`} ></i></button>
+                </div>
+            </div>
             <div className="w-[66%] h-auto post-post">
               {postes.map((post, index) => (
                 <div key={index} className={`bg-[#FFF] h-auto w-[100%] p-3 mt-1 ${darkMode ? 'dark-register-bg' : ''}`}>
-                  <button className='w-[102.8%] mt-[-18px] ml-[-13px] bg-[#F5F5F5] h-[50px]' onClick={() => handleBusinessClick(post.Business)}>
+                  <button className='w-[102.8%] mt-[-18px] ml-[-13px] bg-[#F5F5F5] h-[50px]' onClick={() => handleBusinessClick(business)}>
                     <div className='flex justify-between items-center'>
-                      <p className='ml-4 text-black text-base font-bold'>{post.Business.name}</p>
+                      <p className='ml-4 text-black text-base font-bold'>{business.name}</p>
                       <img src={paginaEmpre} alt='empresa' className='mr-5' />
                     </div>
                   </button>
@@ -590,7 +592,6 @@ const Home = ({ setAuth }) => {
                         ))}
                       </div>
                     )}
-                    </div>
                     <div className="flex items-center mt-7 ml-[1%]">
                       <img
                         src={post.is_liked ? Liked : Like}
@@ -611,6 +612,7 @@ const Home = ({ setAuth }) => {
                       </p>
                     </div>
                     {/*  AQUI VA EL INPUT PARA PROBAR COMENTARIO */}
+                  </div>
                 </div>
               ))}
             </div>
@@ -728,4 +730,4 @@ const Home = ({ setAuth }) => {
   );
 };
 
-export default Home; 
+export default Review; 
