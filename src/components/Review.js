@@ -122,6 +122,17 @@ const Review = ({ setAuth }) => {
     }
   };
 
+  const handleTextChange2Come = (event) => {
+    setTextComment(event.target.value);
+    if (event.target.value.trim() !== '') {
+      setIsTyping(true);
+      setShowPublishIcon(true);
+    } else {
+      setIsTyping(false);
+      setShowPublishIcon(false);
+    }
+  };
+
   const handleSearch = (e) => {
     const searchValue = typeof e === 'string' ? e : '';
 
@@ -199,7 +210,7 @@ const Review = ({ setAuth }) => {
     }
   };
 
-  const handleLike = (_id_review) => {
+  const handleLike = (_id_comment) => {
     async function postLike() {
       const myHeaders = new Headers();
       myHeaders.append("authorization", `Bearer ${localStorage.token}`);
@@ -210,12 +221,12 @@ const Review = ({ setAuth }) => {
       };
 
       try {
-        const url = `http://18.220.124.246:4000/users/reviews/like/?_id_review=${_id_review}`;
+        const url = `http://18.220.124.246:4000/users/comments/like/?_id_comment=${_id_comment}`;
         const response = await fetch(url, requestOptions);
         const parseRes = await response.json();
         setPostes((prevPostes) => {
           return prevPostes.map((prevPost) => {
-            if (prevPost._id_review === _id_review) {
+            if (prevPost._id_comment === _id_comment) {
               return {
                 ...prevPost,
                 is_liked: !prevPost.is_liked, // Invertir el estado
@@ -231,6 +242,7 @@ const Review = ({ setAuth }) => {
     }
     postLike();
   }
+
   const handleComment = () => {
     async function postComment() {
       const myHeaders = new Headers();
@@ -239,7 +251,7 @@ const Review = ({ setAuth }) => {
 
       var raw = JSON.stringify({
         "content": textComment,
-        "_id_review": idReviewComment,
+        "_id_review": reviewValue._id_review,
       });
 
       const requestOptions = {
@@ -257,6 +269,37 @@ const Review = ({ setAuth }) => {
     }
     setCommentModalOpen(!commentModalOpen)
     postComment();
+  }
+
+  const handleComment2 = () => {
+    async function postComment() {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+
+      var raw = JSON.stringify({
+        "content": textComment,
+        "_id_review": reviewValue._id_review,
+      });
+
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      };
+
+      try {
+        const response = await fetch("http://18.220.124.246:4000/comments", requestOptions);
+        console.log(response);
+      } catch (err) {
+        console.error(err.message);
+      }
+    }
+    postComment();
+    setTextComment('');
+    setShowPublishIcon(false);
+
   }
 
   const handleSearchCompanyClick = () => {
@@ -307,7 +350,7 @@ const Review = ({ setAuth }) => {
         setPostes(parseRes.Comments);
         setBusiness(parseRes.Business);
         setReview(parseRes);
-        console.log(parseRes.content);
+        console.log(parseRes);
       } catch (err) {
         console.error(err.message);
       }
@@ -538,7 +581,7 @@ const Review = ({ setAuth }) => {
               </div>
             */}
             <div className='w-[66%] h-auto'>
-                <input className='input-style w-full h-auto' placeholder='Escribe un comentario'></input>
+                <input className='input-style w-full h-auto' placeholder='Escribe un comentario' onChange={handleTextChange2Come} value={textComment}></input>
                 <div className="bg-[#FFF]">
                     <button style={{
                     display: showPublishIcon ? 'none' : 'block', background: showPublishIcon
@@ -548,7 +591,7 @@ const Review = ({ setAuth }) => {
                     <i className={`fa-solid fa-arrow-right mt-1 text-[#A9A9A9] text-[22px] ${darkMode ? 'dark-text' : ''}`} ></i></button>
                 </div>
                 <div className="bg-[#FFF]">
-                    <button onClick={handleAddPost} style={{
+                    <button onClick={handleComment2} style={{
                     display: showPublishIcon ? 'block' : 'none', background: showPublishIcon
                         ? 'linear-gradient(267deg, #8E1DA1 0%, #2D015A 100%)'
                         : '#F8F8FB',
@@ -598,9 +641,9 @@ const Review = ({ setAuth }) => {
                         alt='like'
                         style={{ height: '25px', width: '25px' }}
                         className='mr-2'
-                        onClick={() => handleLike(post._id_review)}
+                        onClick={() => handleLike(post._id_comment)}
                       />
-                      <img src={Comment} style={{ height: '25px', width: '25px' }} className='mr-2' onClick={() => handleCommentClick(post._id_review)} />
+                      <img src={Comment} style={{ height: '25px', width: '25px' }} className='mr-2' onClick={() => handleCommentClick(post._id_comment)} />
                       <img src={Share} alt='share' />
                     </div>
                     <div className="flex mt-4 mb-4">
