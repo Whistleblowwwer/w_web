@@ -30,7 +30,7 @@ const Login = ({ setAuth }) => {
 
     try {
       const body = { client_email, client_password };
-      const response = await fetch("http://18.220.124.246:4000/users/login", {
+      const response = await fetch("http://3.135.121.50:4000/users/login", {
         method: "POST",
         mode: 'cors',
         headers: { "Content-Type": "application/json" },
@@ -83,7 +83,7 @@ const Login = ({ setAuth }) => {
               <input name="client_email" value={client_email} onChange={e => onChange(e)} placeholder="Teléfono o Correo electrónico" className={`placeholder-black mr-4 mt-4 p-2  rounded-[10px] w-[87%] h-8 bg-stone-50 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${darkMode ? 'dark-register-bt placeholder-black-dk' : ''}`} />
             </div>
             <div className="flex justify-center items-center">
-              <input name="client_password" value={client_password} onChange={e => onChange(e)} placeholder="Contraseña" className={`placeholder-black mr-4 mt-4 p-2 rounded-[10px] w-[87%] h-8 bg-stone-50 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${darkMode ? 'dark-register-bt placeholder-black-dk' : ''}`} />
+              <input type='password' name="client_password" value={client_password} onChange={e => onChange(e)} placeholder="Contraseña" className={`placeholder-black mr-4 mt-4 p-2 rounded-[10px] w-[87%] h-8 bg-stone-50 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${darkMode ? 'dark-register-bt placeholder-black-dk' : ''}`} />
             </div>
             <div className="flex mt-2 ml-5">
               <p className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${darkMode ? 'dark-text-white' : ''}`}>¿Olvidaste tu contraseña?</p>

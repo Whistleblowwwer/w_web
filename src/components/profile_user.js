@@ -4,6 +4,8 @@ import proSet from '../assets/Image-40.png';
 import Location from '../assets/Location.svg';
 import Like from '../assets/Like.svg';
 import Comment from '../assets/Comment Review.svg';
+import Liked from '../assets/liked.svg';
+import paginaEmpre from '../assets/CTA.svg';
 import Share from '../assets/Send.svg';
 import { useNavigate, useLocation, Navigate, useParams } from 'react-router-dom';
 import NewPostModal from '../auxComponents/NewPostModal';
@@ -11,6 +13,12 @@ import NewCommentModal from '../auxComponents/NewCommentModal';
 import { differenceInMilliseconds, differenceInHours, differenceInDays, differenceInMonths, format, parseISO } from 'date-fns';
 
 const Profile_user = ({ setAuth }) => {
+
+  //search variables
+  const [showResults, setShowResults] = useState(false);
+  const [search, setSearch] = useState('');
+  const [recentSearches, setRecentSearches] = useState([]);
+
 
   //editable variables
   const [editable, setEditable] = useState("");
@@ -42,6 +50,7 @@ const Profile_user = ({ setAuth }) => {
   const [isTyping, setIsTyping] = useState(false);
   const [showPublishIcon, setShowPublishIcon] = useState(false);
   const [name, setName] = useState("");
+  const [userDetail, setUserDetail] = useState("");
   const [postes, setPostes] = useState([]);
   const navigate = useNavigate();
 
@@ -109,6 +118,18 @@ const Profile_user = ({ setAuth }) => {
     }
   };
 
+  const handleBusinessClick = async (business) => {
+    const newRecentSearches = [search, ...recentSearches.slice(0, 3)]; // Guardar los últimos 4 términos
+    setRecentSearches(newRecentSearches);
+    localStorage.setItem('recentSearches', JSON.stringify(newRecentSearches));
+    setShowResults(false);
+    navigate(`/empresa/${business.name}`, { state: { business } });
+  };
+
+  const handleReview = async (reviewValue) => {
+    navigate(`/review/${reviewValue._id_review}`, { state: { reviewValue } });
+  }
+
   useEffect(() => {
     localStorage.setItem('darkMode', JSON.stringify(darkMode));
   }, [darkMode]);
@@ -126,8 +147,9 @@ const Profile_user = ({ setAuth }) => {
             redirect: "follow",
           };
   
-          const response = await fetch(`http://18.220.124.246:4000/users/reviews?_id_user=${users._id_user}`, requestOptions);
+          const response = await fetch(`http://3.135.121.50:4000/users/reviews?_id_user=${users._id_user}`, requestOptions);
           const parseRes = await response.json();
+          console.log(parseRes);
   
           // Check if 'reviews' property exists before setting the state
           if (parseRes.reviews) {
@@ -158,7 +180,7 @@ const Profile_user = ({ setAuth }) => {
       };
 
       try {
-        const response = await fetch("http://18.220.124.246:4000/users", requestOptions);
+        const response = await fetch("http://3.135.121.50:4000/users", requestOptions);
         const parseRes = await response.json();
         console.log(parseRes.user.name);
         setName(parseRes.user.name);
@@ -167,6 +189,30 @@ const Profile_user = ({ setAuth }) => {
       }
     }
     getName();
+
+  }, []);
+
+  useEffect(() => {
+    async function getUserDetail() {
+      const myHeaders = new Headers();
+      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
+      };
+
+      try {
+        const response = await fetch(`http://3.135.121.50:4000/users/?_id_user=${users._id_user}`, requestOptions);
+        const parseRes = await response.json();
+        console.log(parseRes.user);
+        setUserDetail(parseRes.user);
+      } catch (err) {
+        console.error(err.message);
+      }
+    }
+    getUserDetail();
 
   }, []);
 
@@ -244,7 +290,7 @@ const Profile_user = ({ setAuth }) => {
       };
 
       try {
-        const url = `http://18.220.124.246:4000/users/reviews/like/?_id_review=${_id_review}`;
+        const url = `http://3.135.121.50:4000/users/reviews/like/?_id_review=${_id_review}`;
         const response = await fetch(url, requestOptions);
         const parseRes = await response.json();
       } catch (err) {
@@ -277,7 +323,7 @@ const Profile_user = ({ setAuth }) => {
       };
 
       try {
-        const response = await fetch("http://18.220.124.246:4000/comments", requestOptions);
+        const response = await fetch("http://3.135.121.50:4000/comments", requestOptions);
       } catch (err) {
         console.error(err.message);
       }
@@ -316,7 +362,10 @@ const Profile_user = ({ setAuth }) => {
           <div className='w-[20%] flex bg-[#FFF] h-screen fixed'>
             <div className="w-[100%] mt-6 ml-[13%] sidebar1">
               <div className='ml-[4%] mb-[8%]'>
-                <img src={logoN} alt="Logo" />
+                <img src={logoN} alt="Logo" className='cursor-pointer' 
+                  onClick={() => {setActiveButton('home');
+                  navigate("/home");
+                }} />
               </div>
               <div className={`margin-top ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
                 <button className={activeButton === 'home' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
@@ -376,39 +425,42 @@ const Profile_user = ({ setAuth }) => {
           </div>
           <div className="w-[80%] ml-[-13px] post-container">
             <div className={`w-[66%] h-auto bg-[#FFF] ${darkMode ? 'dark-register-bg' : ''} create-post`}>
-              <div className="w-[100%] h-auto pb-3 pl-3 pt-1 pr-3 bg-gradient-to-b from-white to-[#d78fa3]">
+              <div className="w-[100%] h-[57%] pb-3 pl-3 pt-1 pr-3 bg-gradient-to-b from-white to-[#d78fa3]">
                 <div className='flex mb-[20%]'>
                   <i class="fa-solid fa-arrow-left-long mt-2 mr-2 cursor-pointer" onClick={()=> navigate('/home')}></i>
                   <p className='text-[20px] font-bold'>{users.name}</p>
                 </div>
-                <div className='flex justify-between'>
-                  <div className='flex-col'>
-                    <p className='text-white text-base font-bold'>{users.name}</p>
-                    <div className="flex items-center">
-                      <i class={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#688BFF", fontSize: "18px", cursor: "pointer" }}></i>
-                      <i class={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#688BFF", fontSize: "18px", cursor: "pointer" }}></i>
-                      <i class={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#D9D9D9", fontSize: "18px", cursor: "pointer" }}></i>
-                      <i class={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#D9D9D9", fontSize: "18px", cursor: "pointer" }}></i>
-                      <i class={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#D9D9D9", fontSize: "18px", cursor: "pointer" }}></i>
-                      <p className="text-center text-[#D9D9D9] text-sm font-semibold">(0)</p>
-                    </div>
-                  </div>
-                  <div>
-                    {editable === "true" ? (
-                      <button className="w-[40px] relative translate-y-[14%] h-10 bg-neutral-100 rounded-[20px] flex justify-center items-center">
-                        <i class="fa-solid fa-gear"></i>
-                      </button>
-                    ) : (
-                      // Otro botón cuando no es editable
-                      <button className="w-[86px] relative translate-y-[14%] h-10 px-4 bg-neutral-100 rounded-[20px] flex-col justify-center items-start gap-4">
-                        <div className="text-black text-base font-semibold leading-10">Seguir</div>
-                      </button>
-                    )}
-                  </div>
+              </div>
+              <div className='flex'>
+                <div className='rounded-full w-[202px] h-[202px] bg-[#FFF] flex justify-center items-center absolute translate-y-[-59%] translate-x-[8%]'>
+                  <div className='rounded-full w-[196px] h-[196px] bg-[#D9D9D9]'></div>
+                </div>
+                <div className='opacity-30 flex ml-6 mt-6 translate-x-[150%]'>
+                  <i class="fa-regular fa-calendar mt-[4px] mr-1"></i>
+                  {userDetail && (
+                    <p>
+                      Se creó el {new Date(userDetail.createdAt).toLocaleDateString('es-MX', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric',
+                      })}
+                    </p>
+                  )}
+                </div>
+                <div className='mt-3 translate-x-[460%]'>
+                  {editable === "true" ? (
+                    <button className="w-[100px] relative translate-y-[14%] h-10 bg-neutral-100 rounded-[20px] flex justify-center items-center">
+                      <p className='text-black text-[14px] font-bold leading-10'>Editar perfil</p>
+                    </button>
+                  ) : (
+                    // Otro botón cuando no es editable
+                    <button className="w-[86px] relative translate-y-[14%] translate-x-[100%] h-10 px-4 bg-neutral-100 rounded-[20px] flex-col justify-center items-start gap-4">
+                      <div className="text-black text-base font-semibold leading-10">Seguir</div>
+                    </button>
+                  )}
                 </div>
               </div>
-              <div className='p-4'>
-                <img src={Location} alt='location' className='mb-2' />
+              <div className='p-4 mb-[9%] mt-7'>
                 <div className='flex mb-3'>
                   <p className='mr-4'>Seguidores</p>
                   <p>Reseñas</p>
@@ -473,53 +525,16 @@ const Profile_user = ({ setAuth }) => {
                 </button>
               </div>
             */}
-            <div className="w-[66%] post-post">
-              {posts.map((post, index) => (
-                <div key={index} className={`bg-[#FFF] p-4 mt-1 ${darkMode ? 'dark-register-bg' : ''}`}>
-                  <div className="flex items-center mt-3">
-                    <img src={proSet} alt="Imagen" className="w-[35px] h-[35px] relative ml-1" />
-                    <p className={`text-black text-base font-bold ml-3 ${darkMode ? 'dark-text-white' : ''}`}>{name}
-                      <br />
-                      <span style={{ marginTop: '-7px' }} className={`flex text-center text-neutral-400 text-sm font-light ${darkMode ? 'dark-text-white' : ''}`}>3hrs</span></p>
-                  </div>
-                  <p className={`prevent-word-break text-black text-sm font-normal leading-normal tracking-wide mt-2 ${darkMode ? 'dark-text-white' : ''}`}>{post.text}</p>
-                  {post.images.length > 0 && (
-                    <div className="flex w-[100%] items-center">
-                      {post.images.slice(0, 2).map((image, i) => (
-                        <img
-                          key={i}
-                          src={image}
-                          alt={`Post ${i}`}
-                          className="w-full h-auto mr-3 rounded-lg mt-2"
-                          style={{ width: '100%', height: 'auto' }}
-                        />
-                      ))}
-                    </div>
-                  )}
-                  <div className="flex mt-5 justify-between">
-                    <div className="flex items-center">
-                      <img src={Like} alt='like' />
-                      <img src={Comment} alt='comment' />
-                      <img src={Share} alt='share' />
-                    </div>
-                    <div className="flex items-center">
-                      <i class={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#688BFF", fontSize: "18px", cursor: "pointer" }}></i>
-                      <i class={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#688BFF", fontSize: "18px", cursor: "pointer" }}></i>
-                      <i class={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#D9D9D9", fontSize: "18px", cursor: "pointer" }}></i>
-                      <i class={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#D9D9D9", fontSize: "18px", cursor: "pointer" }}></i>
-                      <i class={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#D9D9D9", fontSize: "18px", cursor: "pointer" }}></i>
-                    </div>
-                  </div>
-                  <div className="flex mt-6 mb-4">
-                    <p className={`text-gray-400 text-s font-light leading-normal ${darkMode ? 'dark-text-white' : ''}`}>123 me gusta </p>
-                    <p className={`text-gray-400 text-s font-light leading-normal ml-3 ${darkMode ? 'dark-text-white' : ''}`}>44 comentarios </p>
-                  </div>
-                </div>
-              ))}
-            </div>
             <div className="w-[66%] h-auto post-post">
               {postes.map((post, index) => (
-                <div key={index} className={`bg-[#FFF] h-auto p-3 mt-1 ${darkMode ? 'dark-register-bg' : ''}`}>
+                <div key={index} className={`bg-[#FFF] h-auto w-[100%] p-3 mt-1 ${darkMode ? 'dark-register-bg' : ''}`}>
+                <button className='w-[102.8%] mt-[-18px] ml-[-13px] bg-[#F5F5F5] h-[50px]' onClick={() => handleBusinessClick(post.Business)}>
+                  <div className='flex justify-between items-center'>
+                    <p className='ml-4 text-black text-base font-bold'>{post.Business.name}</p>
+                    <img src={paginaEmpre} alt='empresa' className='mr-5' />
+                  </div>
+                </button>
+                <div onClick={() => handleReview(post)}>
                   <div className="flex items-center mt-3">
                     <img src={proSet} alt="Imagen" className="w-[35px] h-[35px] relative ml-1" />
                     <p className={`text-black text-base font-bold ml-3 ${darkMode ? 'dark-text-white' : ''}`}>
@@ -546,21 +561,28 @@ const Profile_user = ({ setAuth }) => {
                       ))}
                     </div>
                   )}
+                  </div>
                   <div className="flex items-center mt-7 ml-[1%]">
-                    <img src={Like} alt='like' style={{ height: '25px', width: '25px' }} className='mr-2' onClick={() => handleLike(post._id_review)} />
-                    <img src={Comment} alt='comment' style={{ height: '25px', width: '25px' }} className='mr-2' onClick={() => handleCommentClick(post._id_review)} />
+                    <img
+                      src={post.is_liked ? Liked : Like}
+                      alt='like'
+                      style={{ height: '25px', width: '25px' }}
+                      className='mr-2'
+                      onClick={() => handleLike(post._id_review)}
+                    />
+                    <img src={Comment} style={{ height: '25px', width: '25px' }} className='mr-2' onClick={() => handleCommentClick(post._id_review)} />
                     <img src={Share} alt='share' />
                   </div>
                   <div className="flex mt-4 mb-4">
                     <p className={`text-gray-400 text-s font-light leading-normal ${darkMode ? 'dark-text-white' : ''}`}>
-                      {post.likes} me gusta
+                      {post.is_liked ? post.likes + 1 : post.likes} me gusta
                     </p>
                     <p className={`ml-4 text-gray-400 text-s font-light leading-normal ${darkMode ? 'dark-text-white' : ''}`}>
                       {post.comments} comentarios
                     </p>
                   </div>
                   {/*  AQUI VA EL INPUT PARA PROBAR COMENTARIO */}
-                </div>
+              </div>
               ))}
             </div>
           </div>

@@ -456,7 +456,10 @@ const Review = ({ setAuth }) => {
           <div className='w-[20%] flex bg-[#FFF] h-screen fixed'>
             <div className="w-[100%] mt-6 ml-[13%] sidebar1">
               <div className='ml-[4%] mb-[8%]'>
-                <img src={logoN} alt="Logo" />
+                <img src={logoN} alt="Logo" className='cursor-pointer' 
+                  onClick={() => {setActiveButton('home');
+                  navigate("/home");
+                }} />
               </div>
               <div className={`margin-top ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
                 <button className={activeButton === 'home' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}

@@ -133,7 +133,10 @@ const handlePublish = () => {
       <div className={`bg-[#EEEFEF] h-auto ${darkMode ? 'dark-login-bg' : ''}`}>
         <nav className={`bg-[#FFF] p-4 flex justify-between items-center h-[84px] ${darkMode ? 'dark-register-bg' : ''} navbar margin-rightmove`}>
           <div className="flex items-center ml-6">
-            <img src={logoN} alt="Logo" />
+            <img src={logoN} alt="Logo" className='cursor-pointer' 
+                  onClick={() => {setActiveButton('home');
+                  navigate("/home");
+                }} />
           </div>
           <div className="flex items-center space-x-4 mr-[42px]">
             <i className={`fa-solid fa-bell mr-3 ${darkMode ? 'dark-text-white' : ''}`} style={{ fontSize: "18px" }}></i>

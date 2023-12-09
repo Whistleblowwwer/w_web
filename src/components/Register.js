@@ -73,7 +73,7 @@ const Register = ({ setAuth }) => {
     try {
       const body = { name, last_name, email, phone_number, birth_date, gender, password, role };
       console.log(body);
-      const response = await fetch("http://18.220.124.246:4000/users/", {
+      const response = await fetch("http://3.135.121.50:4000/users/", {
         method: "POST",
         mode: "cors",
         headers: { "Content-Type": "application/json" },
@@ -121,7 +121,7 @@ const Register = ({ setAuth }) => {
               <input name="email" placeholder="Correo electrónico" className={`mr-4 mt-4 p-2  rounded-[10px] w-[87%] h-8 bg-stone-50 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${darkMode ? 'dark-register-bt placeholder-black-dk' : ''}`} value={email} onChange={e => onChange(e)}></input>
             </div>
             <div className="flex justify-center items-center">
-              <input name="password" placeholder="Contraseña" className={`mr-4 mt-4 p-2  rounded-[10px] w-[87%] h-8 bg-stone-50 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${darkMode ? 'dark-register-bt placeholder-black-dk' : ''}`} value={password} onChange={e => onChange(e)}></input>
+              <input type='password' name="password" placeholder="Contraseña" className={`mr-4 mt-4 p-2  rounded-[10px] w-[87%] h-8 bg-stone-50 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${darkMode ? 'dark-register-bt placeholder-black-dk' : ''}`} value={password} onChange={e => onChange(e)}></input>
             </div>
             <div className="flex justify-center items-center">
               <input name="phone_number" placeholder="Telefono" className={`mr-4 mt-4 p-2  rounded-[10px] w-[87%] h-8 bg-stone-50 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${darkMode ? 'dark-register-bt placeholder-black-dk' : ''}`} value={phone_number} onChange={e => onChange(e)}></input>

@@ -132,14 +132,14 @@ const Home = ({ setAuth }) => {
       };
 
       try {
-        const response = await fetch(`http://18.220.124.246:4000/business/search?name=${e}&city=&enitty=&country=&address=&state=`, requestOptions);
+        const response = await fetch(`http://3.135.121.50:4000/business/search?name=${e}&city=&enitty=&country=&address=&state=`, requestOptions);
         const parseRes = await response.json();
         setBusinesses(parseRes.businesses || []);
       } catch (err) {
         console.error(err.message);
       }
       try {
-        const response = await fetch(`http://18.220.124.246:4000/users/search?searchTerm=${e}`, requestOptions);
+        const response = await fetch(`http://3.135.121.50:4000/users/search?searchTerm=${e}`, requestOptions);
         const parseRes = await response.json();
         setSearchUser(parseRes.users || []);
       } catch (err) {
@@ -181,7 +181,7 @@ const Home = ({ setAuth }) => {
           body: raw,
           redirect: 'follow'
         };
-        const response = await fetch("http://18.220.124.246:4000/reviews", requestOptions)
+        const response = await fetch("http://3.135.121.50:4000/reviews", requestOptions)
         const jsonRes = await response.json()
         setPostes([jsonRes?.review, ...postes]);
       }
@@ -205,7 +205,7 @@ const Home = ({ setAuth }) => {
       };
 
       try {
-        const url = `http://18.220.124.246:4000/users/reviews/like/?_id_review=${_id_review}`;
+        const url = `http://3.135.121.50:4000/users/reviews/like/?_id_review=${_id_review}`;
         const response = await fetch(url, requestOptions);
         const parseRes = await response.json();
         setPostes((prevPostes) => {
@@ -245,7 +245,7 @@ const Home = ({ setAuth }) => {
       };
 
       try {
-        const response = await fetch("http://18.220.124.246:4000/comments", requestOptions);
+        const response = await fetch("http://3.135.121.50:4000/comments", requestOptions);
       } catch (err) {
         console.error(err.message);
       }
@@ -265,7 +265,7 @@ const Home = ({ setAuth }) => {
       };
 
       try {
-        const response = await fetch("http://18.220.124.246:4000/business/search?", requestOptions);
+        const response = await fetch("http://3.135.121.50:4000/business/search?", requestOptions);
         const parseRes = await response.json();
         setSuggestions(parseRes.businesses || []);
       } catch (err) {
@@ -297,7 +297,7 @@ const Home = ({ setAuth }) => {
       };
 
       try {
-        const response = await fetch("http://18.220.124.246:4000/reviews/", requestOptions);
+        const response = await fetch("http://3.135.121.50:4000/reviews/", requestOptions);
         const parseRes = await response.json();
         setPostes(parseRes.reviews);
       } catch (err) {
@@ -319,7 +319,7 @@ const Home = ({ setAuth }) => {
       };
 
       try {
-        const response = await fetch("http://18.220.124.246:4000/users", requestOptions);
+        const response = await fetch("http://3.135.121.50:4000/users", requestOptions);
         const parseRes = await response.json();
         setName(parseRes.user);
       } catch (err) {
@@ -405,7 +405,10 @@ const Home = ({ setAuth }) => {
           <div className='w-[20%] flex bg-[#FFF] h-screen fixed'>
             <div className="w-[100%] mt-6 ml-[13%] sidebar1">
               <div className='ml-[4%] mb-[8%]'>
-                <img src={logoN} alt="Logo" />
+                <img src={logoN} alt="Logo" className='cursor-pointer' 
+                  onClick={() => {setActiveButton('home');
+                  navigate("/home");
+                }} />
               </div>
               <div className={`margin-top ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
                 <button className={activeButton === 'home' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
@@ -477,7 +480,7 @@ const Home = ({ setAuth }) => {
                   <div className="opacity text-gray-500 text-sm mt-1 mr-[93%]">
                     {textPost.length}/{maxLength}
                   </div>
-                  <div className='flex mr-[93%]'>
+                  <div className='flex items-center mr-[93%] mb-[-1%]'>
                     <label htmlFor="imageUpload">
                       <input
                         value={[]}
@@ -495,9 +498,9 @@ const Home = ({ setAuth }) => {
                     </label>
                   </div>
                   <div className="flex items-center mt-4 ml-[-1%]">
-                    <img src={mas} alt='mas' className='w-[38px] mr-6' />
+                    <img src={mas} alt='mas' className='w-[38px] mr-6 translate-x-[-520%]' />
                     {/* <p className='opacity pr-[50px]'>Selecciona una entidad</p> */}
-                    <div onClick={handleSearchCompanyClick}>
+                    <div className='translate-x-[-92%]' onClick={handleSearchCompanyClick}>
                       <CompanyAutocomplete
                         suggestions={suggestions}
                         setSelectedCompany={setSelectedCompany}
@@ -505,7 +508,7 @@ const Home = ({ setAuth }) => {
                         setCompanySearchQuery={setCompanySearchQuery}
                       />
                     </div>
-                    <div className="flex items-center ml-[-1%]">
+                    <div className="flex items-center ml-[-1%] translate-x-[-120%]">
                       {[1, 2, 3, 4, 5].map((star) => (
                         <i
                           key={star}
@@ -520,7 +523,7 @@ const Home = ({ setAuth }) => {
                         ></i>
                       ))}
                     </div>
-                    <div className="">
+                    <div className="translate-x-[450%]">
                       <button style={{
                         display: showPublishIcon ? 'none' : 'block', background: showPublishIcon
                           ? 'linear-gradient(267deg, #8E1DA1 0%, #2D015A 100%)'
@@ -528,7 +531,7 @@ const Home = ({ setAuth }) => {
                       }} className={`w-[48px] h-[48px] bg-[#F8F8FB] rounded-full ${darkMode ? 'dark-button' : ''}`}>
                         <i className={`fa-solid fa-arrow-right mt-1 text-[#A9A9A9] text-[22px] ${darkMode ? 'dark-text' : ''}`} ></i></button>
                     </div>
-                    <div className="">
+                    <div className="translate-x-[450%]">
                       <button onClick={handleAddPost} style={{
                         display: showPublishIcon ? 'block' : 'none', background: showPublishIcon
                           ? 'linear-gradient(267deg, #8E1DA1 0%, #2D015A 100%)'

@@ -15,6 +15,7 @@ const Profile_empresa = ({ setAuth }) => {
   //empresa variables
   const location = useLocation();
   const business = location.state ? location.state.business : null;
+  const [businessDetails, setBusinessDetails] = useState("");
 
   //post variables
   const [postModalOpen, setPostModalOpen] = useState(false);
@@ -124,8 +125,9 @@ const Profile_empresa = ({ setAuth }) => {
         if (business && business._id_business) {
           const businessId = business._id_business;
   
-          const response = await fetch(`http://18.220.124.246:4000/reviews/business/?_id_business=${businessId}`, requestOptions);
+          const response = await fetch(`http://3.135.121.50:4000/reviews/business/?_id_business=${businessId}`, requestOptions);
           const parseRes = await response.json();
+          console.log(parseRes);
           console.log(parseRes.reviews);
           setPostes(parseRes.reviews);
         } else {
@@ -140,6 +142,35 @@ const Profile_empresa = ({ setAuth }) => {
   }, [business]);
 
   useEffect(() => {
+    async function getBusinessDetails() {
+      const myHeaders = new Headers();
+      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+  
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
+      };
+  
+      try {
+        if (business && business._id_business) {
+          const businessId = business._id_business;
+          const response = await fetch(`http://3.135.121.50:4000/business/details/?_id_business=${businessId}`, requestOptions);
+          const parseRes = await response.json();
+          setBusinessDetails(parseRes.business);
+          console.log(parseRes.business);
+        } else {
+          console.error("El objeto business no tiene la propiedad _id_business");
+        }
+      } catch (err) {
+        console.error(err.message);
+      }
+    }
+  
+    getBusinessDetails();
+  }, [business]);
+
+  useEffect(() => {
     async function getName() {
       const myHeaders = new Headers();
       myHeaders.append("authorization", `Bearer ${localStorage.token}`);
@@ -151,7 +182,7 @@ const Profile_empresa = ({ setAuth }) => {
       };
 
       try {
-        const response = await fetch("http://18.220.124.246:4000/users", requestOptions);
+        const response = await fetch("http://3.135.121.50:4000/users", requestOptions);
         const parseRes = await response.json();
         console.log(parseRes.user.name);
         setName(parseRes.user.name);
@@ -225,7 +256,7 @@ const Profile_empresa = ({ setAuth }) => {
       };
 
       try {
-        const url = `http://18.220.124.246:4000/users/reviews/like/?_id_review=${_id_review}`;
+        const url = `http://3.135.121.50:4000/users/reviews/like/?_id_review=${_id_review}`;
         const response = await fetch(url, requestOptions);
         const parseRes = await response.json();
       } catch (err) {
@@ -258,7 +289,7 @@ const Profile_empresa = ({ setAuth }) => {
       };
 
       try {
-        const response = await fetch("http://18.220.124.246:4000/comments", requestOptions);
+        const response = await fetch("http://3.135.121.50:4000/comments", requestOptions);
       } catch (err) {
         console.error(err.message);
       }
@@ -297,7 +328,10 @@ const Profile_empresa = ({ setAuth }) => {
           <div className='w-[20%] flex bg-[#FFF] h-screen fixed'>
             <div className="w-[100%] mt-6 ml-[13%] sidebar1">
               <div className='ml-[4%] mb-[8%]'>
-                <img src={logoN} alt="Logo" />
+                <img src={logoN} alt="Logo" className='cursor-pointer' 
+                  onClick={() => {setActiveButton('home');
+                  navigate("/home");
+                }} />
               </div>
               <div className={`margin-top ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
                 <button className={activeButton === 'home' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
@@ -360,11 +394,11 @@ const Profile_empresa = ({ setAuth }) => {
               <div className="w-[100%] h-auto pb-3 pl-3 pt-1 pr-3 bg-gradient-to-b from-white to-[#d78fa3]">
                 <div className='flex mb-[20%]'>
                   <i class="fa-solid fa-arrow-left-long mt-2 mr-2 cursor-pointer" onClick={()=> navigate('/home')}></i>
-                  <p className='text-[20px] font-bold'>{business.name}</p>
+                  <p className='text-[20px] font-bold'>{businessDetails.name}, <span>{businessDetails.state}</span></p>
                 </div>
                 <div className='flex justify-between'>
                   <div className='flex-col'>
-                    <p className='text-white text-base font-bold'>{business.name}</p>
+                    <p className='text-white text-base font-bold'>{businessDetails.name}</p>
                     <div className="flex items-center">
                       <i class={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#688BFF", fontSize: "18px", cursor: "pointer" }}></i>
                       <i class={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#688BFF", fontSize: "18px", cursor: "pointer" }}></i>
@@ -380,7 +414,22 @@ const Profile_empresa = ({ setAuth }) => {
                 </div>
               </div>
               <div className='p-4'>
-                <img src={Location} alt='location' className='mb-2' />
+                <div className='flex'>
+                  <img src={Location} alt='location' className='mb-2 mr-2' />
+                  <p>{businessDetails.city}, <span>{businessDetails.country}</span></p>
+                  <div className='opacity-30 flex ml-6'>
+                    <i class="fa-regular fa-calendar mt-[4px] mr-1"></i>
+                    {businessDetails && (
+                      <p>
+                        Se creó el {new Date(businessDetails.createdAt).toLocaleDateString('es-MX', {
+                          day: 'numeric',
+                          month: 'long',
+                          year: 'numeric',
+                        })}
+                      </p>
+                    )}
+                  </div>
+                </div>
                 <div className='flex mb-3'>
                   <p className='mr-4'>Seguidores</p>
                   <p>Reseñas</p>
