@@ -12,6 +12,7 @@ import { useNavigate, useLocation, Navigate } from 'react-router-dom';
 import NewPostModal from '../auxComponents/NewPostModal';
 import NewCommentModal from '../auxComponents/NewCommentModal';
 import CompanyAutocomplete from '../auxComponents/CompanyAutocomplete';
+import NewCompanyModal from '../auxComponents/NewCompanyModal';
 import { differenceInMilliseconds, differenceInHours, differenceInDays, differenceInMonths, format, parseISO } from 'date-fns';
 
 const Home = ({ setAuth }) => {
@@ -48,10 +49,19 @@ const Home = ({ setAuth }) => {
   const [selectedCompany, setSelectedCompany] = useState()
   const [reviewRating, setReviewRating] = useState(0)
   const [companySearchQuery, setCompanySearchQuery] = useState("")
+  const [companyModalOpen, setCompanyModalOpen] = useState(false);
+  const [companyForm, setCompanyForm] = useState({
+    pais: '',
+    estado: '',
+    ciudad: '',
+    categoria: '',
+    proyecto: '',
+    empresaDesarrolladora: '',
+  });
 
-  console.log("text post", textPost)
-  console.log("suggestions", suggestions)
-  console.log("modal open", postModalOpen)
+
+  console.log("company form", companyForm)
+
 
   const navigate = useNavigate();
   const maxLength = 1200;
@@ -132,14 +142,14 @@ const Home = ({ setAuth }) => {
       };
 
       try {
-        const response = await fetch(`http://18.220.124.246:4000/business/search?name=${e}&city=&enitty=&country=&address=&state=`, requestOptions);
+        const response = await fetch(`http://3.135.121.50:4000/business/search?name=${e}&city=&enitty=&country=&address=&state=`, requestOptions);
         const parseRes = await response.json();
         setBusinesses(parseRes.businesses || []);
       } catch (err) {
         console.error(err.message);
       }
       try {
-        const response = await fetch(`http://18.220.124.246:4000/users/search?searchTerm=${e}`, requestOptions);
+        const response = await fetch(`http://3.135.121.50:4000/users/search?searchTerm=${e}`, requestOptions);
         const parseRes = await response.json();
         setSearchUser(parseRes.users || []);
       } catch (err) {
@@ -181,7 +191,7 @@ const Home = ({ setAuth }) => {
           body: raw,
           redirect: 'follow'
         };
-        const response = await fetch("http://18.220.124.246:4000/reviews", requestOptions)
+        const response = await fetch("http://3.135.121.50:4000/reviews", requestOptions)
         const jsonRes = await response.json()
         setPostes([jsonRes?.review, ...postes]);
       }
@@ -205,7 +215,7 @@ const Home = ({ setAuth }) => {
       };
 
       try {
-        const url = `http://18.220.124.246:4000/users/reviews/like/?_id_review=${_id_review}`;
+        const url = `http://3.135.121.50:4000/users/reviews/like/?_id_review=${_id_review}`;
         const response = await fetch(url, requestOptions);
         const parseRes = await response.json();
         setPostes((prevPostes) => {
@@ -245,7 +255,7 @@ const Home = ({ setAuth }) => {
       };
 
       try {
-        const response = await fetch("http://18.220.124.246:4000/comments", requestOptions);
+        const response = await fetch("http://3.135.121.50:4000/comments", requestOptions);
       } catch (err) {
         console.error(err.message);
       }
@@ -265,7 +275,7 @@ const Home = ({ setAuth }) => {
       };
 
       try {
-        const response = await fetch("http://18.220.124.246:4000/business/search?", requestOptions);
+        const response = await fetch("http://3.135.121.50:4000/business/search?", requestOptions);
         const parseRes = await response.json();
         setSuggestions(parseRes.businesses || []);
       } catch (err) {
@@ -279,6 +289,21 @@ const Home = ({ setAuth }) => {
     setReviewRating(clickedRating);
   };
 
+  const handleChangeCompany = (e) => {
+    console.log("re-remder here!")
+
+    const { name, value } = e.target;
+    setCompanyForm((prevFormulario) => ({
+      ...prevFormulario,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmitCompany = (e) => {
+    e.preventDefault();
+    console.log('Datos del formulario:', companyForm);
+    setCompanyModalOpen(false)
+  };
 
 
   useEffect(() => {
@@ -297,7 +322,7 @@ const Home = ({ setAuth }) => {
       };
 
       try {
-        const response = await fetch("http://18.220.124.246:4000/reviews/", requestOptions);
+        const response = await fetch("http://3.135.121.50:4000/reviews/", requestOptions);
         const parseRes = await response.json();
         setPostes(parseRes.reviews);
       } catch (err) {
@@ -319,7 +344,7 @@ const Home = ({ setAuth }) => {
       };
 
       try {
-        const response = await fetch("http://18.220.124.246:4000/users", requestOptions);
+        const response = await fetch("http://3.135.121.50:4000/users", requestOptions);
         const parseRes = await response.json();
         setName(parseRes.user);
       } catch (err) {
@@ -398,6 +423,19 @@ const Home = ({ setAuth }) => {
           textComment={textComment}
           maxLength={maxLength}
           addComment={handleComment}
+        />
+      )}
+      {companyModalOpen && (
+        <NewCompanyModal
+          handleSubmit={handleSubmitCompany}
+          handleChange={handleChangeCompany}
+          darkMode={darkMode}
+          pais={companyForm.pais}
+          estado={companyForm.estado}
+          ciudad={companyForm.ciudad}
+          categoria={companyForm.categoria}
+          proyecto={companyForm.proyecto}
+          empresaDesarrolladora={companyForm.empresaDesarrolladora}
         />
       )}
       <div className={`bg-[#EEEFEF] h-auto ${darkMode ? 'dark-login-bg' : ''}`}>
@@ -495,7 +533,7 @@ const Home = ({ setAuth }) => {
                     </label>
                   </div>
                   <div className="flex items-center mt-4 ml-[-1%]">
-                    <img src={mas} alt='mas' className='w-[38px] mr-6' />
+                    <img src={mas} alt='mas' className='w-[38px] mr-6' onClick={() => setCompanyModalOpen(true)} />
                     {/* <p className='opacity pr-[50px]'>Selecciona una entidad</p> */}
                     <div onClick={handleSearchCompanyClick}>
                       <CompanyAutocomplete
@@ -590,27 +628,27 @@ const Home = ({ setAuth }) => {
                         ))}
                       </div>
                     )}
-                    </div>
-                    <div className="flex items-center mt-7 ml-[1%]">
-                      <img
-                        src={post.is_liked ? Liked : Like}
-                        alt='like'
-                        style={{ height: '25px', width: '25px' }}
-                        className='mr-2'
-                        onClick={() => handleLike(post._id_review)}
-                      />
-                      <img src={Comment} style={{ height: '25px', width: '25px' }} className='mr-2' onClick={() => handleCommentClick(post._id_review)} />
-                      <img src={Share} alt='share' />
-                    </div>
-                    <div className="flex mt-4 mb-4">
-                      <p className={`text-gray-400 text-s font-light leading-normal ${darkMode ? 'dark-text-white' : ''}`}>
-                        {post.is_liked ? post.likes + 1 : post.likes} me gusta
-                      </p>
-                      <p className={`ml-4 text-gray-400 text-s font-light leading-normal ${darkMode ? 'dark-text-white' : ''}`}>
-                        {post.comments} comentarios
-                      </p>
-                    </div>
-                    {/*  AQUI VA EL INPUT PARA PROBAR COMENTARIO */}
+                  </div>
+                  <div className="flex items-center mt-7 ml-[1%]">
+                    <img
+                      src={post.is_liked ? Liked : Like}
+                      alt='like'
+                      style={{ height: '25px', width: '25px' }}
+                      className='mr-2'
+                      onClick={() => handleLike(post._id_review)}
+                    />
+                    <img src={Comment} style={{ height: '25px', width: '25px' }} className='mr-2' onClick={() => handleCommentClick(post._id_review)} />
+                    <img src={Share} alt='share' />
+                  </div>
+                  <div className="flex mt-4 mb-4">
+                    <p className={`text-gray-400 text-s font-light leading-normal ${darkMode ? 'dark-text-white' : ''}`}>
+                      {post.is_liked ? post.likes + 1 : post.likes} me gusta
+                    </p>
+                    <p className={`ml-4 text-gray-400 text-s font-light leading-normal ${darkMode ? 'dark-text-white' : ''}`}>
+                      {post.comments} comentarios
+                    </p>
+                  </div>
+                  {/*  AQUI VA EL INPUT PARA PROBAR COMENTARIO */}
                 </div>
               ))}
             </div>

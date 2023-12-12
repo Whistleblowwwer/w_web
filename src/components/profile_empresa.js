@@ -43,25 +43,25 @@ const Profile_empresa = ({ setAuth }) => {
 
   const maxLength = 1200;
 
-    const formatDate = (createdAt) => {
-      const parsedDate = parseISO(createdAt);
-      const currentDate = new Date();
-      const millisecondsDifference = differenceInMilliseconds(currentDate, parsedDate);
-      const secondsDifference = Math.floor(millisecondsDifference / 1000);
-      const hoursDifference = differenceInHours(currentDate, parsedDate);
-      const daysDifference = differenceInDays(currentDate, parsedDate);
-      const monthsDifference = differenceInMonths(currentDate, parsedDate);
+  const formatDate = (createdAt) => {
+    const parsedDate = parseISO(createdAt);
+    const currentDate = new Date();
+    const millisecondsDifference = differenceInMilliseconds(currentDate, parsedDate);
+    const secondsDifference = Math.floor(millisecondsDifference / 1000);
+    const hoursDifference = differenceInHours(currentDate, parsedDate);
+    const daysDifference = differenceInDays(currentDate, parsedDate);
+    const monthsDifference = differenceInMonths(currentDate, parsedDate);
 
-      if (secondsDifference < 60) {
-        return `${secondsDifference}s`;
-      } else if (hoursDifference < 24) {
-        return `${hoursDifference}h`;
-      } else if (daysDifference < 30) {
-        return `${daysDifference}d`;
-      } else {
-        return `${monthsDifference}m`;
-      }
-    };
+    if (secondsDifference < 60) {
+      return `${secondsDifference}s`;
+    } else if (hoursDifference < 24) {
+      return `${hoursDifference}h`;
+    } else if (daysDifference < 30) {
+      return `${daysDifference}d`;
+    } else {
+      return `${monthsDifference}m`;
+    }
+  };
 
   const handlePostModal = () => {
     setPostModalOpen(!postModalOpen);
@@ -113,18 +113,18 @@ const Profile_empresa = ({ setAuth }) => {
     async function getPostes() {
       const myHeaders = new Headers();
       myHeaders.append("authorization", `Bearer ${localStorage.token}`);
-  
+
       const requestOptions = {
         method: "GET",
         headers: myHeaders,
         redirect: "follow",
       };
-  
+
       try {
         if (business && business._id_business) {
           const businessId = business._id_business;
-  
-          const response = await fetch(`http://18.220.124.246:4000/reviews/business/?_id_business=${businessId}`, requestOptions);
+
+          const response = await fetch(`http://3.135.121.50:4000/reviews/business/?_id_business=${businessId}`, requestOptions);
           const parseRes = await response.json();
           console.log(parseRes.reviews);
           setPostes(parseRes.reviews);
@@ -135,7 +135,7 @@ const Profile_empresa = ({ setAuth }) => {
         console.error(err.message);
       }
     }
-  
+
     getPostes();
   }, [business]);
 
@@ -151,7 +151,7 @@ const Profile_empresa = ({ setAuth }) => {
       };
 
       try {
-        const response = await fetch("http://18.220.124.246:4000/users", requestOptions);
+        const response = await fetch("http://3.135.121.50:4000/users", requestOptions);
         const parseRes = await response.json();
         console.log(parseRes.user.name);
         setName(parseRes.user.name);
@@ -225,7 +225,7 @@ const Profile_empresa = ({ setAuth }) => {
       };
 
       try {
-        const url = `http://18.220.124.246:4000/users/reviews/like/?_id_review=${_id_review}`;
+        const url = `http://3.135.121.50:4000/users/reviews/like/?_id_review=${_id_review}`;
         const response = await fetch(url, requestOptions);
         const parseRes = await response.json();
       } catch (err) {
@@ -258,7 +258,7 @@ const Profile_empresa = ({ setAuth }) => {
       };
 
       try {
-        const response = await fetch("http://18.220.124.246:4000/comments", requestOptions);
+        const response = await fetch("http://3.135.121.50:4000/comments", requestOptions);
       } catch (err) {
         console.error(err.message);
       }
@@ -359,7 +359,7 @@ const Profile_empresa = ({ setAuth }) => {
             <div className={`w-[66%] h-auto bg-[#FFF] ${darkMode ? 'dark-register-bg' : ''} create-post`}>
               <div className="w-[100%] h-auto pb-3 pl-3 pt-1 pr-3 bg-gradient-to-b from-white to-[#d78fa3]">
                 <div className='flex mb-[20%]'>
-                  <i class="fa-solid fa-arrow-left-long mt-2 mr-2 cursor-pointer" onClick={()=> navigate('/home')}></i>
+                  <i class="fa-solid fa-arrow-left-long mt-2 mr-2 cursor-pointer" onClick={() => navigate('/home')}></i>
                   <p className='text-[20px] font-bold'>{business.name}</p>
                 </div>
                 <div className='flex justify-between'>

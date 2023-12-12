@@ -73,7 +73,7 @@ const Register = ({ setAuth }) => {
     try {
       const body = { name, last_name, email, phone_number, birth_date, gender, password, role };
       console.log(body);
-      const response = await fetch("http://18.220.124.246:4000/users/", {
+      const response = await fetch("http://3.135.121.50:4000/users/", {
         method: "POST",
         mode: "cors",
         headers: { "Content-Type": "application/json" },

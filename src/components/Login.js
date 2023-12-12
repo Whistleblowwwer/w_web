@@ -30,7 +30,7 @@ const Login = ({ setAuth }) => {
 
     try {
       const body = { client_email, client_password };
-      const response = await fetch("http://18.220.124.246:4000/users/login", {
+      const response = await fetch("http://3.135.121.50:4000/users/login", {
         method: "POST",
         mode: 'cors',
         headers: { "Content-Type": "application/json" },
