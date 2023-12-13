@@ -383,7 +383,7 @@ const Profile_empresa = ({ setAuth }) => {
                 </button>
               </div>
               <div className="mt-[100%] ml-[-15px] flex">
-                <img src={proSet} alt="Imagen" className="cursor-pointer" onClick={() => navigate(`/${name}`)} />
+                <img src={proSet} alt="Imagen" className="cursor-pointer" />
                 <p className={`${darkMode ? 'dark-text-white' : ''} pl-[5%]`}>{name}</p>
                 <p className={`${darkMode ? 'dark-text-white' : ''} font-bold text-[20px] pl-[50%]`}>. . .</p>
               </div>
@@ -495,7 +495,7 @@ const Profile_empresa = ({ setAuth }) => {
               </div>
             */}
             <div className="w-[66%] post-post">
-              {posts.map((post, index) => (
+              {posts && posts.length > 0 && posts.map((post, index) => (
                 <div key={index} className={`bg-[#FFF] p-4 mt-1 ${darkMode ? 'dark-register-bg' : ''}`}>
                   <div className="flex items-center mt-3">
                     <img src={proSet} alt="Imagen" className="w-[35px] h-[35px] relative ml-1" />
@@ -539,11 +539,11 @@ const Profile_empresa = ({ setAuth }) => {
               ))}
             </div>
             <div className="w-[66%] h-auto post-post">
-              {postes.map((post, index) => (
+              {postes && postes.length > 0 && postes.map((post, index) => (
                 <div key={index} className={`bg-[#FFF] h-auto p-3 mt-1 ${darkMode ? 'dark-register-bg' : ''}`}>
                   <div className="flex items-center mt-3">
                     <img src={proSet} alt="Imagen" className="w-[35px] h-[35px] relative ml-1" />
-                    <p className={`text-black text-base font-bold ml-3 ${darkMode ? 'dark-text-white' : ''}`}>
+                    <p onClick={() => navigate(`/${post.User.name}`)} className={`cursor-pointer text-black text-base font-bold ml-3 ${darkMode ? 'dark-text-white' : ''}`}>
                       {post.User.name} {post.User.last_name}
                       <br />
                       <span style={{ marginTop: '-7px' }} className={`flex text-center text-neutral-400 text-sm font-light ${darkMode ? 'dark-text-white' : ''}`}>

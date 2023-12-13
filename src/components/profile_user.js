@@ -4,7 +4,7 @@ import proSet from '../assets/Image-40.png';
 import Location from '../assets/Location.svg';
 import Like from '../assets/Like.svg';
 import Comment from '../assets/Comment Review.svg';
-import Liked from '../assets/liked.svg';
+import Liked from '../assets/IsLiked.svg';
 import paginaEmpre from '../assets/CTA.svg';
 import Share from '../assets/Send.svg';
 import { useNavigate, useLocation, Navigate, useParams } from 'react-router-dom';
@@ -26,6 +26,7 @@ const Profile_user = ({ setAuth }) => {
   //user variables
   const location = useLocation();
   const users = location.state ? location.state.users : null;
+  console.log(users);
 
 
   //post variables
@@ -49,7 +50,7 @@ const Profile_user = ({ setAuth }) => {
   });
   const [isTyping, setIsTyping] = useState(false);
   const [showPublishIcon, setShowPublishIcon] = useState(false);
-  const [name, setName] = useState("");
+  const [name, setName] = useState([]);
   const [userDetail, setUserDetail] = useState("");
   const [postes, setPostes] = useState([]);
   const navigate = useNavigate();
@@ -75,6 +76,13 @@ const Profile_user = ({ setAuth }) => {
         return `${monthsDifference}m`;
       }
     };
+
+  const handleUserClick = async (users) => {
+    const newRecentSearches = [search, ...recentSearches.slice(0, 3)]; // Guardar los últimos 4 términos
+    setRecentSearches(newRecentSearches);
+    localStorage.setItem('recentSearches', JSON.stringify(newRecentSearches));
+    navigate(`/${users.name}`, { state: { users } });
+  };
 
   const handlePostModal = () => {
     setPostModalOpen(!postModalOpen);
@@ -172,7 +180,6 @@ const Profile_user = ({ setAuth }) => {
     async function getName() {
       const myHeaders = new Headers();
       myHeaders.append("authorization", `Bearer ${localStorage.token}`);
-
       const requestOptions = {
         method: "GET",
         headers: myHeaders,
@@ -182,8 +189,7 @@ const Profile_user = ({ setAuth }) => {
       try {
         const response = await fetch("http://3.135.121.50:4000/users", requestOptions);
         const parseRes = await response.json();
-        console.log(parseRes.user.name);
-        setName(parseRes.user.name);
+        setName(parseRes.user);
       } catch (err) {
         console.error(err.message);
       }
@@ -417,8 +423,8 @@ const Profile_user = ({ setAuth }) => {
                 </button>
               </div>
               <div className="mt-[100%] ml-[-15px] flex">
-                <img src={proSet} alt="Imagen" className="cursor-pointer" onClick={() => navigate(`/${name}`)} />
-                <p className={`${darkMode ? 'dark-text-white' : ''} pl-[5%]`}>{name}</p>
+                <img src={proSet} alt="Imagen" className="cursor-pointer" onClick={() => handleUserClick(name)} />
+                <p className={`${darkMode ? 'dark-text-white' : ''} pl-[5%]`}>{name.name}</p>
                 <p className={`${darkMode ? 'dark-text-white' : ''} font-bold text-[20px] pl-[50%]`}>. . .</p>
               </div>
             </div>

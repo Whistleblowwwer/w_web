@@ -5,7 +5,7 @@ import mas from '../assets/Group 99.svg';
 import masimagen from '../assets/Group 105.svg';
 import paginaEmpre from '../assets/CTA.svg';
 import Like from '../assets/Like.svg';
-import Liked from '../assets/liked.svg';
+import Liked from '../assets/IsLiked.svg';
 import Comment from '../assets/Comment Review.svg';
 import Share from '../assets/Send.svg';
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
@@ -148,14 +148,14 @@ const Review = ({ setAuth }) => {
       };
 
       try {
-        const response = await fetch(`http://18.220.124.246:4000/business/search?name=${e}&city=&enitty=&country=&address=&state=`, requestOptions);
+        const response = await fetch(`http://3.135.121.50:4000/business/search?name=${e}&city=&enitty=&country=&address=&state=`, requestOptions);
         const parseRes = await response.json();
         setBusinesses(parseRes.businesses || []);
       } catch (err) {
         console.error(err.message);
       }
       try {
-        const response = await fetch(`http://18.220.124.246:4000/users/search?searchTerm=${e}`, requestOptions);
+        const response = await fetch(`http://3.135.121.50:4000/users/search?searchTerm=${e}`, requestOptions);
         const parseRes = await response.json();
         setSearchUser(parseRes.users || []);
       } catch (err) {
@@ -197,7 +197,7 @@ const Review = ({ setAuth }) => {
           body: raw,
           redirect: 'follow'
         };
-        const response = await fetch("http://18.220.124.246:4000/reviews", requestOptions)
+        const response = await fetch("http://3.135.121.50:4000/reviews", requestOptions)
         const jsonRes = await response.json()
         setPostes([jsonRes?.review, ...postes]);
       }
@@ -221,7 +221,7 @@ const Review = ({ setAuth }) => {
       };
 
       try {
-        const url = `http://18.220.124.246:4000/users/comments/like/?_id_comment=${_id_comment}`;
+        const url = `http://3.135.121.50:4000/users/comments/like/?_id_comment=${_id_comment}`;
         const response = await fetch(url, requestOptions);
         const parseRes = await response.json();
         setPostes((prevPostes) => {
@@ -262,7 +262,7 @@ const Review = ({ setAuth }) => {
       };
 
       try {
-        const response = await fetch("http://18.220.124.246:4000/comments", requestOptions);
+        const response = await fetch("http://3.135.121.50:4000/comments", requestOptions);
       } catch (err) {
         console.error(err.message);
       }
@@ -290,7 +290,7 @@ const Review = ({ setAuth }) => {
       };
 
       try {
-        const response = await fetch("http://18.220.124.246:4000/comments", requestOptions);
+        const response = await fetch("http://3.135.121.50:4000/comments", requestOptions);
         console.log(response);
       } catch (err) {
         console.error(err.message);
@@ -313,7 +313,7 @@ const Review = ({ setAuth }) => {
       };
 
       try {
-        const response = await fetch("http://18.220.124.246:4000/business/search?", requestOptions);
+        const response = await fetch("http://3.135.121.50:4000/business/search?", requestOptions);
         const parseRes = await response.json();
         setSuggestions(parseRes.businesses || []);
       } catch (err) {
@@ -345,7 +345,7 @@ const Review = ({ setAuth }) => {
       };
 
       try {
-        const response = await fetch(`http://18.220.124.246:4000/reviews/info/?_id_review=${reviewValue._id_review}`, requestOptions);
+        const response = await fetch(`http://3.135.121.50:4000/reviews/info/?_id_review=${reviewValue._id_review}`, requestOptions);
         const parseRes = await response.json();
         setPostes(parseRes.Comments);
         setBusiness(parseRes.Business);
@@ -370,7 +370,7 @@ const Review = ({ setAuth }) => {
       };
 
       try {
-        const response = await fetch("http://18.220.124.246:4000/users", requestOptions);
+        const response = await fetch("http://3.135.121.50:4000/users", requestOptions);
         const parseRes = await response.json();
         setName(parseRes.user);
       } catch (err) {

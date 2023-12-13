@@ -5,13 +5,14 @@ import mas from '../assets/Group 99.svg';
 import masimagen from '../assets/Group 105.svg';
 import paginaEmpre from '../assets/CTA.svg';
 import Like from '../assets/Like.svg';
-import Liked from '../assets/liked.svg';
+import Liked from '../assets/IsLiked.svg';
 import Comment from '../assets/Comment Review.svg';
 import Share from '../assets/Send.svg';
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
 import NewPostModal from '../auxComponents/NewPostModal';
 import NewCommentModal from '../auxComponents/NewCommentModal';
 import CompanyAutocomplete from '../auxComponents/CompanyAutocomplete';
+import NewCompanyModal from '../auxComponents/NewCompanyModal';
 import { differenceInMilliseconds, differenceInHours, differenceInDays, differenceInMonths, format, parseISO } from 'date-fns';
 
 const Home = ({ setAuth }) => {
@@ -48,10 +49,18 @@ const Home = ({ setAuth }) => {
   const [selectedCompany, setSelectedCompany] = useState()
   const [reviewRating, setReviewRating] = useState(0)
   const [companySearchQuery, setCompanySearchQuery] = useState("")
+  const [companyModalOpen, setCompanyModalOpen] = useState(false);
+  const [companyForm, setCompanyForm] = useState({
+    name: "",
+    address: "",
+    entity: "",
+    country: "",
+    state: "",
+    city: "",
+    category: "",
+  });
 
-  console.log("text post", textPost)
-  console.log("suggestions", suggestions)
-  console.log("modal open", postModalOpen)
+
 
   const navigate = useNavigate();
   const maxLength = 1200;
@@ -81,6 +90,10 @@ const Home = ({ setAuth }) => {
 
   const handlePostModal = () => {
     setPostModalOpen(!postModalOpen);
+  };
+
+  const handleNewCompanyModal = () => {
+    setCompanyModalOpen(!companyModalOpen)
   };
 
   const handlePostTextChange = (event) => {
@@ -226,6 +239,7 @@ const Home = ({ setAuth }) => {
     }
     postLike();
   }
+
   const handleComment = () => {
     async function postComment() {
       const myHeaders = new Headers();
@@ -254,6 +268,31 @@ const Home = ({ setAuth }) => {
     postComment();
   }
 
+  const handleCreateBusiness = () => {
+    async function createBusiness() {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: JSON.stringify(companyForm),
+        redirect: 'follow'
+      };
+
+      try {
+        const response = await fetch("http://3.135.121.50:4000/business", requestOptions);
+        const parseRes = await response.json();
+        console.log(parseRes);
+      } catch (err) {
+        console.error(err.message);
+      }
+    }
+    setCompanyModalOpen(!companyModalOpen)
+    createBusiness();
+  }
+
   const handleSearchCompanyClick = () => {
     async function getCompanies() {
       const myHeaders = new Headers();
@@ -279,6 +318,21 @@ const Home = ({ setAuth }) => {
     setReviewRating(clickedRating);
   };
 
+  const handleChangeCompany = (e) => {
+    console.log("re-remder here!")
+
+    const { name, value } = e.target;
+    setCompanyForm((prevFormulario) => ({
+      ...prevFormulario,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmitCompany = (e) => {
+    e.preventDefault();
+    console.log('Datos del formulario:', companyForm);
+    setCompanyModalOpen(false)
+  };
 
 
   useEffect(() => {
@@ -400,15 +454,28 @@ const Home = ({ setAuth }) => {
           addComment={handleComment}
         />
       )}
+      {companyModalOpen && (
+        <NewCompanyModal
+          handleNewCompanyModal={handleNewCompanyModal}
+          handleSubmit={handleSubmitCompany}
+          handleChange={handleChangeCompany}
+          darkMode={darkMode}
+          name={companyForm.name}
+          address={companyForm.address}
+          entity={companyForm.entity}
+          country={companyForm.country}
+          state={companyForm.state}
+          city={companyForm.city}
+          category={companyForm.category}
+          handleCreateBusiness={handleCreateBusiness}
+        />
+      )}
       <div className={`bg-[#EEEFEF] h-auto ${darkMode ? 'dark-login-bg' : ''}`}>
         <div className="contain-principal">
           <div className='w-[20%] flex bg-[#FFF] h-screen fixed'>
             <div className="w-[100%] mt-6 ml-[13%] sidebar1">
               <div className='ml-[4%] mb-[8%]'>
-                <img src={logoN} alt="Logo" className='cursor-pointer' 
-                  onClick={() => {setActiveButton('home');
-                  navigate("/home");
-                }} />
+                <img src={logoN} alt="Logo" />
               </div>
               <div className={`margin-top ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
                 <button className={activeButton === 'home' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
@@ -480,7 +547,7 @@ const Home = ({ setAuth }) => {
                   <div className="opacity text-gray-500 text-sm mt-1 mr-[93%]">
                     {textPost.length}/{maxLength}
                   </div>
-                  <div className='flex items-center mr-[93%] mb-[-1%]'>
+                  <div className='flex mr-[93%]'>
                     <label htmlFor="imageUpload">
                       <input
                         value={[]}
@@ -498,9 +565,9 @@ const Home = ({ setAuth }) => {
                     </label>
                   </div>
                   <div className="flex items-center mt-4 ml-[-1%]">
-                    <img src={mas} alt='mas' className='w-[38px] mr-6 translate-x-[-520%]' />
+                    <img src={mas} alt='mas' className='w-[38px] mr-6' onClick={() => setCompanyModalOpen(true)} />
                     {/* <p className='opacity pr-[50px]'>Selecciona una entidad</p> */}
-                    <div className='translate-x-[-92%]' onClick={handleSearchCompanyClick}>
+                    <div onClick={handleSearchCompanyClick}>
                       <CompanyAutocomplete
                         suggestions={suggestions}
                         setSelectedCompany={setSelectedCompany}
@@ -508,7 +575,7 @@ const Home = ({ setAuth }) => {
                         setCompanySearchQuery={setCompanySearchQuery}
                       />
                     </div>
-                    <div className="flex items-center ml-[-1%] translate-x-[-120%]">
+                    <div className="flex items-center ml-[-1%]">
                       {[1, 2, 3, 4, 5].map((star) => (
                         <i
                           key={star}
@@ -523,7 +590,7 @@ const Home = ({ setAuth }) => {
                         ></i>
                       ))}
                     </div>
-                    <div className="translate-x-[450%]">
+                    <div className="">
                       <button style={{
                         display: showPublishIcon ? 'none' : 'block', background: showPublishIcon
                           ? 'linear-gradient(267deg, #8E1DA1 0%, #2D015A 100%)'
@@ -531,7 +598,7 @@ const Home = ({ setAuth }) => {
                       }} className={`w-[48px] h-[48px] bg-[#F8F8FB] rounded-full ${darkMode ? 'dark-button' : ''}`}>
                         <i className={`fa-solid fa-arrow-right mt-1 text-[#A9A9A9] text-[22px] ${darkMode ? 'dark-text' : ''}`} ></i></button>
                     </div>
-                    <div className="translate-x-[450%]">
+                    <div className="">
                       <button onClick={handleAddPost} style={{
                         display: showPublishIcon ? 'block' : 'none', background: showPublishIcon
                           ? 'linear-gradient(267deg, #8E1DA1 0%, #2D015A 100%)'
@@ -569,7 +636,7 @@ const Home = ({ setAuth }) => {
                   <div onClick={() => handleReview(post)}>
                     <div className="flex items-center mt-3">
                       <img src={proSet} alt="Imagen" className="w-[35px] h-[35px] relative ml-1" />
-                      <p className={`text-black text-base font-bold ml-3 ${darkMode ? 'dark-text-white' : ''}`}>
+                      <p onClick={() => navigate(`/${name}`)} className={`cursor-pointer text-black text-base font-bold ml-3 ${darkMode ? 'dark-text-white' : ''}`}>
                         {post.User.name} {post.User.last_name}
                         <br />
                         <span style={{ marginTop: '-7px' }} className={`flex text-center text-neutral-400 text-sm font-light ${darkMode ? 'dark-text-white' : ''}`}>
@@ -593,27 +660,27 @@ const Home = ({ setAuth }) => {
                         ))}
                       </div>
                     )}
-                    </div>
-                    <div className="flex items-center mt-7 ml-[1%]">
-                      <img
-                        src={post.is_liked ? Liked : Like}
-                        alt='like'
-                        style={{ height: '25px', width: '25px' }}
-                        className='mr-2'
-                        onClick={() => handleLike(post._id_review)}
-                      />
-                      <img src={Comment} style={{ height: '25px', width: '25px' }} className='mr-2' onClick={() => handleCommentClick(post._id_review)} />
-                      <img src={Share} alt='share' />
-                    </div>
-                    <div className="flex mt-4 mb-4">
-                      <p className={`text-gray-400 text-s font-light leading-normal ${darkMode ? 'dark-text-white' : ''}`}>
-                        {post.is_liked ? post.likes + 1 : post.likes} me gusta
-                      </p>
-                      <p className={`ml-4 text-gray-400 text-s font-light leading-normal ${darkMode ? 'dark-text-white' : ''}`}>
-                        {post.comments} comentarios
-                      </p>
-                    </div>
-                    {/*  AQUI VA EL INPUT PARA PROBAR COMENTARIO */}
+                  </div>
+                  <div className="flex items-center mt-7 ml-[1%]">
+                    <img
+                      src={post.is_liked ? Liked : Like}
+                      alt='like'
+                      style={{ height: '25px', width: '25px' }}
+                      className='mr-2'
+                      onClick={() => handleLike(post._id_review)}
+                    />
+                    <img src={Comment} style={{ height: '25px', width: '25px' }} className='mr-2' onClick={() => handleCommentClick(post._id_review)} />
+                    <img src={Share} alt='share' />
+                  </div>
+                  <div className="flex mt-4 mb-4">
+                    <p className={`text-gray-400 text-s font-light leading-normal ${darkMode ? 'dark-text-white' : ''}`}>
+                      {post.is_liked ? post.likes + 1 : post.likes} me gusta
+                    </p>
+                    <p className={`ml-4 text-gray-400 text-s font-light leading-normal ${darkMode ? 'dark-text-white' : ''}`}>
+                      {post.comments} comentarios
+                    </p>
+                  </div>
+                  {/*  AQUI VA EL INPUT PARA PROBAR COMENTARIO */}
                 </div>
               ))}
             </div>

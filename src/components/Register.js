@@ -84,15 +84,13 @@ const Register = ({ setAuth }) => {
       if (parseRes.token) {
         localStorage.setItem('token', parseRes.token);
         setAuth(false);
-        Navigate('/login'); // Redirige al usuario a /login
+        Navigate('/login'); 
         toast.success("¡Registro exitoso!");
       } else {
-        // Muestra una notificación de error si no se pudo registrar
         toast.error(parseRes.message);
       }
     } catch (err) {
       console.error(err.message);
-      // Muestra una notificación de error en caso de excepción
       toast.error("Ha ocurrido un error al registrar. Por favor, inténtelo de nuevo.");
     }
   };
