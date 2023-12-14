@@ -37,7 +37,7 @@ function CompanyAutocomplete(props) {
         type="text"
         value={props.companySearchQuery}
         onChange={handleInputChange}
-        placeholder="Selecciona una entidad"
+        placeholder="Selecciona una empresa"
         className="w-full p-2 border rounded-md"
       />
       {isDropdownOpen && props.companySearchQuery.length > 0 && (
