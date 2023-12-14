@@ -499,9 +499,8 @@ const Home = ({ setAuth }) => {
           handleCreateBusiness={handleCreateBusiness}
         />
       )}
-      <div className={`bg-[#EEEFEF] h-auto ${darkMode ? "dark-login-bg" : ""}`}>
-        <div className="contain-principal">
-          <div className="w-[20%] flex bg-[#FFF] h-screen fixed">
+      <div className={`bg-[#EEEFEF] h-auto w-screen flex ${darkMode ? "dark-login-bg" : ""}`}>
+          <div className="w-1/5 bg-[#FFF] fixed h-screen">
             <div className="w-[100%] mt-6 ml-[13%] sidebar1">
               <div className="ml-[4%] mb-[8%]">
                 <img src={logoN} alt="Logo" />
@@ -651,9 +650,9 @@ const Home = ({ setAuth }) => {
               </div>
             </div>
           </div>
-          <div className="w-[80%] ml-[-13px] post-container">
+          <div className="w-[55%] bg-[#EEEFEF] ml-[20%] pr-[0.5%]">
             <div
-              className={`w-[66%] h-[260px] bg-[#FFF] ${
+              className={`w-[100%] h-[260px] bg-[#FFF] ${
                 darkMode ? "dark-register-bg" : ""
               } create-post`}
             >
@@ -688,7 +687,7 @@ const Home = ({ setAuth }) => {
                       <img
                         src={masimagen}
                         alt="masimagen"
-                        className="cursor-pointer w-[28px]"
+                        className="cursor-pointer w-[28px] relative"
                       />
                     </label>
                     <div className="flex items-center justify-between w-full">
@@ -696,7 +695,7 @@ const Home = ({ setAuth }) => {
                         <img
                           src={mas}
                           alt="mas"
-                          className="w-[38px]"
+                          className="w-[38px] relative cursor-pointer"
                           onClick={() => setCompanyModalOpen(true)}
                         />
                         <div onClick={handleSearchCompanyClick}>
@@ -707,23 +706,23 @@ const Home = ({ setAuth }) => {
                             setCompanySearchQuery={setCompanySearchQuery}
                           />
                         </div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <i
-                            key={star}
-                            className={`fa-solid fa-star ${
-                              star <= reviewRating ? "dark-text-white" : ""
-                            }`}
-                            style={{
-                              color:
-                                star <= reviewRating ? "#688BFF" : "#D9D9D9",
-                              fontSize: "18px",
-                              cursor: "pointer",
-                            }}
-                            onClick={() => handleRatingClick(star)}
-                          ></i>
-                        ))}
+                        <div className="flex items-center gap-2">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <i
+                              key={star}
+                              className={`fa-solid fa-star ${
+                                star <= reviewRating ? "dark-text-white" : ""
+                              }`}
+                              style={{
+                                color:
+                                  star <= reviewRating ? "#688BFF" : "#D9D9D9",
+                                fontSize: "18px",
+                                cursor: "pointer",
+                              }}
+                              onClick={() => handleRatingClick(star)}
+                            ></i>
+                          ))}
+                        </div>
                       </div>
                       <button
                         style={{
@@ -779,7 +778,7 @@ const Home = ({ setAuth }) => {
               </div>
             */}
 
-            <div className="w-[66%] h-auto post-post">
+            <div className="w-[100%] h-auto post-post">
               {postes.map((post, index) => (
                 <div
                   key={index}
@@ -788,7 +787,7 @@ const Home = ({ setAuth }) => {
                   }`}
                 >
                   <button
-                    className="w-[102.8%] mt-[-18px] ml-[-13px] bg-[#F5F5F5] h-[50px]"
+                    className="w-[102.8%] mt-[-18px] ml-[-13px] bg-[rgba(255, 255, 255, 0.5)] h-[50px]"
                     onClick={() => handleBusinessClick(post.Business)}
                   >
                     <div className="flex justify-between items-center">
@@ -858,6 +857,7 @@ const Home = ({ setAuth }) => {
                       <img
                         src={post.is_liked ? Liked : Like}
                         alt="like"
+                        className="relative"
                         style={{
                           height: "25px",
                           width: "25px",
@@ -893,7 +893,7 @@ const Home = ({ setAuth }) => {
               ))}
             </div>
           </div>
-          <div className="w-[26%] translate-x-[283%] h-screen flex flex-col fixed bg-[#FFF] p-5">
+          <div className="w-1/4 bg-[#FFF] h-screen fixed right-0 p-4">
             <div className="relative mb-[1%]">
               <h1 className="text-[22px] font-semibold mb-2">Buscar</h1>
               <span className="relative translate-y-[150%] left-0 pl-3 flex items-center">
@@ -1039,7 +1039,6 @@ const Home = ({ setAuth }) => {
               </button>
             </div>
           </div>
-        </div>
       </div>
       <div
         className={`bg-[#FFF] w-[100%] h-[6%] flex bottombar ${
