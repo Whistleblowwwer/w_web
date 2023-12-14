@@ -200,8 +200,9 @@ const Home = ({ setAuth }) => {
       }
       postReview();
       setText("");
-      setCompanySearchQuery("")
-      setReviewRating(0)
+      setCompanySearchQuery("");
+      setShowPublishIcon(false);
+      setReviewRating(0);
       handlePostModal();
 
     }
@@ -469,7 +470,7 @@ const Home = ({ setAuth }) => {
           handleCreateBusiness={handleCreateBusiness}
         />
       )}
-      <div className={`bg-[#EEEFEF] w-screen h-auto flex${darkMode ? 'dark-login-bg' : ''}`}>
+      <div className={`bg-[#EEEFEF] w-screen h-auto flex ${darkMode ? 'dark-login-bg' : ''}`}>
         <div className='w-1/5 bg-[#FFF] fixed h-screen'>
           <div className="w-[100%] mt-6 ml-[13%] sidebar1">
             <div className='ml-[4%] mb-[8%]'>
@@ -560,48 +561,46 @@ const Home = ({ setAuth }) => {
                       setSelectedImages(selected);
                     }}
                   />
-                  <img src={masimagen} alt='masimagen' className='cursor-pointer w-[28px]' />
+                  <img src={masimagen} alt='masimagen' className='cursor-pointer w-[28px] relative' />
                 </label>
               </div>
-              <div className="flex items-center mt-4 ml-1 justify-between">
-                <div className='flex mb-2 mr-[56%]'>
-                  <img src={mas} alt='mas' className='w-[38px] mr-6' onClick={() => setCompanyModalOpen(true)} />
+              <div className="flex items-center mt-3 ml-1 justify-between">
+                <div className='flex mb-4 '>
+                  <img src={mas} alt='mas' className='w-[36px] mr-6 cursor-pointer relative mt-1 ml-1' onClick={() => setCompanyModalOpen(true)} />
                   {/* <p className='opacity pr-[50px]'>Selecciona una entidad</p> */}
-                  <div onClick={handleSearchCompanyClick}>
-                    <CompanyAutocomplete
-                      suggestions={suggestions}
-                      setSelectedCompany={setSelectedCompany}
-                      companySearchQuery={companySearchQuery}
-                      setCompanySearchQuery={setCompanySearchQuery}
-                    />
-                  </div>
+                    <div onClick={handleSearchCompanyClick}>
+                      <CompanyAutocomplete
+                        suggestions={suggestions}
+                        setSelectedCompany={setSelectedCompany}
+                        companySearchQuery={companySearchQuery}
+                        setCompanySearchQuery={setCompanySearchQuery}
+                      />
+                    </div>
                 
-                  <div className="flex items-center ml-4">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <i
-                        key={star}
-                        className={`fa-solid fa-star mr-2 ${star <= reviewRating ? 'dark-text-white' : ''
-                          }`}
-                        style={{
-                          color: star <= reviewRating ? '#688BFF' : '#D9D9D9',
-                          fontSize: '18px',
-                          cursor: 'pointer',
-                        }}
-                        onClick={() => handleRatingClick(star)}
-                      ></i>
-                    ))}
+                    <div className="flex items-center relative ml-[115%] mt-2">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <i
+                          key={star}
+                          className={`fa-solid fa-star mr-2 ${star <= reviewRating ? 'dark-text-white' : ''
+                            }`}
+                          style={{
+                            color: star <= reviewRating ? '#688BFF' : '#D9D9D9',
+                            fontSize: '18px',
+                            cursor: 'pointer',
+                          }}
+                          onClick={() => handleRatingClick(star)}
+                        ></i>
+                      ))}
+                    </div>
                   </div>
-                  </div>
-                  <div className="mt-[-1%] justify-end flex-end">
+                  <div className="mt-[-1%] justify-end flex-end relative mr-[1%]">
                     <button style={{
                       display: showPublishIcon ? 'none' : 'block', background: showPublishIcon
                         ? 'linear-gradient(267deg, #8E1DA1 0%, #2D015A 100%)'
                         : '#F8F8FB'
                     }} className={`w-[48px] h-[48px] bg-[#F8F8FB] rounded-full ${darkMode ? 'dark-button' : ''}`}>
                       <i className={`fa-solid fa-arrow-right mt-1 text-[#A9A9A9] text-[22px] ${darkMode ? 'dark-text' : ''}`} ></i></button>
-                  </div>
-                  <div className="mt-[-1%] justify-end flex-end">
-                    <button onClick={handleAddPost} style={{
+                      <button onClick={handleAddPost} style={{
                       display: showPublishIcon ? 'block' : 'none', background: showPublishIcon
                         ? 'linear-gradient(267deg, #8E1DA1 0%, #2D015A 100%)'
                         : '#F8F8FB',
@@ -668,7 +667,7 @@ const Home = ({ setAuth }) => {
                       src={post.is_liked ? Liked : Like}
                       alt='like'
                       style={{ height: '25px', width: '25px' }}
-                      className='mr-2'
+                      className='mr-2 relative'
                       onClick={() => handleLike(post._id_review)}
                     />
                     <img src={Comment} style={{ height: '25px', width: '25px' }} className='mr-2' onClick={() => handleCommentClick(post._id_review)} />

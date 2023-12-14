@@ -1,32 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import logoN from '../assets/NavLogo.png';
 import proSet from '../assets/Image-40.png';
-import mas from '../assets/Group 99.svg';
-import masimagen from '../assets/Group 105.svg';
-import paginaEmpre from '../assets/CTA.svg';
+import Location from '../assets/Location.svg';
 import Like from '../assets/Like.svg';
-import Liked from '../assets/IsLiked.svg';
 import Comment from '../assets/Comment Review.svg';
 import Share from '../assets/Send.svg';
-import { useNavigate, useLocation, Navigate } from 'react-router-dom';
+import { useNavigate, useLocation, Navigate, useParams } from 'react-router-dom';
 import NewPostModal from '../auxComponents/NewPostModal';
 import NewCommentModal from '../auxComponents/NewCommentModal';
-import CompanyAutocomplete from '../auxComponents/CompanyAutocomplete';
-import NewCompanyModal from '../auxComponents/NewCompanyModal';
 import { differenceInMilliseconds, differenceInHours, differenceInDays, differenceInMonths, format, parseISO } from 'date-fns';
 
-const Home = ({ setAuth }) => {
+const Profile_empresa = ({ setAuth }) => {
 
-  //search variables
-  const [search, setSearch] = useState('');
-  const [showResults, setShowResults] = useState(false);
-  const [recentSearches, setRecentSearches] = useState([]);
-  const [businesses, setBusinesses] = useState([]);
-  const [searchUser, setSearchUser] = useState([]);
+  //empresa variables
+  const location = useLocation();
+  const business = location.state ? location.state.business : null;
+  const [businessDetails, setBusinessDetails] = useState("");
 
   //post variables
   const [postModalOpen, setPostModalOpen] = useState(false);
   const [textPost, setText] = useState('');
+  const [textPost2, setText2] = useState('');
+  const [posts, setPosts] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
 
   //comments variables
@@ -35,76 +30,55 @@ const Home = ({ setAuth }) => {
   const [idReviewComment, setIdReviewComment] = useState('')
 
   //general variables
-  const [isTyping, setIsTyping] = useState(false)
   const [activeButton, setActiveButton] = useState('home');
-  const [activeFeed, setActiveFeed] = useState('feed');
-  const [activeTabView, setActiveTabView] = useState('parati');
+  const [activeTabView, setActiveTabView] = useState('reseñas');
   const [darkMode, setDarkMode] = useState(() => {
+    // Inicializa el estado a partir de LocalStorage o usa el valor predeterminado (false)
     return JSON.parse(localStorage.getItem('darkMode')) || false;
   });
+  const [isTyping, setIsTyping] = useState(false);
   const [showPublishIcon, setShowPublishIcon] = useState(false);
-  const [name, setName] = useState([]);
+  const [name, setName] = useState("");
   const [postes, setPostes] = useState([]);
-  const [suggestions, setSuggestions] = useState([])
-  const [selectedCompany, setSelectedCompany] = useState()
-  const [reviewRating, setReviewRating] = useState(0)
-  const [companySearchQuery, setCompanySearchQuery] = useState("")
-  const [companyModalOpen, setCompanyModalOpen] = useState(false);
-  const [companyForm, setCompanyForm] = useState({
-    name: "",
-    address: "",
-    entity: "",
-    country: "",
-    state: "",
-    city: "",
-    category: "",
-  });
-
-
-
   const navigate = useNavigate();
+
   const maxLength = 1200;
 
-  const handleBusinessClick = async (business) => {
-    const newRecentSearches = [search, ...recentSearches.slice(0, 3)]; // Guardar los últimos 4 términos
-    setRecentSearches(newRecentSearches);
-    localStorage.setItem('recentSearches', JSON.stringify(newRecentSearches));
-    setShowResults(false);
-    navigate(`/empresa/${business.name}`, { state: { business } });
-  };
+    const formatDate = (createdAt) => {
+      const parsedDate = parseISO(createdAt);
+      const currentDate = new Date();
+      const millisecondsDifference = differenceInMilliseconds(currentDate, parsedDate);
+      const secondsDifference = Math.floor(millisecondsDifference / 1000);
+      const hoursDifference = differenceInHours(currentDate, parsedDate);
+      const daysDifference = differenceInDays(currentDate, parsedDate);
+      const monthsDifference = differenceInMonths(currentDate, parsedDate);
 
-  const handleRecentSearch = async (searchValue) => {
-    navigate(`/search`, { state: { searchValue } });
-  }
-
-  const handleReview = async (reviewValue) => {
-    navigate(`/review/${reviewValue._id_review}`, { state: { reviewValue } });
-  }
-
-  const handleUserClick = async (users) => {
-    const newRecentSearches = [search, ...recentSearches.slice(0, 3)]; // Guardar los últimos 4 términos
-    setRecentSearches(newRecentSearches);
-    localStorage.setItem('recentSearches', JSON.stringify(newRecentSearches));
-    navigate(`/${users.name}`, { state: { users } });
-  };
+      if (secondsDifference < 60) {
+        return `${secondsDifference}s`;
+      } else if (hoursDifference < 24) {
+        return `${hoursDifference}h`;
+      } else if (daysDifference < 30) {
+        return `${daysDifference}d`;
+      } else {
+        return `${monthsDifference}m`;
+      }
+    };
 
   const handlePostModal = () => {
     setPostModalOpen(!postModalOpen);
   };
 
-  const handleNewCompanyModal = () => {
-    setCompanyModalOpen(!companyModalOpen)
-  };
-
   const handlePostTextChange = (event) => {
     setText(event.target.value);
     if (event.target.value.trim() !== '') {
+      setIsTyping(true);
       setShowPublishIcon(true);
     } else {
       setIsTyping(false);
       setShowPublishIcon(false);
     }
   };
+  console.log("commnent text", textComment)
   const handleTextCommnetChange = (event) => {
     setTextComment(event.target.value);
     if (event.target.value.trim() !== '') {
@@ -117,10 +91,12 @@ const Home = ({ setAuth }) => {
   const handleCommentClick = (_id_review) => {
     setIdReviewComment(_id_review)
     setCommentModalOpen(!commentModalOpen)
+    console.log("Comment clicked!")
+    console.log("Comment modal status => ", commentModalOpen)
   }
 
   const handleTextChange2 = (event) => {
-    setText(event.target.value);
+    setText2(event.target.value);
     if (event.target.value.trim() !== '') {
       setIsTyping(true);
       setShowPublishIcon(true);
@@ -130,11 +106,70 @@ const Home = ({ setAuth }) => {
     }
   };
 
-  const handleSearch = (e) => {
-    const searchValue = typeof e === 'string' ? e : '';
+  useEffect(() => {
+    localStorage.setItem('darkMode', JSON.stringify(darkMode));
+  }, [darkMode]);
 
-    setSearch(searchValue);
-    async function getSearchs() {
+  useEffect(() => {
+    async function getPostes() {
+      const myHeaders = new Headers();
+      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+  
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
+      };
+  
+      try {
+        if (business && business._id_business) {
+          const businessId = business._id_business;
+  
+          const response = await fetch(`http://3.135.121.50:4000/reviews/business/?_id_business=${businessId}`, requestOptions);
+          const parseRes = await response.json();
+          setPostes(parseRes.reviews);
+        } else {
+          console.error("El objeto business no tiene la propiedad _id_business");
+        }
+      } catch (err) {
+        console.error(err.message);
+      }
+    }
+  
+    getPostes();
+  }, [business]);
+
+  useEffect(() => {
+    async function getBusinessDetails() {
+      const myHeaders = new Headers();
+      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+  
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
+      };
+  
+      try {
+        if (business && business._id_business) {
+          const businessId = business._id_business;
+          const response = await fetch(`http://3.135.121.50:4000/business/details/?_id_business=${businessId}`, requestOptions);
+          const parseRes = await response.json();
+          setBusinessDetails(parseRes.business);
+          console.log(businessDetails.followers);
+        } else {
+          console.error("El objeto business no tiene la propiedad _id_business");
+        }
+      } catch (err) {
+        console.error(err.message);
+      }
+    }
+  
+    getBusinessDetails();
+  }, [business]);
+
+  useEffect(() => {
+    async function getName() {
       const myHeaders = new Headers();
       myHeaders.append("authorization", `Bearer ${localStorage.token}`);
 
@@ -145,69 +180,70 @@ const Home = ({ setAuth }) => {
       };
 
       try {
-        const response = await fetch(`http://3.135.121.50:4000/business/search?name=${e}&city=&enitty=&country=&address=&state=`, requestOptions);
+        const response = await fetch("http://3.135.121.50:4000/users", requestOptions);
         const parseRes = await response.json();
-        setBusinesses(parseRes.businesses || []);
+        console.log(parseRes.user.name);
+        setName(parseRes.user.name);
       } catch (err) {
         console.error(err.message);
       }
-      try {
-        const response = await fetch(`http://3.135.121.50:4000/users/search?searchTerm=${e}`, requestOptions);
-        const parseRes = await response.json();
-        setSearchUser(parseRes.users || []);
-      } catch (err) {
-        console.error(err.message);
-      }
-
     }
-    getSearchs();
+    getName();
 
-  };
+  }, []);
 
-  const handleAddPost = () => {
-    if (textPost && selectedImages.length > 0) {
+  const addPost = () => {
+    if (textPost || selectedImages.length > 0) {
       const newPost = {
         text: textPost,
         images: selectedImages.map((file) => URL.createObjectURL(file)),
       };
-      setPostes([newPost, ...postes]);
+      setPosts([newPost, ...posts]);
       setText('');
       setSelectedImages([]);
-      setShowPublishIcon(false);
       handlePostModal();
-    } else if (textPost && selectedImages.length <= 0) {
-
-      async function postReview() {
-        const myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json")
-        myHeaders.append("authorization", `Bearer ${localStorage.token}`);
-
-        var raw = JSON.stringify({
-          "content": textPost,
-          "_id_business": selectedCompany,
-          "rating": reviewRating
-        });
-
-        var requestOptions = {
-          method: 'POST',
-          headers: myHeaders,
-          body: raw,
-          redirect: 'follow'
-        };
-        const response = await fetch("http://3.135.121.50:4000/reviews", requestOptions)
-        const jsonRes = await response.json()
-        setPostes([jsonRes?.review, ...postes]);
-      }
-      postReview();
-      setText("");
-      setCompanySearchQuery("")
-      setReviewRating(0)
+    } else if (textPost || selectedImages.length <= 0) {
+      const newPost = {
+        text: textPost,
+        images: [],
+      };
+      setPosts([newPost, ...posts]);
+      setText('');
       handlePostModal();
-
     }
   };
 
+  const addPost2 = () => {
+    if (textPost2 || selectedImages.length > 0) {
+      const newPost = {
+        text: textPost2,
+        images: selectedImages.map((file) => URL.createObjectURL(file)),
+      };
+      setPosts([newPost, ...posts]);
+      setText2('');
+      setSelectedImages([]);
+      setShowPublishIcon(false);
+      handlePostModal();
+    } else if (textPost2 || selectedImages.length <= 0) {
+      const newPost = {
+        text: textPost2,
+        images: [],
+      };
+      setPosts([newPost, ...posts]);
+      setText2('');
+      handlePostModal();
+      setShowPublishIcon(false);
+    }
+  };
+
+  const logout = (e) => {
+    e.preventDefault();
+    localStorage.removeItem("token");
+    setAuth(false);
+  }
+
   const handleLike = (_id_review) => {
+    console.log("Liked - ID => ", _id_review)
     async function postLike() {
       const myHeaders = new Headers();
       myHeaders.append("authorization", `Bearer ${localStorage.token}`);
@@ -221,18 +257,6 @@ const Home = ({ setAuth }) => {
         const url = `http://3.135.121.50:4000/users/reviews/like/?_id_review=${_id_review}`;
         const response = await fetch(url, requestOptions);
         const parseRes = await response.json();
-        setPostes((prevPostes) => {
-          return prevPostes.map((prevPost) => {
-            if (prevPost._id_review === _id_review) {
-              return {
-                ...prevPost,
-                is_liked: !prevPost.is_liked, // Invertir el estado
-                likes: prevPost.is_liked ? prevPost.likes : prevPost.likes,
-              };
-            }
-            return prevPost;
-          });
-        });
       } catch (err) {
         console.error(err.message);
       }
@@ -241,15 +265,19 @@ const Home = ({ setAuth }) => {
   }
 
   const handleComment = () => {
+    console.log("comment - ID => ", idReviewComment)
     async function postComment() {
       const myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
       myHeaders.append("authorization", `Bearer ${localStorage.token}`);
-
+      console.log("content", textComment)
       var raw = JSON.stringify({
         "content": textComment,
         "_id_review": idReviewComment,
       });
+      console.log("idreviww", idReviewComment)
+
+      console.log("raw", raw)
+
 
       const requestOptions = {
         method: "POST",
@@ -264,162 +292,8 @@ const Home = ({ setAuth }) => {
         console.error(err.message);
       }
     }
-    setCommentModalOpen(!commentModalOpen)
     postComment();
   }
-
-  const handleCreateBusiness = () => {
-    async function createBusiness() {
-      const myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
-
-      const requestOptions = {
-        method: "POST",
-        headers: myHeaders,
-        body: JSON.stringify(companyForm),
-        redirect: 'follow'
-      };
-
-      try {
-        const response = await fetch("http://3.135.121.50:4000/business", requestOptions);
-        const parseRes = await response.json();
-      } catch (err) {
-        console.error(err.message);
-      }
-    }
-    setCompanyModalOpen(!companyModalOpen)
-    createBusiness();
-  }
-
-  const handleSearchCompanyClick = () => {
-    async function getCompanies() {
-      const myHeaders = new Headers();
-      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
-
-      const requestOptions = {
-        method: "GET",
-        headers: myHeaders,
-      };
-
-      try {
-        const response = await fetch("http://3.135.121.50:4000/business/search?", requestOptions);
-        const parseRes = await response.json();
-        setSuggestions(parseRes.businesses || []);
-      } catch (err) {
-        console.error(err.message);
-      }
-    }
-    getCompanies()
-  }
-
-  const handleRatingClick = (clickedRating) => {
-    setReviewRating(clickedRating);
-  };
-
-  const handleChangeCompany = (e) => {
-    console.log("re-remder here!")
-
-    const { name, value } = e.target;
-    setCompanyForm((prevFormulario) => ({
-      ...prevFormulario,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmitCompany = (e) => {
-    e.preventDefault();
-    console.log('Datos del formulario:', companyForm);
-    setCompanyModalOpen(false)
-  };
-
-
-  useEffect(() => {
-    localStorage.setItem('darkMode', JSON.stringify(darkMode));
-  }, [darkMode]);
-
-  useEffect(() => {
-    async function getPostes() {
-      const myHeaders = new Headers();
-      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
-
-      const requestOptions = {
-        method: "GET",
-        headers: myHeaders,
-        redirect: "follow",
-      };
-
-      try {
-        const response = await fetch("http://3.135.121.50:4000/reviews/", requestOptions);
-        const parseRes = await response.json();
-        setPostes(parseRes.reviews);
-      } catch (err) {
-        console.error(err.message);
-      }
-    }
-
-    getPostes();
-  }, []);
-
-  useEffect(() => {
-    async function getName() {
-      const myHeaders = new Headers();
-      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
-      const requestOptions = {
-        method: "GET",
-        headers: myHeaders,
-        redirect: "follow",
-      };
-
-      try {
-        const response = await fetch("http://3.135.121.50:4000/users", requestOptions);
-        const parseRes = await response.json();
-        setName(parseRes.user);
-      } catch (err) {
-        console.error(err.message);
-      }
-    }
-    getName();
-
-  }, []);
-
-
-
-  const logout = (e) => {
-    e.preventDefault();
-    localStorage.removeItem("token");
-    setAuth(false);
-  }
-
-  const formatDate = (createdAt) => {
-    const parsedDate = parseISO(createdAt);
-    const currentDate = new Date();
-
-    const millisecondsDifference = differenceInMilliseconds(currentDate, parsedDate);
-    const secondsDifference = Math.floor(millisecondsDifference / 1000);
-    const minutesDifference = Math.floor(secondsDifference / 60);
-    const hoursDifference = differenceInHours(currentDate, parsedDate);
-    const daysDifference = differenceInDays(currentDate, parsedDate);
-    const monthsDifference = differenceInMonths(currentDate, parsedDate);
-
-    if (minutesDifference < 1) {
-      return `${secondsDifference}s`;
-    } else if (hoursDifference < 1) {
-      return `${minutesDifference}m`;
-    } else if (hoursDifference < 24) {
-      return `${hoursDifference}h`;
-    } else if (daysDifference < 30) {
-      return `${daysDifference}d`;
-    } else {
-      return `${monthsDifference}m`;
-    }
-  };
-
-  useEffect(() => {
-    const storedRecentSearches = JSON.parse(localStorage.getItem('recentSearches')) || [];
-    setRecentSearches(storedRecentSearches);
-  }, []);
-
 
   return (
     <div className={`bg-[#EEEFEF] h-screen w-screen ${darkMode ? 'dark-login-bg' : ''}`}>
@@ -433,13 +307,7 @@ const Home = ({ setAuth }) => {
           maxLength={maxLength}
           setSelectedImages={setSelectedImages}
           setShowPublishIcon={setShowPublishIcon}
-          addPost={handleAddPost}
-          suggestions={suggestions}
-          setSelectedCompany={setSelectedCompany}
-          companySearchQuery={companySearchQuery}
-          setCompanySearchQuery={setCompanySearchQuery}
-          handleRatingClick={handleRatingClick}
-          reviewRating={reviewRating}
+          addPost={addPost}
         />
       )}
       {commentModalOpen && (
@@ -453,28 +321,15 @@ const Home = ({ setAuth }) => {
           addComment={handleComment}
         />
       )}
-      {companyModalOpen && (
-        <NewCompanyModal
-          handleNewCompanyModal={handleNewCompanyModal}
-          handleSubmit={handleSubmitCompany}
-          handleChange={handleChangeCompany}
-          darkMode={darkMode}
-          name={companyForm.name}
-          address={companyForm.address}
-          entity={companyForm.entity}
-          country={companyForm.country}
-          state={companyForm.state}
-          city={companyForm.city}
-          category={companyForm.category}
-          handleCreateBusiness={handleCreateBusiness}
-        />
-      )}
       <div className={`bg-[#EEEFEF] h-auto ${darkMode ? 'dark-login-bg' : ''}`}>
         <div className="contain-principal">
           <div className='w-[20%] flex bg-[#FFF] h-screen fixed'>
             <div className="w-[100%] mt-6 ml-[13%] sidebar1">
               <div className='ml-[4%] mb-[8%]'>
-                <img src={logoN} alt="Logo" />
+                <img src={logoN} alt="Logo" className='cursor-pointer' 
+                  onClick={() => {setActiveButton('home');
+                  navigate("/home");
+                }} />
               </div>
               <div className={`margin-top ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
                 <button className={activeButton === 'home' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
@@ -526,86 +381,101 @@ const Home = ({ setAuth }) => {
                 </button>
               </div>
               <div className="mt-[100%] ml-[-15px] flex">
-                <img src={proSet} alt="Imagen" className="cursor-pointer" onClick={() => handleUserClick(name)} />
-                <p className={`${darkMode ? 'dark-text-white' : ''} pl-[5%]`}>{name.name}</p>
+                <img src={proSet} alt="Imagen" className="cursor-pointer" />
+                <p className={`${darkMode ? 'dark-text-white' : ''} pl-[5%]`}>{name}</p>
                 <p className={`${darkMode ? 'dark-text-white' : ''} font-bold text-[20px] pl-[50%]`}>. . .</p>
               </div>
             </div>
           </div>
           <div className="w-[80%] ml-[-13px] post-container">
-            <div className={`w-[66%] h-[260px] bg-[#FFF] ${darkMode ? 'dark-register-bg' : ''} create-post`}>
-              <div className="flex justify-between items-center p-1">
-                <div className="w-[100%] flex flex-col items-center pt-5">
-                  <input
-                    className={`input-style w-full h-[120px] rounded-lg bg-gray-50 p-4 ${darkMode ? 'dark-register' : ''}`}
-                    onChange={handleTextChange2}
-                    placeholder='Escribe algo..'
-                    value={textPost}
-                    style={{ paddingBottom: '90px' }}
-                  />
-                  <div className="opacity text-gray-500 text-sm mt-1 mr-[93%]">
-                    {textPost.length}/{maxLength}
-                  </div>
-                  <div className='flex mr-[93%]'>
-                    <label htmlFor="imageUpload">
-                      <input
-                        value={[]}
-                        id="imageUpload"
-                        type="file"
-                        accept="image/*"
-                        style={{ display: "none" }}
-                        onChange={(e) => {
-                          const files = e.target.files;
-                          const selected = Array.from(files);
-                          setSelectedImages(selected);
-                        }}
-                      />
-                      <img src={masimagen} alt='masimagen' className='cursor-pointer w-[28px]' />
-                    </label>
-                  </div>
-                  <div className="flex items-center mt-4 ml-[-1%]">
-                    <img src={mas} alt='mas' className='w-[38px] mr-6' onClick={() => setCompanyModalOpen(true)} />
-                    {/* <p className='opacity pr-[50px]'>Selecciona una entidad</p> */}
-                    <div onClick={handleSearchCompanyClick}>
-                      <CompanyAutocomplete
-                        suggestions={suggestions}
-                        setSelectedCompany={setSelectedCompany}
-                        companySearchQuery={companySearchQuery}
-                        setCompanySearchQuery={setCompanySearchQuery}
-                      />
-                    </div>
-                    <div className="flex items-center ml-[-1%]">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <i
-                          key={star}
-                          className={`fa-solid fa-star mr-2 ${star <= reviewRating ? 'dark-text-white' : ''
-                            }`}
-                          style={{
-                            color: star <= reviewRating ? '#688BFF' : '#D9D9D9',
-                            fontSize: '18px',
-                            cursor: 'pointer',
-                          }}
-                          onClick={() => handleRatingClick(star)}
-                        ></i>
-                      ))}
-                    </div>
-                    <div className="">
-                      <button style={{
-                        display: showPublishIcon ? 'none' : 'block', background: showPublishIcon
-                          ? 'linear-gradient(267deg, #8E1DA1 0%, #2D015A 100%)'
-                          : '#F8F8FB'
-                      }} className={`w-[48px] h-[48px] bg-[#F8F8FB] rounded-full ${darkMode ? 'dark-button' : ''}`}>
-                        <i className={`fa-solid fa-arrow-right mt-1 text-[#A9A9A9] text-[22px] ${darkMode ? 'dark-text' : ''}`} ></i></button>
-                    </div>
-                    <div className="">
-                      <button onClick={handleAddPost} style={{
-                        display: showPublishIcon ? 'block' : 'none', background: showPublishIcon
-                          ? 'linear-gradient(267deg, #8E1DA1 0%, #2D015A 100%)'
-                          : '#F8F8FB',
-                      }} className={`w-[48px] h-[48px] bg-[#F8F8FB] rounded-full ${darkMode ? 'dark-button' : ''}`}>
-                        <i className={`fa-solid fa-arrow-right mt-1 text-[#FFF] text-[22px] ${darkMode ? 'dark-text' : ''}`} ></i></button>
+            <div className={`w-[66%] h-auto bg-[#FFF] ${darkMode ? 'dark-register-bg' : ''} create-post`}>
+              <div className="w-[100%] h-auto pb-3 pl-3 pt-1 pr-3 bg-gradient-to-b from-white to-[#d78fa3]">
+                <div className='flex mb-[20%]'>
+                  <i class="fa-solid fa-arrow-left-long mt-2 mr-2 cursor-pointer" onClick={()=> navigate('/home')}></i>
+                  <p className='text-[20px] font-bold'>{businessDetails.name}, <span>{businessDetails.state}</span></p>
+                </div>
+                <div className='flex justify-between'>
+                  <div className='flex-col'>
+                    <p className='text-white text-base font-bold'>{businessDetails.name}</p>
+                    <div className="flex items-center">
+                      <i class={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#688BFF", fontSize: "18px", cursor: "pointer" }}></i>
+                      <i class={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#688BFF", fontSize: "18px", cursor: "pointer" }}></i>
+                      <i class={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#D9D9D9", fontSize: "18px", cursor: "pointer" }}></i>
+                      <i class={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#D9D9D9", fontSize: "18px", cursor: "pointer" }}></i>
+                      <i class={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#D9D9D9", fontSize: "18px", cursor: "pointer" }}></i>
+                      <p className="text-center text-[#D9D9D9] text-sm font-semibold">(0)</p>
                     </div>
                   </div>
+                  <button className="w-[86px] relative translate-y-[14%] h-10 px-4 bg-neutral-100 rounded-[20px] flex-col justify-center items-start gap-4">
+                    <div className="text-black text-base font-semibold leading-10">Seguir</div>
+                  </button>
+                </div>
+              </div>
+              <div className='p-4'>
+                <div className='flex'>
+                  <img src={Location} alt='location' className='mb-2 mr-2' />
+                  <p>{businessDetails.city}, <span>{businessDetails.country}</span></p>
+                  <div className='opacity-30 flex ml-6'>
+                    <i class="fa-regular fa-calendar mt-[4px] mr-1"></i>
+                    {businessDetails && (
+                      <p>
+                        Se creó el {new Date(businessDetails.createdAt).toLocaleDateString('es-MX', {
+                          day: 'numeric',
+                          month: 'long',
+                          year: 'numeric',
+                        })}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                <div className='flex mb-3'>
+                  <p className='mr-4'><span className='mr-1 text-black font-bold'>{businessDetails.followers}</span>Seguidores</p>
+                  <p><span className='mr-1 text-black font-bold'>{postes.length}</span>Reseñas</p>
+                </div>
+                <p>Siguen a este grupo</p>
+                <div className="flex">
+                  <button
+                    className={`${activeTabView === 'reseñas' ? (darkMode ? 'active-reseñas' : '') : ''} mr-7`}
+                    onClick={() => setActiveTabView('reseñas')}
+                  >
+                    <p
+                      className={`${darkMode ? 'dark-text-white' : ''} ${activeTabView === 'reseñas' ? 'font-bold' : 'font-bold text-opacity-60'
+                        } ml-1 mb-2`}
+                    >
+                      Reseñas
+                    </p>
+                    {activeTabView === 'reseñas' && (
+                      <div className="tab-indicator" />
+                    )}
+                  </button>
+                  <button
+                    className={`${activeTabView === 'destacados' ? (darkMode ? 'active-destacados' : '') : ''} mr-7`}
+                    onClick={() => setActiveTabView('destacados')}
+                  >
+                    <p
+                      className={`${darkMode ? 'dark-text-white' : ''} ${activeTabView === 'destacados' ? 'font-bold' : 'font-bold text-opacity-60'
+                        } mb-2`}
+                    >
+                      Destacados
+                    </p>
+                    {activeTabView === 'destacados' && (
+                      <div className="tab-indicator" />
+                    )}
+                  </button>
+                  <button
+                    className={`${activeTabView === 'multimedia' ? (darkMode ? 'active-multimedia' : '') : ''} mr-7`}
+                    onClick={() => setActiveTabView('multimedia')}
+                  >
+                    <p
+                      className={`${darkMode ? 'dark-text-white' : ''} ${activeTabView === 'multimedia' ? 'font-bold' : 'font-bold text-opacity-60'
+                        } mb-2`}
+                    >
+                      Multimedia
+                    </p>
+                    {activeTabView === 'multimedia' && (
+                      <div className="tab-indicator" />
+                    )}
+                  </button>
                 </div>
               </div>
             </div>
@@ -622,74 +492,87 @@ const Home = ({ setAuth }) => {
                 </button>
               </div>
             */}
-
-            <div className="w-[66%] h-auto post-post">
-              {postes.map((post, index) => (
-                <div key={index} className={`bg-[#FFF] h-auto w-[100%] p-3 mt-1 ${darkMode ? 'dark-register-bg' : ''}`}>
-                  <button className='w-[102.8%] mt-[-18px] ml-[-13px] bg-[rgba(255, 255, 255, 0.5)] h-[50px]' onClick={() => handleBusinessClick(post.Business)}>
-                    <div className='flex justify-between items-center'>
-                      <p className='ml-4 text-black text-base font-bold'>{post.Business.name}</p>
-                      <img src={paginaEmpre} alt='empresa' className='mr-5' />
-                    </div>
-                  </button>
-                    <div className="flex items-center mt-3">
-                      <img src={proSet} alt="Imagen" className="w-[35px] h-[35px] relative ml-1" />
-                      <p onClick={() => handleUserClick(post.User)} className={`cursor-pointer text-black text-base font-bold ml-3 ${darkMode ? 'dark-text-white' : ''}`}>
-                        {post.User.name} {post.User.last_name}
-                        <br />
-                        <span style={{ marginTop: '-7px' }} className={`flex text-center text-neutral-400 text-sm font-light ${darkMode ? 'dark-text-white' : ''}`}>
-                          {formatDate(post.createdAt)}
-                        </span>
-                      </p>
-                    </div>
-                    <div className='cursor-pointer' onClick={() => handleReview(post)}>
-                    <p className={`prevent-word-break text-black text-sm font-normal leading-normal tracking-wide mt-2 ${darkMode ? 'dark-text-white' : ''}`}>
-                      {post.content}
-                    </p>
-                    {post.images && post.images.length > 0 && (
-                      <div className="flex w-[100%] items-center">
-                        {post.images.slice(0, 2).map((image, i) => (
-                          <img
-                            key={i}
-                            src={image}
-                            alt={`Post ${i}`}
-                            className="w-full h-auto mr-3 rounded-lg mt-2"
-                            style={{ width: '100%', height: 'auto' }}
-                          />
-                        ))}
-                      </div>
-                    )}
+            <div className="w-[66%] post-post">
+              {posts && posts.length > 0 && posts.map((post, index) => (
+                <div key={index} className={`bg-[#FFF] p-4 mt-1 ${darkMode ? 'dark-register-bg' : ''}`}>
+                  <div className="flex items-center mt-3">
+                    <img src={proSet} alt="Imagen" className="w-[35px] h-[35px] relative ml-1" />
+                    <p className={`text-black text-base font-bold ml-3 ${darkMode ? 'dark-text-white' : ''}`}>{name}
+                      <br />
+                      <span style={{ marginTop: '-7px' }} className={`flex text-center text-neutral-400 text-sm font-light ${darkMode ? 'dark-text-white' : ''}`}>3hrs</span></p>
                   </div>
-                  <div className="flex items-center mt-7 ml-[1%] justify-between">
-                    <div className='flex items-center'>
-                      <img
-                        src={post.is_liked ? Liked : Like}
-                        alt='like'
-                        style={{ height: '25px', width: '25px' }}
-                        className='mr-2'
-                        onClick={() => handleLike(post._id_review)}
-                      />
-                      <img src={Comment} style={{ height: '25px', width: '25px' }} className='mr-2' onClick={() => handleCommentClick(post._id_review)} />
-                      <img src={Share} alt='share' />
-                    </div>
-                    <div className="flex items-center ml-[-1%]">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <i
-                          key={star}
-                          className={`fa-solid fa-star mr-2 ${star <= post.rating ? 'dark-text-white' : ''}`}
-                          style={{
-                            color: star <= post.rating ? '#688BFF' : '#D9D9D9',
-                            fontSize: '18px',
-                            cursor: 'pointer',
-                          }}
-                          onClick={() => handleRatingClick(star)}
-                        ></i>
+                  <p className={`prevent-word-break text-black text-sm font-normal leading-normal tracking-wide mt-2 ${darkMode ? 'dark-text-white' : ''}`}>{post.text}</p>
+                  {post.images.length > 0 && (
+                    <div className="flex w-[100%] items-center">
+                      {post.images.slice(0, 2).map((image, i) => (
+                        <img
+                          key={i}
+                          src={image}
+                          alt={`Post ${i}`}
+                          className="w-full h-auto mr-3 rounded-lg mt-2"
+                          style={{ width: '100%', height: 'auto' }}
+                        />
                       ))}
                     </div>
+                  )}
+                  <div className="flex mt-5 justify-between">
+                    <div className="flex items-center">
+                      <img src={Like} alt='like' />
+                      <img src={Comment} alt='comment' />
+                      <img src={Share} alt='share' />
+                    </div>
+                    <div className="flex items-center">
+                      <i class={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#688BFF", fontSize: "18px", cursor: "pointer" }}></i>
+                      <i class={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#688BFF", fontSize: "18px", cursor: "pointer" }}></i>
+                      <i class={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#D9D9D9", fontSize: "18px", cursor: "pointer" }}></i>
+                      <i class={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#D9D9D9", fontSize: "18px", cursor: "pointer" }}></i>
+                      <i class={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#D9D9D9", fontSize: "18px", cursor: "pointer" }}></i>
+                    </div>
+                  </div>
+                  <div className="flex mt-6 mb-4">
+                    <p className={`text-gray-400 text-s font-light leading-normal ${darkMode ? 'dark-text-white' : ''}`}>123 me gusta </p>
+                    <p className={`text-gray-400 text-s font-light leading-normal ml-3 ${darkMode ? 'dark-text-white' : ''}`}>44 comentarios </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="w-[66%] h-auto post-post">
+              {postes && postes.length > 0 && postes.map((post, index) => (
+                <div key={index} className={`bg-[#FFF] h-auto p-3 mt-1 ${darkMode ? 'dark-register-bg' : ''}`}>
+                  <div className="flex items-center mt-3">
+                    <img src={proSet} alt="Imagen" className="w-[35px] h-[35px] relative ml-1" />
+                    <p onClick={() => navigate(`/${post.User.name}`)} className={`cursor-pointer text-black text-base font-bold ml-3 ${darkMode ? 'dark-text-white' : ''}`}>
+                      {post.User.name} {post.User.last_name}
+                      <br />
+                      <span style={{ marginTop: '-7px' }} className={`flex text-center text-neutral-400 text-sm font-light ${darkMode ? 'dark-text-white' : ''}`}>
+                        {formatDate(post.createdAt)}
+                      </span>
+                    </p>
+                  </div>
+                  <p className={`prevent-word-break text-black text-sm font-normal leading-normal tracking-wide mt-2 ${darkMode ? 'dark-text-white' : ''}`}>
+                    {post.content}
+                  </p>
+                  {post.images && post.images.length > 0 && (
+                    <div className="flex w-[100%] items-center">
+                      {post.images.slice(0, 2).map((image, i) => (
+                        <img
+                          key={i}
+                          src={image}
+                          alt={`Post ${i}`}
+                          className="w-full h-auto mr-3 rounded-lg mt-2"
+                          style={{ width: '100%', height: 'auto' }}
+                        />
+                      ))}
+                    </div>
+                  )}
+                  <div className="flex items-center mt-7 ml-[1%]">
+                    <img src={Like} alt='like' style={{ height: '25px', width: '25px' }} className='mr-2' onClick={() => handleLike(post._id_review)} />
+                    <img src={Comment} alt='comment' style={{ height: '25px', width: '25px' }} className='mr-2' onClick={() => handleCommentClick(post._id_review)} />
+                    <img src={Share} alt='share' />
                   </div>
                   <div className="flex mt-4 mb-4">
                     <p className={`text-gray-400 text-s font-light leading-normal ${darkMode ? 'dark-text-white' : ''}`}>
-                      {post.is_liked ? post.likes + 1 : post.likes} me gusta
+                      {post.likes} me gusta
                     </p>
                     <p className={`ml-4 text-gray-400 text-s font-light leading-normal ${darkMode ? 'dark-text-white' : ''}`}>
                       {post.comments} comentarios
@@ -701,103 +584,14 @@ const Home = ({ setAuth }) => {
             </div>
           </div>
           <div className='w-[26%] translate-x-[283%] h-screen flex flex-col fixed bg-[#FFF] p-5'>
-            <div className='relative mb-[1%]'>
-              <h1 className='text-[22px] font-semibold mb-2'>Buscar</h1>
-              <span className='relative translate-y-[150%] left-0 pl-3 flex items-center'>
+            <div className='relative'>
+              <span className='absolute inset-y-0 left-0 pl-3 flex items-center'>
                 <i className='fas fa-search text-gray-700'></i>
               </span>
               <input
-                value={search}
-                className='h-[35px] absolute bg-zinc-500 bg-opacity-10 rounded-lg pl-10 p-2 inline-flex w-full focus:outline-none'
-                placeholder={`Buscar establecimiento`}
-                onChange={(e) => handleSearch(e.target.value)}
-                onClick={(e) => handleSearch(e.target.value)}
+                className='h-[35px] bg-zinc-500 bg-opacity-10 rounded-lg pl-10 p-2 inline-flex w-full focus:outline-none'
+                placeholder={`Buscar en ${business.name}`}
               />
-              <div className='mt-10'>
-                {recentSearches.map((term, index) => (
-                  <div key={index} className='flex cursor-pointer' onClick={() => handleRecentSearch(term)}>
-                    <p>{term}</p>
-                  </div>
-                ))}
-              </div>
-              <div className='mt-[0%]'>
-                {businesses.map((business) => (
-                  <div key={business._id_business}>
-                    <div onClick={() => handleBusinessClick(business)} className='flex cursor-pointer'>
-                      <h2 className='mr-3'>{business.name},</h2>
-                      <p>{business.city}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className='mt-[0%]'>
-                {searchUser.map((users) => (
-                  <div key={users._id_user}>
-                    <div onClick={() => handleUserClick(users)} className='flex cursor-pointer'>
-                      <h2 className='mr-3'>{users.name},</h2>
-                      <p>{users.role}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="flex ml-3 mt-4">
-              <button
-                className={`${activeTabView === 'parati' ? (darkMode ? 'active-parati' : '') : ''} mr-7`}
-                onClick={() => setActiveTabView('parati')}
-              >
-                <p
-                  className={`${darkMode ? 'dark-text-white' : ''} ${activeTabView === 'parati' ? 'font-bold' : 'font-bold text-opacity-60'
-                    } ml-1 mb-2`}
-                >
-                  Para ti
-                </p>
-                {activeTabView === 'parati' && (
-                  <div className="tab-indicator" />
-                )}
-              </button>
-              <button
-                className={`${activeTabView === 'tendencias' ? (darkMode ? 'active-tendencias' : '') : ''} mr-7`}
-                onClick={() => setActiveTabView('tendencias')}
-              >
-                <p
-                  className={`${darkMode ? 'dark-text-white' : ''} ${activeTabView === 'tendencias' ? 'font-bold' : 'font-bold text-opacity-60'
-                    } mb-2`}
-                >
-                  Tendencias
-                </p>
-                {activeTabView === 'tendencias' && (
-                  <div className="tab-indicator" />
-                )}
-              </button>
-              <button
-                className={`${activeTabView === 'noticias' ? (darkMode ? 'active-noticias' : '') : ''} mr-7`}
-                onClick={() => setActiveTabView('noticias')}
-              >
-                <p
-                  className={`${darkMode ? 'dark-text-white' : ''} ${activeTabView === 'noticias' ? 'font-bold' : 'font-bold text-opacity-60'
-                    } mb-2`}
-                >
-                  Noticias
-                </p>
-                {activeTabView === 'noticias' && (
-                  <div className="tab-indicator" />
-                )}
-              </button>
-              <button
-                className={activeTabView === 'empresas' ? (darkMode ? 'active-empresas' : '') : ''}
-                onClick={() => setActiveTabView('empresas')}
-              >
-                <p
-                  className={`${darkMode ? 'dark-text-white' : ''} ${activeTabView === 'empresas' ? 'font-bold' : 'font-bold text-opacity-60'
-                    } mb-2`}
-                >
-                  Empresas
-                </p>
-                {activeTabView === 'empresas' && (
-                  <div className="tab-indicator" />
-                )}
-              </button>
             </div>
           </div>
         </div>
@@ -813,4 +607,4 @@ const Home = ({ setAuth }) => {
   );
 };
 
-export default Home; 
+export default Profile_empresa; 
