@@ -26,7 +26,6 @@ const Profile_user = ({ setAuth }) => {
   //user variables
   const location = useLocation();
   const users = location.state ? location.state.users : null;
-  console.log(users);
 
 
   //post variables
@@ -157,7 +156,6 @@ const Profile_user = ({ setAuth }) => {
   
           const response = await fetch(`http://3.135.121.50:4000/users/reviews?_id_user=${users._id_user}`, requestOptions);
           const parseRes = await response.json();
-          console.log(parseRes);
   
           // Check if 'reviews' property exists before setting the state
           if (parseRes.reviews) {
@@ -212,8 +210,8 @@ const Profile_user = ({ setAuth }) => {
       try {
         const response = await fetch(`http://3.135.121.50:4000/users/?_id_user=${users._id_user}`, requestOptions);
         const parseRes = await response.json();
-        console.log(parseRes.user);
         setUserDetail(parseRes.user);
+        console.log(parseRes.user);
       } catch (err) {
         console.error(err.message);
       }
@@ -224,7 +222,7 @@ const Profile_user = ({ setAuth }) => {
 
   useEffect(() => {
     const getEditable = () => {
-      if (name === users.name) {
+      if (name.name == userDetail.name) {
         setEditable("true");
       } else {
         setEditable("false");
@@ -437,41 +435,41 @@ const Profile_user = ({ setAuth }) => {
                   <p className='text-[20px] font-bold'>{users.name}</p>
                 </div>
               </div>
-              <div className='flex'>
-                <div className='rounded-full w-[202px] h-[202px] bg-[#FFF] flex justify-center items-center absolute translate-y-[-59%] translate-x-[8%]'>
+              <div className='flex justify-between ml-4'>
+                <div className='rounded-full w-[202px] h-[202px] bg-[#FFF] flex justify-center items-center mt-[-13%]'>
                   <div className='rounded-full w-[196px] h-[196px] bg-[#D9D9D9]'></div>
                 </div>
-                <div className='opacity-30 flex ml-6 mt-6 translate-x-[150%]'>
-                  <i class="fa-regular fa-calendar mt-[4px] mr-1"></i>
-                  {userDetail && (
-                    <p>
-                      Se creó el {new Date(userDetail.createdAt).toLocaleDateString('es-MX', {
-                        day: 'numeric',
-                        month: 'long',
-                        year: 'numeric',
-                      })}
-                    </p>
-                  )}
-                </div>
-                <div className='mt-3 translate-x-[460%]'>
+                <div className='mt-3 flex mr-3'>
+                  <div className='opacity-30 flex mr-4 mt-4'>
+                    <i class="fa-regular fa-calendar mt-[4px] mr-1"></i>
+                    {userDetail && (
+                      <p>
+                        Se creó el {new Date(userDetail.createdAt).toLocaleDateString('es-MX', {
+                          day: 'numeric',
+                          month: 'long',
+                          year: 'numeric',
+                        })}
+                      </p>
+                    )}
+                  </div>
                   {editable === "true" ? (
                     <button className="w-[100px] relative translate-y-[14%] h-10 bg-neutral-100 rounded-[20px] flex justify-center items-center">
                       <p className='text-black text-[14px] font-bold leading-10'>Editar perfil</p>
                     </button>
                   ) : (
                     // Otro botón cuando no es editable
-                    <button className="w-[86px] relative translate-y-[14%] translate-x-[100%] h-10 px-4 bg-neutral-100 rounded-[20px] flex-col justify-center items-start gap-4">
+                    <button className="w-[86px] relative translate-y-[14%] h-10 px-4 bg-neutral-100 rounded-[20px] flex-col justify-center items-start gap-4">
                       <div className="text-black text-base font-semibold leading-10">Seguir</div>
                     </button>
                   )}
                 </div>
               </div>
-              <div className='p-4 mb-[9%] mt-7'>
+              <div className='p-4 mb-[4%] mt-0'>
                 <div className='flex mb-3'>
-                  <p className='mr-4'>Seguidores</p>
-                  <p>Reseñas</p>
+                  <p className='mr-4'><span className='mr-1 text-black font-bold'>{userDetail.followers}</span>Seguidores</p>
+                  <p><span className='mr-1 text-black font-bold'>{userDetail.followings}</span>Siguiendo</p>
                 </div>
-                <p>Siguen a este grupo</p>
+                <p className='mb-4'>Siguen a este grupo</p>
                 <div className="flex">
                   <button
                     className={`${activeTabView === 'reseñas' ? (darkMode ? 'active-reseñas' : '') : ''} mr-7`}
@@ -534,7 +532,7 @@ const Profile_user = ({ setAuth }) => {
             <div className="w-[66%] h-auto post-post">
               {postes.map((post, index) => (
                 <div key={index} className={`bg-[#FFF] h-auto w-[100%] p-3 mt-1 ${darkMode ? 'dark-register-bg' : ''}`}>
-                <button className='w-[102.8%] mt-[-18px] ml-[-13px] bg-[#F5F5F5] h-[50px]' onClick={() => handleBusinessClick(post.Business)}>
+                <button className='w-[102.8%] mt-[-18px] ml-[-13px] bg-[rgba(255, 255, 255, 0.5)] h-[50px]' onClick={() => handleBusinessClick(post.Business)}>
                   <div className='flex justify-between items-center'>
                     <p className='ml-4 text-black text-base font-bold'>{post.Business.name}</p>
                     <img src={paginaEmpre} alt='empresa' className='mr-5' />

@@ -284,7 +284,6 @@ const Home = ({ setAuth }) => {
       try {
         const response = await fetch("http://3.135.121.50:4000/business", requestOptions);
         const parseRes = await response.json();
-        console.log(parseRes);
       } catch (err) {
         console.error(err.message);
       }
@@ -470,198 +469,201 @@ const Home = ({ setAuth }) => {
           handleCreateBusiness={handleCreateBusiness}
         />
       )}
-      <div className={`bg-[#EEEFEF] h-auto ${darkMode ? 'dark-login-bg' : ''}`}>
-        <div className="contain-principal">
-          <div className='w-[20%] flex bg-[#FFF] h-screen fixed'>
-            <div className="w-[100%] mt-6 ml-[13%] sidebar1">
-              <div className='ml-[4%] mb-[8%]'>
-                <img src={logoN} alt="Logo" />
-              </div>
-              <div className={`margin-top ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
-                <button className={activeButton === 'home' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
-                  onClick={() => {
-                    setActiveButton('home');
-                    navigate("/home");
-                  }}>
-                  <p className="ml-4 text-[20px] p-txt"><i className="p-fa fa-solid fa-house mr-3"></i>Inicio</p>
-                </button>
-              </div>
-              <div className={`margin-top mt-6 ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
-                <button className={activeButton === 'noticias' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
-                  onClick={() => {
-                    setActiveButton('noticias');
-                    navigate("/noticias");
-                  }}>
-                  <p className="ml-4 text-[20px] p-txt"><i className="p-fa fa-solid fa-book-open mr-3"></i>Noticias</p>
-                </button>
-              </div>
-              <div className={`margin-top mt-6 ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
-                <button className={activeButton === 'search' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
-                  onClick={() => {
-                    setActiveButton('search');
-                    navigate("/search");
-                  }}>
-                  <p className="ml-4 text-[20px] p-txt"><i className="p-fa fa-solid fa-magnifying-glass mr-3"></i>Búsqueda</p>
-                </button>
-              </div>
-              <div className={`margin-top mt-6 ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
-                <button className={activeButton === 'notificaciones' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
-                  onClick={() => {
-                    setActiveButton('notificaciones');
-                    navigate("/notificaciones");
-                  }}>
-                  <p className="ml-4 text-[20px] p-txt"><i className="p-fa fa-regular fa-bell mr-3"></i>Notificaciones</p>
-                </button>
-              </div>
-              <div className={`margin-top mt-6 ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
-                <button className={activeButton === 'mensajes' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''} onClick={() => {
-                  setActiveButton('mensajes');
-                  navigate("/chats");
+      <div className={`bg-[#EEEFEF] w-screen h-auto flex${darkMode ? 'dark-login-bg' : ''}`}>
+        <div className='w-1/5 bg-[#FFF] fixed h-screen'>
+          <div className="w-[100%] mt-6 ml-[13%] sidebar1">
+            <div className='ml-[4%] mb-[8%]'>
+              <img src={logoN} alt="Logo" />
+            </div>
+            <div className={`margin-top ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
+              <button className={activeButton === 'home' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
+                onClick={() => {
+                  setActiveButton('home');
+                  navigate("/home");
                 }}>
-                  <p className="ml-4 text-[20px] p-txt"><i className="p-fa fa-solid fa-inbox mr-3"></i>Mensajes</p>
-                </button>
-              </div>
-              <div className="mt-6">
-                <button onClick={handlePostModal} className="rounded-[24px] h-[48px] w-[80%] flex items-center justify-center button-style">
-                  <p className="text-white font-bold">Publicar</p>
-                </button>
-              </div>
-              <div className="mt-[100%] ml-[-15px] flex">
-                <img src={proSet} alt="Imagen" className="cursor-pointer" onClick={() => handleUserClick(name)} />
-                <p className={`${darkMode ? 'dark-text-white' : ''} pl-[5%]`}>{name.name}</p>
-                <p className={`${darkMode ? 'dark-text-white' : ''} font-bold text-[20px] pl-[50%]`}>. . .</p>
-              </div>
+                <p className="ml-4 text-[20px] p-txt"><i className="p-fa fa-solid fa-house mr-3"></i>Inicio</p>
+              </button>
+            </div>
+            <div className={`margin-top mt-6 ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
+              <button className={activeButton === 'noticias' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
+                onClick={() => {
+                  setActiveButton('noticias');
+                  navigate("/noticias");
+                }}>
+                <p className="ml-4 text-[20px] p-txt"><i className="p-fa fa-solid fa-book-open mr-3"></i>Noticias</p>
+              </button>
+            </div>
+            <div className={`margin-top mt-6 ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
+              <button className={activeButton === 'search' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
+                onClick={() => {
+                  setActiveButton('search');
+                  navigate("/search");
+                }}>
+                <p className="ml-4 text-[20px] p-txt"><i className="p-fa fa-solid fa-magnifying-glass mr-3"></i>Búsqueda</p>
+              </button>
+            </div>
+            <div className={`margin-top mt-6 ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
+              <button className={activeButton === 'notificaciones' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
+                onClick={() => {
+                  setActiveButton('notificaciones');
+                  navigate("/notificaciones");
+                }}>
+                <p className="ml-4 text-[20px] p-txt"><i className="p-fa fa-regular fa-bell mr-3"></i>Notificaciones</p>
+              </button>
+            </div>
+            <div className={`margin-top mt-6 ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
+              <button className={activeButton === 'mensajes' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''} onClick={() => {
+                setActiveButton('mensajes');
+                navigate("/chats");
+              }}>
+                <p className="ml-4 text-[20px] p-txt"><i className="p-fa fa-solid fa-inbox mr-3"></i>Mensajes</p>
+              </button>
+            </div>
+            <div className="mt-6">
+              <button onClick={handlePostModal} className="rounded-[24px] h-[48px] w-[80%] flex items-center justify-center button-style">
+                <p className="text-white font-bold">Publicar</p>
+              </button>
+            </div>
+            <div className="mt-[100%] ml-[-15px] flex">
+              <img src={proSet} alt="Imagen" className="cursor-pointer" onClick={() => handleUserClick(name)} />
+              <p className={`${darkMode ? 'dark-text-white' : ''} pl-[5%]`}>{name.name}</p>
+              <p className={`${darkMode ? 'dark-text-white' : ''} font-bold text-[20px] pl-[50%]`}>. . .</p>
             </div>
           </div>
-          <div className="w-[80%] ml-[-13px] post-container">
-            <div className={`w-[66%] h-[260px] bg-[#FFF] ${darkMode ? 'dark-register-bg' : ''} create-post`}>
-              <div className="flex justify-between items-center p-1">
-                <div className="w-[100%] flex flex-col items-center pt-5">
-                  <input
-                    className={`input-style w-full h-[120px] rounded-lg bg-gray-50 p-4 ${darkMode ? 'dark-register' : ''}`}
-                    onChange={handleTextChange2}
-                    placeholder='Escribe algo..'
-                    value={textPost}
-                    style={{ paddingBottom: '90px' }}
-                  />
-                  <div className="opacity text-gray-500 text-sm mt-1 mr-[93%]">
-                    {textPost.length}/{maxLength}
-                  </div>
-                  <div className='flex mr-[93%]'>
-                    <label htmlFor="imageUpload">
-                      <input
-                        value={[]}
-                        id="imageUpload"
-                        type="file"
-                        accept="image/*"
-                        style={{ display: "none" }}
-                        onChange={(e) => {
-                          const files = e.target.files;
-                          const selected = Array.from(files);
-                          setSelectedImages(selected);
-                        }}
-                      />
-                      <img src={masimagen} alt='masimagen' className='cursor-pointer w-[28px]' />
-                    </label>
-                  </div>
-                  <div className="flex items-center mt-4 ml-[-1%]">
-                    <img src={mas} alt='mas' className='w-[38px] mr-6' onClick={() => setCompanyModalOpen(true)} />
-                    {/* <p className='opacity pr-[50px]'>Selecciona una entidad</p> */}
-                    <div onClick={handleSearchCompanyClick}>
-                      <CompanyAutocomplete
-                        suggestions={suggestions}
-                        setSelectedCompany={setSelectedCompany}
-                        companySearchQuery={companySearchQuery}
-                        setCompanySearchQuery={setCompanySearchQuery}
-                      />
-                    </div>
-                    <div className="flex items-center ml-[-1%]">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <i
-                          key={star}
-                          className={`fa-solid fa-star mr-2 ${star <= reviewRating ? 'dark-text-white' : ''
-                            }`}
-                          style={{
-                            color: star <= reviewRating ? '#688BFF' : '#D9D9D9',
-                            fontSize: '18px',
-                            cursor: 'pointer',
-                          }}
-                          onClick={() => handleRatingClick(star)}
-                        ></i>
-                      ))}
-                    </div>
-                    <div className="">
-                      <button style={{
-                        display: showPublishIcon ? 'none' : 'block', background: showPublishIcon
-                          ? 'linear-gradient(267deg, #8E1DA1 0%, #2D015A 100%)'
-                          : '#F8F8FB'
-                      }} className={`w-[48px] h-[48px] bg-[#F8F8FB] rounded-full ${darkMode ? 'dark-button' : ''}`}>
-                        <i className={`fa-solid fa-arrow-right mt-1 text-[#A9A9A9] text-[22px] ${darkMode ? 'dark-text' : ''}`} ></i></button>
-                    </div>
-                    <div className="">
-                      <button onClick={handleAddPost} style={{
-                        display: showPublishIcon ? 'block' : 'none', background: showPublishIcon
-                          ? 'linear-gradient(267deg, #8E1DA1 0%, #2D015A 100%)'
-                          : '#F8F8FB',
-                      }} className={`w-[48px] h-[48px] bg-[#F8F8FB] rounded-full ${darkMode ? 'dark-button' : ''}`}>
-                        <i className={`fa-solid fa-arrow-right mt-1 text-[#FFF] text-[22px] ${darkMode ? 'dark-text' : ''}`} ></i></button>
-                    </div>
-                  </div>
+        </div>
+        <div className='w-[55%] bg-[#EEEFEF] ml-[20%] pr-[0.5%]'>
+          <div className={`w-[100%] mb-[1px] h-[260px] bg-[#FFF] ${darkMode ? 'dark-register-bg' : ''} create-post`}>
+            <div className="justify-between items-center p-1">
+              <div className="w-[100%] flex flex-col items-center pt-5">
+                <input
+                  className={`input-style w-full h-[120px] rounded-lg bg-gray-50 p-4 ${darkMode ? 'dark-register' : ''}`}
+                  onChange={handleTextChange2}
+                  placeholder='Escribe algo..'
+                  value={textPost}
+                  style={{ paddingBottom: '90px' }}
+                />
+                <div className="opacity text-gray-500 text-sm mt-1 mr-[95%]">
+                  {textPost.length}/{maxLength}
                 </div>
               </div>
-            </div>
-            {/*
-              <div className="flex mt-4">
-                <button className={activeFeed === 'feed' ? (darkMode ? 'active-feed': '') : ''} onClick={() => setActiveFeed('feed')}>
-                  <p className={`${darkMode ? 'dark-text-white' : ''} ${activeFeed === 'feed' ? 'font-medium' : 'font-light text-opacity-60'} mr-6 ml-1`}>Feed</p>
-                </button>
-                <button className={activeFeed === 'latest' ? (darkMode ? 'active-feed': '') : ''} onClick={() => setActiveFeed('latest')}>
-                  <p className={`${darkMode ? 'dark-text-white' : ''} ${activeFeed === 'latest' ? 'font-medium' : 'font-light text-opacity-60'} mr-6`}>Latest</p>
-                </button>
-                <button className={activeFeed === 'top' ? (darkMode ? 'active-feed': '') : ''} onClick={() => setActiveFeed('top')}>
-                  <p className={`${darkMode ? 'dark-text-white' : ''} ${activeFeed === 'top' ? 'font-medium' : 'font-light text-opacity-60'}`}>Top</p>
-                </button>
+              <div className='flex ml-3'>
+                <label htmlFor="imageUpload">
+                  <input
+                    value={[]}
+                    id="imageUpload"
+                    type="file"
+                    accept="image/*"
+                    style={{ display: "none" }}
+                    onChange={(e) => {
+                      const files = e.target.files;
+                      const selected = Array.from(files);
+                      setSelectedImages(selected);
+                    }}
+                  />
+                  <img src={masimagen} alt='masimagen' className='cursor-pointer w-[28px]' />
+                </label>
               </div>
-            */}
-
-            <div className="w-[66%] h-auto post-post">
-              {postes.map((post, index) => (
-                <div key={index} className={`bg-[#FFF] h-auto w-[100%] p-3 mt-1 ${darkMode ? 'dark-register-bg' : ''}`}>
-                  <button className='w-[102.8%] mt-[-18px] ml-[-13px] bg-[#F5F5F5] h-[50px]' onClick={() => handleBusinessClick(post.Business)}>
-                    <div className='flex justify-between items-center'>
-                      <p className='ml-4 text-black text-base font-bold'>{post.Business.name}</p>
-                      <img src={paginaEmpre} alt='empresa' className='mr-5' />
-                    </div>
-                  </button>
-                  <div onClick={() => handleReview(post)}>
-                    <div className="flex items-center mt-3">
-                      <img src={proSet} alt="Imagen" className="w-[35px] h-[35px] relative ml-1" />
-                      <p onClick={() => navigate(`/${name}`)} className={`cursor-pointer text-black text-base font-bold ml-3 ${darkMode ? 'dark-text-white' : ''}`}>
-                        {post.User.name} {post.User.last_name}
-                        <br />
-                        <span style={{ marginTop: '-7px' }} className={`flex text-center text-neutral-400 text-sm font-light ${darkMode ? 'dark-text-white' : ''}`}>
-                          {formatDate(post.createdAt)}
-                        </span>
-                      </p>
-                    </div>
-                    <p className={`prevent-word-break text-black text-sm font-normal leading-normal tracking-wide mt-2 ${darkMode ? 'dark-text-white' : ''}`}>
-                      {post.content}
-                    </p>
-                    {post.images && post.images.length > 0 && (
-                      <div className="flex w-[100%] items-center">
-                        {post.images.slice(0, 2).map((image, i) => (
-                          <img
-                            key={i}
-                            src={image}
-                            alt={`Post ${i}`}
-                            className="w-full h-auto mr-3 rounded-lg mt-2"
-                            style={{ width: '100%', height: 'auto' }}
-                          />
-                        ))}
-                      </div>
-                    )}
+              <div className="flex items-center mt-4 ml-1 justify-between">
+                <div className='flex mb-2 mr-[56%]'>
+                  <img src={mas} alt='mas' className='w-[38px] mr-6' onClick={() => setCompanyModalOpen(true)} />
+                  {/* <p className='opacity pr-[50px]'>Selecciona una entidad</p> */}
+                  <div onClick={handleSearchCompanyClick}>
+                    <CompanyAutocomplete
+                      suggestions={suggestions}
+                      setSelectedCompany={setSelectedCompany}
+                      companySearchQuery={companySearchQuery}
+                      setCompanySearchQuery={setCompanySearchQuery}
+                    />
                   </div>
-                  <div className="flex items-center mt-7 ml-[1%]">
+                
+                  <div className="flex items-center ml-4">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <i
+                        key={star}
+                        className={`fa-solid fa-star mr-2 ${star <= reviewRating ? 'dark-text-white' : ''
+                          }`}
+                        style={{
+                          color: star <= reviewRating ? '#688BFF' : '#D9D9D9',
+                          fontSize: '18px',
+                          cursor: 'pointer',
+                        }}
+                        onClick={() => handleRatingClick(star)}
+                      ></i>
+                    ))}
+                  </div>
+                  </div>
+                  <div className="mt-[-1%] justify-end flex-end">
+                    <button style={{
+                      display: showPublishIcon ? 'none' : 'block', background: showPublishIcon
+                        ? 'linear-gradient(267deg, #8E1DA1 0%, #2D015A 100%)'
+                        : '#F8F8FB'
+                    }} className={`w-[48px] h-[48px] bg-[#F8F8FB] rounded-full ${darkMode ? 'dark-button' : ''}`}>
+                      <i className={`fa-solid fa-arrow-right mt-1 text-[#A9A9A9] text-[22px] ${darkMode ? 'dark-text' : ''}`} ></i></button>
+                  </div>
+                  <div className="mt-[-1%] justify-end flex-end">
+                    <button onClick={handleAddPost} style={{
+                      display: showPublishIcon ? 'block' : 'none', background: showPublishIcon
+                        ? 'linear-gradient(267deg, #8E1DA1 0%, #2D015A 100%)'
+                        : '#F8F8FB',
+                    }} className={`w-[48px] h-[48px] bg-[#F8F8FB] rounded-full ${darkMode ? 'dark-button' : ''}`}>
+                      <i className={`fa-solid fa-arrow-right mt-1 text-[#FFF] text-[22px] ${darkMode ? 'dark-text' : ''}`} ></i></button>
+                  </div>
+                </div>
+            </div>
+          </div>
+          {/*
+            <div className="flex mt-4">
+              <button className={activeFeed === 'feed' ? (darkMode ? 'active-feed': '') : ''} onClick={() => setActiveFeed('feed')}>
+                <p className={`${darkMode ? 'dark-text-white' : ''} ${activeFeed === 'feed' ? 'font-medium' : 'font-light text-opacity-60'} mr-6 ml-1`}>Feed</p>
+              </button>
+              <button className={activeFeed === 'latest' ? (darkMode ? 'active-feed': '') : ''} onClick={() => setActiveFeed('latest')}>
+                <p className={`${darkMode ? 'dark-text-white' : ''} ${activeFeed === 'latest' ? 'font-medium' : 'font-light text-opacity-60'} mr-6`}>Latest</p>
+              </button>
+              <button className={activeFeed === 'top' ? (darkMode ? 'active-feed': '') : ''} onClick={() => setActiveFeed('top')}>
+                <p className={`${darkMode ? 'dark-text-white' : ''} ${activeFeed === 'top' ? 'font-medium' : 'font-light text-opacity-60'}`}>Top</p>
+              </button>
+            </div>
+          */}
+
+          <div className="w-[100%] h-auto post-post">
+            {postes.map((post, index) => (
+              <div key={index} className={`bg-[#FFF] h-auto w-[100%] p-3 mt-[1px] ${darkMode ? 'dark-register-bg' : ''}`}>
+                <button className='w-[102.8%] mt-[-18px] ml-[-13px] bg-[rgba(255, 255, 255, 0.5)] h-[50px]' onClick={() => handleBusinessClick(post.Business)}>
+                  <div className='flex justify-between items-center'>
+                    <p className='ml-4 text-black text-base font-bold'>{post.Business.name}</p>
+                    <img src={paginaEmpre} alt='empresa' className='mr-5' />
+                  </div>
+                </button>
+                  <div className="flex items-center mt-3">
+                    <img src={proSet} alt="Imagen" className="w-[35px] h-[35px] relative ml-1" />
+                    <p onClick={() => handleUserClick(post.User)} className={`cursor-pointer text-black text-base font-bold ml-3 ${darkMode ? 'dark-text-white' : ''}`}>
+                      {post.User.name} {post.User.last_name}
+                      <br />
+                      <span style={{ marginTop: '-7px' }} className={`flex text-center text-neutral-400 text-sm font-light ${darkMode ? 'dark-text-white' : ''}`}>
+                        {formatDate(post.createdAt)}
+                      </span>
+                    </p>
+                  </div>
+                  <div className='cursor-pointer' onClick={() => handleReview(post)}>
+                  <p className={`prevent-word-break text-black text-sm font-normal leading-normal tracking-wide mt-2 ${darkMode ? 'dark-text-white' : ''}`}>
+                    {post.content}
+                  </p>
+                  {post.images && post.images.length > 0 && (
+                    <div className="flex w-[100%] items-center">
+                      {post.images.slice(0, 2).map((image, i) => (
+                        <img
+                          key={i}
+                          src={image}
+                          alt={`Post ${i}`}
+                          className="w-full h-auto mr-3 rounded-lg mt-2"
+                          style={{ width: '100%', height: 'auto' }}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <div className="flex items-center mt-7 ml-[1%] justify-between">
+                  <div className='flex items-center'>
                     <img
                       src={post.is_liked ? Liked : Like}
                       alt='like'
@@ -672,126 +674,133 @@ const Home = ({ setAuth }) => {
                     <img src={Comment} style={{ height: '25px', width: '25px' }} className='mr-2' onClick={() => handleCommentClick(post._id_review)} />
                     <img src={Share} alt='share' />
                   </div>
-                  <div className="flex mt-4 mb-4">
-                    <p className={`text-gray-400 text-s font-light leading-normal ${darkMode ? 'dark-text-white' : ''}`}>
-                      {post.is_liked ? post.likes + 1 : post.likes} me gusta
-                    </p>
-                    <p className={`ml-4 text-gray-400 text-s font-light leading-normal ${darkMode ? 'dark-text-white' : ''}`}>
-                      {post.comments} comentarios
-                    </p>
+                  <div className="flex items-center ml-[-1%]">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <i
+                        key={star}
+                        className={`fa-solid fa-star mr-2 ${star <= post.rating ? 'dark-text-white' : ''}`}
+                        style={{
+                          color: star <= post.rating ? '#688BFF' : '#D9D9D9',
+                          fontSize: '18px',
+                          cursor: 'pointer',
+                        }}
+                        onClick={() => handleRatingClick(star)}
+                      ></i>
+                    ))}
                   </div>
-                  {/*  AQUI VA EL INPUT PARA PROBAR COMENTARIO */}
+                </div>
+                <div className="flex mt-4 mb-4">
+                  <p className={`text-gray-400 text-s font-light leading-normal ${darkMode ? 'dark-text-white' : ''}`}>
+                    {post.is_liked ? post.likes + 1 : post.likes} me gusta
+                  </p>
+                  <p className={`ml-4 text-gray-400 text-s font-light leading-normal ${darkMode ? 'dark-text-white' : ''}`}>
+                    {post.comments} comentarios
+                  </p>
+                </div>
+                {/*  AQUI VA EL INPUT PARA PROBAR COMENTARIO */}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className='w-1/4 bg-[#FFF] h-screen fixed right-0 p-4'>
+          <div className='relative mb-[1%]'>
+            <h1 className='text-[22px] font-semibold mb-2'>Buscar</h1>
+            <span className='relative translate-y-[150%] left-0 pl-3 flex items-center'>
+              <i className='fas fa-search text-gray-700'></i>
+            </span>
+            <input
+              value={search}
+              className='h-[35px] absolute bg-zinc-500 bg-opacity-10 rounded-lg pl-10 p-2 inline-flex w-full focus:outline-none'
+              placeholder={`Buscar establecimiento`}
+              onChange={(e) => handleSearch(e.target.value)}
+              onClick={(e) => handleSearch(e.target.value)}
+            />
+            <div className='mt-10'>
+              {recentSearches.map((term, index) => (
+                <div key={index} className='flex cursor-pointer' onClick={() => handleRecentSearch(term)}>
+                  <p>{term}</p>
+                </div>
+              ))}
+            </div>
+            <div className='mt-[0%]'>
+              {businesses.map((business) => (
+                <div key={business._id_business}>
+                  <div onClick={() => handleBusinessClick(business)} className='flex cursor-pointer'>
+                    <h2 className='mr-3'>{business.name},</h2>
+                    <p>{business.city}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className='mt-[0%]'>
+              {searchUser.map((users) => (
+                <div key={users._id_user}>
+                  <div onClick={() => handleUserClick(users)} className='flex cursor-pointer'>
+                    <h2 className='mr-3'>{users.name},</h2>
+                    <p>{users.role}</p>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
-          <div className='w-[26%] translate-x-[283%] h-screen flex flex-col fixed bg-[#FFF] p-5'>
-            <div className='relative mb-[1%]'>
-              <h1 className='text-[22px] font-semibold mb-2'>Buscar</h1>
-              <span className='relative translate-y-[150%] left-0 pl-3 flex items-center'>
-                <i className='fas fa-search text-gray-700'></i>
-              </span>
-              <input
-                value={search}
-                className='h-[35px] absolute bg-zinc-500 bg-opacity-10 rounded-lg pl-10 p-2 inline-flex w-full focus:outline-none'
-                placeholder={`Buscar establecimiento`}
-                onChange={(e) => handleSearch(e.target.value)}
-                onClick={(e) => handleSearch(e.target.value)}
-              />
-              <div className='mt-10'>
-                {recentSearches.map((term, index) => (
-                  <div key={index} className='flex cursor-pointer' onClick={() => handleRecentSearch(term)}>
-                    <p>{term}</p>
-                  </div>
-                ))}
-              </div>
-              <div className='mt-[0%]'>
-                {businesses.map((business) => (
-                  <div key={business._id_business}>
-                    <div onClick={() => handleBusinessClick(business)} className='flex cursor-pointer'>
-                      <h2 className='mr-3'>{business.name},</h2>
-                      <p>{business.city}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className='mt-[0%]'>
-                {searchUser.map((users) => (
-                  <div key={users._id_user}>
-                    <div onClick={() => handleUserClick(users)} className='flex cursor-pointer'>
-                      <h2 className='mr-3'>{users.name},</h2>
-                      <p>{users.role}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="flex ml-3 mt-4">
-              <button
-                className={`${activeTabView === 'parati' ? (darkMode ? 'active-parati' : '') : ''} mr-7`}
-                onClick={() => setActiveTabView('parati')}
+          <div className="flex ml-3 mt-4">
+            <button
+              className={`${activeTabView === 'parati' ? (darkMode ? 'active-parati' : '') : ''} mr-7`}
+              onClick={() => setActiveTabView('parati')}
+            >
+              <p
+                className={`${darkMode ? 'dark-text-white' : ''} ${activeTabView === 'parati' ? 'font-bold' : 'font-bold text-opacity-60'
+                  } ml-1 mb-2`}
               >
-                <p
-                  className={`${darkMode ? 'dark-text-white' : ''} ${activeTabView === 'parati' ? 'font-bold' : 'font-bold text-opacity-60'
-                    } ml-1 mb-2`}
-                >
-                  Para ti
-                </p>
-                {activeTabView === 'parati' && (
-                  <div className="tab-indicator" />
-                )}
-              </button>
-              <button
-                className={`${activeTabView === 'tendencias' ? (darkMode ? 'active-tendencias' : '') : ''} mr-7`}
-                onClick={() => setActiveTabView('tendencias')}
+                Para ti
+              </p>
+              {activeTabView === 'parati' && (
+                <div className="tab-indicator" />
+              )}
+            </button>
+            <button
+              className={`${activeTabView === 'tendencias' ? (darkMode ? 'active-tendencias' : '') : ''} mr-7`}
+              onClick={() => setActiveTabView('tendencias')}
+            >
+              <p
+                className={`${darkMode ? 'dark-text-white' : ''} ${activeTabView === 'tendencias' ? 'font-bold' : 'font-bold text-opacity-60'
+                  } mb-2`}
               >
-                <p
-                  className={`${darkMode ? 'dark-text-white' : ''} ${activeTabView === 'tendencias' ? 'font-bold' : 'font-bold text-opacity-60'
-                    } mb-2`}
-                >
-                  Tendencias
-                </p>
-                {activeTabView === 'tendencias' && (
-                  <div className="tab-indicator" />
-                )}
-              </button>
-              <button
-                className={`${activeTabView === 'noticias' ? (darkMode ? 'active-noticias' : '') : ''} mr-7`}
-                onClick={() => setActiveTabView('noticias')}
+                Tendencias
+              </p>
+              {activeTabView === 'tendencias' && (
+                <div className="tab-indicator" />
+              )}
+            </button>
+            <button
+              className={`${activeTabView === 'noticias' ? (darkMode ? 'active-noticias' : '') : ''} mr-7`}
+              onClick={() => setActiveTabView('noticias')}
+            >
+              <p
+                className={`${darkMode ? 'dark-text-white' : ''} ${activeTabView === 'noticias' ? 'font-bold' : 'font-bold text-opacity-60'
+                  } mb-2`}
               >
-                <p
-                  className={`${darkMode ? 'dark-text-white' : ''} ${activeTabView === 'noticias' ? 'font-bold' : 'font-bold text-opacity-60'
-                    } mb-2`}
-                >
-                  Noticias
-                </p>
-                {activeTabView === 'noticias' && (
-                  <div className="tab-indicator" />
-                )}
-              </button>
-              <button
-                className={activeTabView === 'empresas' ? (darkMode ? 'active-empresas' : '') : ''}
-                onClick={() => setActiveTabView('empresas')}
+                Noticias
+              </p>
+              {activeTabView === 'noticias' && (
+                <div className="tab-indicator" />
+              )}
+            </button>
+            <button
+              className={activeTabView === 'empresas' ? (darkMode ? 'active-empresas' : '') : ''}
+              onClick={() => setActiveTabView('empresas')}
+            >
+              <p
+                className={`${darkMode ? 'dark-text-white' : ''} ${activeTabView === 'empresas' ? 'font-bold' : 'font-bold text-opacity-60'
+                  } mb-2`}
               >
-                <p
-                  className={`${darkMode ? 'dark-text-white' : ''} ${activeTabView === 'empresas' ? 'font-bold' : 'font-bold text-opacity-60'
-                    } mb-2`}
-                >
-                  Empresas
-                </p>
-                {activeTabView === 'empresas' && (
-                  <div className="tab-indicator" />
-                )}
-              </button>
-            </div>
+                Empresas
+              </p>
+              {activeTabView === 'empresas' && (
+                <div className="tab-indicator" />
+              )}
+            </button>
           </div>
-        </div>
-      </div>
-      <div className={`bg-[#FFF] w-[100%] h-[6%] flex bottombar ${darkMode ? 'dark-bg' : ''}`}>
-        <div className="flex justify-around items-center mt-3">
-          <i class={`fa-solid fa-house ${darkMode ? 'dark-text-white' : ''} text-[130%] iconeres`} onClick={() => navigate("/home")}></i>
-          <i class={`fa-solid fa-magnifying-glass ${darkMode ? 'dark-text-white' : ''} text-[130%] iconeres`} onClick={() => navigate("/search")}></i>
-          <i class={`fa-solid fa-message ${darkMode ? 'dark-text-white' : ''} text-[130%] iconeres`} onClick={() => navigate("/chats")}></i>
         </div>
       </div>
     </div>

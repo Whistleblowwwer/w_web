@@ -178,7 +178,6 @@ body {
 .post-container {
   display: flex;
   flex-direction: column;
-  transform: translateX(26%); 
 }
 
 .button-style{
@@ -188,7 +187,6 @@ body {
 .post-empresa{
   display: flex;
   flex-direction: column;
-  transform: translateX(-19%);
 }
 
 .opacity{

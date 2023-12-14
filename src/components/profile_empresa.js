@@ -127,8 +127,6 @@ const Profile_empresa = ({ setAuth }) => {
   
           const response = await fetch(`http://3.135.121.50:4000/reviews/business/?_id_business=${businessId}`, requestOptions);
           const parseRes = await response.json();
-          console.log(parseRes);
-          console.log(parseRes.reviews);
           setPostes(parseRes.reviews);
         } else {
           console.error("El objeto business no tiene la propiedad _id_business");
@@ -158,7 +156,7 @@ const Profile_empresa = ({ setAuth }) => {
           const response = await fetch(`http://3.135.121.50:4000/business/details/?_id_business=${businessId}`, requestOptions);
           const parseRes = await response.json();
           setBusinessDetails(parseRes.business);
-          console.log(parseRes.business);
+          console.log(businessDetails.followers);
         } else {
           console.error("El objeto business no tiene la propiedad _id_business");
         }
@@ -431,8 +429,8 @@ const Profile_empresa = ({ setAuth }) => {
                   </div>
                 </div>
                 <div className='flex mb-3'>
-                  <p className='mr-4'>Seguidores</p>
-                  <p>Reseñas</p>
+                  <p className='mr-4'><span className='mr-1 text-black font-bold'>{businessDetails.followers}</span>Seguidores</p>
+                  <p><span className='mr-1 text-black font-bold'>{postes.length}</span>Reseñas</p>
                 </div>
                 <p>Siguen a este grupo</p>
                 <div className="flex">
