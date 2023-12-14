@@ -451,9 +451,8 @@ const Review = ({ setAuth }) => {
           addComment={handleComment}
         />
       )}
-      <div className={`bg-[#EEEFEF] h-auto ${darkMode ? 'dark-login-bg' : ''}`}>
-        <div className="contain-principal">
-          <div className='w-[20%] flex bg-[#FFF] h-screen fixed'>
+      <div className={`bg-[#EEEFEF] h-auto w-screen flex ${darkMode ? 'dark-login-bg' : ''}`}>
+          <div className='w-1/5 bg-[#FFF] fixed h-screen'>
             <div className="w-[100%] mt-6 ml-[13%] sidebar1">
               <div className='ml-[4%] mb-[8%]'>
                 <img src={logoN} alt="Logo" className='cursor-pointer' 
@@ -517,15 +516,15 @@ const Review = ({ setAuth }) => {
               </div>
             </div>
           </div>
-          <div className="w-[80%] ml-[-13px] post-container">
-            <div className={`w-[66%] h-auto bg-[#FFF] ${darkMode ? 'dark-register-bg' : ''} create-post`}>
+          <div className='w-[55%] bg-[#EEEFEF] ml-[20%] pr-[0.5%]'>
+            <div className={`w-[100%] h-auto bg-[#FFF] ${darkMode ? 'dark-register-bg' : ''} create-post`}>
                 <div className="w-[100%] h-auto pb-3 pl-3 pt-1 pr-3">
                     <div className='flex mb-[2%]'>
                         <i class="fa-solid fa-arrow-left-long mt-2 mr-4 cursor-pointer" onClick={()=> navigate('/home')}></i>
                         <p className='text-[20px] font-bold'>Post</p>
                     </div>
                     <div>
-                        <button className='w-[102.8%] mt-[-18px] ml-[-13px] bg-[#F5F5F5] h-[50px]' onClick={() => handleBusinessClick(business)}>
+                        <button className='w-[100%] mt-[-18px] ml-[-13px] bg-[rgba(255, 255, 255, 0.5)] h-[50px]' onClick={() => handleBusinessClick(business)}>
                             <div className='flex justify-between items-center'>
                             <p className='ml-4 text-black text-base font-bold'>{business.name}</p>
                             <img src={paginaEmpre} alt='empresa' className='mr-5' />
@@ -583,7 +582,7 @@ const Review = ({ setAuth }) => {
                 </button>
               </div>
             */}
-            <div className='w-[66%] h-auto'>
+            <div className='w-[100%] h-auto'>
                 <input className='input-style w-full h-auto' placeholder='Escribe un comentario' onChange={handleTextChange2Come} value={textComment}></input>
                 <div className="bg-[#FFF]">
                     <button style={{
@@ -663,7 +662,7 @@ const Review = ({ setAuth }) => {
               ))}
             </div>
           </div>
-          <div className='w-[26%] translate-x-[283%] h-screen flex flex-col fixed bg-[#FFF] p-5'>
+          <div className='w-1/4 bg-[#FFF] h-screen fixed right-0 p-4'>
             <div className='relative mb-[1%]'>
               <h1 className='text-[22px] font-semibold mb-2'>Buscar</h1>
               <span className='relative translate-y-[150%] left-0 pl-3 flex items-center'>
@@ -763,7 +762,6 @@ const Review = ({ setAuth }) => {
               </button>
             </div>
           </div>
-        </div>
       </div>
       <div className={`bg-[#FFF] w-[100%] h-[6%] flex bottombar ${darkMode ? 'dark-bg' : ''}`}>
         <div className="flex justify-around items-center mt-3">

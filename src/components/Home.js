@@ -384,8 +384,6 @@ const Home = ({ setAuth }) => {
 
   }, []);
 
-
-
   const logout = (e) => {
     e.preventDefault();
     localStorage.removeItem("token");
@@ -661,42 +659,43 @@ const Home = ({ setAuth }) => {
                     </div>
                   )}
                 </div>
-                <div className="flex items-center mt-7 ml-[1%] justify-between">
-                  <div className='flex items-center'>
+                <div className="flex flex-col space-y-1">
+                  <div className="flex items-center gap-2 w-full">
                     <img
                       src={post.is_liked ? Liked : Like}
-                      alt='like'
-                      style={{ height: '25px', width: '25px' }}
-                      className='mr-2 relative'
+                      alt="like"
+                      className='relative'
+                      style={{
+                        height: "25px",
+                        width: "25px",
+                        cursor: "pointer",
+                      }}
                       onClick={() => handleLike(post._id_review)}
                     />
-                    <img src={Comment} style={{ height: '25px', width: '25px' }} className='mr-2' onClick={() => handleCommentClick(post._id_review)} />
-                    <img src={Share} alt='share' />
+                    <div
+                      className="bg-[#F5F5F5] px-6 py-3 rounded-full w-full cursor-pointer text-gray-400"
+                      onClick={() => handleCommentClick(post._id_review)}
+                    >
+                      Escribe una reseña
+                    </div>
                   </div>
-                  <div className="flex items-center ml-[-1%]">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <i
-                        key={star}
-                        className={`fa-solid fa-star mr-2 ${star <= post.rating ? 'dark-text-white' : ''}`}
-                        style={{
-                          color: star <= post.rating ? '#688BFF' : '#D9D9D9',
-                          fontSize: '18px',
-                          cursor: 'pointer',
-                        }}
-                        onClick={() => handleRatingClick(star)}
-                      ></i>
-                    ))}
+                  <div className="flex space-x-4">
+                    <p
+                      className={`text-gray-400 text-s font-light leading-normal ${
+                        darkMode ? "dark-text-white" : ""
+                      }`}
+                    >
+                      {post.is_liked ? post.likes + 1 : post.likes} me gusta
+                    </p>
+                    <p
+                      className={`text-gray-400 text-s font-light leading-normal ${
+                        darkMode ? "dark-text-white" : ""
+                      }`}
+                    >
+                      {post.comments} comentarios
+                    </p>
                   </div>
                 </div>
-                <div className="flex mt-4 mb-4">
-                  <p className={`text-gray-400 text-s font-light leading-normal ${darkMode ? 'dark-text-white' : ''}`}>
-                    {post.is_liked ? post.likes + 1 : post.likes} me gusta
-                  </p>
-                  <p className={`ml-4 text-gray-400 text-s font-light leading-normal ${darkMode ? 'dark-text-white' : ''}`}>
-                    {post.comments} comentarios
-                  </p>
-                </div>
-                {/*  AQUI VA EL INPUT PARA PROBAR COMENTARIO */}
               </div>
             ))}
           </div>
