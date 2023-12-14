@@ -300,6 +300,7 @@ const Home = ({ setAuth }) => {
           requestOptions
         );
         const parseRes = await response.json();
+        console.log(parseRes);
       } catch (err) {
         console.error(err.message);
       }
@@ -762,30 +763,18 @@ const Home = ({ setAuth }) => {
                     </div>
                   </div>
                 </div>
+              </div>
             </div>
-          </div>
-          {/*
-            <div className="flex mt-4">
-              <button className={activeFeed === 'feed' ? (darkMode ? 'active-feed': '') : ''} onClick={() => setActiveFeed('feed')}>
-                <p className={`${darkMode ? 'dark-text-white' : ''} ${activeFeed === 'feed' ? 'font-medium' : 'font-light text-opacity-60'} mr-6 ml-1`}>Feed</p>
-              </button>
-              <button className={activeFeed === 'latest' ? (darkMode ? 'active-feed': '') : ''} onClick={() => setActiveFeed('latest')}>
-                <p className={`${darkMode ? 'dark-text-white' : ''} ${activeFeed === 'latest' ? 'font-medium' : 'font-light text-opacity-60'} mr-6`}>Latest</p>
-              </button>
-              <button className={activeFeed === 'top' ? (darkMode ? 'active-feed': '') : ''} onClick={() => setActiveFeed('top')}>
-                <p className={`${darkMode ? 'dark-text-white' : ''} ${activeFeed === 'top' ? 'font-medium' : 'font-light text-opacity-60'}`}>Top</p>
-              </button>
-            </div>
-          */}
-
-          <div className="w-[100%] h-auto post-post">
-            {postes.map((post, index) => (
-              <div key={index} className={`bg-[#FFF] h-auto w-[100%] p-3 mt-[1px] ${darkMode ? 'dark-register-bg' : ''}`}>
-                <button className='w-[102.8%] mt-[-18px] ml-[-13px] bg-[rgba(255, 255, 255, 0.5)] h-[50px]' onClick={() => handleBusinessClick(post.Business)}>
-                  <div className='flex justify-between items-center'>
-                    <p className='ml-4 text-black text-base font-bold'>{post.Business.name}</p>
-                    <img src={paginaEmpre} alt='empresa' className='mr-5' />
-                  </div>
+            {/*
+              <div className="flex mt-4">
+                <button className={activeFeed === 'feed' ? (darkMode ? 'active-feed': '') : ''} onClick={() => setActiveFeed('feed')}>
+                  <p className={`${darkMode ? 'dark-text-white' : ''} ${activeFeed === 'feed' ? 'font-medium' : 'font-light text-opacity-60'} mr-6 ml-1`}>Feed</p>
+                </button>
+                <button className={activeFeed === 'latest' ? (darkMode ? 'active-feed': '') : ''} onClick={() => setActiveFeed('latest')}>
+                  <p className={`${darkMode ? 'dark-text-white' : ''} ${activeFeed === 'latest' ? 'font-medium' : 'font-light text-opacity-60'} mr-6`}>Latest</p>
+                </button>
+                <button className={activeFeed === 'top' ? (darkMode ? 'active-feed': '') : ''} onClick={() => setActiveFeed('top')}>
+                  <p className={`${darkMode ? 'dark-text-white' : ''} ${activeFeed === 'top' ? 'font-medium' : 'font-light text-opacity-60'}`}>Top</p>
                 </button>
               </div>
             */}
@@ -952,8 +941,8 @@ const Home = ({ setAuth }) => {
                       <p>{users.role}</p>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
             <div className="flex ml-3 mt-4">
               <button
