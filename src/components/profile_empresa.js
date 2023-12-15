@@ -380,7 +380,7 @@ const Profile_empresa = ({ setAuth }) => {
               </button>
             </div>
             <div className="mt-[100%] ml-[-15px] flex">
-              <img src={proSet} alt="Imagen" className="cursor-pointer" />
+              <img src={proSet} alt="Imagen" className="cursor-pointer w-[10%] h-[10%]" />
               <p className={`${darkMode ? 'dark-text-white' : ''} pl-[5%]`}>{name}</p>
               <p className={`${darkMode ? 'dark-text-white' : ''} font-bold text-[20px] pl-[50%]`}>. . .</p>
             </div>

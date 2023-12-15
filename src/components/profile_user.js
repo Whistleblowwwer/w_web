@@ -10,6 +10,7 @@ import Share from '../assets/Send.svg';
 import { useNavigate, useLocation, Navigate, useParams } from 'react-router-dom';
 import NewPostModal from '../auxComponents/NewPostModal';
 import NewCommentModal from '../auxComponents/NewCommentModal';
+import UpdateProfileModal from '../auxComponents/UpdateProfileModal';
 import { differenceInMilliseconds, differenceInHours, differenceInDays, differenceInMonths, format, parseISO } from 'date-fns';
 
 const Profile_user = ({ setAuth }) => {
@@ -26,6 +27,16 @@ const Profile_user = ({ setAuth }) => {
   //user variables
   const location = useLocation();
   const users = location.state ? location.state.users : null;
+  const [updateModalOpen, setUpdateModalOpen] = useState(false);
+  const [profileForm, setProfileForm] = useState({
+    name: "",
+    address: "",
+    entity: "",
+    country: "",
+    state: "",
+    city: "",
+    category: "",
+  });
 
 
   //post variables
@@ -125,6 +136,54 @@ const Profile_user = ({ setAuth }) => {
     }
   };
 
+  const handleUpdateProfile = (e) => {
+    e.preventDefault();
+    console.log("Datos del formulario:", profileForm);
+    setUpdateModalOpen(false);
+  };
+
+  const handleChangeUpdateProfile = (e) => {
+    console.log("re-remder here!");
+
+    const { name, value } = e.target;
+    setProfileForm((prevFormulario) => ({
+      ...prevFormulario,
+      [name]: value,
+    }));
+  };
+
+  const handleNewUpdateModal = () => {
+    setUpdateModalOpen(!updateModalOpen);
+  };
+
+  const handleCreateUpdateProfile = () => {
+    async function updateProfile() {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: JSON.stringify(profileForm),
+        redirect: "follow",
+      };
+
+      try {
+        const response = await fetch(
+          `http://3.135.121.50:4000/users?_id_user=${users._id_user}`,
+          requestOptions
+        );
+        const parseRes = await response.json();
+        console.log(parseRes);
+      } catch (err) {
+        console.error(err.message);
+      }
+    }
+    setUpdateModalOpen(!updateModalOpen);
+    updateProfile();
+  };
+
   const handleBusinessClick = async (business) => {
     const newRecentSearches = [search, ...recentSearches.slice(0, 3)]; // Guardar los últimos 4 términos
     setRecentSearches(newRecentSearches);
@@ -185,7 +244,10 @@ const Profile_user = ({ setAuth }) => {
       };
 
       try {
-        const response = await fetch("http://3.135.121.50:4000/users", requestOptions);
+        const response = await fetch(
+          "http://3.135.121.50:4000/users",
+          requestOptions
+        );
         const parseRes = await response.json();
         setName(parseRes.user);
       } catch (err) {
@@ -193,7 +255,6 @@ const Profile_user = ({ setAuth }) => {
       }
     }
     getName();
-
   }, []);
 
   useEffect(() => {
@@ -361,6 +422,22 @@ const Profile_user = ({ setAuth }) => {
           addComment={handleComment}
         />
       )}
+      {updateModalOpen && (
+        <UpdateProfileModal
+        handleNewUpdateModal={handleNewUpdateModal}
+        handleSubmit={handleUpdateProfile}
+        handleChange={handleChangeUpdateProfile}
+        darkMode={darkMode}
+        name={profileForm.name}
+        last_name={profileForm.last_name}
+        phoneNumber={profileForm.phoneNumber}
+        email={profileForm.email}
+        nick_mame={profileForm.nick_mame}
+        city={profileForm.city}
+        category={profileForm.category}
+        handleCreateBusiness={handleCreateUpdateProfile}
+        />
+      )}
       <div className={`bg-[#EEEFEF] w-screen h-auto flex ${darkMode ? 'dark-login-bg' : ''}`}>
         <div className='w-1/5 bg-[#FFF] fixed h-screen'>
           <div className="w-[100%] mt-6 ml-[13%] sidebar1">
@@ -420,7 +497,7 @@ const Profile_user = ({ setAuth }) => {
               </button>
             </div>
             <div className="mt-[100%] ml-[-15px] flex">
-              <img src={proSet} alt="Imagen" className="cursor-pointer" onClick={() => handleUserClick(name)} />
+              <img src={proSet} alt="Imagen" className="cursor-pointer w-[10%] h-[10%]" onClick={() => handleUserClick(name)} />
               <p className={`${darkMode ? 'dark-text-white' : ''} pl-[5%]`}>{name.name}</p>
               <p className={`${darkMode ? 'dark-text-white' : ''} font-bold text-[20px] pl-[50%]`}>. . .</p>
             </div>
@@ -452,7 +529,7 @@ const Profile_user = ({ setAuth }) => {
                   )}
                 </div>
                 {editable === "true" ? (
-                  <button className="w-[100px] relative translate-y-[14%] h-10 bg-neutral-100 rounded-[20px] flex justify-center items-center">
+                  <button onClick={() => setUpdateModalOpen(true)} className="w-[100px] relative translate-y-[14%] h-10 bg-neutral-100 rounded-[20px] flex justify-center items-center">
                     <p className='text-black text-[14px] font-bold leading-10'>Editar perfil</p>
                   </button>
                 ) : (

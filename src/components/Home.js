@@ -176,6 +176,41 @@ const Home = ({ setAuth }) => {
     getSearchs();
   };
 
+  useEffect(() => {
+    async function verifyToken() {
+      const myHeaders = new Headers();
+      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
+      };
+  
+      try {
+        const response = await fetch(
+          "http://3.135.121.50:4000/users/token",
+          requestOptions
+        );
+        const parseRes = await response.json();
+        console.log(parseRes);
+  
+        if (!parseRes.success && parseRes.message === "Invalid token") {
+          // Borra los elementos del localStorage
+          localStorage.removeItem("client_password");
+          localStorage.removeItem("recentSearches");
+          localStorage.removeItem("client_email");
+          localStorage.removeItem("token");
+          setAuth(false);
+        }
+  
+      } catch (err) {
+        console.error(err.message);
+      }
+    }
+  
+    verifyToken();
+  }, []);
+
   const handleAddPost = async () => {
     if (textPost && selectedImages.length > 0) {
       const newPost = {
@@ -657,7 +692,7 @@ const Home = ({ setAuth }) => {
               <img
                 src={proSet}
                 alt="Imagen"
-                className="cursor-pointer"
+                className="cursor-pointer w-[10%] h-[10%]"
                 onClick={() => handleUserClick(name)}
               />
               <p className={`${darkMode ? "dark-text-white" : ""} pl-[5%]`}>
@@ -719,9 +754,7 @@ const Home = ({ setAuth }) => {
                           setCompanySearchQuery={setCompanySearchQuery}
                         />
                       </div>
-                    </div>
-                    <div className="flex flex-row w-full lg:w-1/2 justify-between">
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center relative gap-2">
                         {[1, 2, 3, 4, 5].map((star) => (
                           <i
                             key={star}
@@ -738,6 +771,8 @@ const Home = ({ setAuth }) => {
                           ></i>
                         ))}
                       </div>
+                    </div>
+                    <div className="flex flex-row w-full lg:w-1/2">
                       <button
                         style={{
                           display: showPublishIcon ? "none" : "block",
@@ -907,7 +942,7 @@ const Home = ({ setAuth }) => {
           </div>
         </div>
         <div className="w-1/4 bg-[#FFF] h-screen fixed right-0 p-4">
-          <div className="relative mb-[1%]">
+          <div className="relative mb-[1%] w-full">
             <h1 className="text-[22px] font-semibold mb-2">Buscar</h1>
             <span className="relative translate-y-[150%] left-0 pl-3 flex items-center">
               <i className="fas fa-search text-gray-700"></i>
@@ -919,45 +954,47 @@ const Home = ({ setAuth }) => {
               onChange={(e) => handleSearch(e.target.value)}
               onClick={(e) => handleSearch(e.target.value)}
             />
-            <div className="mt-10">
-              {recentSearches.map((term, index) => (
-                <div
-                  key={index}
-                  className="flex cursor-pointer"
-                  onClick={() => handleRecentSearch(term)}
-                >
-                  <p>{term}</p>
-                </div>
-              ))}
-            </div>
-            <div className="mt-[0%]">
-              {businesses.map((business) => (
-                <div key={business._id_business}>
+            <div className="overflow-y-auto max-h-[300px] mt-10">
+              <div className="mt-10">
+                {recentSearches.map((term, index) => (
                   <div
-                    onClick={() => handleBusinessClick(business)}
+                    key={index}
                     className="flex cursor-pointer"
+                    onClick={() => handleRecentSearch(term)}
                   >
-                    <h2 className="mr-3">{business.name},</h2>
-                    <p>{business.city}</p>
+                    <p>{term}</p>
                   </div>
-                </div>
-              ))}
-            </div>
-            <div className="mt-[0%]">
-              {searchUser.map((users) => (
-                <div key={users._id_user}>
-                  <div
-                    onClick={() => handleUserClick(users)}
-                    className="flex cursor-pointer"
-                  >
-                    <h2 className="mr-3">{users.name},</h2>
-                    <p>{users.role}</p>
+                ))}
+              </div>
+              <div className="mt-[0%]">
+                {businesses.map((business) => (
+                  <div key={business._id_business}>
+                    <div
+                      onClick={() => handleBusinessClick(business)}
+                      className="flex cursor-pointer"
+                    >
+                      <h2 className="mr-3">{business.name},</h2>
+                      <p>{business.city}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+              <div className="mt-[0%]">
+                {searchUser.map((users) => (
+                  <div key={users._id_user}>
+                    <div
+                      onClick={() => handleUserClick(users)}
+                      className="flex cursor-pointer"
+                    >
+                      <h2 className="mr-3">{users.name},</h2>
+                      <p>{users.role}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-          <div className="flex ml-3 mt-4">
+          <div className="flex flex-wrap ml-0 mt-4 w-full absolute">
             <button
               className={`${
                 activeTabView === "parati"
@@ -965,7 +1002,7 @@ const Home = ({ setAuth }) => {
                     ? "active-parati"
                     : ""
                   : ""
-              } mr-7`}
+              } flex-grow mr-0 mb-2`}
               onClick={() => setActiveTabView("parati")}
             >
               <p
@@ -973,7 +1010,7 @@ const Home = ({ setAuth }) => {
                   activeTabView === "parati"
                     ? "font-bold"
                     : "font-bold text-opacity-60"
-                } ml-1 mb-2`}
+                } ml-0 mb-2`}
               >
                 Para ti
               </p>
@@ -986,7 +1023,7 @@ const Home = ({ setAuth }) => {
                     ? "active-tendencias"
                     : ""
                   : ""
-              } mr-7`}
+              } flex-grow mr-0 mb-2`}
               onClick={() => setActiveTabView("tendencias")}
             >
               <p
@@ -1009,7 +1046,7 @@ const Home = ({ setAuth }) => {
                     ? "active-noticias"
                     : ""
                   : ""
-              } mr-7`}
+              } flex-grow mr-0 mb-2`}
               onClick={() => setActiveTabView("noticias")}
             >
               <p
@@ -1026,13 +1063,13 @@ const Home = ({ setAuth }) => {
               )}
             </button>
             <button
-              className={
+              className={`${
                 activeTabView === "empresas"
                   ? darkMode
                     ? "active-empresas"
                     : ""
                   : ""
-              }
+                } flex-grow mr-2 mb-2 `}
               onClick={() => setActiveTabView("empresas")}
             >
               <p

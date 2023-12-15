@@ -510,7 +510,7 @@ const Review = ({ setAuth }) => {
                 </button>
               </div>
               <div className="mt-[100%] ml-[-15px] flex">
-                <img src={proSet} alt="Imagen" className="cursor-pointer" onClick={() => handleUserClick(name)} />
+                <img src={proSet} alt="Imagen" className="cursor-pointer w-[10%] h-[10%]" onClick={() => handleUserClick(name)} />
                 <p className={`${darkMode ? 'dark-text-white' : ''} pl-[5%]`}>{name.name}</p>
                 <p className={`${darkMode ? 'dark-text-white' : ''} font-bold text-[20px] pl-[50%]`}>. . .</p>
               </div>
