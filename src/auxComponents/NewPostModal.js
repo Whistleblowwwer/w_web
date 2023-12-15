@@ -1,6 +1,7 @@
 import React from "react";
 import mas from "../assets/Group 99.svg";
 import CompanyAutocomplete from "./CompanyAutocomplete";
+import AddFiles from "./AddFiles";
 
 function NewPostModal(props) {
   return (
@@ -64,7 +65,7 @@ function NewPostModal(props) {
               />
               <div
                 onClick={props.handleSearchCompanyClick}
-                className="sm:w-auto w-full"
+                className="relative w-full"
               >
                 <CompanyAutocomplete
                   suggestions={props.suggestions}
@@ -92,44 +93,15 @@ function NewPostModal(props) {
             </div>
           </div>
 
-          <div className="flex items-center justify-between w-full mt-5">
-            <div className="flex gap-5 w-full h-auto">
-              <label
-                htmlFor="imageUpload"
-                className={`fa-regular fa-3x fa-image ${
-                  props.darkMode ? "dark-text-white" : ""
-                }`}
-                style={{ fontSize: "18px", cursor: "pointer" }}
-              >
-                <input
-                  id="imageUpload"
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  style={{ display: "none" }}
-                  onChange={(e) => {
-                    const files = e.target.files;
-                    const selected = Array.from(files);
-                    props.setSelectedImages(selected);
-                  }}
-                />
-              </label>
-              <i
-                className={`fa-solid fa-link ${
-                  props.darkMode ? "dark-text-white" : ""
-                }`}
-                style={{ fontSize: "16px" }}
-              ></i>
-              <i
-                className={`fa-solid fa-bolt ${
-                  props.darkMode ? "dark-text-white" : ""
-                }`}
-                style={{ fontSize: "16px" }}
-              ></i>
-            </div>
+          <div className="flex flex-col sm:flex-row items-center justify-between w-full mt-5">
+            <AddFiles
+              darkMode={props.darkMode}
+              selectedFiles={props.selectedImages}
+              setSelectedFiles={props.setSelectedImages}
+            />
             <button
               onClick={props.addPost}
-              className={` bg-neutral-900 rounded-[20.50px] border px-4 py-2 ${
+              className={` bg-neutral-900 rounded-[20.50px] border px-4 py-2 sm:mt-0 mt-5 ${
                 props.darkMode ? "dark-button" : ""
               }`}
             >

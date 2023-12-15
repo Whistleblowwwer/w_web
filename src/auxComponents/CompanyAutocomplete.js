@@ -32,7 +32,7 @@ function CompanyAutocomplete(props) {
   };
 
   return (
-    <div className="relative">
+    <div className="absolute w-full">
       <input
         type="text"
         value={props.companySearchQuery}

@@ -1,4 +1,4 @@
-export const renderStars = (rating, darkMode, isSelectable) => {
+const renderStars = (rating, darkMode, isSelectable) => {
   const stars = [];
   for (let i = 1; i <= 5; i++) {
     let starColor = "#D9D9D9";
@@ -38,3 +38,5 @@ export const renderStars = (rating, darkMode, isSelectable) => {
   }
   return stars;
 };
+
+export default renderStars;
