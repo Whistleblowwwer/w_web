@@ -484,6 +484,7 @@ const Home = ({ setAuth }) => {
           handleRatingClick={handleRatingClick}
           reviewRating={reviewRating}
           handleSearchCompanyClick={handleSearchCompanyClick}
+          setCompanyModalOpen={() => setCompanyModalOpen(true)}
         />
       )}
       {commentModalOpen && (

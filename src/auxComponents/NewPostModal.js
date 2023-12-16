@@ -61,7 +61,7 @@ function NewPostModal(props) {
                 src={mas}
                 alt="mas"
                 className="w-[38px]"
-                onClick={() => props.setCompanyModalOpen(true)}
+                onClick={props.setCompanyModalOpen}
               />
               <div
                 onClick={props.handleSearchCompanyClick}
