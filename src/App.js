@@ -1,20 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-import Begin from './components/Begin';
-import Login from './components/Login';
-import Register from './components/Register';
-import Home from './components/Home';
-import Search from './components/Search';
-import Chats from './components/Chats';
-import Review from './components/Review';
-import Profile from './components/Profile';
-import Profile_empresa from './components/Profile_empresa';
-import Profile_user from './components/Profile_user';
-import Settings from './components/Settings';
-import Admin from './components/Admin';
+import Begin from "./components/Begin";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import Home from "./components/Home";
+import Search from "./components/Search";
+import Chats from "./components/Chats";
+import Review from "./components/Review";
+import Profile from "./components/Profile";
+import Profile_empresa from "./components/Profile_empresa";
+import Profile_user from "./components/Profile_user";
+import Settings from "./components/Settings";
+import Admin from "./components/Admin";
 
-
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -25,12 +29,15 @@ function App() {
 
   async function isAuth() {
     try {
-      const body = { client_email: localStorage.client_email, client_password: localStorage.client_password };
+      const body = {
+        client_email: localStorage.client_email,
+        client_password: localStorage.client_password,
+      };
       const response = await fetch("http://3.135.121.50:4000/users/login", {
         method: "POST",
-        mode: 'cors',
+        mode: "cors",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body)
+        body: JSON.stringify(body),
       });
 
       const parseRes = await response.json();
@@ -45,14 +52,41 @@ function App() {
   });
 
   return (
-    <div className="container">
+    <>
       <Router>
         <Routes>
           <Route path="/" element={<Begin />} />
           <Route path="/admin" element={<Admin />} />
-          <Route path="/login" element={!isAuthenticated ? <Login setAuth={setAuth} /> : <Navigate to="/home" />} />
-          <Route path="/register" element={!isAuthenticated ? <Register setAuth={setAuth} /> : <Navigate to="/login" />} />
-          <Route path="/home" element={isAuthenticated ? <Home setAuth={setAuth} /> : <Navigate to="/login" />} />
+          <Route
+            path="/login"
+            element={
+              !isAuthenticated ? (
+                <Login setAuth={setAuth} />
+              ) : (
+                <Navigate to="/home" />
+              )
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              !isAuthenticated ? (
+                <Register setAuth={setAuth} />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          <Route
+            path="/home"
+            element={
+              isAuthenticated ? (
+                <Home setAuth={setAuth} />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
           <Route path="/review/:review" element={<Review />} />
           <Route path="/search" element={<Search />} />
           <Route path="/chats" element={<Chats />} />
@@ -62,7 +96,7 @@ function App() {
           <Route path="/settings" element={<Settings />} />
         </Routes>
       </Router>
-    </div>
+    </>
   );
 }
 
