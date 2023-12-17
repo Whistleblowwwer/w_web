@@ -58,6 +58,7 @@ export default function Home({ setAuth, darkMode, FunctionContext }) {
     }
 
     verifyToken();
+    window.location.reload();
   }, [setAuth]);
 
   const logout = (e) => {

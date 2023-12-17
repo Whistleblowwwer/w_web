@@ -445,7 +445,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
           darkMode={darkMode}
           handlePostModal={handlePostModal}
           handleUserClick={() => handleUserClick(name)}
-          username={name.name}
+          username={name?.name}
         />
       )}
       {postModalOpen && (
