@@ -1,4 +1,4 @@
-import React from "react";
+import proSet from "../assets/Image-40.png";
 
 function NewCommentModal(props) {
   return (
@@ -22,7 +22,7 @@ function NewCommentModal(props) {
           </div>
 
           <div className="flex items-center gap-2">
-            <img src={props.proSet} alt="logo" />
+            <img src={proSet} alt="logo" />
             <p
               className={`text-neutral-900 text-base font-bold ${
                 props.darkMode ? "dark-text-white" : ""

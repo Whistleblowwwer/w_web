@@ -1,4 +1,3 @@
-import React from "react";
 import { formatDate, renderStars } from "../utils";
 import proSet from "../assets/Image-40.png";
 import paginaEmpre from "../assets/CTA.svg";
@@ -13,6 +12,8 @@ const PostCard = ({
   handleReview,
   handleLike,
   handleCommentClick,
+  isUserProfile,
+  isBusiness,
 }) => {
   return (
     <div
@@ -20,18 +21,22 @@ const PostCard = ({
         darkMode ? "dark-register-bg" : ""
       }`}
     >
-      <button
-        className="bg-[rgba(255, 255, 255, 0.5)] flex justify-between items-center"
-        onClick={() => handleBusinessClick(post.Business)}
-      >
-        <p className="text-black text-base font-bold">{post.Business.name}</p>
-        <img src={paginaEmpre} alt="empresa" />
-      </button>
+      {!isBusiness && (
+        <button
+          className="bg-[rgba(255, 255, 255, 0.5)] flex justify-between items-center"
+          onClick={() => handleBusinessClick(post.Business)}
+        >
+          <p className="text-black text-base font-bold">{post.Business.name}</p>
+          <img src={paginaEmpre} alt="empresa" />
+        </button>
+      )}
 
       <div className="flex flex-col gap-2">
         <div
-          className="flex items-center cursor-pointer max-w-fit"
-          onClick={() => handleUserClick(post.User)}
+          className={`flex items-center max-w-fit ${
+            !isUserProfile && "cursor-pointer"
+          }`}
+          onClick={() => (isUserProfile ? {} : handleUserClick(post.User))}
         >
           <img
             src={proSet}

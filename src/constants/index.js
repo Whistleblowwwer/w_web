@@ -26,3 +26,9 @@ export const BOTTOM_NAVBAR_LINKS = [
   { href: "/search", key: "search", icon: "fa-magnifying-glass" },
   { href: "/chats", key: "chats", icon: "fa-message" },
 ];
+
+export const USER_PROFILE_TABS = [
+  { tabName: "reseñas", key: "res", active: "active-reseñas" },
+  { tabName: "destacados", key: "dest", active: "active-destacados" },
+  { tabName: "multimedia", key: "multi", active: "active-multimedia" },
+];

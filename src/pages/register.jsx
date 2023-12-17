@@ -1,20 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { Toaster, toast } from 'react-hot-toast';
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { Toaster, toast } from "react-hot-toast";
 
-
-const Register = ({ setAuth }) => {
-
+export default function Register({ setAuth }) {
   const location = useLocation();
   const darkMode = location.state?.darkMode || false;
 
   useEffect(() => {
     // Agregar una clase al cuerpo al montar el componente
-    document.body.classList.add('register-page');
+    document.body.classList.add("register-page");
 
     // Limpiar la clase al desmontar el componente para evitar fugas de memoria
     return () => {
-      document.body.classList.remove('register-page');
+      document.body.classList.remove("register-page");
     };
   }, []);
 
@@ -31,67 +29,87 @@ const Register = ({ setAuth }) => {
     role: "consumer",
   });
 
-  const { name, last_name, email, phone_number, birth_date, gender, password, role } = inputs;
+  const {
+    name,
+    last_name,
+    email,
+    phone_number,
+    birth_date,
+    gender,
+    password,
+    role,
+  } = inputs;
 
-  const [selectedDay, setSelectedDay] = useState('');
-  const [selectedMonth, setSelectedMonth] = useState('');
-  const [selectedYear, setSelectedYear] = useState('');
+  const [selectedDay, setSelectedDay] = useState("");
+  const [selectedMonth, setSelectedMonth] = useState("");
+  const [selectedYear, setSelectedYear] = useState("");
 
-  const onChangeDay = e => {
+  const onChangeDay = (e) => {
     const selectedDay = e.target.value;
     setSelectedDay(selectedDay);
     const fullDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
     setInputs({ ...inputs, birth_date: fullDate });
-  }
+  };
 
-  const onChangeMonth = e => {
+  const onChangeMonth = (e) => {
     const selectedMonth = e.target.value;
     setSelectedMonth(selectedMonth);
     const fullDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
     setInputs({ ...inputs, birth_date: fullDate });
-  }
+  };
 
-  const onChangeYear = e => {
+  const onChangeYear = (e) => {
     const selectedYear = e.target.value;
     setSelectedYear(selectedYear);
     const fullDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
     setInputs({ ...inputs, birth_date: fullDate });
-  }
+  };
 
-  const onChange = e => {
-    console.log(e.target.name)
+  const onChange = (e) => {
+    console.log(e.target.name);
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
-  const onGenderChange = e => {
+  const onGenderChange = (e) => {
     setInputs({ ...inputs, gender: e.target.value });
   };
 
-  const onSubmitForm = async e => {
+  const onSubmitForm = async (e) => {
     e.preventDefault();
 
     try {
-      const body = { name, last_name, email, phone_number, birth_date, gender, password, role };
+      const body = {
+        name,
+        last_name,
+        email,
+        phone_number,
+        birth_date,
+        gender,
+        password,
+        role,
+      };
       console.log(body);
       const response = await fetch("http://3.135.121.50:4000/users/", {
         method: "POST",
         mode: "cors",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body)
+        body: JSON.stringify(body),
       });
       const parseRes = await response.json();
 
       if (parseRes.token) {
-        localStorage.setItem('token', parseRes.token);
+        localStorage.setItem("token", parseRes.token);
         setAuth(false);
-        Navigate('/login'); 
+        Navigate("/login");
         toast.success("¡Registro exitoso!");
       } else {
         toast.error(parseRes.message);
       }
     } catch (err) {
       console.error(err.message);
-      toast.error("Ha ocurrido un error al registrar. Por favor, inténtelo de nuevo.");
+      toast.error(
+        "Ha ocurrido un error al registrar. Por favor, inténtelo de nuevo."
+      );
     }
   };
 
@@ -100,39 +118,107 @@ const Register = ({ setAuth }) => {
       <div>
         <Toaster position="top-center" reverseOrder={false} />
       </div>
-      <div className={`flex justify-center items-center h-screen w-screen ${darkMode ? 'dark-register-bg' : ''}`}>
-        <div className={`w-[438px] h-[504px] bg-[#FBFCF8] rounded-[10px] ${darkMode ? 'dark-register' : ''}`}>
+      <div
+        className={`flex justify-center items-center h-screen w-screen ${
+          darkMode ? "dark-register-bg" : ""
+        }`}
+      >
+        <div
+          className={`w-[438px] h-[504px] bg-[#FBFCF8] rounded-[10px] ${
+            darkMode ? "dark-register" : ""
+          }`}
+        >
           <div className="flex justify-between items-center">
-            <h1 className={`text-neutral-900 text-3xl font-semibold leading-7 mt-8 ml-8 ${darkMode ? 'dark-text-white' : ''}`}>Crea tu cuenta</h1>
-            <button className={`mr-4 mb-3 ${darkMode ? 'dark-text-white' : ''}`}><i className="fas fa-times"></i></button>
+            <h1
+              className={`text-neutral-900 text-3xl font-semibold leading-7 mt-8 ml-8 ${
+                darkMode ? "dark-text-white" : ""
+              }`}
+            >
+              Crea tu cuenta
+            </h1>
+            <button
+              className={`mr-4 mb-3 ${darkMode ? "dark-text-white" : ""}`}
+            >
+              <i className="fas fa-times"></i>
+            </button>
           </div>
           <form onSubmit={onSubmitForm}>
             <div className="flex justify-center items-center mt-5">
               <div className="w-[45%]">
-                <input name="name" placeholder="Nombre" className={`mt-1 p-2 rounded-[10px] w-[92%] h-8 bg-stone-50 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${darkMode ? 'dark-register-bt placeholder-black-dk' : ''}`} value={name} onChange={e => onChange(e)}></input>
+                <input
+                  name="name"
+                  placeholder="Nombre"
+                  className={`mt-1 p-2 rounded-[10px] w-[92%] h-8 bg-stone-50 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${
+                    darkMode ? "dark-register-bt placeholder-black-dk" : ""
+                  }`}
+                  value={name}
+                  onChange={(e) => onChange(e)}
+                ></input>
               </div>
               <div className="w-[45%]">
-                <input name="last_name" placeholder="Apellido" className={`mt-1 p-2  rounded-[10px] w-[92%] h-8 bg-stone-50 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${darkMode ? 'dark-register-bt placeholder-black-dk' : ''}`} value={last_name} onChange={e => onChange(e)}></input>
+                <input
+                  name="last_name"
+                  placeholder="Apellido"
+                  className={`mt-1 p-2  rounded-[10px] w-[92%] h-8 bg-stone-50 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${
+                    darkMode ? "dark-register-bt placeholder-black-dk" : ""
+                  }`}
+                  value={last_name}
+                  onChange={(e) => onChange(e)}
+                ></input>
               </div>
             </div>
             <div className="flex justify-center items-center">
-              <input name="email" placeholder="Correo electrónico" className={`mr-4 mt-4 p-2  rounded-[10px] w-[87%] h-8 bg-stone-50 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${darkMode ? 'dark-register-bt placeholder-black-dk' : ''}`} value={email} onChange={e => onChange(e)}></input>
+              <input
+                name="email"
+                placeholder="Correo electrónico"
+                className={`mr-4 mt-4 p-2  rounded-[10px] w-[87%] h-8 bg-stone-50 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${
+                  darkMode ? "dark-register-bt placeholder-black-dk" : ""
+                }`}
+                value={email}
+                onChange={(e) => onChange(e)}
+              ></input>
             </div>
             <div className="flex justify-center items-center">
-              <input type='password' name="password" placeholder="Contraseña" className={`mr-4 mt-4 p-2  rounded-[10px] w-[87%] h-8 bg-stone-50 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${darkMode ? 'dark-register-bt placeholder-black-dk' : ''}`} value={password} onChange={e => onChange(e)}></input>
+              <input
+                type="password"
+                name="password"
+                placeholder="Contraseña"
+                className={`mr-4 mt-4 p-2  rounded-[10px] w-[87%] h-8 bg-stone-50 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${
+                  darkMode ? "dark-register-bt placeholder-black-dk" : ""
+                }`}
+                value={password}
+                onChange={(e) => onChange(e)}
+              ></input>
             </div>
             <div className="flex justify-center items-center">
-              <input name="phone_number" placeholder="Telefono" className={`mr-4 mt-4 p-2  rounded-[10px] w-[87%] h-8 bg-stone-50 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${darkMode ? 'dark-register-bt placeholder-black-dk' : ''}`} value={phone_number} onChange={e => onChange(e)}></input>
+              <input
+                name="phone_number"
+                placeholder="Telefono"
+                className={`mr-4 mt-4 p-2  rounded-[10px] w-[87%] h-8 bg-stone-50 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${
+                  darkMode ? "dark-register-bt placeholder-black-dk" : ""
+                }`}
+                value={phone_number}
+                onChange={(e) => onChange(e)}
+              ></input>
             </div>
             <div className="flex mt-5 ml-5">
-              <p className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${darkMode ? 'dark-text-white' : ''}`}>Cumpleaños</p>
+              <p
+                className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${
+                  darkMode ? "dark-text-white" : ""
+                }`}
+              >
+                Cumpleaños
+              </p>
             </div>
             <div className="flex justify-center items-center mt-5 text-neutral-900 text-opacity-60 text-xs font-semibold leading-[11.17px] mr-4 mt-[3px]">
               <div className="mr-3">
                 <select
-                  className={`w-[119px] h-8 bg-stone-50 rounded-[10px] ${darkMode ? 'dark-register-bt placeholder-black-dk' : ''}`}
+                  className={`w-[119px] h-8 bg-stone-50 rounded-[10px] ${
+                    darkMode ? "dark-register-bt placeholder-black-dk" : ""
+                  }`}
                   name="month"
-                  value={selectedMonth} onChange={onChangeMonth}
+                  value={selectedMonth}
+                  onChange={onChangeMonth}
                 >
                   <option value="nuM">Mes</option>
                   <option value="01">Enero</option>
@@ -151,9 +237,12 @@ const Register = ({ setAuth }) => {
               </div>
               <div className="mr-3">
                 <select
-                  className={`w-[119px] h-8 bg-stone-50 rounded-[10px] ${darkMode ? 'dark-register-bt placeholder-black-dk' : ''}`}
+                  className={`w-[119px] h-8 bg-stone-50 rounded-[10px] ${
+                    darkMode ? "dark-register-bt placeholder-black-dk" : ""
+                  }`}
                   name="day"
-                  value={selectedDay} onChange={onChangeDay}
+                  value={selectedDay}
+                  onChange={onChangeDay}
                 >
                   <option value="nuD">Día</option>
                   <option value="1">1</option>
@@ -191,9 +280,12 @@ const Register = ({ setAuth }) => {
               </div>
               <div>
                 <select
-                  className={`w-[119px] h-8 bg-stone-50 rounded-[10px] ${darkMode ? 'dark-register-bt placeholder-black-dk' : ''}`}
+                  className={`w-[119px] h-8 bg-stone-50 rounded-[10px] ${
+                    darkMode ? "dark-register-bt placeholder-black-dk" : ""
+                  }`}
                   name="year"
-                  value={selectedYear} onChange={onChangeYear}
+                  value={selectedYear}
+                  onChange={onChangeYear}
                 >
                   <option value="nuA">Año</option>
                   <option value="1923">1923</option>
@@ -301,10 +393,20 @@ const Register = ({ setAuth }) => {
               </div>
             </div>
             <div className="flex mt-5 ml-5">
-              <p className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${darkMode ? 'dark-text-white' : ''}`}>Género</p>
+              <p
+                className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${
+                  darkMode ? "dark-text-white" : ""
+                }`}
+              >
+                Género
+              </p>
             </div>
             <div className="flex justify-center items-center mt-5 text-neutral-900 text-opacity-60 text-xs font-semibold leading-[11.17px] mr-1 mt-[3px]">
-              <div className={`w-[120px] h-8 bg-stone-50 rounded-[10px] mr-3 flex justify-around items-center ${darkMode ? 'dark-register-bt placeholder-black-dk' : ''}`}>
+              <div
+                className={`w-[120px] h-8 bg-stone-50 rounded-[10px] mr-3 flex justify-around items-center ${
+                  darkMode ? "dark-register-bt placeholder-black-dk" : ""
+                }`}
+              >
                 <label className="mr-10">Hombre</label>
                 <input
                   type="radio"
@@ -314,7 +416,11 @@ const Register = ({ setAuth }) => {
                   onChange={onGenderChange}
                 ></input>
               </div>
-              <div className={`w-[120px] h-8 bg-stone-50 rounded-[10px] mr-3 flex justify-around items-center ${darkMode ? 'dark-register-bt placeholder-black-dk' : ''}`}>
+              <div
+                className={`w-[120px] h-8 bg-stone-50 rounded-[10px] mr-3 flex justify-around items-center ${
+                  darkMode ? "dark-register-bt placeholder-black-dk" : ""
+                }`}
+              >
                 <label className="mr-10">Mujer</label>
                 <input
                   type="radio"
@@ -324,7 +430,11 @@ const Register = ({ setAuth }) => {
                   onChange={onGenderChange}
                 ></input>
               </div>
-              <div className={`w-[120px] h-8 bg-stone-50 rounded-[10px] mr-3 flex justify-around items-center ${darkMode ? 'dark-register-bt placeholder-black-dk' : ''}`}>
+              <div
+                className={`w-[120px] h-8 bg-stone-50 rounded-[10px] mr-3 flex justify-around items-center ${
+                  darkMode ? "dark-register-bt placeholder-black-dk" : ""
+                }`}
+              >
                 <label className="mr-10">Custom</label>
                 <input
                   type="radio"
@@ -336,12 +446,26 @@ const Register = ({ setAuth }) => {
               </div>
             </div>
             <div className="flex justify-center items-center w-[100%]">
-              <p className={`text-neutral-900 text-[10px] font-medium mt-4 ml-10 mr-[28px] translate-x-[-12px] ${darkMode ? 'dark-text-white' : ''}`}>Al registrarte, aceptas los <span className="underline">Términos de servicio</span> y la <span className="underline">Política
-                de privacidad,</span> incluida la política de <span className="underline">Uso de Cookies.</span></p>
+              <p
+                className={`text-neutral-900 text-[10px] font-medium mt-4 ml-10 mr-[28px] translate-x-[-12px] ${
+                  darkMode ? "dark-text-white" : ""
+                }`}
+              >
+                Al registrarte, aceptas los{" "}
+                <span className="underline">Términos de servicio</span> y la{" "}
+                <span className="underline">Política de privacidad,</span>{" "}
+                incluida la política de{" "}
+                <span className="underline">Uso de Cookies.</span>
+              </p>
             </div>
             <div className="flex justify-center items-center">
-              <button className="hover:bg-gray-700 py-2 px-4 mt-4 w-[280px] h-[41px] bg-neutral-900 rounded-[44px] relative mt-12" type="submit">
-                <span className="text-stone-50 text-[15px] font-medium leading-[13.96px]">Crear cuenta</span>
+              <button
+                className="hover:bg-gray-700 py-2 px-4 mt-4 w-[280px] h-[41px] bg-neutral-900 rounded-[44px] relative mt-12"
+                type="submit"
+              >
+                <span className="text-stone-50 text-[15px] font-medium leading-[13.96px]">
+                  Crear cuenta
+                </span>
               </button>
             </div>
           </form>
@@ -349,6 +473,4 @@ const Register = ({ setAuth }) => {
       </div>
     </div>
   );
-};
-
-export default Register; 
+}

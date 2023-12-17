@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext } from "react";
 
-import Begin from "./components/Begin";
-import Login from "./components/Login";
-import Register from "./components/Register";
-import Home from "./components/Home";
-import Search from "./components/Search";
-import Chats from "./components/Chats";
-import Review from "./components/Review";
-import Profile from "./components/Profile";
-import Profile_empresa from "./components/Profile_empresa";
-import Profile_user from "./components/Profile_user";
-import Settings from "./components/Settings";
-import Admin from "./components/Admin";
+import {
+  Admin,
+  Begin,
+  Register,
+  Login,
+  Home,
+  Search,
+  Chats,
+  BusinessProfile,
+  UserProfile,
+  Review,
+  Settings,
+  Testing,
+} from "./pages";
 
 import {
   BrowserRouter as Router,
@@ -19,9 +21,15 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
+import AppProvider from "./providers/AppProvider";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    return JSON.parse(localStorage.getItem("darkMode")) || false;
+  });
+
+  const FunctionContext = createContext();
 
   const setAuth = (boolean) => {
     setIsAuthenticated(boolean);
@@ -51,52 +59,74 @@ function App() {
     isAuth();
   });
 
+  useEffect(() => {
+    localStorage.setItem("darkMode", JSON.stringify(darkMode));
+  }, [darkMode]);
+
   return (
-    <>
+    <main
+      className={`bg-[#EEEFEF] w-full flex gap-1 ${
+        darkMode ? "dark-login-bg" : ""
+      }`}
+    >
       <Router>
-        <Routes>
-          <Route path="/" element={<Begin />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route
-            path="/login"
-            element={
-              !isAuthenticated ? (
-                <Login setAuth={setAuth} />
-              ) : (
-                <Navigate to="/home" />
-              )
-            }
-          />
-          <Route
-            path="/register"
-            element={
-              !isAuthenticated ? (
-                <Register setAuth={setAuth} />
-              ) : (
-                <Navigate to="/login" />
-              )
-            }
-          />
-          <Route
-            path="/home"
-            element={
-              isAuthenticated ? (
-                <Home setAuth={setAuth} />
-              ) : (
-                <Navigate to="/login" />
-              )
-            }
-          />
-          <Route path="/review/:review" element={<Review />} />
-          <Route path="/search" element={<Search />} />
-          <Route path="/chats" element={<Chats />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/empresa/:empresa" element={<Profile_empresa />} />
-          <Route path="/:name" element={<Profile_user />} />
-          <Route path="/settings" element={<Settings />} />
-        </Routes>
+        <AppProvider darkMode={darkMode} FunctionContext={FunctionContext}>
+          <Routes>
+            <Route
+              path="/testing"
+              element={
+                <Testing anothProp={true} FunctionContext={FunctionContext} />
+              }
+            />
+            <Route path="/" element={<Begin />} />
+            <Route path="/admin" element={<Admin />} />
+            <Route
+              path="/login"
+              element={
+                !isAuthenticated ? (
+                  <Login setAuth={setAuth} />
+                ) : (
+                  <Navigate to="/home" />
+                )
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                !isAuthenticated ? (
+                  <Register setAuth={setAuth} />
+                ) : (
+                  <Navigate to="/login" />
+                )
+              }
+            />
+            <Route
+              path="/home"
+              element={
+                isAuthenticated ? (
+                  <Home
+                    setAuth={setAuth}
+                    darkMode={darkMode}
+                    FunctionContext={FunctionContext}
+                  />
+                ) : (
+                  <Navigate to="/login" />
+                )
+              }
+            />
+            <Route path="/review/:review" element={<Review />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/chats" element={<Chats />} />
+            <Route path="/empresa/:empresa" element={<BusinessProfile />} />
+            <Route
+              path="/:name"
+              element={<UserProfile darkMode={darkMode} />}
+            />
+            <Route path="/settings" element={<Settings />} />
+          </Routes>
+        </AppProvider>
       </Router>
-    </>
+    </main>
   );
 }
 

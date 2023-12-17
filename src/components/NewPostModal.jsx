@@ -1,7 +1,7 @@
-import React from "react";
 import mas from "../assets/Group 99.svg";
-import CompanyAutocomplete from "./CompanyAutocomplete";
 import AddFiles from "./AddFiles";
+import proSet from "../assets/Image-40.png";
+import CompanyAutocomplete from "./CompanyAutocomplete";
 
 function NewPostModal(props) {
   return (
@@ -25,7 +25,7 @@ function NewPostModal(props) {
           </div>
 
           <div className="flex items-center gap-2">
-            <img src={props.proSet} alt="logo" />
+            <img src={proSet} alt="logo" />
             <p
               className={`text-neutral-900 text-base font-bold ${
                 props.darkMode ? "dark-text-white" : ""

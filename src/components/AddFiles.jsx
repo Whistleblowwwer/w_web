@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { renderPreviews } from "../utils";
 import masimagen from "../assets/Group 105.svg";
 

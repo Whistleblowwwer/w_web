@@ -1,4 +1,4 @@
-import React, { useState, useEffect, onSelect } from "react";
+import { useState, useEffect, onSelect } from "react";
 import classNames from "classnames";
 
 function CompanyAutocomplete(props) {

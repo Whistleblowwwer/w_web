@@ -1,18 +1,21 @@
-import React, { useState, useEffect } from "react";
-import proSet from "../assets/Image-40.png";
-import { useNavigate } from "react-router-dom";
-import NewPostModal from "../auxComponents/NewPostModal";
-import NewCommentModal from "../auxComponents/NewCommentModal";
-import NewCompanyModal from "../auxComponents/NewCompanyModal";
-
+import { useLocation, useNavigate } from "react-router-dom";
 import { getHeaders, uploadFiles } from "../utils";
-import Sidebar from "../auxComponents/Sidebar";
-import MainSection from "../auxComponents/MainSection";
-import Searchbar from "../auxComponents/Searchbar";
-import BottomNavbar from "../auxComponents/BottomNavbar";
+import { useEffect, useState } from "react";
 
-const Home = ({ setAuth }) => {
-  //search variables
+import {
+  Sidebar,
+  Searchbar,
+  BottomNavbar,
+  NewCommentModal,
+  NewCompanyModal,
+  NewPostModal,
+} from "../components";
+
+const AppProvider = ({ children, darkMode, FunctionContext }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const pathnamesToHide = ["/", "/register", "/login", "/chats"];
+  const shouldHideComponent = pathnamesToHide.includes(location.pathname);
   const [search, setSearch] = useState("");
   const [showResults, setShowResults] = useState(false);
   const [recentSearches, setRecentSearches] = useState([]);
@@ -33,9 +36,6 @@ const Home = ({ setAuth }) => {
   const [isTyping, setIsTyping] = useState(false);
   const [activeFeed, setActiveFeed] = useState("feed");
   const [activeTabView, setActiveTabView] = useState("parati");
-  const [darkMode, setDarkMode] = useState(() => {
-    return JSON.parse(localStorage.getItem("darkMode")) || false;
-  });
   const [showPublishIcon, setShowPublishIcon] = useState(false);
   const [name, setName] = useState([]);
   const [postes, setPostes] = useState([]);
@@ -54,7 +54,6 @@ const Home = ({ setAuth }) => {
     category: "",
   });
 
-  const navigate = useNavigate();
   const maxLength = 1200;
 
   const headers = getHeaders(); //SUGIERO USAR ESTA VARIABLE PARA LOS HEADERS
@@ -161,40 +160,6 @@ const Home = ({ setAuth }) => {
     }
     getSearchs();
   };
-
-  useEffect(() => {
-    async function verifyToken() {
-      const myHeaders = new Headers();
-      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
-      const requestOptions = {
-        method: "GET",
-        headers: myHeaders,
-        redirect: "follow",
-      };
-
-      try {
-        const response = await fetch(
-          "http://3.135.121.50:4000/users/token",
-          requestOptions
-        );
-        const parseRes = await response.json();
-        console.log(parseRes);
-
-        if (!parseRes.success && parseRes.message === "Invalid token") {
-          // Borra los elementos del localStorage
-          localStorage.removeItem("client_password");
-          localStorage.removeItem("recentSearches");
-          localStorage.removeItem("client_email");
-          localStorage.removeItem("token");
-          setAuth(false);
-        }
-      } catch (err) {
-        console.error(err.message);
-      }
-    }
-
-    verifyToken();
-  }, []);
 
   const handleAddPost = async () => {
     if (textPost && selectedImages.length > 0) {
@@ -394,10 +359,6 @@ const Home = ({ setAuth }) => {
   };
 
   useEffect(() => {
-    localStorage.setItem("darkMode", JSON.stringify(darkMode));
-  }, [darkMode]);
-
-  useEffect(() => {
     async function getPostes() {
       const myHeaders = new Headers();
       myHeaders.append("authorization", `Bearer ${localStorage.token}`);
@@ -447,29 +408,50 @@ const Home = ({ setAuth }) => {
     getName();
   }, []);
 
-  const logout = (e) => {
-    e.preventDefault();
-    localStorage.removeItem("token");
-    setAuth(false);
-  };
-
   useEffect(() => {
     const storedRecentSearches =
       JSON.parse(localStorage.getItem("recentSearches")) || [];
     setRecentSearches(storedRecentSearches);
   }, []);
 
+  const generalFunctions = {
+    handleTextChange2,
+    textPost,
+    maxLength,
+    selectedImages,
+    setSelectedImages,
+    handleNewCompanyModal,
+    handleSearchCompanyClick,
+    suggestions,
+    setSelectedCompany,
+    companySearchQuery,
+    setCompanySearchQuery,
+    reviewRating,
+    handleRatingClick,
+    showPublishIcon,
+    handleAddPost,
+    postes,
+    handleBusinessClick,
+    handleUserClick,
+    handleReview,
+    handleLike,
+    handleCommentClick,
+  };
+
   return (
-    <main
-      className={`bg-[#EEEFEF] w-full flex gap-1 ${
-        darkMode ? "dark-login-bg" : ""
-      }`}
-    >
+    <>
+      {!shouldHideComponent && (
+        <Sidebar
+          darkMode={darkMode}
+          handlePostModal={handlePostModal}
+          handleUserClick={() => handleUserClick(name)}
+          username={name.name}
+        />
+      )}
       {postModalOpen && (
         <NewPostModal
           handlePostModal={handlePostModal}
           darkMode={darkMode}
-          proSet={proSet}
           handleTextChange={handlePostTextChange}
           textPost={textPost}
           maxLength={maxLength}
@@ -491,7 +473,6 @@ const Home = ({ setAuth }) => {
         <NewCommentModal
           handleCommentModal={handleCommentClick}
           darkMode={darkMode}
-          proSet={proSet}
           handleTextCommentChange={handleTextCommnetChange}
           textComment={textComment}
           maxLength={maxLength}
@@ -514,52 +495,29 @@ const Home = ({ setAuth }) => {
           handleCreateBusiness={handleCreateBusiness}
         />
       )}
-      <Sidebar
-        darkMode={darkMode}
-        handlePostModal={handlePostModal}
-        handleUserClick={() => handleUserClick(name)}
-        username={name.name}
-      />
-      <MainSection
-        darkMode={darkMode}
-        handleTextChange2={handleTextChange2}
-        textPost={textPost}
-        maxLength={maxLength}
-        selectedImages={selectedImages}
-        setSelectedImages={setSelectedImages}
-        setCompanyModalOpen={() => setCompanyModalOpen(true)}
-        handleSearchCompanyClick={handleSearchCompanyClick}
-        suggestions={suggestions}
-        setSelectedCompany={setSelectedCompany}
-        companySearchQuery={companySearchQuery}
-        setCompanySearchQuery={setCompanySearchQuery}
-        reviewRating={reviewRating}
-        handleRatingClick={handleRatingClick}
-        showPublishIcon={showPublishIcon}
-        handleAddPost={handleAddPost}
-        postes={postes}
-        handleBusinessClick={handleBusinessClick}
-        handleUserClick={handleUserClick}
-        handleReview={handleReview}
-        handleLike={handleLike}
-        handleCommentClick={handleCommentClick}
-      />
-      <Searchbar
-        darkMode={darkMode}
-        activeTabView={activeTabView}
-        businesses={businesses}
-        handleBusinessClick={handleBusinessClick}
-        handleRecentSearch={handleRecentSearch}
-        handleSearch={handleSearch}
-        handleUserClick={handleUserClick}
-        recentSearches={recentSearches}
-        search={search}
-        searchUser={searchUser}
-        setActiveTabView={setActiveTabView}
-      />
-      <BottomNavbar darkMode={darkMode} />
-    </main>
+      <FunctionContext.Provider value={generalFunctions}>
+        {children}
+      </FunctionContext.Provider>
+      {!shouldHideComponent && (
+        <>
+          <Searchbar
+            darkMode={darkMode}
+            activeTabView={activeTabView}
+            businesses={businesses}
+            handleBusinessClick={handleBusinessClick}
+            handleRecentSearch={handleRecentSearch}
+            handleSearch={handleSearch}
+            handleUserClick={handleUserClick}
+            recentSearches={recentSearches}
+            search={search}
+            searchUser={searchUser}
+            setActiveTabView={setActiveTabView}
+          />
+          <BottomNavbar darkMode={darkMode} />
+        </>
+      )}
+    </>
   );
 };
 
-export default Home;
+export default AppProvider;

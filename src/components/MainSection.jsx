@@ -1,6 +1,7 @@
 import mas from "../assets/Group 99.svg";
 import AddFiles from "./AddFiles";
 import CompanyAutocomplete from "./CompanyAutocomplete";
+
 import PostCard from "./PostCard";
 
 const MainSection = ({
