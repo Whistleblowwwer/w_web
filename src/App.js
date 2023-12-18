@@ -120,7 +120,12 @@ function App() {
             <Route path="/empresa/:empresa" element={<BusinessProfile />} />
             <Route
               path="/:name"
-              element={<UserProfile darkMode={darkMode} />}
+              element={
+                <UserProfile
+                  darkMode={darkMode}
+                  FunctionContext={FunctionContext}
+                />
+              }
             />
             <Route path="/settings" element={<Settings />} />
           </Routes>

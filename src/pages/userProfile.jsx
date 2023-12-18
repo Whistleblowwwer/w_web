@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 import {
   useNavigate,
@@ -22,7 +22,9 @@ import {
   UpdateProfileModal,
 } from "../components";
 
-export default function UserProfile({ setAuth, darkMode }) {
+export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
+  const { handleUserClick } = useContext(FunctionContext);
+
   //search variables
   const [showResults, setShowResults] = useState(false);
   const [search, setSearch] = useState("");
@@ -91,13 +93,6 @@ export default function UserProfile({ setAuth, darkMode }) {
     } else {
       return `${monthsDifference}m`;
     }
-  };
-
-  const handleUserClick = async (users) => {
-    const newRecentSearches = [search, ...recentSearches.slice(0, 3)]; // Guardar los últimos 4 términos
-    setRecentSearches(newRecentSearches);
-    localStorage.setItem("recentSearches", JSON.stringify(newRecentSearches));
-    navigate(`/${users.name}`, { state: { users } });
   };
 
   const handlePostModal = () => {
@@ -280,17 +275,18 @@ export default function UserProfile({ setAuth, darkMode }) {
         );
         const parseRes = await response.json();
         setUserDetail(parseRes.user);
+
         console.log(parseRes.user);
       } catch (err) {
         console.error(err.message);
       }
     }
     getUserDetail();
-  }, []);
+  }, [handleUserClick]);
 
   useEffect(() => {
     const getEditable = () => {
-      if (name.name == userDetail.name) {
+      if (name.name === userDetail.name) {
         setEditable("true");
       } else {
         setEditable("false");
@@ -298,7 +294,7 @@ export default function UserProfile({ setAuth, darkMode }) {
       console.log(editable);
     };
     getEditable();
-  }, [name, users.name, editable]);
+  }, [name, users.name, editable, userDetail.name]);
 
   const addPost = () => {
     if (textPost || selectedImages.length > 0) {
@@ -413,7 +409,7 @@ export default function UserProfile({ setAuth, darkMode }) {
     <>
       <ProfileSection
         darkMode={darkMode}
-        username={name.name}
+        username={users.name}
         userDetail={userDetail}
         setUpdateModalOpen={() => setUpdateModalOpen(true)}
         editable={editable}

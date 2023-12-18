@@ -10,7 +10,9 @@ const Searchbar = ({
   handleUserClick,
   activeTabView,
   setActiveTabView,
+  pathname,
 }) => {
+  console.log(pathname);
   return (
     <div className="w-[30%] bg-[#FFF] h-screen sticky top-0 p-4 lg:block hidden">
       <div className="relative w-full">

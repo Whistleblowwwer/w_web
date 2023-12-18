@@ -15,7 +15,9 @@ import { getHeadersBase } from "../utils/getHeaders";
 const AppProvider = ({ children, darkMode, FunctionContext }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const pathnamesToHide = ["/", "/register", "/login", "/chats"];
+  const pathnamesToHide = ["/", "/register", "/login", "/chats", "/admin"];
+  const searchBarProfile = ["/home", "/search"];
+  const pathProfile = !searchBarProfile.includes(location.pathname);
   const shouldHideComponent = pathnamesToHide.includes(location.pathname);
   const [search, setSearch] = useState("");
   const [showResults, setShowResults] = useState(false);
@@ -273,9 +275,8 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
     setCompanySearchQuery("");
     setReviewRating(0);
     setPostModalOpen(false);
+    window.location.reload();
   };
-
-  console.log(postes);
 
   const handleLike = (_id_review) => {
     async function postLike() {
@@ -558,6 +559,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
       {!shouldHideComponent && (
         <>
           <Searchbar
+            pathname={pathProfile}
             darkMode={darkMode}
             activeTabView={activeTabView}
             businesses={businesses}
