@@ -1,4 +1,5 @@
 function UpdateProfileModal(props) {
+  console.log(props.generalData);
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50">
       <div className="absolute top-0 left-0 w-full h-full bg-black opacity-70"></div>
@@ -32,7 +33,7 @@ function UpdateProfileModal(props) {
               type="text"
               id="name"
               name="name"
-              value={props.name}
+              defaultValue={props.generalData.name}
               onChange={props.handleChange}
               className="w-full p-2 border border-gray-300 rounded"
             />
@@ -48,7 +49,7 @@ function UpdateProfileModal(props) {
               type="text"
               id="last_name"
               name="last_name"
-              value={props.last_name}
+              defaultValue={props.generalData.last_name}
               onChange={props.handleChange}
               className="w-full p-2 border border-gray-300 rounded"
             />
@@ -64,7 +65,7 @@ function UpdateProfileModal(props) {
               type="text"
               id="phoneNumber"
               name="phoneNumber"
-              value={props.phoneNumber}
+              defaultValue={props.generalData.phone_number}
               onChange={props.handleChange}
               className="w-full p-2 border border-gray-300 rounded"
             />
@@ -80,7 +81,7 @@ function UpdateProfileModal(props) {
               type="text"
               id="email"
               name="email"
-              value={props.email}
+              defaultValue={props.generalData.email}
               onChange={props.handleChange}
               className="w-full p-2 border border-gray-300 rounded"
             />
@@ -96,7 +97,7 @@ function UpdateProfileModal(props) {
               type="text"
               id="nick_mame"
               name="nick_mame"
-              value={props.nick_mame}
+              defaultValue={props.generalData.nick_name}
               onChange={props.handleChange}
               className="w-full p-2 border border-gray-300 rounded"
             />

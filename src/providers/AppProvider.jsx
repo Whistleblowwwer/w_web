@@ -25,7 +25,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
   const [recentSearches, setRecentSearches] = useState([]);
   const [businesses, setBusinesses] = useState([]);
   const [searchUser, setSearchUser] = useState([]);
-  const [updateModalOpen ,setUpdateModalOpen] = useState(false);
+  const [updateModalOpen, setUpdateModalOpen] = useState(false);
   const [updateForm, setUpdateForm] = useState({
     name: "",
     address: "",
@@ -104,7 +104,6 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
   const handleNewUpdateProfileModal = () => {
     setUpdateModalOpen(!updateModalOpen);
   };
-
 
   const handlePostTextChange = (event) => {
     setText(event.target.value);
@@ -404,6 +403,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
       ...prevFormulario,
       [name]: value,
     }));
+    console.log(updateForm);
   };
 
   const handleSubmitCompany = (e) => {
@@ -556,6 +556,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
           handleSubmit={handleSubmitCompany}
           handleChange={handleChangeUpdate}
           darkMode={darkMode}
+          generalData={name}
           name={updateForm.name}
           address={updateForm.address}
           entity={updateForm.entity}

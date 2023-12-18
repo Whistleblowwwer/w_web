@@ -14,9 +14,8 @@ const PostCard = ({
   handleCommentClick,
   isUserProfile,
   isBusiness,
-  isChild,
+  isComment,
 }) => {
-  console.log(post);
   return (
     <div
       className={`bg-[#FFF] p-4 flex flex-col gap-4 ${
@@ -95,9 +94,11 @@ const PostCard = ({
             </div>
           )}
         </div>
-        <div className="flex items-center">
-          {renderStars(post?.rating, darkMode, false)}
-        </div>
+        {!isComment && (
+          <div className="flex items-center">
+            {renderStars(post?.rating, darkMode, false)}
+          </div>
+        )}
       </div>
 
       <div className="flex flex-col space-y-1">
@@ -112,16 +113,18 @@ const PostCard = ({
               cursor: "pointer",
             }}
             onClick={() =>
-              handleLike(isChild ? post?._id_comment : post?._id_review)
+              handleLike(isComment ? post?._id_comment : post?._id_review)
             }
           />
           <div
             className="bg-[#F5F5F5] px-6 py-3 rounded-full w-full cursor-pointer text-gray-400"
             onClick={() =>
-              handleCommentClick(isChild ? post?._id_comment : post?._id_review)
+              handleCommentClick(
+                isComment ? post?._id_comment : post?._id_review
+              )
             }
           >
-            Escribe una reseña
+            Escribe una respuesta...
           </div>
         </div>
         <div className="flex space-x-4">

@@ -71,8 +71,6 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
     commentLike();
   };
 
-  console.log(postWithComments);
-
   return (
     <>
       <div className="lg:w-[50%] w-full bg-[#EEEFEF] lg:px-0 p-1">
@@ -104,7 +102,7 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
               handleLike={handleLikeComment}
               handleCommentClick={handleCommentClick}
               isBusiness
-              isChild
+              isComment
             />
           ))}
       </div>
