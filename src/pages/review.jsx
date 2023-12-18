@@ -43,16 +43,44 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
     getPostes();
   }, [reviewValue]);
 
+  const handleLikeComment = (_id_comment) => {
+    async function commentLike() {
+      const myHeaders = new Headers();
+      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+      };
+
+      try {
+        const url = `http://3.135.121.50:4000/users/comments/like/?_id_comment=${_id_comment}`;
+        const response = await fetch(url, requestOptions);
+
+        const parseRes = await response.json();
+        if (
+          parseRes.message === "Comment liked successfully" ||
+          parseRes.message === "Comment unliked successfully"
+        ) {
+          window.location.reload();
+        }
+      } catch (err) {
+        console.error(err.message);
+      }
+    }
+    commentLike();
+  };
+
   console.log(postWithComments);
 
   return (
     <>
       <div className="lg:w-[50%] w-full bg-[#EEEFEF] lg:px-0 p-1">
-        <div className="flex bg-[#FFF]">
-          <i
-            class="fa-solid fa-arrow-left-long mt-2 mr-4 cursor-pointer"
-            onClick={() => navigate("/home")}
-          ></i>
+        <div
+          className="flex bg-[#FFF] gap-2 items-center px-3 pt-3"
+          onClick={() => navigate("/home")}
+        >
+          <i class="fa-solid fa-arrow-left-long cursor-pointer"></i>
           <p className="text-[20px] font-bold">Post</p>
         </div>
         <PostCard
@@ -73,7 +101,7 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
               handleBusinessClick={handleBusinessClick}
               handleUserClick={handleUserClick}
               handleReview={handleReview}
-              handleLike={handleLike}
+              handleLike={handleLikeComment}
               handleCommentClick={handleCommentClick}
               isBusiness
               isChild

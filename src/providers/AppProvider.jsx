@@ -162,68 +162,6 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
     getSearchs();
   };
 
-  // const handleAddPost = async () => {
-  //   if (textPost && selectedImages.length > 0) {
-  //     const newPost = {
-  //       text: textPost,
-  //       images: selectedImages.map((file) => URL.createObjectURL(file)),
-  //     };
-
-  //     try {
-  //       const data = await uploadFiles(
-  //         `ENDPOINT?id_review=ID_REVIEW`,
-  //         headers,
-  //         selectedImages
-  //       );
-
-  //       console.log(data);
-  //     } catch (error) {
-  //       console.error("Error al subir los archivos:", error);
-  //     }
-
-  //     console.log("newPost:", newPost);
-
-  //     // AQUI SUPONGO QUE IRA EL CONSUMO DEL ENDPOINT DE LA CREACION DEL POST CON IMAGENES
-
-  //     // setPostes([newPost, ...postes]);
-  //     setText("");
-  //     setSelectedImages([]);
-  //     setShowPublishIcon(false);
-  //     setPostModalOpen(false);
-  //   } else if (textPost && selectedImages.length <= 0) {
-  //     async function postReview() {
-  //       const myHeaders = new Headers();
-  //       myHeaders.append("Content-Type", "application/json");
-  //       myHeaders.append("authorization", `Bearer ${localStorage.token}`);
-
-  //       var raw = JSON.stringify({
-  //         content: textPost,
-  //         _id_business: selectedCompany,
-  //         rating: reviewRating,
-  //       });
-
-  //       var requestOptions = {
-  //         method: "POST",
-  //         headers: myHeaders,
-  //         body: raw,
-  //         redirect: "follow",
-  //       };
-  //       const response = await fetch(
-  //         "http://3.135.121.50:4000/reviews",
-  //         requestOptions
-  //       );
-  //       const jsonRes = await response.json();
-  //       setPostes([jsonRes?.review, ...postes]);
-  //       console.log(jsonRes);
-  //     }
-  //     postReview();
-  //     setText("");
-  //     setCompanySearchQuery("");
-  //     setReviewRating(0);
-  //     setPostModalOpen(false);
-  //   }
-  // };
-
   const headersBase = getHeadersBase();
 
   const handleAddPost = async () => {
