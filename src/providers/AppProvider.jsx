@@ -16,9 +16,7 @@ import { getHeadersBase } from "../utils/getHeaders";
 const AppProvider = ({ children, darkMode, FunctionContext }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const pathnamesToHide = ["/", "/register", "/login", "/chats", "/admin"];
-  const searchBarProfile = ["/home", "/search"];
-  const pathProfile = !searchBarProfile.includes(location.pathname);
+  const pathnamesToHide = ["/", "/register", "/login", "/admin"];
   const shouldHideComponent = pathnamesToHide.includes(location.pathname);
   const [search, setSearch] = useState("");
   const [showResults, setShowResults] = useState(false);
@@ -495,14 +493,6 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
 
   return (
     <>
-      {!shouldHideComponent && (
-        <Sidebar
-          darkMode={darkMode}
-          handlePostModal={handlePostModal}
-          handleUserClick={() => handleUserClick(name)}
-          username={name?.name}
-        />
-      )}
       {postModalOpen && (
         <NewPostModal
           handlePostModal={handlePostModal}
@@ -567,13 +557,20 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
           handleCreateBusiness={handleCreateBusiness}
         />
       )}
+      {!shouldHideComponent && (
+        <Sidebar
+          darkMode={darkMode}
+          handlePostModal={handlePostModal}
+          handleUserClick={() => handleUserClick(name)}
+          username={name?.name}
+        />
+      )}
       <FunctionContext.Provider value={generalFunctions}>
         {children}
       </FunctionContext.Provider>
       {!shouldHideComponent && (
         <>
           <Searchbar
-            pathname={pathProfile}
             darkMode={darkMode}
             activeTabView={activeTabView}
             businesses={businesses}
