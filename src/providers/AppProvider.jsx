@@ -24,15 +24,6 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
   const [businesses, setBusinesses] = useState([]);
   const [searchUser, setSearchUser] = useState([]);
   const [updateModalOpen, setUpdateModalOpen] = useState(false);
-  const [updateForm, setUpdateForm] = useState({
-    name: "",
-    address: "",
-    entity: "",
-    country: "",
-    state: "",
-    city: "",
-    category: "",
-  });
 
   //post variables
   const [postModalOpen, setPostModalOpen] = useState(false);
@@ -327,34 +318,6 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
     createBusiness();
   };
 
-  const handleUpdateProfile = () => {
-    async function updateProfile() {
-      const myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
-
-      const requestOptions = {
-        method: "POST",
-        headers: myHeaders,
-        body: JSON.stringify(companyForm),
-        redirect: "follow",
-      };
-
-      try {
-        const response = await fetch(
-          "http://3.135.121.50:4000/business",
-          requestOptions
-        );
-        const parseRes = await response.json();
-        console.log(parseRes);
-      } catch (err) {
-        console.error(err.message);
-      }
-    }
-    setUpdateModalOpen(!updateModalOpen);
-    updateProfile();
-  };
-
   const handleSearchCompanyClick = () => {
     async function getCompanies() {
       const myHeaders = new Headers();
@@ -410,6 +373,12 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
     setCompanyModalOpen(false);
   };
 
+  const handleSubmitUpdate = (e) => {
+    e.preventDefault();
+    console.log("Datos del formulario:", updateForm);
+    setUpdateModalOpen(false);
+  };
+
   useEffect(() => {
     async function getPostes() {
       const myHeaders = new Headers();
@@ -452,6 +421,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
           requestOptions
         );
         const parseRes = await response.json();
+        setUpdateForm(parseRes.user);
         setName(parseRes.user);
       } catch (err) {
         console.error(err.message);
@@ -459,6 +429,42 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
     }
     getName();
   }, []);
+
+  const [updateForm, setUpdateForm] = useState({
+    name: name.name,
+    last_name: name.last_name,
+    phone_number: name.phone_number,
+    email: name.email,
+    nick_name: name.nick_name,
+  });
+
+  const handleUpdateProfile = () => {
+    async function updateProfile() {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+
+      const requestOptions = {
+        method: "PUT",
+        headers: myHeaders,
+        body: JSON.stringify(updateForm),
+        redirect: "follow",
+      };
+
+      try {
+        const response = await fetch(
+          `http://3.135.121.50:4000/users?_id_user=${name._id_user}`,
+          requestOptions
+        );
+        const parseRes = await response.json();
+        console.log(parseRes);
+      } catch (err) {
+        console.error(err.message);
+      }
+    }
+    setUpdateModalOpen(!updateModalOpen);
+    updateProfile();
+  };
 
   useEffect(() => {
     const storedRecentSearches =
@@ -543,18 +549,15 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
       {updateModalOpen && (
         <UpdateProfileModal
           handleNewUpdateProfileModal={handleNewUpdateProfileModal}
-          handleSubmit={handleSubmitCompany}
+          handleSubmit={handleSubmitUpdate}
           handleChange={handleChangeUpdate}
           darkMode={darkMode}
-          generalData={name}
           name={updateForm.name}
-          address={updateForm.address}
-          entity={updateForm.entity}
-          country={updateForm.country}
-          state={updateForm.state}
-          city={updateForm.city}
-          category={updateForm.category}
-          handleCreateBusiness={handleCreateBusiness}
+          last_name={updateForm.last_name}
+          phone_number={updateForm.phone_number}
+          email={updateForm.email}
+          nick_name={updateForm.nick_name}
+          handleUpdate={handleUpdateProfile}
         />
       )}
       {!shouldHideComponent && (
