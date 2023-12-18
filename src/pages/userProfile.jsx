@@ -220,8 +220,6 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
         );
         const parseRes = await response.json();
         setUserDetail(parseRes.user);
-
-        console.log(parseRes.user);
       } catch (err) {
         console.error(err.message);
       }

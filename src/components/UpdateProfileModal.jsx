@@ -1,5 +1,4 @@
 function UpdateProfileModal(props) {
-  console.log(props.generalData);
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50">
       <div className="absolute top-0 left-0 w-full h-full bg-black opacity-70"></div>
@@ -33,7 +32,7 @@ function UpdateProfileModal(props) {
               type="text"
               id="name"
               name="name"
-              defaultValue={props.generalData.name}
+              defaultValue={props.name}
               onChange={props.handleChange}
               className="w-full p-2 border border-gray-300 rounded"
             />
@@ -49,7 +48,7 @@ function UpdateProfileModal(props) {
               type="text"
               id="last_name"
               name="last_name"
-              defaultValue={props.generalData.last_name}
+              defaultValue={props.last_name}
               onChange={props.handleChange}
               className="w-full p-2 border border-gray-300 rounded"
             />
@@ -65,7 +64,7 @@ function UpdateProfileModal(props) {
               type="text"
               id="phoneNumber"
               name="phoneNumber"
-              defaultValue={props.generalData.phone_number}
+              defaultValue={props.phone_number}
               onChange={props.handleChange}
               className="w-full p-2 border border-gray-300 rounded"
             />
@@ -81,7 +80,7 @@ function UpdateProfileModal(props) {
               type="text"
               id="email"
               name="email"
-              defaultValue={props.generalData.email}
+              defaultValue={props.email}
               onChange={props.handleChange}
               className="w-full p-2 border border-gray-300 rounded"
             />
@@ -97,14 +96,14 @@ function UpdateProfileModal(props) {
               type="text"
               id="nick_mame"
               name="nick_mame"
-              defaultValue={props.generalData.nick_name}
+              defaultValue={props.nick_name}
               onChange={props.handleChange}
               className="w-full p-2 border border-gray-300 rounded"
             />
           </div>
           <button
             type="submit"
-            onClick={props.handleCreateBusiness}
+            onClick={props.handleUpdate}
             className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-300"
           >
             Enviar
