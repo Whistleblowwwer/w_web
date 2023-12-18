@@ -5,7 +5,7 @@ function NewCommentModal(props) {
     <div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center z-50">
       <div className="absolute top-0 left-0 w-full h-full bg-black opacity-70"></div>
       <div
-        className={`z-50 bg-[#FFF] p-4 shadow-md rounded-[20px] min-h-auto overflow-y-auto md:w-2/4 w-[80%] ${
+        className={`z-50 bg-[#FFF] p-4 shadow-md rounded-[20px] min-h-auto md:w-2/4 w-[80%] ${
           props.darkMode ? "dark-register-bg" : ""
         }`}
       >

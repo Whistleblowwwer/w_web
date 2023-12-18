@@ -64,13 +64,15 @@ const ProfileSection = ({
           )}
         </div>
         {isBusiness ? (
-          <div className="flex px-3 pt-3">
-            <img src={Location} alt="location" className="mb-2 mr-2" />
-            <p>
-              {userDetail.city}, <span>{userDetail.country}</span>
-            </p>
-            <div className="opacity-30 flex ml-6">
-              <i class="fa-regular fa-calendar mt-[4px] mr-1"></i>
+          <div className="flex flex-col lg:flex-row px-3 pt-3 gap-3 lg:gap-5">
+            <div className="flex gap-2">
+              <img src={Location} alt="location" />
+              <p>
+                {userDetail.city}, <span>{userDetail.country}</span>
+              </p>
+            </div>
+            <div className="opacity-30 flex items-center gap-2">
+              <i class="fa-regular fa-calendar"></i>
               {userDetail && (
                 <p>
                   Se creó el{" "}
@@ -84,13 +86,13 @@ const ProfileSection = ({
             </div>
           </div>
         ) : (
-          <div className="flex justify-between px-3">
+          <div className="flex lg:flex-row flex-col lg:items-start items-center justify-between px-3">
             <div className="rounded-full w-[202px] h-[202px] bg-[#FFF] flex justify-center items-center mt-[-13%]">
               <div className="rounded-full w-[196px] h-[196px] bg-[#D9D9D9]"></div>
             </div>
-            <div className="flex">
-              <div className="opacity-30 flex mr-4 mt-4">
-                <i class="fa-regular fa-calendar mt-[4px] mr-1"></i>
+            <div className="flex items-center lg:items-end flex-col md:flex-row lg:flex-col xl:flex-row gap-2 pt-3 justify-between w-full lg:w-auto lg:justify-end">
+              <div className="opacity-30 flex items-center text-right py-1.5 gap-1">
+                <i class="fa-regular fa-calendar"></i>
                 {userDetail && (
                   <p>
                     Se creó el{" "}
@@ -105,22 +107,14 @@ const ProfileSection = ({
                   </p>
                 )}
               </div>
-              {editable === "true" ? (
-                <button
-                  onClick={setUpdateModalOpen}
-                  className="w-[100px] relative translate-y-[14%] h-10 bg-neutral-100 rounded-[20px] flex justify-center items-center"
-                >
-                  <p className="text-black text-[14px] font-bold leading-10">
-                    Editar perfil
-                  </p>
-                </button>
-              ) : (
-                <button className="w-[86px] relative translate-y-[14%] h-10 px-4 bg-neutral-100 rounded-[20px] flex-col justify-center items-start gap-4">
-                  <div className="text-black text-base font-semibold leading-10">
-                    Seguir
-                  </div>
-                </button>
-              )}
+              <button
+                onClick={editable === "true" ? setUpdateModalOpen : () => {}}
+                className="bg-neutral-100 h-full rounded-xl px-3 py-1.5"
+              >
+                <p className="text-black text-[14px] font-bold">
+                  {editable === "true" ? "Editar perfil" : "Seguir"}
+                </p>
+              </button>
             </div>
           </div>
         )}

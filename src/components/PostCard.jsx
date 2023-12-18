@@ -44,7 +44,7 @@ const PostCard = ({
             className="w-[35px] h-[35px] relative"
           />
           <p
-            className={`cursor-pointer text-black text-base font-bold ml-3 ${
+            className={` text-black text-base font-bold ml-3 ${
               darkMode ? "dark-text-white" : ""
             }`}
           >
@@ -69,16 +69,24 @@ const PostCard = ({
           >
             {post.content}
           </p>
-          {post.images && post.images.length > 0 && (
-            <div className="fle gap-2 w-full items-center">
-              {post.images.slice(0, 2).map((image, i) => (
-                <img
-                  key={i}
-                  src={image}
-                  alt={`Post ${i}`}
-                  className="w-full h-auto mr-3 rounded-lg"
-                  style={{ width: "100%", height: "auto" }}
-                />
+          {post.Images && post.Images.length > 0 && (
+            <div className="grid grid-rows-2 grid-flow-col gap-2 max-h-[250px] sm:max-h-[300px] md:max-h-[400px] lg:max-h-[500] 2xl:max-h-[700px]">
+              {post.Images.slice(0, 3).map((image, index) => (
+                <div
+                  className={
+                    index < 1
+                      ? "row-span-2"
+                      : post.Images.length < 3
+                      ? "row-span-2"
+                      : "row-span-1"
+                  }
+                >
+                  <img
+                    src={image}
+                    alt={`Post ${index + 1}`}
+                    className="object-cover w-full h-full rounded-lg"
+                  />
+                </div>
               ))}
             </div>
           )}

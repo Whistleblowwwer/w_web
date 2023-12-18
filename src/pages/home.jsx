@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { MainSection } from "../components";
 
 export default function Home({ setAuth, darkMode, FunctionContext }) {
@@ -42,7 +42,6 @@ export default function Home({ setAuth, darkMode, FunctionContext }) {
           requestOptions
         );
         const parseRes = await response.json();
-        console.log(parseRes);
 
         if (!parseRes.success && parseRes.message === "Invalid token") {
           // Borra los elementos del localStorage
@@ -51,6 +50,12 @@ export default function Home({ setAuth, darkMode, FunctionContext }) {
           localStorage.removeItem("client_email");
           localStorage.removeItem("token");
           setAuth(false);
+        } else {
+          // Token válido, recarga la página solo una vez para cargar la información del usuario
+          if (!localStorage.getItem("validCredentials")) {
+            localStorage.setItem("validCredentials", true);
+            window.location.reload();
+          }
         }
       } catch (err) {
         console.error(err.message);
@@ -58,7 +63,6 @@ export default function Home({ setAuth, darkMode, FunctionContext }) {
     }
 
     verifyToken();
-    window.location.reload();
   }, [setAuth]);
 
   const logout = (e) => {

@@ -2,26 +2,30 @@ const uploadFiles = async (url, headers, files) => {
   try {
     const formData = new FormData();
 
-    files.forEach((file, index) => {
-      formData.append(`fileN_${index}`, file);
-    });
-
-    formData.forEach((file) => console.log(file));
-
-    // const response = await fetch(url, {
-    //   headers: headers,
-    //   method: "POST",
-    //   body: formData,
+    // files.forEach((file, index) => {
+    //   formData.append(`fileN_${index}`, file);
     // });
 
-    // if (!response.ok) {
-    //   throw new Error(`Error al subir los archivos: ${response.statusText}`);
-    // }
+    // formData.forEach((file) => console.log(file));
 
-    // const data = await response.json();
-    // return data;
+    files.forEach((file) => {
+      formData.append("fileN", file);
+    });
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers,
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error al subir los archivos: ${response}`);
+    }
+
+    const data = await response.json();
+    return data;
   } catch (error) {
-    throw new Error(`Error al subir los archivos: ${error.message}`);
+    throw new Error(`Error al subir los archivos : ${error}`);
   }
 };
 

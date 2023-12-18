@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { getHeaders, uploadFiles } from "../utils";
+import { uploadFiles } from "../utils";
 import { useEffect, useState } from "react";
 
 import {
@@ -10,6 +10,7 @@ import {
   NewCompanyModal,
   NewPostModal,
 } from "../components";
+import { getHeadersBase } from "../utils/getHeaders";
 
 const AppProvider = ({ children, darkMode, FunctionContext }) => {
   const navigate = useNavigate();
@@ -55,8 +56,6 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
   });
 
   const maxLength = 1200;
-
-  const headers = getHeaders(); //SUGIERO USAR ESTA VARIABLE PARA LOS HEADERS
 
   const handleBusinessClick = async (business) => {
     const newRecentSearches = [search, ...recentSearches.slice(0, 3)]; // Guardar los últimos 4 términos
@@ -161,64 +160,122 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
     getSearchs();
   };
 
+  // const handleAddPost = async () => {
+  //   if (textPost && selectedImages.length > 0) {
+  //     const newPost = {
+  //       text: textPost,
+  //       images: selectedImages.map((file) => URL.createObjectURL(file)),
+  //     };
+
+  //     try {
+  //       const data = await uploadFiles(
+  //         `ENDPOINT?id_review=ID_REVIEW`,
+  //         headers,
+  //         selectedImages
+  //       );
+
+  //       console.log(data);
+  //     } catch (error) {
+  //       console.error("Error al subir los archivos:", error);
+  //     }
+
+  //     console.log("newPost:", newPost);
+
+  //     // AQUI SUPONGO QUE IRA EL CONSUMO DEL ENDPOINT DE LA CREACION DEL POST CON IMAGENES
+
+  //     // setPostes([newPost, ...postes]);
+  //     setText("");
+  //     setSelectedImages([]);
+  //     setShowPublishIcon(false);
+  //     setPostModalOpen(false);
+  //   } else if (textPost && selectedImages.length <= 0) {
+  //     async function postReview() {
+  //       const myHeaders = new Headers();
+  //       myHeaders.append("Content-Type", "application/json");
+  //       myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+
+  //       var raw = JSON.stringify({
+  //         content: textPost,
+  //         _id_business: selectedCompany,
+  //         rating: reviewRating,
+  //       });
+
+  //       var requestOptions = {
+  //         method: "POST",
+  //         headers: myHeaders,
+  //         body: raw,
+  //         redirect: "follow",
+  //       };
+  //       const response = await fetch(
+  //         "http://3.135.121.50:4000/reviews",
+  //         requestOptions
+  //       );
+  //       const jsonRes = await response.json();
+  //       setPostes([jsonRes?.review, ...postes]);
+  //       console.log(jsonRes);
+  //     }
+  //     postReview();
+  //     setText("");
+  //     setCompanySearchQuery("");
+  //     setReviewRating(0);
+  //     setPostModalOpen(false);
+  //   }
+  // };
+
+  const headersBase = getHeadersBase();
+
   const handleAddPost = async () => {
-    if (textPost && selectedImages.length > 0) {
-      const newPost = {
-        text: textPost,
-        images: selectedImages.map((file) => URL.createObjectURL(file)),
+    async function createReview() {
+      const body = JSON.stringify({
+        content: textPost,
+        _id_business: selectedCompany,
+        rating: reviewRating,
+      });
+
+      headersBase.append("Content-Type", "application/json");
+
+      const requestOptions = {
+        method: "POST",
+        headers: headersBase,
+        body: body,
+        redirect: "follow",
       };
 
+      const response = await fetch(
+        "http://3.135.121.50:4000/reviews",
+        requestOptions
+      );
+      const jsonRes = await response.json();
+      setPostes([jsonRes?.review, ...postes]);
+      return jsonRes;
+    }
+
+    const post = await createReview();
+
+    if (
+      post.message === "Review created successfully" &&
+      selectedImages.length > 0
+    ) {
+      headersBase.delete("Content-Type");
+
       try {
-        const data = await uploadFiles(
-          `ENDPOINT?id_review=ID_REVIEW`,
-          headers,
+        await uploadFiles(
+          `http://3.135.121.50:4000/bucket?id=${post.review._id_review}&photo_type=reviews_img`,
+          headersBase,
           selectedImages
         );
-
-        console.log(data);
       } catch (error) {
         console.error("Error al subir los archivos:", error);
       }
-
-      // AQUI SUPONGO QUE IRA EL CONSUMO DEL ENDPOINT DE LA CREACION DEL POST CON IMAGENES
-
-      // setPostes([newPost, ...postes]);
-      setText("");
-      setSelectedImages([]);
-      setShowPublishIcon(false);
-      setPostModalOpen(false);
-    } else if (textPost && selectedImages.length <= 0) {
-      async function postReview() {
-        const myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-        myHeaders.append("authorization", `Bearer ${localStorage.token}`);
-
-        var raw = JSON.stringify({
-          content: textPost,
-          _id_business: selectedCompany,
-          rating: reviewRating,
-        });
-
-        var requestOptions = {
-          method: "POST",
-          headers: myHeaders,
-          body: raw,
-          redirect: "follow",
-        };
-        const response = await fetch(
-          "http://3.135.121.50:4000/reviews",
-          requestOptions
-        );
-        const jsonRes = await response.json();
-        setPostes([jsonRes?.review, ...postes]);
-      }
-      postReview();
-      setText("");
-      setCompanySearchQuery("");
-      setReviewRating(0);
-      setPostModalOpen(false);
     }
+    setText("");
+    setSelectedImages([]);
+    setCompanySearchQuery("");
+    setReviewRating(0);
+    setPostModalOpen(false);
   };
+
+  console.log(postes);
 
   const handleLike = (_id_review) => {
     async function postLike() {
