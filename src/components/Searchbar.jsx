@@ -1,3 +1,5 @@
+import { useLocation } from "react-router-dom";
+
 const Searchbar = ({
   darkMode,
   search,
@@ -11,8 +13,15 @@ const Searchbar = ({
   activeTabView,
   setActiveTabView,
 }) => {
+  const location = useLocation();
   return (
-    <div className="w-[30%] bg-[#FFF] h-screen sticky top-0 p-4 lg:block hidden">
+    <div
+      className={`${
+        location.pathname === "/search"
+          ? "lg:w-1/2 w-full"
+          : "w-[30%] h-screen sticky top-0 lg:block hidden"
+      } p-4 bg-[#FFF] `}
+    >
       <div className="relative w-full">
         <h1 className="text-[22px] font-semibold mb-2">Buscar</h1>
         <span className="relative translate-y-[150%] left-0 pl-3 flex items-center">
@@ -66,7 +75,7 @@ const Searchbar = ({
         </div>
       </div>
       <div className="flex flex-col gap-4">
-        <div className="grid lg:grid-cols-2 xl:grid-cols-4 mt-4 w-full ">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 mt-4 w-full ">
           <button
             className={`${
               activeTabView === "parati"

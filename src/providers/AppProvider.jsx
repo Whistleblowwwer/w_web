@@ -565,10 +565,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
           username={name?.name}
         />
       )}
-      <FunctionContext.Provider value={generalFunctions}>
-        {children}
-      </FunctionContext.Provider>
-      {!shouldHideComponent && (
+      {location.pathname === "/search" ? (
         <>
           <Searchbar
             darkMode={darkMode}
@@ -583,7 +580,34 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
             searchUser={searchUser}
             setActiveTabView={setActiveTabView}
           />
+          <FunctionContext.Provider value={generalFunctions}>
+            {children}
+          </FunctionContext.Provider>
           <BottomNavbar darkMode={darkMode} />
+        </>
+      ) : (
+        <>
+          <FunctionContext.Provider value={generalFunctions}>
+            {children}
+          </FunctionContext.Provider>
+          {!shouldHideComponent && (
+            <>
+              <Searchbar
+                darkMode={darkMode}
+                activeTabView={activeTabView}
+                businesses={businesses}
+                handleBusinessClick={handleBusinessClick}
+                handleRecentSearch={handleRecentSearch}
+                handleSearch={handleSearch}
+                handleUserClick={handleUserClick}
+                recentSearches={recentSearches}
+                search={search}
+                searchUser={searchUser}
+                setActiveTabView={setActiveTabView}
+              />
+              <BottomNavbar darkMode={darkMode} />
+            </>
+          )}
         </>
       )}
     </>
