@@ -3,13 +3,13 @@ function UpdateProfileModal(props) {
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50">
       <div className="absolute top-0 left-0 w-full h-full bg-black opacity-70"></div>
       <div
-        className={`z-50 bg-[#FFF] p-4 shadow-md rounded-[20px] h-[auto] w-[26%] modalres ${
+        className={`z-50 bg-[#FFF] p-4 shadow-md rounded-[20px] h-[auto] w-full sm:w-[80%] md:w-[60%] lg:w-[40%] xl:w-[30%] modalres ${
           props.darkMode ? "dark-register-bg" : ""
         }`}
       >
         <div className="text-right">
           <button
-            onClick={props.handleNewUpdateModal}
+            onClick={props.handleNewUpdateProfileModal}
             className={`${
               props.darkMode ? "dark-text-white" : ""
             } hover:text-gray-500 cursor-pointer`}
@@ -19,7 +19,7 @@ function UpdateProfileModal(props) {
         </div>
         <form
           onSubmit={props.handleSubmit}
-          className="max-w-md mx-auto mt-3 p-4 bg-white rounded shadow-md"
+          className="max-w-md mx-auto mt-3 p-4 bg-white rounded"
         >
           <div className="mb-4">
             <label

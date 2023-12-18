@@ -9,6 +9,7 @@ import {
   NewCommentModal,
   NewCompanyModal,
   NewPostModal,
+  UpdateProfileModal,
 } from "../components";
 import { getHeadersBase } from "../utils/getHeaders";
 
@@ -24,6 +25,16 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
   const [recentSearches, setRecentSearches] = useState([]);
   const [businesses, setBusinesses] = useState([]);
   const [searchUser, setSearchUser] = useState([]);
+  const [updateModalOpen ,setUpdateModalOpen] = useState(false);
+  const [updateForm, setUpdateForm] = useState({
+    name: "",
+    address: "",
+    entity: "",
+    country: "",
+    state: "",
+    city: "",
+    category: "",
+  });
 
   //post variables
   const [postModalOpen, setPostModalOpen] = useState(false);
@@ -89,6 +100,11 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
   const handleNewCompanyModal = () => {
     setCompanyModalOpen(!companyModalOpen);
   };
+
+  const handleNewUpdateProfileModal = () => {
+    setUpdateModalOpen(!updateModalOpen);
+  };
+
 
   const handlePostTextChange = (event) => {
     setText(event.target.value);
@@ -314,6 +330,34 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
     createBusiness();
   };
 
+  const handleUpdateProfile = () => {
+    async function updateProfile() {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: JSON.stringify(companyForm),
+        redirect: "follow",
+      };
+
+      try {
+        const response = await fetch(
+          "http://3.135.121.50:4000/business",
+          requestOptions
+        );
+        const parseRes = await response.json();
+        console.log(parseRes);
+      } catch (err) {
+        console.error(err.message);
+      }
+    }
+    setUpdateModalOpen(!updateModalOpen);
+    updateProfile();
+  };
+
   const handleSearchCompanyClick = () => {
     async function getCompanies() {
       const myHeaders = new Headers();
@@ -347,6 +391,16 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
 
     const { name, value } = e.target;
     setCompanyForm((prevFormulario) => ({
+      ...prevFormulario,
+      [name]: value,
+    }));
+  };
+
+  const handleChangeUpdate = (e) => {
+    console.log("re-remder here!");
+
+    const { name, value } = e.target;
+    setUpdateForm((prevFormulario) => ({
       ...prevFormulario,
       [name]: value,
     }));
@@ -436,6 +490,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
     handleReview,
     handleLike,
     handleCommentClick,
+    handleNewUpdateProfileModal,
   };
 
   return (
@@ -492,6 +547,22 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
           state={companyForm.state}
           city={companyForm.city}
           category={companyForm.category}
+          handleCreateBusiness={handleCreateBusiness}
+        />
+      )}
+      {updateModalOpen && (
+        <UpdateProfileModal
+          handleNewUpdateProfileModal={handleNewUpdateProfileModal}
+          handleSubmit={handleSubmitCompany}
+          handleChange={handleChangeUpdate}
+          darkMode={darkMode}
+          name={updateForm.name}
+          address={updateForm.address}
+          entity={updateForm.entity}
+          country={updateForm.country}
+          state={updateForm.state}
+          city={updateForm.city}
+          category={updateForm.category}
           handleCreateBusiness={handleCreateBusiness}
         />
       )}

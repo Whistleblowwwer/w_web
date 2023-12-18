@@ -23,7 +23,10 @@ import {
 } from "../components";
 
 export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
-  const { handleUserClick } = useContext(FunctionContext);
+  const { 
+    handleUserClick,
+    handleNewUpdateProfileModal,
+  } = useContext(FunctionContext);
 
   //search variables
   const [showResults, setShowResults] = useState(false);
@@ -36,16 +39,6 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
   //user variables
   const location = useLocation();
   const users = location.state ? location.state.users : null;
-  const [updateModalOpen, setUpdateModalOpen] = useState(false);
-  const [profileForm, setProfileForm] = useState({
-    name: "",
-    address: "",
-    entity: "",
-    country: "",
-    state: "",
-    city: "",
-    category: "",
-  });
 
   //post variables
   const [postModalOpen, setPostModalOpen] = useState(false);
@@ -135,54 +128,6 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
       setIsTyping(false);
       setShowPublishIcon(false);
     }
-  };
-
-  const handleUpdateProfile = (e) => {
-    e.preventDefault();
-    console.log("Datos del formulario:", profileForm);
-    setUpdateModalOpen(false);
-  };
-
-  const handleChangeUpdateProfile = (e) => {
-    console.log("re-remder here!");
-
-    const { name, value } = e.target;
-    setProfileForm((prevFormulario) => ({
-      ...prevFormulario,
-      [name]: value,
-    }));
-  };
-
-  const handleNewUpdateModal = () => {
-    setUpdateModalOpen(!updateModalOpen);
-  };
-
-  const handleCreateUpdateProfile = () => {
-    async function updateProfile() {
-      const myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
-
-      const requestOptions = {
-        method: "POST",
-        headers: myHeaders,
-        body: JSON.stringify(profileForm),
-        redirect: "follow",
-      };
-
-      try {
-        const response = await fetch(
-          `http://3.135.121.50:4000/users?_id_user=${users._id_user}`,
-          requestOptions
-        );
-        const parseRes = await response.json();
-        console.log(parseRes);
-      } catch (err) {
-        console.error(err.message);
-      }
-    }
-    setUpdateModalOpen(!updateModalOpen);
-    updateProfile();
   };
 
   const handleBusinessClick = async (business) => {
@@ -411,7 +356,7 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
         darkMode={darkMode}
         username={users.name}
         userDetail={userDetail}
-        setUpdateModalOpen={() => setUpdateModalOpen(true)}
+        setUpdateModalOpen={handleNewUpdateProfileModal}
         editable={editable}
         activeTabView={activeTabView}
         handleSetActiveTabView={handleSetActiveTabView}
