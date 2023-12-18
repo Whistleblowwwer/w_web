@@ -1,11 +1,11 @@
 export const SIDEBAR_HOME_LINKS = [
   { href: "/home", key: "home", label: "Inicio", icon: "fa-house" },
-  {
-    href: "/noticias",
-    key: "noticias",
-    label: "Noticias",
-    icon: "fa-book-open",
-  },
+  // {
+  //   href: "/noticias",
+  //   key: "noticias",
+  //   label: "Noticias",
+  //   icon: "fa-book-open",
+  // },
   {
     href: "/search",
     key: "search",

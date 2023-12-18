@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { redirect, useLocation, useNavigate } from "react-router-dom";
 import { uploadFiles } from "../utils";
 import { useEffect, useState } from "react";
 
@@ -458,7 +458,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
         );
         const parseRes = await response.json();
         console.log(parseRes);
-        window.location.reload();
+        window.location.href = "/home";
       } catch (err) {
         console.error(err.message);
       }
