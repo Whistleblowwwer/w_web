@@ -114,7 +114,16 @@ function App() {
                 )
               }
             />
-            <Route path="/review/:review" element={<Review />} />
+            <Route
+              path="/review/:review"
+              element={
+                <Review
+                  setAuth={setAuth}
+                  darkMode={darkMode}
+                  FunctionContext={FunctionContext}
+                />
+              }
+            />
             <Route path="/search" element={<Search />} />
             <Route path="/chats" element={<Chats />} />
             <Route path="/empresa/:empresa" element={<BusinessProfile />} />

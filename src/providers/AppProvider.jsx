@@ -336,6 +336,10 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
           "http://3.135.121.50:4000/comments",
           requestOptions
         );
+        const validationComment = await response.json();
+        if (validationComment.message === "Comment created successfully") {
+          window.location.reload();
+        }
       } catch (err) {
         console.error(err.message);
       }
