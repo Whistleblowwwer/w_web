@@ -458,6 +458,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
         );
         const parseRes = await response.json();
         console.log(parseRes);
+        window.location.reload();
       } catch (err) {
         console.error(err.message);
       }
