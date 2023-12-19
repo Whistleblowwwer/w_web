@@ -8,9 +8,11 @@ const uploadFiles = async (url, headers, files) => {
 
     // formData.forEach((file) => console.log(file));
 
-    files.forEach((file) => {
-      formData.append("fileN", file);
-    });
+    console.log(files);
+
+    formData.append("fileN", files);
+
+    console.log(formData.get("fileN"));
 
     const response = await fetch(url, {
       method: "POST",
