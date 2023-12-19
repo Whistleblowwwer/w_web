@@ -12,6 +12,8 @@ import { formatDate, renderStars } from "../utils";
 import { USER_PROFILE_TABS } from "../constants";
 import PostCard from "./PostCard";
 
+
+
 const ProfileSection = ({
   darkMode,
   username,
@@ -26,6 +28,7 @@ const ProfileSection = ({
   handleReview,
   handleLike,
   handleCommentClick,
+  handleFollow,
   isUserProfile,
   isBusiness,
 }) => {
@@ -52,12 +55,13 @@ const ProfileSection = ({
                   {userDetail.name}
                 </p>
                 <div className="flex items-center">
-                  {renderStars(userDetail.rating, darkMode)}
+                  {renderStars(userDetail.average_rating, darkMode)}
+                  <p className="opacity-90 text-[#D9D9D9]">({Math.round(userDetail.average_rating)})</p>
                 </div>
               </div>
-              <button className="w-[86px] relative translate-y-[14%] h-10 px-4 bg-neutral-100 rounded-[20px] flex-col justify-center items-start gap-4">
+              <button className="w-auto relative translate-y-[14%] h-10 px-4 bg-neutral-100 rounded-[20px] flex-col justify-center items-start gap-4" onClick={handleFollow}>
                 <div className="text-black text-base font-semibold leading-10">
-                  Seguir
+                  {userDetail.is_followed ? "Dejar de seguir" : "Seguir" }
                 </div>
               </button>
             </div>
@@ -108,7 +112,7 @@ const ProfileSection = ({
                 )}
               </div>
               <button
-                onClick={editable === "true" ? setUpdateModalOpen : () => {}}
+                onClick={editable === "true" ? setUpdateModalOpen : handleFollow}
                 className="bg-neutral-100 h-full rounded-xl px-3 py-1.5"
               >
                 <p className="text-black text-[14px] font-bold">

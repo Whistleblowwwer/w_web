@@ -280,7 +280,10 @@ export default function Settings() {
                 >
                   Privacidad
                 </p>
-              </div>
+                <p className="mt-3">D.R.© ANCER 2023, S.A.P.I. DE C.V., México 2023. Utilización del sitio únicamente bajo términos legales. Whistleblowwer®
+                  Pedro Infante # 1000, Colonia Cumbres Oro Regency, Monterrey, Nuevo León. México. 64347.</p>
+                <a href="" className="">Terminos y condiciones</a>
+              </div>     
             )}
             {activeButtonCon === "notificaciones" && (
               <div>

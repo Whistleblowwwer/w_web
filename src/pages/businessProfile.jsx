@@ -181,7 +181,6 @@ export default function BusinessProfile({ setAuth }) {
           );
           const parseRes = await response.json();
           setBusinessDetails(parseRes.business);
-          console.log(businessDetails.followers);
         } else {
           console.error(
             "El objeto business no tiene la propiedad _id_business"
@@ -341,6 +340,33 @@ export default function BusinessProfile({ setAuth }) {
     navigate(`/${users.name}`, { state: { users } });
   };
 
+  const handleFollowBusiness = () => {
+    async function followBusiness() {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        redirect: "follow",
+      };
+
+      try {
+        const response = await fetch(
+          `http://3.135.121.50:4000/users/business/follow/?_id_business=${businessDetails._id_business}`,
+          requestOptions
+        );
+        const parseRes = await response.json();
+        
+        window.location.reload();
+      } catch (err) {
+        console.error(err.message);
+      }
+    }
+    followBusiness();
+  };
+
   return (
     <>
       <ProfileSection
@@ -354,6 +380,7 @@ export default function BusinessProfile({ setAuth }) {
         handleLike={handleLike}
         handleUserClick={handleUserClick}
         handleCommentClick={handleCommentClick}
+        handleFollow={handleFollowBusiness}
         isBusiness
       />
       {/* <div className="w-1/4 bg-[#FFF] h-screen fixed right-0 p-4">

@@ -220,6 +220,7 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
         );
         const parseRes = await response.json();
         setUserDetail(parseRes.user);
+        console.log(parseRes.user);
       } catch (err) {
         console.error(err.message);
       }
@@ -348,6 +349,33 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
     setActiveTabView(tabView);
   };
 
+  const handleFollowUser = () => {
+    async function followUser() {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        redirect: "follow",
+      };
+
+      try {
+        const response = await fetch(
+          `http://3.135.121.50:4000/users/follow/?_id_followed=${userDetail._id_user}`,
+          requestOptions
+        );
+        const parseRes = await response.json();
+        console.log(parseRes);
+        window.location.reload();
+      } catch (err) {
+        console.error(err.message);
+      }
+    }
+    followUser();
+  };
+
   return (
     <>
       <ProfileSection
@@ -363,6 +391,7 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
         handleReview={handleReview}
         handleLike={handleLike}
         handleCommentClick={handleCommentClick}
+        handleFollow={handleFollowUser}
         isUserProfile
       />
       {/* <div className="w-1/4 bg-[#FFF] h-screen fixed right-0 p-4">
