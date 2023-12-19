@@ -10,3 +10,4 @@ export { default as Searchbar } from "./Searchbar";
 export { default as Sidebar } from "./Sidebar";
 export { default as UpdateProfileModal } from "./UpdateProfileModal";
 export { default as ProfileSection } from "./ProfileSection";
+export { default as Navbar } from "./Navbar";

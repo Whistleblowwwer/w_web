@@ -9,4 +9,4 @@ export { default as BusinessProfile } from "./businessProfile";
 export { default as UserProfile } from "./userProfile";
 export { default as Review } from "./review";
 export { default as Settings } from "./settings";
-export { default as Testing } from "./testing";
+export { default as Notifications } from "./notifications";

@@ -25,6 +25,7 @@ export const BOTTOM_NAVBAR_LINKS = [
   { href: "/home", key: "home", icon: "fa-house" },
   { href: "/search", key: "search", icon: "fa-magnifying-glass" },
   { href: "/chats", key: "chats", icon: "fa-message" },
+  { href: "/settings", key: "settings", icon: "fa-cog" },
 ];
 
 export const USER_PROFILE_TABS = [

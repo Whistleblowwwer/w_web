@@ -10,6 +10,7 @@ import {
   NewCompanyModal,
   NewPostModal,
   UpdateProfileModal,
+  Navbar,
 } from "../components";
 import { getHeadersBase } from "../utils/getHeaders";
 
@@ -562,12 +563,18 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
         />
       )}
       {!shouldHideComponent && (
-        <Sidebar
-          darkMode={darkMode}
-          handlePostModal={handlePostModal}
-          handleUserClick={() => handleUserClick(name)}
-          username={name?.name}
-        />
+        <>
+          <Navbar
+            darkMode={darkMode}
+            handleUserClick={() => handleUserClick(name)}
+          />
+          <Sidebar
+            darkMode={darkMode}
+            handlePostModal={handlePostModal}
+            handleUserClick={() => handleUserClick(name)}
+            username={name?.name}
+          />
+        </>
       )}
       {location.pathname === "/search" ? (
         <>
@@ -596,19 +603,21 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
           </FunctionContext.Provider>
           {!shouldHideComponent && (
             <>
-              <Searchbar
-                darkMode={darkMode}
-                activeTabView={activeTabView}
-                businesses={businesses}
-                handleBusinessClick={handleBusinessClick}
-                handleRecentSearch={handleRecentSearch}
-                handleSearch={handleSearch}
-                handleUserClick={handleUserClick}
-                recentSearches={recentSearches}
-                search={search}
-                searchUser={searchUser}
-                setActiveTabView={setActiveTabView}
-              />
+              {location.pathname !== "/chats" && (
+                <Searchbar
+                  darkMode={darkMode}
+                  activeTabView={activeTabView}
+                  businesses={businesses}
+                  handleBusinessClick={handleBusinessClick}
+                  handleRecentSearch={handleRecentSearch}
+                  handleSearch={handleSearch}
+                  handleUserClick={handleUserClick}
+                  recentSearches={recentSearches}
+                  search={search}
+                  searchUser={searchUser}
+                  setActiveTabView={setActiveTabView}
+                />
+              )}
               <BottomNavbar darkMode={darkMode} />
             </>
           )}

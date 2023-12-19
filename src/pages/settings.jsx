@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import logoN from "../assets/NavLogo.png";
-import proSet from "../assets/Image-40.png";
 import { useNavigate, useLocation, Navigate } from "react-router-dom";
 
 export default function Settings() {
@@ -44,135 +42,17 @@ export default function Settings() {
   }, [darkMode]);
 
   return (
-    <div
-      className={`bg-[#EEEFEF] h-screen w-screen ${
-        darkMode ? "dark-login-bg" : ""
-      }`}
-    >
-      <div className={`bg-[#EEEFEF] h-auto ${darkMode ? "dark-login-bg" : ""}`}>
-        <nav
-          className={`bg-[#FFF] p-4 flex justify-between items-center h-[84px] ${
-            darkMode ? "dark-register-bg" : ""
-          } navbar margin-rightmove`}
+    <div className="lg:w-[50%] w-full bg-[#EEEFEF] lg:px-0 p-1">
+      <div className="bg-[#FFF] p-4">
+        <p
+          className={`text-xl font-bold leading-[18.62px] ${
+            darkMode ? "dark-text-white" : ""
+          }`}
         >
-          <div className="flex items-center ml-6">
-            <img src={logoN} alt="Logo" />
-          </div>
-          <div className="flex items-center space-x-4 mr-[42px]">
-            <i
-              className={`fa-solid fa-bell mr-3 ${
-                darkMode ? "dark-text-white" : ""
-              }`}
-              style={{ fontSize: "18px" }}
-            ></i>
-            <img src={proSet} alt="Imagen" className="cursor-pointer" />
-            <p className={`${darkMode ? "dark-text-white" : ""}`}></p>
-          </div>
-        </nav>
-        <div className="contain-principal">
-          <div className="w-[60%] mt-6 ml-[40px] sidebar1">
-            <div
-              className={`margin-top ${
-                darkMode ? "dark-text-white" : ""
-              } sidebarcontain`}
-            >
-              <button
-                className={
-                  activeButton === "home"
-                    ? darkMode
-                      ? "active-buttonH font-bold"
-                      : "active-buttonD font-bold"
-                    : ""
-                }
-                onClick={() => {
-                  setActiveButton("home");
-                  navigate("/home");
-                }}
-              >
-                <p className="ml-4 p-txt">
-                  <i className="p-fa fa-solid fa-house mr-3"></i>Home
-                </p>
-              </button>
-            </div>
-            <div
-              className={`margin-top mt-3 ${
-                darkMode ? "dark-text-white" : ""
-              } sidebarcontain`}
-            >
-              <button
-                className={
-                  activeButton === "search"
-                    ? darkMode
-                      ? "active-buttonH font-bold"
-                      : "active-buttonD font-bold"
-                    : ""
-                }
-                onClick={() => {
-                  setActiveButton("search");
-                  navigate("/search");
-                }}
-              >
-                <p className="ml-4 p-txt">
-                  <i className="p-fa fa-solid fa-magnifying-glass mr-3"></i>
-                  Search
-                </p>
-              </button>
-            </div>
-            <div
-              className={`margin-top mt-3 ${
-                darkMode ? "dark-text-white" : ""
-              } sidebarcontain`}
-            >
-              <button
-                className={
-                  activeButton === "mensajes"
-                    ? darkMode
-                      ? "active-buttonH font-bold"
-                      : "active-buttonD font-bold"
-                    : ""
-                }
-                onClick={() => {
-                  setActiveButton("mensajes");
-                  navigate("/chats");
-                }}
-              >
-                <p className="ml-4 p-txt">
-                  <i className="p-fa fa-solid fa-message mr-3"></i>Mensajes
-                </p>
-              </button>
-            </div>
-            <div
-              className={`margin-top mt-3 ${
-                darkMode ? "dark-text-white" : ""
-              } sidebarcontain`}
-            >
-              <button
-                className={
-                  activeButton === "settings"
-                    ? darkMode
-                      ? "active-buttonH font-bold"
-                      : "active-buttonD font-bold"
-                    : ""
-                }
-                onClick={() => {
-                  setActiveButton("settings");
-                  navigate("/settings");
-                }}
-              >
-                <p className="ml-4 p-txt">
-                  <i className="p-fa fa-solid fa-gear mr-3"></i>Configuracion
-                </p>
-              </button>
-            </div>
-          </div>
-          <div className="w-[60%] mt-6">
-            <p
-              className={`text-xl font-bold leading-[18.62px] ${
-                darkMode ? "dark-text-white" : ""
-              }`}
-            >
-              Configuración
-            </p>
+          Configuración
+        </p>
+        <div className="flex">
+          <div className="w-[50%]">
             <div
               className={`margin-top mt-3 ${
                 darkMode ? "dark-text-white" : ""
@@ -289,7 +169,7 @@ export default function Settings() {
               </button>
             </div>
           </div>
-          <div className="w-[100%] mt-6">
+          <div className="w-[50%]">
             {activeButtonCon === "tucuen" && (
               <div className="w-[100%] mt-6">
                 <p

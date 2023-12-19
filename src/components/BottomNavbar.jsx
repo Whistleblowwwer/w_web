@@ -5,8 +5,8 @@ const BottomNavbar = ({ darkMode }) => {
   const navigate = useNavigate();
 
   return (
-    <div
-      className={`bg-[#FFF] w-full lg:hidden fixed bottom-0 p-4 ${
+    <footer
+      className={`bg-[#FFF] w-full lg:hidden fixed bottom-0 p-4 z-50 ${
         darkMode ? "dark-bg" : ""
       }`}
     >
@@ -20,7 +20,7 @@ const BottomNavbar = ({ darkMode }) => {
           ></i>
         ))}
       </div>
-    </div>
+    </footer>
   );
 };
 

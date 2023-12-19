@@ -13,6 +13,7 @@ import {
   Review,
   Settings,
   Testing,
+  Notifications,
 } from "./pages";
 
 import {
@@ -65,19 +66,13 @@ function App() {
 
   return (
     <main
-      className={`bg-[#EEEFEF] w-full flex gap-1 ${
+      className={`bg-[#EEEFEF] w-full flex gap-1 pt-20 pb-14 lg:p-0 lg:pb-0 ${
         darkMode ? "dark-login-bg" : ""
       }`}
     >
       <Router>
         <AppProvider darkMode={darkMode} FunctionContext={FunctionContext}>
           <Routes>
-            <Route
-              path="/testing"
-              element={
-                <Testing anothProp={true} FunctionContext={FunctionContext} />
-              }
-            />
             <Route path="/" element={<Begin />} />
             <Route path="/admin" element={<Admin />} />
             <Route
@@ -137,6 +132,7 @@ function App() {
               }
             />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/notificaciones" element={<Notifications />} />
           </Routes>
         </AppProvider>
       </Router>

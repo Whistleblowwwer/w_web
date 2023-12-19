@@ -61,7 +61,7 @@ const Sidebar = ({ darkMode, handleUserClick, handlePostModal, username }) => {
               {username}
             </p>
           </div>
-          <button>
+          <button onClick={() => navigate("/settings")}>
             <svg
               fill="currentColor"
               viewBox="0 0 16 16"
