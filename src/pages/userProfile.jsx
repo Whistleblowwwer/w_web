@@ -154,7 +154,7 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
           };
 
           const response = await fetch(
-            `http://3.18.112.92:4000/users/reviews?_id_user=${users._id_user}`,
+            `https://api.whistleblowwer.net/users/reviews?_id_user=${users._id_user}`,
             requestOptions
           );
           const parseRes = await response.json();
@@ -188,7 +188,7 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
 
       try {
         const response = await fetch(
-          "http://3.18.112.92:4000/users",
+          "https://api.whistleblowwer.net/users",
           requestOptions
         );
         const parseRes = await response.json();
@@ -213,7 +213,7 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
 
       try {
         const response = await fetch(
-          `http://3.18.112.92:4000/users/?_id_user=${users._id_user}`,
+          `https://api.whistleblowwer.net/users/?_id_user=${users._id_user}`,
           requestOptions
         );
         const parseRes = await response.json();
@@ -300,7 +300,7 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
       };
 
       try {
-        const url = `http://3.18.112.92:4000/users/reviews/like/?_id_review=${_id_review}`;
+        const url = `https://api.whistleblowwer.net/users/reviews/like/?_id_review=${_id_review}`;
         const response = await fetch(url, requestOptions);
         const parseRes = await response.json();
       } catch (err) {
@@ -333,7 +333,7 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
 
       try {
         const response = await fetch(
-          "http://3.18.112.92:4000/comments",
+          "https://api.whistleblowwer.net/comments",
           requestOptions
         );
       } catch (err) {
@@ -361,7 +361,7 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
 
       try {
         const response = await fetch(
-          `http://3.18.112.92:4000/users/follow/?_id_followed=${userDetail._id_user}`,
+          `https://api.whistleblowwer.net/users/follow/?_id_followed=${userDetail._id_user}`,
           requestOptions
         );
         const parseRes = await response.json();

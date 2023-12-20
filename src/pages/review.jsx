@@ -31,7 +31,7 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
 
       try {
         const response = await fetch(
-          `http://3.18.112.92:4000/reviews/info/?_id_review=${reviewValue._id_review}`,
+          `https://api.whistleblowwer.net/reviews/info/?_id_review=${reviewValue._id_review}`,
           requestOptions
         );
         const parseRes = await response.json();
@@ -54,7 +54,7 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
       };
 
       try {
-        const url = `http://3.18.112.92:4000/users/comments/like/?_id_comment=${_id_comment}`;
+        const url = `https://api.whistleblowwer.net/users/comments/like/?_id_comment=${_id_comment}`;
         const response = await fetch(url, requestOptions);
 
         const parseRes = await response.json();

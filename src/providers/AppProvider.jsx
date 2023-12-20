@@ -145,7 +145,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
 
       try {
         const response = await fetch(
-          `http://3.18.112.92:4000/business/search?name=${e}&city=&enitty=&country=&address=&state=`,
+          `https://api.whistleblowwer.net/business/search?name=${e}&city=&enitty=&country=&address=&state=`,
           requestOptions
         );
         const parseRes = await response.json();
@@ -155,7 +155,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
       }
       try {
         const response = await fetch(
-          `http://3.18.112.92:4000/users/search?searchTerm=${e}`,
+          `https://api.whistleblowwer.net/users/search?searchTerm=${e}`,
           requestOptions
         );
         const parseRes = await response.json();
@@ -187,7 +187,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
       };
 
       const response = await fetch(
-        "http://3.18.112.92:4000/reviews",
+        "https://api.whistleblowwer.net/reviews",
         requestOptions
       );
       const jsonRes = await response.json();
@@ -205,7 +205,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
 
       try {
         const res = await uploadFiles(
-          `http://3.18.112.92:4000/bucket?id=${post.review._id_review}&photo_type=reviews_img`,
+          `https://api.whistleblowwer.net/bucket?id=${post.review._id_review}&photo_type=reviews_img`,
           headersBase,
           selectedImages
         );
@@ -233,7 +233,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
       };
 
       try {
-        const url = `http://3.18.112.92:4000/users/reviews/like/?_id_review=${_id_review}`;
+        const url = `https://api.whistleblowwer.net/users/reviews/like/?_id_review=${_id_review}`;
         const response = await fetch(url, requestOptions);
         const parseRes = await response.json();
         setPostes((prevPostes) => {
@@ -277,7 +277,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
 
       try {
         const response = await fetch(
-          "http://3.18.112.92:4000/comments",
+          "https://api.whistleblowwer.net/comments",
           requestOptions
         );
         const validationComment = await response.json();
@@ -307,7 +307,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
 
       try {
         const response = await fetch(
-          "http://3.18.112.92:4000/business",
+          "https://api.whistleblowwer.net/business",
           requestOptions
         );
         const parseRes = await response.json();
@@ -332,7 +332,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
 
       try {
         const response = await fetch(
-          "http://3.18.112.92:4000/business/search?",
+          "https://api.whistleblowwer.net/business/search?",
           requestOptions
         );
         const parseRes = await response.json();
@@ -394,7 +394,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
 
       try {
         const response = await fetch(
-          "http://3.18.112.92:4000/reviews/",
+          "https://api.whistleblowwer.net/reviews/",
           requestOptions
         );
         const parseRes = await response.json();
@@ -419,7 +419,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
 
       try {
         const response = await fetch(
-          "http://3.18.112.92:4000/users",
+          "https://api.whistleblowwer.net/users",
           requestOptions
         );
         const parseRes = await response.json();
@@ -455,7 +455,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
 
       try {
         const response = await fetch(
-          `http://3.18.112.92:4000/users?_id_user=${name._id_user}`,
+          `https://api.whistleblowwer.net/users?_id_user=${name._id_user}`,
           requestOptions
         );
         const parseRes = await response.json();

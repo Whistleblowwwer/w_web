@@ -38,7 +38,7 @@ export default function Home({ setAuth, darkMode, FunctionContext }) {
 
       try {
         const response = await fetch(
-          "http://3.18.112.92:4000/users/token",
+          "https://api.whistleblowwer.net/users/token",
           requestOptions
         );
         const parseRes = await response.json();
