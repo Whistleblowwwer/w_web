@@ -89,7 +89,7 @@ export default function Register({ setAuth }) {
         role,
       };
       console.log(body);
-      const response = await fetch("http://3.135.121.50:4000/users/", {
+      const response = await fetch("http://3.18.112.92:4000/users/", {
         method: "POST",
         mode: "cors",
         headers: { "Content-Type": "application/json" },

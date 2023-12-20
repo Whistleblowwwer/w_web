@@ -2,17 +2,18 @@ const uploadFiles = async (url, headers, files) => {
   try {
     const formData = new FormData();
 
-    // files.forEach((file, index) => {
-    //   formData.append(`fileN_${index}`, file);
+    // files.forEach((file) => {
+    //   formData.append("fileN", file);
     // });
 
-    // formData.forEach((file) => console.log(file));
+    formData.forEach((file) => console.log(file));
 
     console.log(files);
 
     formData.append("fileN", files);
 
     console.log(formData.get("fileN"));
+    console.log(formData.getAll("fileN"));
 
     const response = await fetch(url, {
       method: "POST",
@@ -25,6 +26,7 @@ const uploadFiles = async (url, headers, files) => {
     }
 
     const data = await response.json();
+    console.log(data);
     return data;
   } catch (error) {
     throw new Error(`Error al subir los archivos : ${error}`);

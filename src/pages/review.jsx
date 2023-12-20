@@ -31,7 +31,7 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
 
       try {
         const response = await fetch(
-          `http://3.135.121.50:4000/reviews/info/?_id_review=${reviewValue._id_review}`,
+          `http://3.18.112.92:4000/reviews/info/?_id_review=${reviewValue._id_review}`,
           requestOptions
         );
         const parseRes = await response.json();
@@ -54,7 +54,7 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
       };
 
       try {
-        const url = `http://3.135.121.50:4000/users/comments/like/?_id_comment=${_id_comment}`;
+        const url = `http://3.18.112.92:4000/users/comments/like/?_id_comment=${_id_comment}`;
         const response = await fetch(url, requestOptions);
 
         const parseRes = await response.json();

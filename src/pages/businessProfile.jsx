@@ -143,7 +143,7 @@ export default function BusinessProfile({ setAuth }) {
           const businessId = business._id_business;
 
           const response = await fetch(
-            `http://3.135.121.50:4000/reviews/business/?_id_business=${businessId}`,
+            `http://3.18.112.92:4000/reviews/business/?_id_business=${businessId}`,
             requestOptions
           );
           const parseRes = await response.json();
@@ -176,7 +176,7 @@ export default function BusinessProfile({ setAuth }) {
         if (business && business._id_business) {
           const businessId = business._id_business;
           const response = await fetch(
-            `http://3.135.121.50:4000/business/details/?_id_business=${businessId}`,
+            `http://3.18.112.92:4000/business/details/?_id_business=${businessId}`,
             requestOptions
           );
           const parseRes = await response.json();
@@ -207,7 +207,7 @@ export default function BusinessProfile({ setAuth }) {
 
       try {
         const response = await fetch(
-          "http://3.135.121.50:4000/users",
+          "http://3.18.112.92:4000/users",
           requestOptions
         );
         const parseRes = await response.json();
@@ -282,7 +282,7 @@ export default function BusinessProfile({ setAuth }) {
       };
 
       try {
-        const url = `http://3.135.121.50:4000/users/reviews/like/?_id_review=${_id_review}`;
+        const url = `http://3.18.112.92:4000/users/reviews/like/?_id_review=${_id_review}`;
         const response = await fetch(url, requestOptions);
         const parseRes = await response.json();
       } catch (err) {
@@ -315,7 +315,7 @@ export default function BusinessProfile({ setAuth }) {
 
       try {
         const response = await fetch(
-          "http://3.135.121.50:4000/comments",
+          "http://3.18.112.92:4000/comments",
           requestOptions
         );
       } catch (err) {
@@ -354,11 +354,11 @@ export default function BusinessProfile({ setAuth }) {
 
       try {
         const response = await fetch(
-          `http://3.135.121.50:4000/users/business/follow/?_id_business=${businessDetails._id_business}`,
+          `http://3.18.112.92:4000/users/business/follow/?_id_business=${businessDetails._id_business}`,
           requestOptions
         );
         const parseRes = await response.json();
-        
+
         window.location.reload();
       } catch (err) {
         console.error(err.message);

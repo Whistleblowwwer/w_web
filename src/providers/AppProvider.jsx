@@ -145,7 +145,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
 
       try {
         const response = await fetch(
-          `http://3.135.121.50:4000/business/search?name=${e}&city=&enitty=&country=&address=&state=`,
+          `http://3.18.112.92:4000/business/search?name=${e}&city=&enitty=&country=&address=&state=`,
           requestOptions
         );
         const parseRes = await response.json();
@@ -155,7 +155,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
       }
       try {
         const response = await fetch(
-          `http://3.135.121.50:4000/users/search?searchTerm=${e}`,
+          `http://3.18.112.92:4000/users/search?searchTerm=${e}`,
           requestOptions
         );
         const parseRes = await response.json();
@@ -187,7 +187,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
       };
 
       const response = await fetch(
-        "http://3.135.121.50:4000/reviews",
+        "http://3.18.112.92:4000/reviews",
         requestOptions
       );
       const jsonRes = await response.json();
@@ -204,11 +204,12 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
       headersBase.delete("Content-Type");
 
       try {
-        await uploadFiles(
-          `http://3.135.121.50:4000/bucket?id=${post.review._id_review}&photo_type=reviews_img`,
+        const res = await uploadFiles(
+          `http://3.18.112.92:4000/bucket?id=${post.review._id_review}&photo_type=reviews_img`,
           headersBase,
           selectedImages
         );
+        console.log("res", res);
       } catch (error) {
         console.error("Error al subir los archivos:", error);
       }
@@ -232,7 +233,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
       };
 
       try {
-        const url = `http://3.135.121.50:4000/users/reviews/like/?_id_review=${_id_review}`;
+        const url = `http://3.18.112.92:4000/users/reviews/like/?_id_review=${_id_review}`;
         const response = await fetch(url, requestOptions);
         const parseRes = await response.json();
         setPostes((prevPostes) => {
@@ -276,7 +277,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
 
       try {
         const response = await fetch(
-          "http://3.135.121.50:4000/comments",
+          "http://3.18.112.92:4000/comments",
           requestOptions
         );
         const validationComment = await response.json();
@@ -306,7 +307,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
 
       try {
         const response = await fetch(
-          "http://3.135.121.50:4000/business",
+          "http://3.18.112.92:4000/business",
           requestOptions
         );
         const parseRes = await response.json();
@@ -331,7 +332,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
 
       try {
         const response = await fetch(
-          "http://3.135.121.50:4000/business/search?",
+          "http://3.18.112.92:4000/business/search?",
           requestOptions
         );
         const parseRes = await response.json();
@@ -393,7 +394,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
 
       try {
         const response = await fetch(
-          "http://3.135.121.50:4000/reviews/",
+          "http://3.18.112.92:4000/reviews/",
           requestOptions
         );
         const parseRes = await response.json();
@@ -418,7 +419,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
 
       try {
         const response = await fetch(
-          "http://3.135.121.50:4000/users",
+          "http://3.18.112.92:4000/users",
           requestOptions
         );
         const parseRes = await response.json();
@@ -454,7 +455,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
 
       try {
         const response = await fetch(
-          `http://3.135.121.50:4000/users?_id_user=${name._id_user}`,
+          `http://3.18.112.92:4000/users?_id_user=${name._id_user}`,
           requestOptions
         );
         const parseRes = await response.json();

@@ -38,7 +38,7 @@ export default function Home({ setAuth, darkMode, FunctionContext }) {
 
       try {
         const response = await fetch(
-          "http://3.135.121.50:4000/users/token",
+          "http://3.18.112.92:4000/users/token",
           requestOptions
         );
         const parseRes = await response.json();
