@@ -76,7 +76,7 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
       <div className="lg:w-[50%] w-full bg-[#EEEFEF] lg:px-0 p-1">
         <div
           className="flex bg-[#FFF] gap-2 items-center px-3 pt-3"
-          onClick={() => navigate(`/${postWithComments.name}`)}
+          onClick={() => navigate(-1)}
         >
           <i class="fa-solid fa-arrow-left-long cursor-pointer"></i>
           <p className="text-[20px] font-bold">Post</p>

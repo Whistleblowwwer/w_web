@@ -40,7 +40,7 @@ const ProfileSection = ({
           <div className="flex mb-[20%]">
             <i
               class="fa-solid fa-arrow-left-long mt-2 mr-2 cursor-pointer"
-              onClick={() => navigate("/home")}
+              onClick={() => navigate(-1)}
             ></i>
             <p className="text-[20px] font-bold">
               {isBusiness
