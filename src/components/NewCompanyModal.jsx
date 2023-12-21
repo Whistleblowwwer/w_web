@@ -3,7 +3,7 @@ function NewCompanyModal(props) {
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50">
       <div className="absolute top-0 left-0 w-full h-full bg-black opacity-70"></div>
       <div
-        className={`z-50 bg-[#FFF] p-4 shadow-md rounded-[20px] h-[auto] w-full sm:w-[80%] md:w-[60%] lg:w-[40%] xl:w-[30%] modalres ${
+        className={`z-50 bg-[#FFF] p-4 shadow-md rounded-[20px] h-auto w-full sm:w-[80%] md:w-[60%] lg:w-[40%] xl:w-[30%] modalres ${
           props.darkMode ? "dark-register-bg" : ""
         }`}
       >
@@ -37,39 +37,41 @@ function NewCompanyModal(props) {
               className="w-full p-2 border border-gray-300 rounded"
             />
           </div>
-          <div className="mb-4">
-            <label
-              htmlFor="address"
-              className="block text-gray-600 font-semibold mb-2"
-            >
-              Dirección
-            </label>
-            <input
-              type="text"
-              id="address"
-              name="address"
-              value={props.address}
-              onChange={props.handleChange}
-              className="w-full p-2 border border-gray-300 rounded"
-            />
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="entity"
-              className="block text-gray-600 font-semibold mb-2"
-            >
-              Entidad
-            </label>
-            <input
-              type="text"
-              id="entity"
-              name="entity"
-              value={props.entity}
-              onChange={props.handleChange}
-              className="w-full p-2 border border-gray-300 rounded"
-            />
-          </div>
-          <div className="mb-4">
+          {/* Agregué clases de tamaño a los contenedores de las etiquetas e inputs */}
+          <div className="flex flex-wrap -mx-2 mb-4">
+            <div className="w-full md:w-1/2 px-2">
+              <label
+                htmlFor="address"
+                className="block text-gray-600 font-semibold mb-2"
+              >
+                Dirección
+              </label>
+              <input
+                type="text"
+                id="address"
+                name="address"
+                value={props.address}
+                onChange={props.handleChange}
+                className="w-full p-2 border border-gray-300 rounded"
+              />
+            </div>
+            <div className="w-full md:w-1/2 px-2">
+              <label
+                htmlFor="entity"
+                className="block text-gray-600 font-semibold mb-2"
+              >
+                Entidad
+              </label>
+              <input
+                type="text"
+                id="entity"
+                name="entity"
+                value={props.entity}
+                onChange={props.handleChange}
+                className="w-full p-2 border border-gray-300 rounded"
+              />
+            </div>
+            <div className="w-full md:w-1/2 px-2">
             <label
               htmlFor="country"
               className="block text-gray-600 font-semibold mb-2"
@@ -84,54 +86,55 @@ function NewCompanyModal(props) {
               onChange={props.handleChange}
               className="w-full p-2 border border-gray-300 rounded"
             />
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="state"
-              className="block text-gray-600 font-semibold mb-2"
-            >
-              Estado
-            </label>
-            <input
-              type="text"
-              id="state"
-              name="state"
-              value={props.state}
-              onChange={props.handleChange}
-              className="w-full p-2 border border-gray-300 rounded"
-            />
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="city"
-              className="block text-gray-600 font-semibold mb-2"
-            >
-              Ciudad
-            </label>
-            <input
-              type="text"
-              id="city"
-              name="city"
-              value={props.city}
-              onChange={props.handleChange}
-              className="w-full p-2 border border-gray-300 rounded"
-            />
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="category"
-              className="block text-gray-600 font-semibold mb-2"
-            >
-              Categoria
-            </label>
-            <input
-              type="text"
-              id="category"
-              name="category"
-              value={props.category}
-              onChange={props.handleChange}
-              className="w-full p-2 border border-gray-300 rounded"
-            />
+            </div>
+            <div className="w-full md:w-1/2 px-2">
+              <label
+                htmlFor="state"
+                className="block text-gray-600 font-semibold mb-2"
+              >
+                Estado
+              </label>
+              <input
+                type="text"
+                id="state"
+                name="state"
+                value={props.state}
+                onChange={props.handleChange}
+                className="w-full p-2 border border-gray-300 rounded"
+              />
+            </div>
+            <div className="w-full md:w-1/2 px-2">
+              <label
+                htmlFor="city"
+                className="block text-gray-600 font-semibold mb-2"
+              >
+                Ciudad
+              </label>
+              <input
+                type="text"
+                id="city"
+                name="city"
+                value={props.city}
+                onChange={props.handleChange}
+                className="w-full p-2 border border-gray-300 rounded"
+              />
+            </div>
+            <div className="w-full md:w-1/2 px-2">
+              <label
+                htmlFor="category"
+                className="block text-gray-600 font-semibold mb-2"
+              >
+                Categoria
+              </label>
+              <input
+                type="text"
+                id="category"
+                name="category"
+                value={props.category}
+                onChange={props.handleChange}
+                className="w-full p-2 border border-gray-300 rounded"
+              />
+            </div>
           </div>
           <button
             type="submit"
