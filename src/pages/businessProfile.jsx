@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import logoN from "../assets/NavLogo.png";
 import proSet from "../assets/Image-40.png";
 import Location from "../assets/Location.svg";
@@ -22,7 +22,13 @@ import {
 } from "date-fns";
 import { NewCommentModal, NewPostModal, ProfileSection } from "../components";
 
-export default function BusinessProfile({ setAuth }) {
+export default function BusinessProfile({
+  setAuth,
+  darkMode,
+  FunctionContext,
+}) {
+  const { handleCommentClick } = useContext(FunctionContext);
+
   const [search, setSearch] = useState("");
   const [recentSearches, setRecentSearches] = useState([]);
 
@@ -39,17 +45,14 @@ export default function BusinessProfile({ setAuth }) {
   const [selectedImages, setSelectedImages] = useState([]);
 
   //comments variables
-  const [commentModalOpen, setCommentModalOpen] = useState(false);
+  // const [commentModalOpen, setCommentModalOpen] = useState(false);
   const [textComment, setTextComment] = useState("");
   const [idReviewComment, setIdReviewComment] = useState("");
 
   //general variables
   const [activeButton, setActiveButton] = useState("home");
   const [activeTabView, setActiveTabView] = useState("reseñas");
-  const [darkMode, setDarkMode] = useState(() => {
-    // Inicializa el estado a partir de LocalStorage o usa el valor predeterminado (false)
-    return JSON.parse(localStorage.getItem("darkMode")) || false;
-  });
+
   const [isTyping, setIsTyping] = useState(false);
   const [showPublishIcon, setShowPublishIcon] = useState(false);
   const [name, setName] = useState("");
@@ -105,12 +108,12 @@ export default function BusinessProfile({ setAuth }) {
     }
   };
 
-  const handleCommentClick = (_id_review) => {
-    setIdReviewComment(_id_review);
-    setCommentModalOpen(!commentModalOpen);
-    console.log("Comment clicked!");
-    console.log("Comment modal status => ", commentModalOpen);
-  };
+  // const handleCommentClick = (_id_review) => {
+  //   setIdReviewComment(_id_review);
+  //   setCommentModalOpen(!commentModalOpen);
+  //   console.log("Comment clicked!");
+  //   console.log("Comment modal status => ", commentModalOpen);
+  // };
 
   const handleTextChange2 = (event) => {
     setText2(event.target.value);
@@ -122,10 +125,6 @@ export default function BusinessProfile({ setAuth }) {
       setShowPublishIcon(false);
     }
   };
-
-  useEffect(() => {
-    localStorage.setItem("darkMode", JSON.stringify(darkMode));
-  }, [darkMode]);
 
   useEffect(() => {
     async function getPostes() {

@@ -42,12 +42,15 @@ function App() {
         client_email: localStorage.client_email,
         client_password: localStorage.client_password,
       };
-      const response = await fetch("https://api.whistleblowwer.net/users/login", {
-        method: "POST",
-        mode: "cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
+      const response = await fetch(
+        "https://api.whistleblowwer.net/users/login",
+        {
+          method: "POST",
+          mode: "cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        }
+      );
 
       const parseRes = await response.json();
       parseRes.token ? setIsAuthenticated(true) : setIsAuthenticated(false);
@@ -121,11 +124,21 @@ function App() {
             />
             <Route path="/search" element={<Search />} />
             <Route path="/chats" element={<Chats />} />
-            <Route path="/empresa/:empresa" element={<BusinessProfile />} />
+            <Route
+              path="/empresa/:empresa"
+              element={
+                <BusinessProfile
+                  setAuth={setAuth}
+                  darkMode={darkMode}
+                  FunctionContext={FunctionContext}
+                />
+              }
+            />
             <Route
               path="/:name"
               element={
                 <UserProfile
+                  setAuth={setAuth}
                   darkMode={darkMode}
                   FunctionContext={FunctionContext}
                 />

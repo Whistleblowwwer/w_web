@@ -23,7 +23,7 @@ import {
 } from "../components";
 
 export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
-  const { handleUserClick, handleNewUpdateProfileModal } =
+  const { handleUserClick, handleNewUpdateProfileModal, handleCommentClick } =
     useContext(FunctionContext);
 
   //search variables
@@ -46,7 +46,7 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
   const [selectedImages, setSelectedImages] = useState([]);
 
   //comments variables
-  const [commentModalOpen, setCommentModalOpen] = useState(false);
+  // const [commentModalOpen, setCommentModalOpen] = useState(false);
   const [textComment, setTextComment] = useState("");
   const [idReviewComment, setIdReviewComment] = useState("");
 
@@ -110,12 +110,12 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
     }
   };
 
-  const handleCommentClick = (_id_review) => {
-    setIdReviewComment(_id_review);
-    setCommentModalOpen(!commentModalOpen);
-    console.log("Comment clicked!");
-    console.log("Comment modal status => ", commentModalOpen);
-  };
+  // const handleCommentClick = (_id_review) => {
+  //   setIdReviewComment(_id_review);
+  //   setCommentModalOpen(!commentModalOpen);
+  //   console.log("Comment clicked!");
+  //   console.log("Comment modal status => ", commentModalOpen);
+  // };
 
   const handleTextChange2 = (event) => {
     setText2(event.target.value);
