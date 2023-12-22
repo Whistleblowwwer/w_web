@@ -1,5 +1,10 @@
+import home from "../assets/Home.svg";
+import search from "../assets/Search.svg";
+import notificaciones from "../assets/Noti.svg";
+import chats from "../assets/Message.svg";
+
 export const SIDEBAR_HOME_LINKS = [
-  { href: "/home", key: "home", label: "Inicio", icon: "fa-house" },
+  { href: "/home", key: "home", label: "Inicio", icon: home },
   // {
   //   href: "/noticias",
   //   key: "noticias",
@@ -10,15 +15,15 @@ export const SIDEBAR_HOME_LINKS = [
     href: "/search",
     key: "search",
     label: "Búsqueda",
-    icon: "fa-magnifying-glass",
+    icon: search,
   },
   {
     href: "/notificaciones",
     key: "notificaciones",
     label: "Notificaciones",
-    icon: "fa-bell",
+    icon: notificaciones,
   },
-  { href: "/chats", key: "mensajes", label: "Mensajes", icon: "fa-inbox" },
+  { href: "/chats", key: "mensajes", label: "Mensajes", icon: chats  },
 ];
 
 export const BOTTOM_NAVBAR_LINKS = [

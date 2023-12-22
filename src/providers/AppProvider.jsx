@@ -192,6 +192,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
       );
       const jsonRes = await response.json();
       setPostes([jsonRes?.review, ...postes]);
+      console.log([jsonRes?.review, ...postes])
       return jsonRes;
     }
 
@@ -597,7 +598,9 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
             darkMode={darkMode}
             handlePostModal={handlePostModal}
             handleUserClick={() => handleUserClick(name)}
+            handleNewCompanyModal={handleNewCompanyModal}
             username={name?.name}
+            nick_name={name?.nick_name}
           />
         </>
       )}

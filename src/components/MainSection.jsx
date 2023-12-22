@@ -98,15 +98,17 @@ const MainSection = ({
                     ? "linear-gradient(267deg, #8E1DA1 0%, #2D015A 100%)"
                     : "#F8F8FB",
                 }}
-                className={`w-[48px] h-[48px] bg-[#F8F8FB] rounded-full ${
+                className={`bg-[#F8F8FB] w-[45%] h-[42px] rounded-full ${
                   darkMode ? "dark-button" : ""
                 }`}
               >
-                <i
-                  className={`fa-solid fa-arrow-right mt-1 text-[#A9A9A9] text-[22px] ${
+                <p
+                  className={`mt-1 text-[#A9A9A9] text-[20px] ${
                     darkMode ? "dark-text" : ""
                   }`}
-                ></i>
+                >
+                  Publicar
+                </p>
               </button>
               <button
                 onClick={handleAddPost}
@@ -116,15 +118,17 @@ const MainSection = ({
                     ? "linear-gradient(267deg, #8E1DA1 0%, #2D015A 100%)"
                     : "#F8F8FB",
                 }}
-                className={`w-[48px] h-[48px] bg-[#F8F8FB] rounded-full ${
+                className={`bg-[#F8F8FB] w-[45%] h-[42px] rounded-full ${
                   darkMode ? "dark-button" : ""
                 }`}
               >
-                <i
-                  className={`fa-solid fa-arrow-right mt-1 text-[#FFF] text-[22px] ${
+                <p
+                  className={`mt-1 text-[#FFF] text-[20px] ${
                     darkMode ? "dark-text" : ""
                   }`}
-                ></i>
+                >
+                  Publicar
+                </p>
               </button>
             </div>
           </div>

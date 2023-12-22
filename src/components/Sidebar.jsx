@@ -4,7 +4,7 @@ import logoN from "../assets/NavLogo.png";
 import proSet from "../assets/Image-40.png";
 import { SIDEBAR_HOME_LINKS } from "../constants";
 
-const Sidebar = ({ darkMode, handleUserClick, handlePostModal, username }) => {
+const Sidebar = ({ darkMode, handleUserClick, handleNewCompanyModal, username, nick_name }) => {
   const navigate = useNavigate();
 
   const [activeButton, setActiveButton] = useState("home");
@@ -37,10 +37,10 @@ const Sidebar = ({ darkMode, handleUserClick, handlePostModal, username }) => {
                   navigate(link.href);
                 }}
               >
-                <p className="text-lg xl:text-xl">
-                  <i className={`p-fa fa-solid ${link.icon} mr-3`} />
-                  {link.label}
-                </p>
+                <div className="flex items-center">
+                  <img src={link.icon} alt={link.label} className="mr-2" />
+                  <p className="text-lg xl:text-xl">{link.label}</p>
+                </div>
               </button>
             ))}
           </ul>
@@ -51,25 +51,37 @@ const Sidebar = ({ darkMode, handleUserClick, handlePostModal, username }) => {
             Publicar
           </button> */}
         </div>
-        <div className="w-full flex items-center justify-between">
-          <div
-            className="flex items-center gap-2 cursor-pointer"
-            onClick={handleUserClick}
-          >
-            <img src={proSet} alt="Imagen" className="w-10 h-10" />
-            <p className={`text-xl ${darkMode ? "dark-text-white" : ""}`}>
-              {username}
-            </p>
+        <div className="w-full items-center">
+          <div className="flex items-center justify-center p-9">
+            <button className="bg-[rgba(217, 217, 217, 0.5)] rounded-full w-[100%]" onClick={handleNewCompanyModal}>
+              <p className="text-[#7404E0] font-bold p-3">Crear empresa</p>
+            </button>
           </div>
-          <button onClick={() => navigate("/settings")}>
-            <svg
-              fill="currentColor"
-              viewBox="0 0 16 16"
-              className={`w-8 h-8 ${darkMode && "dark-text-white"}`}
+          <div className="flex justify-between">
+            <div
+              className="flex items-center gap-2 cursor-pointer"
+              onClick={handleUserClick}
             >
-              <path d="M3 9.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" />
-            </svg>
-          </button>
+              <img src={proSet} alt="Imagen" className="w-10 h-10" />
+              <div className="flex flex-col">
+                <p className={`text-xl ${darkMode ? "dark-text-white" : ""}`}>
+                  {username}
+                </p>
+                <p className="text-neutral-400 text-sm font-light">
+                  {nick_name}
+                </p>
+              </div>
+            </div>
+            <button onClick={() => navigate("/settings")}>
+              <svg
+                fill="currentColor"
+                viewBox="0 0 16 16"
+                className={`w-8 h-8 ${darkMode && "dark-text-white"}`}
+              >
+                <path d="M3 9.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>

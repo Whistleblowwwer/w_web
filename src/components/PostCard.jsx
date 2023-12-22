@@ -40,7 +40,7 @@ const PostCard = ({
           darkMode ? "dark-register-bg" : ""
         }`}
       >
-        {!isBusiness && (
+        {!isBusiness && post?.Business && ( // Check if post.Business exists
           <button
             className="bg-[rgba(255, 255, 255, 0.5)] flex justify-between items-center"
             onClick={() => handleBusinessClick(post?.Business)}
@@ -51,33 +51,44 @@ const PostCard = ({
             <img src={paginaEmpre} alt="empresa" />
           </button>
         )}
-
         <div className="flex flex-col gap-2">
           <div
-            className={`flex items-center max-w-fit ${
+            className="flex justify-between items-center cursor-pointer"
+          >
+            <div className={`flex justify-between items-center ${
               !isUserProfile && "cursor-pointer"
             }`}
-            onClick={() => (isUserProfile ? {} : handleUserClick(post?.User))}
-          >
-            <img
-              src={proSet}
-              alt="Imagen"
-              className="w-[35px] h-[35px] relative"
-            />
-            <p
-              className={` text-black text-base font-bold ml-3 ${
-                darkMode ? "dark-text-white" : ""
-              }`}
-            >
-              {post?.User?.name} {post?.User?.last_name}
-              <span
-                className={`flex text-center text-neutral-400 text-sm font-light ${
+            onClick={() => (isUserProfile ? {} : handleUserClick(post?.User))}>
+              <img
+                src={proSet}
+                alt="Imagen"
+                className="w-[35px] h-[35px] relative"
+              />
+              <p
+                className={`text-black text-base font-bold ml-3 ${
                   darkMode ? "dark-text-white" : ""
                 }`}
               >
-                Hace {formatDate(post?.createdAt)}
-              </span>
-            </p>
+                {post?.User?.name} {post?.User?.last_name}
+                <span
+                  className={`flex text-center text-neutral-400 text-sm font-light ${
+                    darkMode ? "dark-text-white" : ""
+                  }`}
+                >
+                  {post?.User?.nick_name} . {formatDate(post?.createdAt)}
+                </span>
+              </p>
+            </div>
+            <div>
+              {/* Separate div for the SVG */}
+              <svg
+                fill="currentColor"
+                viewBox="0 0 16 16"
+                className={`w-8 h-8 ${darkMode && "dark-text-white"}`}
+              >
+                <path d="M3 9.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" />
+              </svg>
+            </div>
           </div>
           <div className="flex flex-col gap-2">
             <p
