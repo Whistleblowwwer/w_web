@@ -44,12 +44,12 @@ const Sidebar = ({ darkMode, handleUserClick, handlePostModal, username }) => {
               </button>
             ))}
           </ul>
-          <button
+          {/* <button
             onClick={handlePostModal}
             className="rounded-[24px] h-[48px] w-[80%] button-style text-white font-bold"
           >
             Publicar
-          </button>
+          </button> */}
         </div>
         <div className="w-full flex items-center justify-between">
           <div

@@ -391,36 +391,36 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
         // Puedes redirigir al usuario o realizar otra acción
         return;
       }
-  
+
       const myHeaders = new Headers();
       myHeaders.append("authorization", `Bearer ${token}`);
-  
+
       const requestOptions = {
         method: "GET",
         headers: myHeaders,
         redirect: "follow",
       };
-  
+
       try {
         const response = await fetch(
           "https://api.whistleblowwer.net/reviews/",
           requestOptions
         );
-  
+
         if (response.status === 401) {
           // Manejar el error de autorización
           console.error("Error de autorización");
           // Puedes redirigir al usuario a la página de inicio de sesión
           return;
         }
-  
+
         const parseRes = await response.json();
         setPostes(parseRes.reviews);
       } catch (err) {
         console.error(err.message);
       }
     }
-  
+
     getPostes();
   }, []);
 

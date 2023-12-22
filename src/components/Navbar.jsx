@@ -11,7 +11,7 @@ const Navbar = ({ darkMode, handleUserClick }) => {
       }`}
     >
       <div className="flex justify-between items-center">
-        <img src={logoN} alt="Logo" />
+        <img src={logoN} alt="Logo" onClick={() => navigate("/home")} />
         <div className="flex items-center space-x-4">
           <i
             onClick={() => navigate("/notificaciones")}
