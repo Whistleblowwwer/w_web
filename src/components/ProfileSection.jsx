@@ -64,7 +64,7 @@ const ProfileSection = ({
                 onClick={handleFollow}
               >
                 <div className="text-black text-base font-semibold leading-10">
-                  {userDetail.is_followed ? "Dejar de seguir" : "Unirte"}
+                  {userDetail.is_followed ? "Dejar de seguir" : "Seguir"}
                 </div>
               </button>
             </div>
@@ -121,7 +121,7 @@ const ProfileSection = ({
                 className="bg-neutral-100 h-full rounded-xl px-3 py-1.5"
               >
                 <p className="text-black text-[14px] font-bold">
-                  {editable === "true" ? "Editar perfil" : "+"}
+                  {editable === "true" ? "Editar perfil" : "Seguir"}
                 </p>
               </button>
             </div>
