@@ -24,7 +24,7 @@ const FullPicture = ({ darkMode, picture, handleViewPicture }) => {
             <img
               src={picture}
               alt="Full"
-              className="object-cover rounded-[20px] w-full h-full"
+              className="rounded-[20px] w-full h-full"
             />
           </div>
         </div>
