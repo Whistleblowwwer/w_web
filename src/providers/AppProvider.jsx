@@ -53,7 +53,9 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
     address: "",
     entity: "",
     country: "",
+    iso2_country_code: "",
     state: "",
+    iso2_state_code: "",
     city: "",
     category: "",
   });
@@ -294,11 +296,11 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
   };
 
   const handleCreateBusiness = () => {
+    console.log(companyForm);
     async function createBusiness() {
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("authorization", `Bearer ${localStorage.token}`);
-
       const requestOptions = {
         method: "POST",
         headers: myHeaders,
@@ -358,6 +360,31 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
       [name]: value,
     }));
   };
+
+  const handleCountryChangeInForm = (name, iso2) => {
+    setCompanyForm((prevFormulario) => ({
+      ...prevFormulario,
+      country: name,
+      iso2_country_code: iso2,
+    }));
+  };
+
+  const handleStateChangeInForm = (name, iso2) => {
+    setCompanyForm((prevFormulario) => ({
+      ...prevFormulario,
+      state: name,
+      iso2_state_code: iso2,
+    }));
+  };
+
+  const handleCityChangeInForm = (name) => {
+    setCompanyForm((prevFormulario) => ({
+      ...prevFormulario,
+      city: name,
+    }));
+    console.log(companyForm);
+  };
+
 
   const handleChangeUpdate = (e) => {
     console.log("re-remder here!");
@@ -572,6 +599,9 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
           city={companyForm.city}
           category={companyForm.category}
           handleCreateBusiness={handleCreateBusiness}
+          handleCountrySelect={handleCountryChangeInForm}
+          handleStateSelect={handleStateChangeInForm}
+          handleCitySelect={handleCityChangeInForm}
         />
       )}
       {updateModalOpen && (

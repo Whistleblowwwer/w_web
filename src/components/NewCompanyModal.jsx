@@ -60,6 +60,8 @@ function NewCompanyModal(props) {
     setCountrySearch(name);
     setIso2Country(iso2);
     setIsListVisible(false);
+
+    props.handleCountrySelect(name, iso2);
   
     const apiUrl = `https://api.countrystatecity.in/v1/countries/${iso2}/states`;
   
@@ -86,6 +88,7 @@ function NewCompanyModal(props) {
     setStateSearch(name);
     setIso2State(iso2);
     setIsStateListVisible(false);
+    props.handleStateSelect(name, iso2);
 
     const apiUrl = `https://api.countrystatecity.in/v1/countries/${iso2Country}/states/${iso2}/cities`;
 
@@ -123,6 +126,7 @@ function NewCompanyModal(props) {
     setSelectedCity(name);
     setCitySearch(name);
     setIsCityListVisible(false);
+    props.handleCitySelect(name);
   };
 
   const handleClickOutside = (e) => {
