@@ -3,8 +3,96 @@ import logoN from "../assets/NavLogo.png";
 import proSet from "../assets/Image-40.png";
 import { useNavigate, useLocation, Navigate } from "react-router-dom";
 import ChatList from "../components/ChatList";
+import { io } from "socket.io-client";
+import Conversation from "../components/Conversation";
+
+const socket = io("http://3.18.112.92:4000", {
+  auth: {
+    token:
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWRfdXNlciI6ImQzZWQxZTA0LTFjOTgtNDYzMy05YzYyLWRmY2NlMWRhMDU5YSIsImlhdCI6MTcwMzE5NTEyMCwiZXhwIjoxNzAzNDU0MzIwfQ.9AlhqHI68lNjLzJPRd06Sv-VkW2XcGv_CoQ82d5i3uA",
+  },
+  transports: ["websocket"],
+});
 
 export default function Chats(darkMode) {
+  const [userId, setUserId] = useState();
+  const [chatsList, setChatList] = useState([]);
+  const [selectedChat, setSelectedChat] = useState();
+  const [currentConversation, setCurrentConversation] = useState(undefined);
+  const [message, setMessage] = useState("");
+
+  console.log("messages", currentConversation);
+  // console.log("sender", selectedChat?.Sender._id_user);
+  // console.log("receiver", selectedChat?.Receiver._id_user);
+
+  socket.on("newMessage", (message) => {
+    console.log("message response: ", message);
+    setCurrentConversation([...currentConversation, message]);
+  });
+
+  const handleSendMessage = () => {
+    const messageData = {
+      content: message,
+      _id_sender:
+        selectedChat.Sender._id_user == userId
+          ? selectedChat.Sender._id_user
+          : selectedChat.Receiver._id_user,
+      _id_receiver:
+        selectedChat.Sender._id_user == userId
+          ? selectedChat.Receiver._id_user
+          : selectedChat.Sender._id_user,
+    };
+    socket.emit("sendMessage", messageData);
+    setMessage("");
+  };
+
+  useEffect(() => {
+    async function getUserId() {
+      const myHeaders = new Headers();
+      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
+      };
+
+      try {
+        const response = await fetch(
+          `http://3.18.112.92:4000/users`,
+          requestOptions
+        );
+        const parseRes = await response.json();
+        setUserId(parseRes?.user._id_user);
+      } catch (err) {
+        console.error(err.message);
+      }
+    }
+
+    async function getConversations() {
+      const myHeaders = new Headers();
+      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
+      };
+
+      try {
+        const response = await fetch(
+          "http://3.18.112.92:4000/messages/conversations",
+          requestOptions
+        );
+        const parseRes = await response.json();
+        setChatList(parseRes?.conversations);
+      } catch (err) {
+        console.error(err.message);
+      }
+    }
+
+    getUserId();
+    getConversations();
+  }, []);
+
   return (
     <div className={`bg-[#EEEFEF] h-screen w-screen`}>
       <div className={`bg-[#EEEFEF] h-auto ""}`}>
@@ -32,14 +120,34 @@ export default function Chats(darkMode) {
               </div>
             </div>
             <div className="mt-4 flex items-center">
-              <ChatList />
+              {socket && (
+                <ChatList
+                  chatsList={chatsList}
+                  setSelectedChat={setSelectedChat}
+                  selectedChat={selectedChat}
+                  currentConversation={currentConversation}
+                  setCurrentConversation={setCurrentConversation}
+                  socket={socket}
+                  userId={userId}
+                />
+              )}
             </div>
           </div>
           <div className="bg-[#141414] w-[1px]" />
-          <div className="w-[77%] flex justify-center items-center">
-            <p className="text-neutral-900 text-[25px] font-semibold leading-normal">
-              No hay ningún chat seleccionado
-            </p>
+          <div className="w-[77%] justify-center items-center chat-container">
+            {selectedChat == undefined ? (
+              <p className="text-neutral-900 text-[25px] font-semibold leading-normal">
+                No hay ningún chat seleccionado
+              </p>
+            ) : (
+              <Conversation
+                messages={currentConversation}
+                userId={userId}
+                message={message}
+                setMessage={setMessage}
+                handleSendMessage={handleSendMessage}
+              />
+            )}
           </div>
         </div>
       </div>
