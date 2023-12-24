@@ -59,6 +59,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
     city: "",
     category: "",
   });
+  const [pageReloaded, setPageReloaded] = useState(false);
 
   const maxLength = 1200;
 
@@ -431,9 +432,9 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
         localStorage.removeItem("token");
       } else {
         // Token válido, recarga la página solo una vez para cargar la información del usuario
-        if (!localStorage.getItem("validCredentials")) {
+        if (!localStorage.getItem("validCredentials") && !pageReloaded) {
           localStorage.setItem("validCredentials", true);
-          window.location.reload();
+          setPageReloaded(true);
         }
       }
     } catch (err) {
@@ -441,11 +442,9 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
     }
   }
 
-  verifyToken();
-
   useEffect(() => {
     verifyToken();
-  });
+  }, []);
 
   useEffect(() => {
     async function getPostes() {

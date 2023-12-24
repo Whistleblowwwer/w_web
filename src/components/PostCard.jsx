@@ -87,29 +87,29 @@ const PostCard = ({
     followUser();
   };
 
-  useEffect(() => {
-    async function handleDeletePost() {
-      const myHeaders = new Headers();
-      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
-      const requestOptions = {
-        method: "PATCH",
-        headers: myHeaders,
-        redirect: "follow",
-      };
+  // useEffect(() => {
+  //   async function handleDeletePost() {
+  //     const myHeaders = new Headers();
+  //     myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+  //     const requestOptions = {
+  //       method: "PATCH",
+  //       headers: myHeaders,
+  //       redirect: "follow",
+  //     };
 
-      try {
-        const response = await fetch(
-          "https://api.whistleblowwer.net/reviews/?_id_review=",
-          requestOptions
-        );
-        const parseRes = await response.json();
-        console.log(parseRes);
-      } catch (err) {
-        console.error(err.message);
-      }
-    }
-    handleDeletePost();
-  }, []);
+  //     try {
+  //       const response = await fetch(
+  //         "https://api.whistleblowwer.net/reviews/?_id_review=",
+  //         requestOptions
+  //       );
+  //       const parseRes = await response.json();
+  //       console.log(parseRes);
+  //     } catch (err) {
+  //       console.error("path error", err.message);
+  //     }
+  //   }
+  //   handleDeletePost();
+  // }, []);
 
   const storedUserName = localStorage.getItem("userName");
   const storedUserId = localStorage.getItem("userId");
