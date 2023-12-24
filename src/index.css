@@ -156,10 +156,6 @@ body {
   transition: transform 0.3s ease-in; /* Agrega una animación de transición */
 }
 
-.chat-container {
-  overflow-y: auto;
-}
-
 .messages {
   display: flex;
   flex-direction: column;

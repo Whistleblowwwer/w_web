@@ -172,11 +172,13 @@ export default function Chats(darkMode) {
             </div>
           </div>
           <div className="bg-[#141414] w-[1px]" />
-          <div className="w-[77%] justify-center items-center chat-container">
+          <div className="w-[77%] justify-center items-center overflow-y-auto">
             {selectedChat == undefined ? (
-              <p className="text-neutral-900 text-[25px] font-semibold leading-normal">
-                No hay ningún chat seleccionado
-              </p>
+              <div className="w-full h-full flex justify-center items-center overflow-y-auto">
+                <p className="text-neutral-900 text-[25px] font-semibold leading-normal">
+                  No hay ningún chat seleccionado
+                </p>
+              </div>
             ) : (
               <Conversation
                 messages={currentConversation}
