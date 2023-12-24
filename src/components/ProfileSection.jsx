@@ -11,6 +11,7 @@ import Share from "../assets/Send.svg";
 import { formatDate, renderStars } from "../utils";
 import { USER_PROFILE_TABS } from "../constants";
 import PostCard from "./PostCard";
+import chatIcon from "../assets/chatIcon.png";
 
 const ProfileSection = ({
   darkMode,
@@ -31,6 +32,14 @@ const ProfileSection = ({
   isBusiness,
 }) => {
   const navigate = useNavigate();
+
+  console.log("user detsil", userDetail);
+
+  const handleNavigate = () => {
+    // Navigate to a different page
+    navigate("/chats", { state: { id_user: userDetail?._id_user } });
+  };
+
   return (
     <div className="lg:w-[50%] w-full bg-[#EEEFEF] lg:px-0 p-1">
       <div className={`bg-[#FFF] ${darkMode ? "dark-register-bg" : ""}`}>
@@ -63,6 +72,9 @@ const ProfileSection = ({
                 className="w-auto relative translate-y-[14%] h-10 px-4 bg-neutral-100 rounded-[20px] flex-col justify-center items-start gap-4"
                 onClick={handleFollow}
               >
+                <div className="text-black text-base font-semibold leading-10">
+                  hola
+                </div>
                 <div className="text-black text-base font-semibold leading-10">
                   {userDetail.is_followed ? "Dejar de seguir" : "Seguir"}
                 </div>
@@ -113,6 +125,14 @@ const ProfileSection = ({
                     )}
                   </p>
                 )}
+              </div>
+              <div>
+                <img
+                  src={chatIcon}
+                  alt="Ir al chat"
+                  className="w-8 h-8 rounded-full ml-4 mr-2"
+                  onClick={() => handleNavigate()}
+                />
               </div>
               <button
                 onClick={
