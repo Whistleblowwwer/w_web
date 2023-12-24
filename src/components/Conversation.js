@@ -1,4 +1,5 @@
 import { React, useRef, useEffect } from "react";
+import sendMessage from "../assets/SendMessage.svg";
 
 function Conversation(props) {
   const sender = props.userId;
@@ -19,6 +20,11 @@ function Conversation(props) {
 
   return (
     <div className="conversation-container">
+      <div className="flex justify-center pt-2 fixed w-full top-0 left-[19%] ">
+        <p className="text-zinc-900 text-xl font-medium leading-[18.62px]">
+          {props?.userName}
+        </p>
+      </div>
       <div className="messages">
         {props.messages && props.messages.length > 0 ? (
           props.messages.map((message, index) => (
@@ -41,7 +47,9 @@ function Conversation(props) {
             value={props.message}
             onChange={(e) => props.setMessage(e.target.value)}
           />
-          <button onClick={() => handleSendMessage()}>Send</button>
+          <button onClick={() => handleSendMessage()}>
+            <img src={sendMessage} alt="sendmessage" />
+          </button>
         </div>
       </div>
     </div>

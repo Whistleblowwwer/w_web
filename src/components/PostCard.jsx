@@ -3,7 +3,7 @@ import proSet from "../assets/Image-40.png";
 import paginaEmpre from "../assets/CTA.svg";
 import Like from "../assets/Like.svg";
 import Liked from "../assets/IsLiked.svg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FullPicture from "./FullPicture";
 
 const PostCard = ({
@@ -14,17 +14,103 @@ const PostCard = ({
   handleReview,
   handleLike,
   handleCommentClick,
+  editable,
   isUserProfile,
   isBusiness,
   isComment,
 }) => {
   const [modalPicture, setModalPicture] = useState(false);
   const [currentPicture, setCurrentPicture] = useState(null);
+  const [followConditionBusiness, setFollowConditionBusiness] = useState(post?.Business?.is_followed);
 
   const handleViewPicture = (picture) => {
     setCurrentPicture(picture);
     setModalPicture(!currentPicture);
   };
+
+  const handleFollowBusiness = async (idbusiness) => {
+    async function followBusiness() {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        redirect: "follow",
+      };
+
+      try {
+        const response = await fetch(
+          `https://api.whistleblowwer.net/users/business/follow/?_id_business=${idbusiness}`,
+          requestOptions
+        );
+        const parseRes = await response.json();
+        console.log(parseRes);
+
+        // Actualizar el estado local
+        setFollowConditionBusiness(!followConditionBusiness);
+      } catch (err) {
+        console.error(err.message);
+      }
+    }
+
+    followBusiness();
+  };
+
+  const handleFollowUser = () => {
+    async function followUser() {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        redirect: "follow",
+      };
+
+      try {
+        const response = await fetch(
+          `https://api.whistleblowwer.net/users/follow/?_id_followed=`,
+          requestOptions
+        );
+        const parseRes = await response.json();
+        console.log(parseRes);
+        window.location.reload();
+      } catch (err) {
+        console.error(err.message);
+      }
+    }
+    followUser();
+  };
+
+  useEffect(() => {
+    async function handleDeletePost() {
+      const myHeaders = new Headers();
+      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+      const requestOptions = {
+        method: "PATCH",
+        headers: myHeaders,
+        redirect: "follow",
+      };
+
+      try {
+        const response = await fetch(
+          "https://api.whistleblowwer.net/reviews/?_id_review=",
+          requestOptions
+        );
+        const parseRes = await response.json();
+        console.log(parseRes);
+      } catch (err) {
+        console.error(err.message);
+      }
+    }
+    handleDeletePost();
+  }, []);
+
+  const storedUserName = localStorage.getItem("userName");
+  const storedUserId = localStorage.getItem("userId");
 
   return (
     <>
@@ -40,7 +126,7 @@ const PostCard = ({
           darkMode ? "dark-register-bg" : ""
         }`}
       >
-        {!isBusiness && post?.Business && ( // Check if post.Business exists
+        {!isBusiness && post?.Business && ( 
           <button
             className="bg-[rgba(255, 255, 255, 0.5)] flex justify-between items-center"
             onClick={() => handleBusinessClick(post?.Business)}
@@ -50,45 +136,49 @@ const PostCard = ({
             </p>
             <img src={paginaEmpre} alt="empresa" />
           </button>
-        )}
-        <div className="flex flex-col gap-2">
-          <div
-            className="flex justify-between items-center cursor-pointer"
-          >
-            <div className={`flex justify-between items-center ${
-              !isUserProfile && "cursor-pointer"
-            }`}
-            onClick={() => (isUserProfile ? {} : handleUserClick(post?.User))}>
-              <img
-                src={proSet}
-                alt="Imagen"
-                className="w-[35px] h-[35px] relative"
-              />
-              <p
-                className={`text-black text-base font-bold ml-3 ${
-                  darkMode ? "dark-text-white" : ""
-                }`}
-              >
-                {post?.User?.name} {post?.User?.last_name}
-                <span
-                  className={`flex text-center text-neutral-400 text-sm font-light ${
-                    darkMode ? "dark-text-white" : ""
-                  }`}
+              )}
+              <div className="flex flex-col gap-2">
+                <div
+                  className="flex justify-between items-center cursor-pointer"
                 >
-                  {post?.User?.nick_name} . {formatDate(post?.createdAt)}
-                </span>
+                <div className={`flex justify-between items-center`} >
+                  <div className={`flex justify-between items-center ${!isUserProfile && "cursor-pointer"}`} onClick={() => (isUserProfile ? {} : handleUserClick(post?.User))}>
+                    <div className="flex flex-col">
+                      <img
+                        src={proSet}
+                        alt="Imagen"
+                        className="w-[35px] h-[35px] relative mb-[-23%]"
+                      />
+                      {editable == "true" && storedUserName === post?.User?.name ? (
+                        <p></p>
+                      ) : (
+                        <button className="w-[15px] h-[15px] rounded-full border border-solid border-black flex items-center justify-center bg-[#141414] text-[#FFF] z-20">
+                          +
+                        </button>
+                      )}
+                    </div>
+                    <p className={`text-black text-base font-bold ml-3 ${darkMode ? "dark-text-white" : ""}`}>
+                      {post?.User?.name} {post?.User?.last_name}
+                      <span className={`flex text-center text-neutral-400 text-sm font-light ${darkMode ? "dark-text-white" : ""}`}>
+                        {post?.User?.nick_name} . {formatDate(post?.createdAt)}
+                      </span>
+                    </p>
+                    </div>
+                  <p className="text-indigo-400 text-base font-semibold pl-2" onClick={() => handleFollowBusiness(post.Business._id_business)}>
+                    {followConditionBusiness ? "Siguiendo" : "Unirte"}
+                  </p>
+                </div>
+            {isUserProfile && editable == "true" ? (
+              <div className="relative">
+                <svg fill="currentColor" viewBox="0 0 16 16" className={`w-8 h-8 ${darkMode && "dark-text-white"}`}>
+                  <path d="M3 9.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" />
+                </svg>
+              </div>
+            ) : (
+              <p className={`text-gray-400 text-s font-light leading-normal ${darkMode ? "dark-text-white" : ""}`}>
+                Es una empresa
               </p>
-            </div>
-            <div>
-              {/* Separate div for the SVG */}
-              <svg
-                fill="currentColor"
-                viewBox="0 0 16 16"
-                className={`w-8 h-8 ${darkMode && "dark-text-white"}`}
-              >
-                <path d="M3 9.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" />
-              </svg>
-            </div>
+            )}
           </div>
           <div className="flex flex-col gap-2">
             <p

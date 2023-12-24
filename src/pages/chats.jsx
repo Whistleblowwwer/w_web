@@ -5,11 +5,11 @@ import { useNavigate, useLocation, Navigate } from "react-router-dom";
 import ChatList from "../components/ChatList";
 import { io } from "socket.io-client";
 import Conversation from "../components/Conversation";
+import NewMessageModal from "../components/NewMessageModal";
 
 const socket = io("http://3.18.112.92:4000", {
   auth: {
-    token:
-    localStorage.token,
+    token: localStorage.token,
   },
   transports: ["websocket"],
 });
@@ -22,6 +22,15 @@ export default function Chats(darkMode) {
   const [selectedChat, setSelectedChat] = useState();
   const [currentConversation, setCurrentConversation] = useState([]);
   const [message, setMessage] = useState("");
+  const [usersList, setUsersList] = useState([]);
+  const [isMessagesModalActive, setIsMessagesModalActive] = useState(false);
+  const [usersSearchQuery, setUsersSearchQuery] = useState("");
+  const [newMessageUser, setNewMessageUser] = useState({
+    name: "",
+    userId: "",
+  });
+
+  console.log("users", newMessageUser);
 
   socket.on("newMessage", (message) => {
     setCurrentConversation([...currentConversation, message]);
@@ -41,6 +50,76 @@ export default function Chats(darkMode) {
     };
     socket.emit("sendMessage", messageData);
     setMessage("");
+  };
+
+  const handleNewChat = () => {
+    setIsMessagesModalActive(true);
+    async function getUsersList() {
+      const myHeaders = new Headers();
+      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
+      };
+
+      try {
+        const response = await fetch(
+          `http://3.18.112.92:4000/messages/users-list`,
+          requestOptions
+        );
+        const parseRes = await response.json();
+        setUsersList(parseRes);
+      } catch (err) {
+        console.error(err.message);
+      }
+    }
+    getUsersList();
+  };
+
+  const handleCloseNewMessageModal = () => {
+    setIsMessagesModalActive(false);
+  };
+
+  const handleNewConversation = () => {
+    setIsMessagesModalActive(false);
+    setSelectedChat({
+      Receiver: {
+        _id_user: newMessageUser.userId,
+      },
+      Sender: {
+        _id_user: userId,
+      },
+    });
+    setNewMessageUser({
+      ...newMessageUser, // Preserve existing key-value pairs
+      name: "",
+      userId: "",
+    });
+    async function getMessages() {
+      const myHeaders = new Headers();
+      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
+      };
+
+      try {
+        const messagesURL = `http://3.18.112.92:4000/messages/?_id_receiver=${selectedChat?.Receiver._id_user}`;
+        const response = await fetch(messagesURL, requestOptions);
+        const parseRes = await response.json();
+
+        let invertedConversationArray = parseRes?.messages;
+        invertedConversationArray = [...invertedConversationArray].reverse();
+
+        setCurrentConversation(invertedConversationArray);
+      } catch (err) {
+        setCurrentConversation([]);
+        console.error(err.message);
+      }
+    }
+    getMessages();
   };
 
   useEffect(() => {
@@ -132,65 +211,84 @@ export default function Chats(darkMode) {
   }, [userId]);
 
   return (
-    <div className={`bg-[#EEEFEF] h-screen w-screen`}>
-      <div className={`bg-[#EEEFEF] h-auto ""}`}>
-        <div className="contain-principal h-screen">
-          <div className="w-[25%] pt-6 pl-6">
-            <div className="flex justify-between items-center">
-              <p className="text-neutral-900 text-2xl font-bold leading-7">
-                Mensajes
-              </p>
-              <i
-                class="fa-regular fa-pen-to-square mr-7"
-                style={{ fontSize: "20px" }}
-              />
-            </div>
-            <div className="mt-4 flex items-center">
-              <div
-                className={`relative placeholder-black p-2 w-[96%] h-[38px] bg-[#FFF] rounded-2xl`}
-              >
-                <i className="p-fa fa-solid fa-magnifying-glass mr-2 ml-2 relative" />
-                <input
-                  placeholder="Buscar en chats"
-                  className="w-[85%] h-[120%]"
-                  style={{ outline: "none", border: "none" }}
+    <>
+      {isMessagesModalActive && (
+        <NewMessageModal
+          suggestions={usersList}
+          usersSearchQuery={usersSearchQuery}
+          setUsersSearchQuery={setUsersSearchQuery}
+          setNewMessageUser={setNewMessageUser}
+          newMessageUser={newMessageUser}
+          handleCloseNewMessageModal={handleCloseNewMessageModal}
+          handleNewConversation={handleNewConversation}
+        />
+      )}
+      <div className={`bg-[#EEEFEF] h-screen w-screen`}>
+        <div className={`bg-[#EEEFEF] h-auto ""}`}>
+          <div className="contain-principal h-screen">
+            <div className="w-[25%] pt-6 pl-6">
+              <div className="flex justify-between items-center">
+                <p className="text-neutral-900 text-2xl font-bold leading-7">
+                  Mensajes
+                </p>
+                <i
+                  class="fa-regular fa-pen-to-square mr-7"
+                  style={{ fontSize: "20px" }}
+                  onClick={() => handleNewChat()}
                 />
               </div>
+              <div className="mt-4 flex items-center">
+                <div
+                  className={`relative placeholder-black p-2 w-[96%] h-[38px] bg-[#FFF] rounded-2xl`}
+                >
+                  <i className="p-fa fa-solid fa-magnifying-glass mr-2 ml-2 relative" />
+                  <input
+                    placeholder="Buscar en chats"
+                    className="w-[85%] h-[120%]"
+                    style={{ outline: "none", border: "none" }}
+                  />
+                </div>
+              </div>
+              <div className="mt-4 flex items-center">
+                {socket && (
+                  <ChatList
+                    chatsList={chatsList}
+                    setSelectedChat={setSelectedChat}
+                    selectedChat={selectedChat}
+                    currentConversation={currentConversation}
+                    setCurrentConversation={setCurrentConversation}
+                    socket={socket}
+                    userId={userId}
+                  />
+                )}
+              </div>
             </div>
-            <div className="mt-4 flex items-center">
-              {socket && (
-                <ChatList
-                  chatsList={chatsList}
-                  setSelectedChat={setSelectedChat}
-                  selectedChat={selectedChat}
-                  currentConversation={currentConversation}
-                  setCurrentConversation={setCurrentConversation}
-                  socket={socket}
+            <div className="bg-[#141414] w-[1px]" />
+            <div className="w-[77%] justify-center items-center overflow-y-auto">
+              {selectedChat == undefined ? (
+                <div className="h-full h-full flex justify-center items-center">
+                  <p className="text-neutral-900 text-[25px] font-semibold leading-normal">
+                    No hay ningún chat seleccionado
+                  </p>
+                </div>
+              ) : (
+                <Conversation
+                  messages={currentConversation}
                   userId={userId}
+                  userName={
+                    userId == selectedChat?.Receiver._id_user
+                      ? `${selectedChat?.Sender.name} ${selectedChat?.Sender.last_name}`
+                      : `${selectedChat?.Receiver.name} ${selectedChat?.Receiver.last_name}`
+                  }
+                  message={message}
+                  setMessage={setMessage}
+                  handleSendMessage={handleSendMessage}
                 />
               )}
             </div>
           </div>
-          <div className="bg-[#141414] w-[1px]" />
-          <div className="w-[77%] justify-center items-center overflow-y-auto">
-            {selectedChat == undefined ? (
-              <div className="w-full h-full flex justify-center items-center overflow-y-auto">
-                <p className="text-neutral-900 text-[25px] font-semibold leading-normal">
-                  No hay ningún chat seleccionado
-                </p>
-              </div>
-            ) : (
-              <Conversation
-                messages={currentConversation}
-                userId={userId}
-                message={message}
-                setMessage={setMessage}
-                handleSendMessage={handleSendMessage}
-              />
-            )}
-          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

@@ -194,7 +194,6 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
       );
       const jsonRes = await response.json();
       setPostes([jsonRes?.review, ...postes]);
-      console.log([jsonRes?.review, ...postes])
       return jsonRes;
     }
 
@@ -222,7 +221,6 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
     setCompanySearchQuery("");
     setReviewRating(0);
     setPostModalOpen(false);
-    window.location.reload();
   };
 
   const handleLike = (_id_review) => {
@@ -409,16 +407,58 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
     setUpdateModalOpen(false);
   };
 
+  async function verifyToken() {
+    const myHeaders = new Headers();
+    myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    try {
+      const response = await fetch(
+        "https://api.whistleblowwer.net/users/token",
+        requestOptions
+      );
+      const parseRes = await response.json();
+
+      if (!parseRes.success && parseRes.message === "Invalid token") {
+        // Borra los elementos del localStorage
+        localStorage.removeItem("client_password");
+        localStorage.removeItem("recentSearches");
+        localStorage.removeItem("client_email");
+        localStorage.removeItem("token");
+      } else {
+        // Token válido, recarga la página solo una vez para cargar la información del usuario
+        if (!localStorage.getItem("validCredentials")) {
+          localStorage.setItem("validCredentials", true);
+          window.location.reload();
+        }
+      }
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
+
+  verifyToken();
+
+  useEffect(() => {
+    verifyToken();
+  },);
+
   useEffect(() => {
     async function getPostes() {
-      // Verificar si hay un token en localStorage
       const token = localStorage.token;
+
       if (!token) {
-        // Manejar el error aquí, por ejemplo, redirigir al usuario a la página de inicio de sesión
         console.error("No hay token en localStorage");
         // Puedes redirigir al usuario o realizar otra acción
         return;
       }
+
+      // Verificar el token antes de hacer la solicitud
+      await verifyToken();
 
       const myHeaders = new Headers();
       myHeaders.append("authorization", `Bearer ${token}`);
@@ -449,8 +489,12 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
       }
     }
 
-    getPostes();
-  }, []);
+    // Llamar a getPostes solo si hay un token
+    const token = localStorage.token;
+    if (token) {
+      getPostes();
+    }
+  }, [setPostes]);
 
   useEffect(() => {
     async function getName() {
@@ -477,6 +521,8 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
         const parseRes = await response.json();
         setUpdateForm(parseRes.user);
         setName(parseRes.user);
+        localStorage.setItem("userName", JSON.stringify(parseRes.user.name));
+        localStorage.setItem("userId", JSON.stringify(parseRes.user._id_user));
       } catch (err) {
         console.error(err.message);
       }
