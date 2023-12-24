@@ -21,7 +21,9 @@ const PostCard = ({
 }) => {
   const [modalPicture, setModalPicture] = useState(false);
   const [currentPicture, setCurrentPicture] = useState(null);
-  const [followConditionBusiness, setFollowConditionBusiness] = useState(post?.Business?.is_followed);
+  const [followConditionBusiness, setFollowConditionBusiness] = useState(
+    post?.Business?.is_followed
+  );
 
   const handleViewPicture = (picture) => {
     setCurrentPicture(picture);
@@ -126,7 +128,7 @@ const PostCard = ({
           darkMode ? "dark-register-bg" : ""
         }`}
       >
-        {!isBusiness && post?.Business && ( 
+        {!isBusiness && post?.Business && (
           <button
             className="bg-[rgba(255, 255, 255, 0.5)] flex justify-between items-center"
             onClick={() => handleBusinessClick(post?.Business)}
@@ -136,46 +138,70 @@ const PostCard = ({
             </p>
             <img src={paginaEmpre} alt="empresa" />
           </button>
-              )}
-              <div className="flex flex-col gap-2">
-                <div
-                  className="flex justify-between items-center cursor-pointer"
-                >
-                <div className={`flex justify-between items-center`} >
-                  <div className={`flex justify-between items-center ${!isUserProfile && "cursor-pointer"}`} onClick={() => (isUserProfile ? {} : handleUserClick(post?.User))}>
-                    <div className="flex flex-col">
-                      <img
-                        src={proSet}
-                        alt="Imagen"
-                        className="w-[35px] h-[35px] relative mb-[-23%]"
-                      />
-                      {editable == "true" && storedUserName === post?.User?.name ? (
-                        <p></p>
-                      ) : (
-                        <button className="w-[15px] h-[15px] rounded-full border border-solid border-black flex items-center justify-center bg-[#141414] text-[#FFF] z-20">
-                          +
-                        </button>
-                      )}
-                    </div>
-                    <p className={`text-black text-base font-bold ml-3 ${darkMode ? "dark-text-white" : ""}`}>
-                      {post?.User?.name} {post?.User?.last_name}
-                      <span className={`flex text-center text-neutral-400 text-sm font-light ${darkMode ? "dark-text-white" : ""}`}>
-                        {post?.User?.nick_name} . {formatDate(post?.createdAt)}
-                      </span>
-                    </p>
-                    </div>
-                  <p className="text-indigo-400 text-base font-semibold pl-2" onClick={() => handleFollowBusiness(post.Business._id_business)}>
-                    {followConditionBusiness ? "Siguiendo" : "Unirte"}
-                  </p>
+        )}
+        <div className="flex flex-col gap-2">
+          <div className="flex justify-between items-center cursor-pointer">
+            <div className={`flex justify-between items-center`}>
+              <div
+                className={`flex justify-between items-center ${
+                  !isUserProfile && "cursor-pointer"
+                }`}
+                onClick={() =>
+                  isUserProfile ? {} : handleUserClick(post?.User)
+                }
+              >
+                <div className="flex flex-col">
+                  <img
+                    src={post?.User.profile_picture_url}
+                    alt="Imagen"
+                    className="w-[35px] h-[35px] relative mb-[-23%]"
+                  />
+                  {editable == "true" && storedUserName === post?.User?.name ? (
+                    <p></p>
+                  ) : (
+                    <button className="w-[15px] h-[15px] rounded-full border border-solid border-black flex items-center justify-center bg-[#141414] text-[#FFF] z-20">
+                      +
+                    </button>
+                  )}
                 </div>
+                <p
+                  className={`text-black text-base font-bold ml-3 ${
+                    darkMode ? "dark-text-white" : ""
+                  }`}
+                >
+                  {post?.User?.name} {post?.User?.last_name}
+                  <span
+                    className={`flex text-center text-neutral-400 text-sm font-light ${
+                      darkMode ? "dark-text-white" : ""
+                    }`}
+                  >
+                    {post?.User?.nick_name} . {formatDate(post?.createdAt)}
+                  </span>
+                </p>
+              </div>
+              <p
+                className="text-indigo-400 text-base font-semibold pl-2"
+                onClick={() => handleFollowBusiness(post.Business._id_business)}
+              >
+                {followConditionBusiness ? "Siguiendo" : "Unirte"}
+              </p>
+            </div>
             {isUserProfile && editable == "true" ? (
               <div className="relative">
-                <svg fill="currentColor" viewBox="0 0 16 16" className={`w-8 h-8 ${darkMode && "dark-text-white"}`}>
+                <svg
+                  fill="currentColor"
+                  viewBox="0 0 16 16"
+                  className={`w-8 h-8 ${darkMode && "dark-text-white"}`}
+                >
                   <path d="M3 9.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" />
                 </svg>
               </div>
             ) : (
-              <p className={`text-gray-400 text-s font-light leading-normal ${darkMode ? "dark-text-white" : ""}`}>
+              <p
+                className={`text-gray-400 text-s font-light leading-normal ${
+                  darkMode ? "dark-text-white" : ""
+                }`}
+              >
                 Es una empresa
               </p>
             )}

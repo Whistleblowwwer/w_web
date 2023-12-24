@@ -34,6 +34,7 @@ const ProfilePicture = ({
     setPreview("");
     setSelectedFile([]);
     handleModalPicture();
+    window.location.reload();
   };
 
   return (

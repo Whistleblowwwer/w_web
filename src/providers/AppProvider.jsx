@@ -598,6 +598,8 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
     handleNewUpdateProfileModal,
   };
 
+  console.log(name);
+
   return (
     <>
       {postModalOpen && (
@@ -675,8 +677,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
             handlePostModal={handlePostModal}
             handleUserClick={() => handleUserClick(name)}
             handleNewCompanyModal={handleNewCompanyModal}
-            username={name?.name}
-            nick_name={name?.nick_name}
+            user={name}
           />
         </>
       )}

@@ -4,7 +4,12 @@ import logoN from "../assets/NavLogo.png";
 import proSet from "../assets/Image-40.png";
 import { SIDEBAR_HOME_LINKS } from "../constants";
 
-const Sidebar = ({ darkMode, handleUserClick, handleNewCompanyModal, username, nick_name }) => {
+const Sidebar = ({
+  darkMode,
+  handleUserClick,
+  handleNewCompanyModal,
+  user,
+}) => {
   const navigate = useNavigate();
 
   const [activeButton, setActiveButton] = useState("home");
@@ -53,7 +58,10 @@ const Sidebar = ({ darkMode, handleUserClick, handleNewCompanyModal, username, n
         </div>
         <div className="w-full items-center">
           <div className="flex items-center justify-center p-9">
-            <button className="bg-[rgba(217, 217, 217, 0.5)] rounded-full w-[100%]" onClick={handleNewCompanyModal}>
+            <button
+              className="bg-[rgba(217, 217, 217, 0.5)] rounded-full w-[100%]"
+              onClick={handleNewCompanyModal}
+            >
               <p className="text-[#7404E0] font-bold p-3">Crear empresa</p>
             </button>
           </div>
@@ -62,13 +70,17 @@ const Sidebar = ({ darkMode, handleUserClick, handleNewCompanyModal, username, n
               className="flex items-center gap-2 cursor-pointer"
               onClick={handleUserClick}
             >
-              <img src={proSet} alt="Imagen" className="w-10 h-10" />
+              <img
+                src={user?.profile_picture_url}
+                alt="Imagen"
+                className="w-10 h-10"
+              />
               <div className="flex flex-col">
                 <p className={`text-xl ${darkMode ? "dark-text-white" : ""}`}>
-                  {username}
+                  {user?.name}
                 </p>
                 <p className="text-neutral-400 text-sm font-light">
-                  {nick_name}
+                  {user?.nick_name}
                 </p>
               </div>
             </div>

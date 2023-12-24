@@ -34,6 +34,7 @@ const ProfileSection = ({
   isUserProfile,
   isBusiness,
 }) => {
+  const [viewPictureModal, setViewPictureModal] = useState(false);
   const navigate = useNavigate();
 
   console.log("user detsil", userDetail);
@@ -42,8 +43,6 @@ const ProfileSection = ({
     // Navigate to a different page
     navigate("/chats", { state: { id_user: userDetail?._id_user } });
   };
-
-  const [viewPictureModal, setViewPictureModal] = useState(false);
 
   return (
     <>
@@ -133,7 +132,7 @@ const ProfileSection = ({
                     <img
                       src={userDetail?.profile_picture_url}
                       alt="profile"
-                      className="rounded-full w-[196px] h-[196px]"
+                      className="rounded-full w-[196px] h-[196px] object-cover"
                     />
                   )}
                 </div>
