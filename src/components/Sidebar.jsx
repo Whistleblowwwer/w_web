@@ -3,6 +3,7 @@ import { useState } from "react";
 import logoN from "../assets/NavLogo.png";
 import proSet from "../assets/Image-40.png";
 import { SIDEBAR_HOME_LINKS } from "../constants";
+import defaultPp from "../assets/defaultProfilePicture.webp";
 
 const Sidebar = ({
   darkMode,
@@ -71,7 +72,11 @@ const Sidebar = ({
               onClick={handleUserClick}
             >
               <img
-                src={user?.profile_picture_url}
+                src={
+                  user?.profile_picture_url
+                    ? user?.profile_picture_url
+                    : defaultPp
+                }
                 alt="Imagen"
                 className="w-10 h-10"
               />

@@ -14,6 +14,7 @@ import PostCard from "./PostCard";
 import chatIcon from "../assets/chatIcon.png";
 import { useState } from "react";
 import ProfilePicture from "./ProfilePicture";
+import defaultPp from "../assets/defaultProfilePicture.webp";
 
 const ProfileSection = ({
   darkMode,
@@ -50,7 +51,11 @@ const ProfileSection = ({
         <ProfilePicture
           darkMode={darkMode}
           userId={userDetail?._id_user}
-          currentPicture={userDetail?.profile_picture_url}
+          currentPicture={
+            userDetail?.profile_picture_url
+              ? userDetail?.profile_picture_url
+              : defaultPp
+          }
           handleModalPicture={() => setViewPictureModal(false)}
         />
       )}

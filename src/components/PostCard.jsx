@@ -5,6 +5,7 @@ import Like from "../assets/Like.svg";
 import Liked from "../assets/IsLiked.svg";
 import { useState, useEffect } from "react";
 import FullPicture from "./FullPicture";
+import defaultPp from "../assets/defaultProfilePicture.webp";
 
 const PostCard = ({
   post,
@@ -152,11 +153,16 @@ const PostCard = ({
               >
                 <div className="flex flex-col">
                   <img
-                    src={post?.User.profile_picture_url}
+                    src={
+                      post?.User.profile_picture_url
+                        ? post?.User.profile_picture_url
+                        : defaultPp
+                    }
                     alt="Imagen"
                     className="w-[35px] h-[35px] relative mb-[-23%]"
                   />
-                  {editable == "true" && storedUserName === post?.User?.name ? (
+                  {editable === "true" &&
+                  storedUserName === post?.User?.name ? (
                     <p></p>
                   ) : (
                     <button className="w-[15px] h-[15px] rounded-full border border-solid border-black flex items-center justify-center bg-[#141414] text-[#FFF] z-20">
