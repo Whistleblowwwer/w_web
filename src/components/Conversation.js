@@ -9,7 +9,7 @@ function Conversation(props) {
   }, [props.messages]);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
   };
 
   const handleSendMessage = () => {

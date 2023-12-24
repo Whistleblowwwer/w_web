@@ -4,9 +4,7 @@ import proSet from "../assets/Image-40.png";
 
 function ChatList(props) {
   const handleChatClick = (chat) => {
-    console.log("bad click!");
     props.setSelectedChat(chat);
-    console.log(chat?.Receiver._id_user);
     async function getMessages() {
       const myHeaders = new Headers();
       myHeaders.append("authorization", `Bearer ${localStorage.token}`);

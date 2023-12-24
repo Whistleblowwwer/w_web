@@ -15,18 +15,15 @@ const socket = io("http://3.18.112.92:4000", {
 });
 
 export default function Chats(darkMode) {
+  const location = useLocation();
+
   const [userId, setUserId] = useState();
   const [chatsList, setChatList] = useState([]);
   const [selectedChat, setSelectedChat] = useState();
-  const [currentConversation, setCurrentConversation] = useState(undefined);
+  const [currentConversation, setCurrentConversation] = useState([]);
   const [message, setMessage] = useState("");
 
-  console.log("messages", currentConversation);
-  // console.log("sender", selectedChat?.Sender._id_user);
-  // console.log("receiver", selectedChat?.Receiver._id_user);
-
   socket.on("newMessage", (message) => {
-    console.log("message response: ", message);
     setCurrentConversation([...currentConversation, message]);
   });
 
@@ -47,6 +44,7 @@ export default function Chats(darkMode) {
   };
 
   useEffect(() => {
+    let auxUserId = "";
     async function getUserId() {
       const myHeaders = new Headers();
       myHeaders.append("authorization", `Bearer ${localStorage.token}`);
@@ -63,6 +61,7 @@ export default function Chats(darkMode) {
         );
         const parseRes = await response.json();
         setUserId(parseRes?.user._id_user);
+        auxUserId = parseRes?.user._id_user;
       } catch (err) {
         console.error(err.message);
       }
@@ -92,6 +91,45 @@ export default function Chats(darkMode) {
     getUserId();
     getConversations();
   }, []);
+
+  useEffect(() => {
+    if (location?.state?.id_user) {
+      console.log("it works!");
+      setSelectedChat({
+        Receiver: {
+          _id_user: location?.state?.id_user,
+        },
+        Sender: {
+          _id_user: userId,
+        },
+      });
+      async function getMessages() {
+        const myHeaders = new Headers();
+        myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+        const requestOptions = {
+          method: "GET",
+          headers: myHeaders,
+          redirect: "follow",
+        };
+
+        try {
+          const messagesURL =
+            userId == selectedChat?.Receiver._id_user
+              ? `http://3.18.112.92:4000/messages/?_id_receiver=${selectedChat?.Sender._id_user}`
+              : `http://3.18.112.92:4000/messages/?_id_receiver=${selectedChat?.Receiver._id_user}`;
+          const response = await fetch(messagesURL, requestOptions);
+          const parseRes = await response.json();
+          let invertedConversationArray = parseRes?.messages;
+          invertedConversationArray = [...invertedConversationArray].reverse();
+          setCurrentConversation(invertedConversationArray);
+          console.log(invertedConversationArray);
+        } catch (err) {
+          console.error(err.message);
+        }
+      }
+      getMessages();
+    }
+  }, [userId]);
 
   return (
     <div className={`bg-[#EEEFEF] h-screen w-screen`}>
@@ -152,9 +190,5 @@ export default function Chats(darkMode) {
         </div>
       </div>
     </div>
-    // <div className="h-screen lg:w-[80%] w-full flex justify-center items-center">
-    //   Proximamente
-    //   <ChatList />
-    // </div>
   );
 }
