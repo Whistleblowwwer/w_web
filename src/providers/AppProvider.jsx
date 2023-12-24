@@ -209,7 +209,8 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
         const res = await uploadFiles(
           `https://api.whistleblowwer.net/bucket?id=${post.review._id_review}&photo_type=reviews_img`,
           headersBase,
-          selectedImages
+          selectedImages,
+          true // <- is more than one file?
         );
         console.log("res", res);
       } catch (error) {
@@ -383,7 +384,6 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
     console.log(companyForm);
   };
 
-
   const handleChangeUpdate = (e) => {
     console.log("re-remder here!");
 
@@ -445,7 +445,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
 
   useEffect(() => {
     verifyToken();
-  },);
+  });
 
   useEffect(() => {
     async function getPostes() {
