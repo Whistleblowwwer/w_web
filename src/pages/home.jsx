@@ -25,44 +25,44 @@ export default function Home({ setAuth, darkMode, FunctionContext }) {
     handleLike,
     handleCommentClick,
   } = useContext(FunctionContext);
+  const [pageReloaded, setPageReloaded] = useState(false);
+
+  console.log("is cycling?");
 
   useEffect(() => {
-    async function verifyToken() {
-      const myHeaders = new Headers();
-      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
-      const requestOptions = {
-        method: "GET",
-        headers: myHeaders,
-        redirect: "follow",
-      };
-
-      try {
-        const response = await fetch(
-          "https://api.whistleblowwer.net/users/token",
-          requestOptions
-        );
-        const parseRes = await response.json();
-
-        if (!parseRes.success && parseRes.message === "Invalid token") {
-          // Borra los elementos del localStorage
-          localStorage.removeItem("client_password");
-          localStorage.removeItem("recentSearches");
-          localStorage.removeItem("client_email");
-          localStorage.removeItem("token");
-          setAuth(false);
-        } else {
-          // Token válido, recarga la página solo una vez para cargar la información del usuario
-          if (!localStorage.getItem("validCredentials")) {
-            localStorage.setItem("validCredentials", true);
-            window.location.reload();
-          }
-        }
-      } catch (err) {
-        console.error(err.message);
-      }
-    }
-
-    verifyToken();
+    // async function verifyToken() {
+    //   const myHeaders = new Headers();
+    //   myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+    //   const requestOptions = {
+    //     method: "GET",
+    //     headers: myHeaders,
+    //     redirect: "follow",
+    //   };
+    //   try {
+    //     const response = await fetch(
+    //       "https://api.whistleblowwer.net/users/token",
+    //       requestOptions
+    //     );
+    //     const parseRes = await response.json();
+    //     if (!parseRes.success && parseRes.message === "Invalid token") {
+    //       // Borra los elementos del localStorage
+    //       localStorage.removeItem("client_password");
+    //       localStorage.removeItem("recentSearches");
+    //       localStorage.removeItem("client_email");
+    //       localStorage.removeItem("token");
+    //       setAuth(false);
+    //     } else {
+    //       // Token válido, recarga la página solo una vez para cargar la información del usuario
+    //       if (!localStorage.getItem("validCredentials") && !pageReloaded) {
+    //         localStorage.setItem("validCredentials", true);
+    //         setPageReloaded(true);
+    //       }
+    //     }
+    //   } catch (err) {
+    //     console.error(err.message);
+    //   }
+    // }
+    // verifyToken();
   }, [setAuth]);
 
   const logout = (e) => {
