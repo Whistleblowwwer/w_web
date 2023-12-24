@@ -19,6 +19,9 @@ function Conversation(props) {
 
   return (
     <div className="conversation-container">
+      <p>
+        {props?.userName}
+      </p>
       <div className="messages">
         {props.messages && props.messages.length > 0 ? (
           props.messages.map((message, index) => (

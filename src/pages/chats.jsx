@@ -273,6 +273,11 @@ export default function Chats(darkMode) {
                 <Conversation
                   messages={currentConversation}
                   userId={userId}
+                  userName={
+                    userId == selectedChat?.Receiver._id_user
+                      ? `${selectedChat?.Sender.name} ${selectedChat?.Sender.last_name}`
+                      : `${selectedChat?.Receiver.name} ${selectedChat?.Receiver.last_name}`
+                  }
                   message={message}
                   setMessage={setMessage}
                   handleSendMessage={handleSendMessage}
