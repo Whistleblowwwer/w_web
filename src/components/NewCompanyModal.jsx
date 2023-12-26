@@ -3,6 +3,17 @@ import countriesList from "../utils/countries.json";
 
 function NewCompanyModal(props) {
 
+  //variables category
+  const [categoryOptions, setCategoryOptions] = useState([
+    "Inmobiliaria",
+    "Automotriz",
+    "Restaurantes",
+    "Otro"
+  ]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [isCategoryListVisible, setIsCategoryListVisible] = useState(false);
+  const [filteredCategories, setFilteredCategories] = useState(categoryOptions);
+
   // variables country
   const [countrySearch, setCountrySearch] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("");
@@ -154,6 +165,21 @@ function NewCompanyModal(props) {
       document.removeEventListener("click", handleStateMenuClickOutside);
     };
   }, [inputRef]);
+
+  const handleCategoryChange = (e) => {
+    const searchValue = e.target.value;
+    const filtered = categoryOptions.filter((category) =>
+      category.toLowerCase().includes(searchValue.toLowerCase())
+    );
+    setFilteredCategories(filtered);
+    setIsCategoryListVisible(true);
+  };
+  
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+    props.handleCategorySelect(category);
+    setIsCategoryListVisible(false);
+  };
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50">
@@ -334,16 +360,33 @@ function NewCompanyModal(props) {
                 htmlFor="category"
                 className="block text-gray-600 font-semibold mb-2"
               >
-                Categoria
+                Categoría
               </label>
-              <input
-                type="text"
-                id="category"
-                name="category"
-                value={props.category}
-                onChange={props.handleChange}
-                className="w-full p-2 border border-gray-300 rounded"
-              />
+              <div className="relative">
+                <input
+                  type="text"
+                  id="category"
+                  name="category"
+                  value={selectedCategory}
+                  onChange={handleCategoryChange}
+                  className="w-full p-2 border border-gray-300 rounded cursor-pointer"
+                  onClick={() => setIsCategoryListVisible(true)}
+                  readOnly
+                />
+                {isCategoryListVisible && (
+                  <ul className="absolute z-10 w-full border border-gray-300 rounded mt-1 bg-white">
+                    {filteredCategories.map((category) => (
+                      <li
+                        key={category}
+                        onClick={() => handleCategorySelect(category)}
+                        className="cursor-pointer p-2 hover:bg-gray-100"
+                      >
+                        {category}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
             </div>
           </div>
           <button

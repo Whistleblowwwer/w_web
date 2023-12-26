@@ -208,7 +208,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
 
       try {
         const res = await uploadFiles(
-          `https://api.whistleblowwer.net/bucket?id=${post.review._id_review}&photo_type=reviews_img`,
+          `https://api.whistleblowwer.net/bucket/review?_id_review=${post.review._id_review}`,
           headersBase,
           selectedImages,
           true // <- is more than one file?
@@ -369,6 +369,13 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
     }));
   };
 
+  const handleCategoryChangeInForm = (name) => {
+    setCompanyForm((prevFormulario) => ({
+      ...prevFormulario,
+      category: name,
+    }));
+  };
+
   const handleStateChangeInForm = (name, iso2) => {
     setCompanyForm((prevFormulario) => ({
       ...prevFormulario,
@@ -382,7 +389,6 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
       ...prevFormulario,
       city: name,
     }));
-    console.log(companyForm);
   };
 
   const handleChangeUpdate = (e) => {
@@ -649,6 +655,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
           handleCountrySelect={handleCountryChangeInForm}
           handleStateSelect={handleStateChangeInForm}
           handleCitySelect={handleCityChangeInForm}
+          handleCategorySelect={handleCategoryChangeInForm}
         />
       )}
       {updateModalOpen && (

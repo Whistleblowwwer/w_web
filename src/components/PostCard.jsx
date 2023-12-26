@@ -152,6 +152,21 @@ const PostCard = ({
                 }
               >
                 <div className="flex flex-col">
+                  {/* 
+                  {post?.User.profile_picture_url && (
+                    <>
+                      <img
+                        src={
+                          post?.User.profile_picture_url
+                            ? post?.User.profile_picture_url
+                            : defaultPp
+                        }
+                        alt="Imagen"
+                        className="w-[35px] h-[35px] relative mb-[-23%]"
+                      />
+                  </>
+                  )}
+                  */}
                   <img
                     src={
                       post?.User.profile_picture_url
@@ -203,13 +218,13 @@ const PostCard = ({
                 </svg>
               </div>
             ) : (
-              <p
-                className={`text-gray-400 text-s font-light leading-normal ${
-                  darkMode ? "dark-text-white" : ""
-                }`}
+              <svg
+                fill="currentColor"
+                viewBox="0 0 16 16"
+                className={`w-8 h-8 ${darkMode && "dark-text-white"}`}
               >
-                Es una empresa
-              </p>
+                <path d="M3 9.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" />
+              </svg>
             )}
           </div>
           <div className="flex flex-col gap-2">
