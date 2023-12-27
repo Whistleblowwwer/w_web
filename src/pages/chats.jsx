@@ -17,7 +17,10 @@ const socket = io("http://3.18.112.92:4000", {
 export default function Chats(darkMode) {
   const location = useLocation();
 
-  const [userId, setUserId] = useState();
+  const [currentUserData, setCurrentUserData] = useState({
+    name: "",
+    userId: "",
+  });
   const [chatsList, setChatList] = useState([]);
   const [selectedChat, setSelectedChat] = useState();
   const [currentConversation, setCurrentConversation] = useState([]);
@@ -30,7 +33,7 @@ export default function Chats(darkMode) {
     userId: "",
   });
 
-  console.log("users", newMessageUser);
+  console.log("chatsList", chatsList);
 
   socket.on("newMessage", (message) => {
     setCurrentConversation([...currentConversation, message]);
@@ -40,11 +43,11 @@ export default function Chats(darkMode) {
     const messageData = {
       content: message,
       _id_sender:
-        selectedChat.Sender._id_user == userId
+        selectedChat.Sender._id_user == currentUserData?.userId
           ? selectedChat.Sender._id_user
           : selectedChat.Receiver._id_user,
       _id_receiver:
-        selectedChat.Sender._id_user == userId
+        selectedChat.Sender._id_user == currentUserData?.userId
           ? selectedChat.Receiver._id_user
           : selectedChat.Sender._id_user,
     };
@@ -86,11 +89,33 @@ export default function Chats(darkMode) {
     setSelectedChat({
       Receiver: {
         _id_user: newMessageUser.userId,
+        name: newMessageUser.name,
+        last_name: newMessageUser.last_name,
       },
       Sender: {
-        _id_user: userId,
+        _id_user: currentUserData?.userId,
+        name: currentUserData.name,
+        last_name: currentUserData.last_name,
       },
     });
+
+    setChatList((chatsList) => [
+      {
+        Message: "",
+        Receiver: {
+          _id_user: newMessageUser.userId,
+          name: newMessageUser.name,
+          last_name: newMessageUser.last_name,
+        },
+        Sender: {
+          _id_user: currentUserData?.userId,
+          name: currentUserData.name,
+          last_name: currentUserData.last_name,
+        },
+      },
+      ...chatsList,
+    ]);
+
     setNewMessageUser({
       ...newMessageUser, // Preserve existing key-value pairs
       name: "",
@@ -139,7 +164,12 @@ export default function Chats(darkMode) {
           requestOptions
         );
         const parseRes = await response.json();
-        setUserId(parseRes?.user._id_user);
+        setCurrentUserData({
+          ...currentUserData,
+          name: parseRes?.user?.name,
+          lastname: parseRes?.user?.last_name,
+          userId: parseRes?.user._id_user,
+        });
         auxUserId = parseRes?.user._id_user;
       } catch (err) {
         console.error(err.message);
@@ -179,7 +209,7 @@ export default function Chats(darkMode) {
           _id_user: location?.state?.id_user,
         },
         Sender: {
-          _id_user: userId,
+          _id_user: currentUserData?.userId,
         },
       });
       async function getMessages() {
@@ -193,7 +223,7 @@ export default function Chats(darkMode) {
 
         try {
           const messagesURL =
-            userId == selectedChat?.Receiver._id_user
+            currentUserData?.userId == selectedChat?.Receiver._id_user
               ? `http://3.18.112.92:4000/messages/?_id_receiver=${selectedChat?.Sender._id_user}`
               : `http://3.18.112.92:4000/messages/?_id_receiver=${selectedChat?.Receiver._id_user}`;
           const response = await fetch(messagesURL, requestOptions);
@@ -208,7 +238,7 @@ export default function Chats(darkMode) {
       }
       getMessages();
     }
-  }, [userId]);
+  }, [currentUserData]);
 
   return (
     <>
@@ -258,7 +288,7 @@ export default function Chats(darkMode) {
                     currentConversation={currentConversation}
                     setCurrentConversation={setCurrentConversation}
                     socket={socket}
-                    userId={userId}
+                    userId={currentUserData?.userId}
                   />
                 )}
               </div>
@@ -274,9 +304,9 @@ export default function Chats(darkMode) {
               ) : (
                 <Conversation
                   messages={currentConversation}
-                  userId={userId}
+                  userId={currentUserData?.userId}
                   userName={
-                    userId == selectedChat?.Receiver._id_user
+                    currentUserData?.userId == selectedChat?.Receiver._id_user
                       ? `${selectedChat?.Sender.name} ${selectedChat?.Sender.last_name}`
                       : `${selectedChat?.Receiver.name} ${selectedChat?.Receiver.last_name}`
                   }

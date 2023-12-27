@@ -29,7 +29,8 @@ function CompanyAutocomplete(props) {
     props.setUsersSearchQuery(`${suggestion?.name} ${suggestion?.last_name}`);
     props.setNewMessageUser({
       ...props.newMessageUser, // Preserve existing key-value pairs
-      name: `${suggestion?.name} ${suggestion?.last_name}`,
+      name: suggestion?.name,
+      last_name: suggestion?.last_name,
       userId: suggestion._id_user,
     });
     setDropdownOpen(false);

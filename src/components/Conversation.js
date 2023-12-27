@@ -2,6 +2,7 @@ import { React, useRef, useEffect } from "react";
 import sendMessage from "../assets/SendMessage.svg";
 
 function Conversation(props) {
+  console.log("conversation props", props)
   const sender = props.userId;
   const messagesEndRef = useRef(null);
 
@@ -36,7 +37,7 @@ function Conversation(props) {
             </div>
           ))
         ) : (
-          <p>Iniciar conversacion</p>
+          <p className="flex justify-center text-gray-600	">Iniciar conversacion</p>
 
         )}
         <div ref={messagesEndRef}></div>
