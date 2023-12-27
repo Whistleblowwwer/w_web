@@ -6,6 +6,7 @@ import Liked from "../assets/IsLiked.svg";
 import { useState, useEffect } from "react";
 import FullPicture from "./FullPicture";
 import defaultPp from "../assets/defaultProfilePicture.webp";
+import NewDeleteModal from "./NewDeleteModal";
 
 const PostCard = ({
   post,
@@ -26,9 +27,15 @@ const PostCard = ({
     post?.Business?.is_followed
   );
 
+  const [modalDelete, setModalDelete] = useState (false);
+
   const handleViewPicture = (picture) => {
     setCurrentPicture(picture);
     setModalPicture(!currentPicture);
+  };
+
+  const handleDeleteModal = () => {
+    setModalDelete(!modalDelete);
   };
 
   const handleFollowBusiness = async (idbusiness) => {
@@ -61,59 +68,31 @@ const PostCard = ({
     followBusiness();
   };
 
-  const handleFollowUser = () => {
-    async function followUser() {
+  const handleDeleteReview = () => {
+    async function deleteReview() {
       const myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
       myHeaders.append("authorization", `Bearer ${localStorage.token}`);
-
-      const requestOptions = {
-        method: "POST",
+      var requestOptions = {
+        method: 'PATCH',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
-
+  
       try {
-        const response = await fetch(
-          `https://api.whistleblowwer.net/users/follow/?_id_followed=`,
-          requestOptions
-        );
-        const parseRes = await response.json();
-        console.log(parseRes);
+        const response = await fetch(`https://api.whistleblowwer.net/reviews/?_id_review=${post?._id_review}`, requestOptions);
+        const result = await response.text();
         window.location.reload();
-      } catch (err) {
-        console.error(err.message);
+        console.log(result);
+      } catch (error) {
+        console.error('Error during fetch:', error);
       }
     }
-    followUser();
+    deleteReview();
+    handleDeleteModal();
   };
 
-  // useEffect(() => {
-  //   async function handleDeletePost() {
-  //     const myHeaders = new Headers();
-  //     myHeaders.append("authorization", `Bearer ${localStorage.token}`);
-  //     const requestOptions = {
-  //       method: "PATCH",
-  //       headers: myHeaders,
-  //       redirect: "follow",
-  //     };
-
-  //     try {
-  //       const response = await fetch(
-  //         "https://api.whistleblowwer.net/reviews/?_id_review=",
-  //         requestOptions
-  //       );
-  //       const parseRes = await response.json();
-  //       console.log(parseRes);
-  //     } catch (err) {
-  //       console.error("path error", err.message);
-  //     }
-  //   }
-  //   handleDeletePost();
-  // }, []);
-
   const storedUserName = localStorage.getItem("userName");
-  const storedUserId = localStorage.getItem("userId");
+  const formattedStoredUserName = storedUserName.replace(/"/g, '');
 
   return (
     <>
@@ -122,6 +101,13 @@ const PostCard = ({
           darkMode={darkMode}
           picture={currentPicture}
           handleViewPicture={handleViewPicture}
+        />
+      )}
+      {modalDelete && (
+        <NewDeleteModal
+          darkMode={darkMode}
+          handleDeleteModal={handleDeleteModal}
+          handleDeleteReview={handleDeleteReview}
         />
       )}
       <div
@@ -134,9 +120,12 @@ const PostCard = ({
             className="bg-[rgba(255, 255, 255, 0.5)] flex justify-between items-center"
             onClick={() => handleBusinessClick(post?.Business)}
           >
-            <p className="text-black text-base font-bold">
-              {post?.Business?.name}
-            </p>
+            <div className="flex flex-col justify-start text-left">
+              <p className="text-black text-base font-bold">
+                {post?.Business?.name}
+              </p>
+              <span className="text-sm opacity-40 mt-[-3%]">{post?.Business?.entity}</span>
+            </div>
             <img src={paginaEmpre} alt="empresa" />
           </button>
         )}
@@ -152,32 +141,16 @@ const PostCard = ({
                 }
               >
                 <div className="flex flex-col">
-                  {/* 
-                  {post?.User.profile_picture_url && (
-                    <>
-                      <img
-                        src={
-                          post?.User.profile_picture_url
-                            ? post?.User.profile_picture_url
-                            : defaultPp
-                        }
-                        alt="Imagen"
-                        className="w-[35px] h-[35px] relative mb-[-23%]"
-                      />
-                  </>
-                  )}
-                  */}
                   <img
                     src={
-                      post?.User.profile_picture_url
-                        ? post?.User.profile_picture_url
+                      post?.User?.profile_picture_url
+                        ? post.User.profile_picture_url
                         : defaultPp
                     }
                     alt="Imagen"
                     className="w-[35px] h-[35px] relative mb-[-23%]"
                   />
-                  {editable === "true" &&
-                  storedUserName === post?.User?.name ? (
+                  {isUserProfile || editable == "true" || post?.User?.name === formattedStoredUserName ? (
                     <p></p>
                   ) : (
                     <button className="w-[15px] h-[15px] rounded-full border border-solid border-black flex items-center justify-center bg-[#141414] text-[#FFF] z-20">
@@ -208,7 +181,7 @@ const PostCard = ({
               </p>
             </div>
             {isUserProfile && editable == "true" ? (
-              <div className="relative">
+              <div className="relative" onClick={() => {handleDeleteModal()}}>
                 <svg
                   fill="currentColor"
                   viewBox="0 0 16 16"

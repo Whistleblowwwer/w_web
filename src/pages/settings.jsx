@@ -171,7 +171,7 @@ export default function Settings() {
           </div>
           <div className="w-[50%]">
             {activeButtonCon === "tucuen" && (
-              <div className="w-[100%] mt-6">
+              <div className="w-[100%]">
                 <p
                   className={`text-xl font-bold leading-[18.62px] ${
                     darkMode ? "dark-text-white" : ""
@@ -202,13 +202,9 @@ export default function Settings() {
                         : ""
                     }
                   >
-                    <p className="mr-[58%] p-txt">
+                    <p className="p-txt">
                       Información de la cuenta
                       <i class="ml-8 mt-1 fa-solid fa-chevron-right"></i>
-                    </p>
-                    <p className="ml-1 text-[12px] font-medium leading-[10.71px]">
-                      Ve la información de tu cuenta, como el número de teléfono
-                      y la dirección de correo electrónico.
                     </p>
                   </button>
                 </div>
@@ -226,7 +222,7 @@ export default function Settings() {
                         : ""
                     }
                   >
-                    <p className="mr-[22%] p-txt">
+                    <p className="mr-[22%]">
                       Cambia tu contraseña
                       <i class="ml-8 mt-1 fa-solid fa-chevron-right"></i>
                     </p>
@@ -282,7 +278,7 @@ export default function Settings() {
                 </p>
                 <p className="mt-3">D.R.© ANCER 2023, S.A.P.I. DE C.V., México 2023. Utilización del sitio únicamente bajo términos legales. Whistleblowwer®
                   Pedro Infante # 1000, Colonia Cumbres Oro Regency, Monterrey, Nuevo León. México. 64347.</p>
-                <a href="" className="">Terminos y condiciones</a>
+                <a href="" className="hover:text-gray-500 font-bold">Terminos y condiciones</a>
               </div>     
             )}
             {activeButtonCon === "notificaciones" && (
