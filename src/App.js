@@ -42,6 +42,7 @@ function App() {
         client_email: localStorage.client_email,
         client_password: localStorage.client_password,
       };
+
       const response = await fetch(
         "https://api.whistleblowwer.net/users/login",
         {
@@ -53,8 +54,27 @@ function App() {
       );
 
       const parseRes = await response.json();
-      parseRes.token ? setIsAuthenticated(true) : setIsAuthenticated(false);
+      const token = parseRes.token
+
+      const myHeaders = new Headers();
+      myHeaders.append("authorization", `Bearer ${token}`);
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
+      };
+      const response_token = await fetch(
+        "https://api.whistleblowwer.net/users/token",
+        requestOptions
+      );
+
+      console.log("res status", response_token)
+      if (response_token.status == 401) { setIsAuthenticated(false) } else {
+        setIsAuthenticated(true)
+        localStorage.setItem("token", token);
+      }
     } catch (err) {
+      setIsAuthenticated(false)
       console.error(err.message);
     }
   }
@@ -69,14 +89,23 @@ function App() {
 
   return (
     <main
-      className={`bg-[#EEEFEF] w-full flex gap-1 pt-20 pb-14 lg:p-0 lg:pb-0 ${
-        darkMode ? "dark-login-bg" : ""
-      }`}
+      className={`bg-[#EEEFEF] w-full flex gap-1 pt-20 pb-14 lg:p-0 lg:pb-0 ${darkMode ? "dark-login-bg" : ""
+        }`}
     >
       <Router>
         <AppProvider darkMode={darkMode} FunctionContext={FunctionContext}>
           <Routes>
-            <Route path="/" element={<Begin />} />
+            <Route path="/" element={
+              isAuthenticated ? (
+                <Home
+                  setAuth={setAuth}
+                  darkMode={darkMode}
+                  FunctionContext={FunctionContext}
+                />
+              ) : (
+                <Navigate to="/login" />
+              )
+            } />
             <Route path="/admin" element={<Admin />} />
             <Route
               path="/login"

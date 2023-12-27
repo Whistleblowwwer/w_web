@@ -429,6 +429,7 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
         requestOptions
       );
       const parseRes = await response.json();
+      console.log("token res", parseRes);
 
       if (!parseRes.success && parseRes.message === "Invalid token") {
         // Borra los elementos del localStorage
@@ -436,11 +437,13 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
         localStorage.removeItem("recentSearches");
         localStorage.removeItem("client_email");
         localStorage.removeItem("token");
+        console.log("enter!");
       } else {
         // Token válido, recarga la página solo una vez para cargar la información del usuario
         if (!localStorage.getItem("validCredentials") && !pageReloaded) {
           localStorage.setItem("validCredentials", true);
           setPageReloaded(true);
+          window.location.reload();
         }
       }
     } catch (err) {
@@ -448,8 +451,47 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
     }
   }
 
+  async function getName() {
+    const myHeaders = new Headers();
+    const token = localStorage.token;
+    if (!token) {
+      // Manejar el error aquí, por ejemplo, redirigir al usuario a la página de inicio de sesión
+      console.error("No hay token en localStorage");
+      // Puedes redirigir al usuario o realizar otra acción
+      return;
+    }
+    myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    try {
+      const response = await fetch(
+        "https://api.whistleblowwer.net/users",
+        requestOptions
+      );
+      const parseRes = await response.json();
+      setUpdateForm(parseRes.user);
+      setName(parseRes.user);
+      localStorage.setItem("userName", JSON.stringify(parseRes.user.name));
+      localStorage.setItem("userId", JSON.stringify(parseRes.user._id_user));
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
   useEffect(() => {
-    verifyToken();
+    // Use an async IIFE to be able to use await inside useEffect
+    (async () => {
+      await verifyToken();
+      console.log("validate token", localStorage.getItem("token"));
+      if (localStorage.getItem("token")) {
+        await getName();
+      } else {
+        navigate("/login");
+      }
+    })();
   }, []);
 
   useEffect(() => {
@@ -500,40 +542,6 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
       getPostes();
     }
   }, [setPostes]);
-
-  useEffect(() => {
-    async function getName() {
-      const myHeaders = new Headers();
-      const token = localStorage.token;
-      if (!token) {
-        // Manejar el error aquí, por ejemplo, redirigir al usuario a la página de inicio de sesión
-        console.error("No hay token en localStorage");
-        // Puedes redirigir al usuario o realizar otra acción
-        return;
-      }
-      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
-      const requestOptions = {
-        method: "GET",
-        headers: myHeaders,
-        redirect: "follow",
-      };
-
-      try {
-        const response = await fetch(
-          "https://api.whistleblowwer.net/users",
-          requestOptions
-        );
-        const parseRes = await response.json();
-        setUpdateForm(parseRes.user);
-        setName(parseRes.user);
-        localStorage.setItem("userName", JSON.stringify(parseRes.user.name));
-        localStorage.setItem("userId", JSON.stringify(parseRes.user._id_user));
-      } catch (err) {
-        console.error(err.message);
-      }
-    }
-    getName();
-  }, []);
 
   const [updateForm, setUpdateForm] = useState({
     name: name.name,
