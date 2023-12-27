@@ -16,6 +16,9 @@ import {
   Notifications,
 } from "./pages";
 
+import Tyc from "./pages/tyc";
+import AvisoPrivavidad from "./pages/avisoPrivacidad";
+
 import {
   BrowserRouter as Router,
   Route,
@@ -184,6 +187,8 @@ function App() {
               }
             />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/t&c" element={<Tyc />} />
+            <Route path="/aviso-privacidad" element={<AvisoPrivavidad />} />
             <Route path="/notificaciones" element={<Notifications />} />
           </Routes>
         </AppProvider>

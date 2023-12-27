@@ -17,7 +17,13 @@ import { getHeadersBase } from "../utils/getHeaders";
 const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const pathnamesToHide = ["/", "/register", "/login", "/admin"];
+  const pathnamesToHide = [
+    "/register",
+    "/login",
+    "/admin",
+    "/t&c",
+    "/aviso-privacidad",
+  ];
   const shouldHideComponent = pathnamesToHide.includes(location.pathname);
   const [search, setSearch] = useState("");
   const [showResults, setShowResults] = useState(false);
@@ -485,7 +491,14 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
       if (localStorage.token) {
         await getName();
       } else {
-        navigate("/login");
+        if (
+          !(
+            location.pathname === "/t&c" ||
+            location.pathname === "/aviso-privacidad"
+          )
+        ) {
+          navigate("/login");
+        }
       }
     })();
   }, [token]);

@@ -283,7 +283,7 @@ export default function Settings() {
                   Nuevo León. México. 64347.
                 </p>
                 <a
-                  href="https://drive.google.com/file/d/1KSHo59H6wGwYe4Rh3hxezVvRjNyZgwVI/view?usp=sharing"
+                  href="/t&c"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-gray-500 font-bold"

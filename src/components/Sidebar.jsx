@@ -67,17 +67,13 @@ const Sidebar = ({
             </button>
           </div>
           <div className="flex justify-center text-gray-600">
-            <a
-              href="https://drive.google.com/file/d/1KSHo59H6wGwYe4Rh3hxezVvRjNyZgwVI/view?usp=sharing"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href="/t&c" target="_blank" rel="noopener noreferrer">
               Terminos y condiciones
             </a>
           </div>
           <div className="flex justify-center text-gray-600 mb-6">
             <a
-              href="https://drive.google.com/file/d/1S-ZGqQfFiy87ruW_HI1YGXhptUpzbHpE/view?usp=sharing"
+              href="/aviso-privacidad"
               target="_blank"
               rel="noopener noreferrer"
             >
