@@ -98,7 +98,6 @@ export default function BusinessProfile({
       setShowPublishIcon(false);
     }
   };
-  console.log("commnent text", textComment);
   const handleTextCommnetChange = (event) => {
     setTextComment(event.target.value);
     if (event.target.value.trim() !== "") {
@@ -210,7 +209,6 @@ export default function BusinessProfile({
           requestOptions
         );
         const parseRes = await response.json();
-        console.log(parseRes.user.name);
         setName(parseRes.user.name);
       } catch (err) {
         console.error(err.message);
@@ -270,7 +268,6 @@ export default function BusinessProfile({
   };
 
   const handleLike = (_id_review) => {
-    console.log("Liked - ID => ", _id_review);
     async function postLike() {
       const myHeaders = new Headers();
       myHeaders.append("authorization", `Bearer ${localStorage.token}`);
@@ -292,18 +289,13 @@ export default function BusinessProfile({
   };
 
   const handleComment = () => {
-    console.log("comment - ID => ", idReviewComment);
     async function postComment() {
       const myHeaders = new Headers();
       myHeaders.append("authorization", `Bearer ${localStorage.token}`);
-      console.log("content", textComment);
       var raw = JSON.stringify({
         content: textComment,
         _id_review: idReviewComment,
       });
-      console.log("idreviww", idReviewComment);
-
-      console.log("raw", raw);
 
       const requestOptions = {
         method: "POST",

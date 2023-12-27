@@ -33,9 +33,7 @@ function ChatList(props) {
   };
 
   useEffect(() => {
-    props.socket.on("connect", () => {
-      console.log("Conectado al servidor");
-    });
+    props.socket.on("connect", () => {});
   }, []);
 
   return (

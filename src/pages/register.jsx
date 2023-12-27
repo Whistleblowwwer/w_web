@@ -66,7 +66,6 @@ export default function Register({ setAuth }) {
   };
 
   const onChange = (e) => {
-    console.log(e.target.name);
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
@@ -88,7 +87,6 @@ export default function Register({ setAuth }) {
         password,
         role,
       };
-      console.log(body);
       const response = await fetch("https://api.whistleblowwer.net/users/", {
         method: "POST",
         mode: "cors",
@@ -452,10 +450,26 @@ export default function Register({ setAuth }) {
                 }`}
               >
                 Al registrarte, aceptas los{" "}
-                <span className="underline">Términos de servicio</span> y la{" "}
-                <span className="underline">Política de privacidad,</span>{" "}
-                incluida la política de{" "}
-                <span className="underline">Uso de Cookies.</span>
+                <a href="/t&c" target="_blank" className="underline">
+                  Términos de servicio
+                </a>{" "}
+                y la{" "}
+                <a
+                  href="aviso-privacidad"
+                  target="_blank"
+                  className="underline"
+                >
+                  Política de privacidad
+                </a>{" "}
+                , incluida la política de{" "}
+                <a
+                  href="aviso-privacidad"
+                  target="_blank"
+                  className="underline"
+                >
+                  Uso de Cookies
+                </a>
+                .
               </p>
             </div>
             <div className="flex justify-center items-center">

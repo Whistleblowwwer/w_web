@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import google from "../assets/Group 3.svg";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -6,6 +6,10 @@ import { useNavigate, useLocation } from "react-router-dom";
 export default function Login({ setAuth }) {
   const location = useLocation();
   const darkMode = location.state?.darkMode || false;
+
+  useEffect(() => {
+    localStorage.setItem("pageReloaded", "false");
+  });
 
   const navigate = useNavigate();
 
@@ -29,14 +33,16 @@ export default function Login({ setAuth }) {
 
     try {
       const body = { client_email, client_password };
-      const response = await fetch("https://api.whistleblowwer.net/users/login", {
-        method: "POST",
-        mode: "cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
+      const response = await fetch(
+        "https://api.whistleblowwer.net/users/login",
+        {
+          method: "POST",
+          mode: "cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        }
+      );
       const parseRes = await response.json();
-      console.log("login res", parseRes);
 
       if (parseRes.token) {
         localStorage.setItem("client_email", client_email);

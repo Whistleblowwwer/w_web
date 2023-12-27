@@ -14,10 +14,16 @@ import {
 } from "../components";
 import { getHeadersBase } from "../utils/getHeaders";
 
-const AppProvider = ({ children, darkMode, FunctionContext }) => {
+const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const pathnamesToHide = ["/", "/register", "/login", "/admin"];
+  const pathnamesToHide = [
+    "/register",
+    "/login",
+    "/admin",
+    "/t&c",
+    "/aviso-privacidad",
+  ];
   const shouldHideComponent = pathnamesToHide.includes(location.pathname);
   const [search, setSearch] = useState("");
   const [showResults, setShowResults] = useState(false);
@@ -59,8 +65,15 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
     city: "",
     category: "",
   });
-  const [pageReloaded, setPageReloaded] = useState(false);
-
+  useEffect(() => {
+    // Initialize pageReloaded in localStorage if not present
+    if (localStorage.getItem("pageReloaded") === null) {
+      localStorage.setItem("pageReloaded", "false");
+    }
+  }, []);
+  const [pageReloaded, setPageReloaded] = useState(() => {
+    return localStorage.getItem("pageReloaded") === "true" || false;
+  });
   const maxLength = 1200;
 
   const handleBusinessClick = async (business) => {
@@ -213,7 +226,6 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
           selectedImages,
           true // <- is more than one file?
         );
-        console.log("res", res);
       } catch (error) {
         console.error("Error al subir los archivos:", error);
       }
@@ -296,7 +308,6 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
   };
 
   const handleCreateBusiness = () => {
-    console.log(companyForm);
     async function createBusiness() {
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
@@ -314,7 +325,6 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
           requestOptions
         );
         const parseRes = await response.json();
-        console.log(parseRes);
       } catch (err) {
         console.error(err.message);
       }
@@ -352,8 +362,6 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
   };
 
   const handleChangeCompany = (e) => {
-    console.log("re-remder here!");
-
     const { name, value } = e.target;
     setCompanyForm((prevFormulario) => ({
       ...prevFormulario,
@@ -392,31 +400,26 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
   };
 
   const handleChangeUpdate = (e) => {
-    console.log("re-remder here!");
-
     const { name, value } = e.target;
     setUpdateForm((prevFormulario) => ({
       ...prevFormulario,
       [name]: value,
     }));
-    console.log(updateForm);
   };
 
   const handleSubmitCompany = (e) => {
     e.preventDefault();
-    console.log("Datos del formulario:", companyForm);
     setCompanyModalOpen(false);
   };
 
   const handleSubmitUpdate = (e) => {
     e.preventDefault();
-    console.log("Datos del formulario:", updateForm);
     setUpdateModalOpen(false);
   };
 
   async function verifyToken() {
     const myHeaders = new Headers();
-    myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+    myHeaders.append("authorization", `Bearer ${token}`);
     const requestOptions = {
       method: "GET",
       headers: myHeaders,
@@ -438,9 +441,11 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
         localStorage.removeItem("token");
       } else {
         // Token válido, recarga la página solo una vez para cargar la información del usuario
-        if (!localStorage.getItem("validCredentials") && !pageReloaded) {
+        if (!pageReloaded) {
           localStorage.setItem("validCredentials", true);
           setPageReloaded(true);
+          localStorage.setItem("pageReloaded", "true");
+          window.location.reload();
         }
       }
     } catch (err) {
@@ -448,9 +453,55 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
     }
   }
 
+  async function getName() {
+    const myHeaders = new Headers();
+    const token = localStorage.token;
+    if (!token) {
+      // Manejar el error aquí, por ejemplo, redirigir al usuario a la página de inicio de sesión
+      console.error("No hay token en localStorage");
+      // Puedes redirigir al usuario o realizar otra acción
+      return;
+    }
+    myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    try {
+      const response = await fetch(
+        "https://api.whistleblowwer.net/users",
+        requestOptions
+      );
+      const parseRes = await response.json();
+      setUpdateForm(parseRes.user);
+      setName(parseRes.user);
+      localStorage.setItem("userName", JSON.stringify(parseRes.user.name));
+      localStorage.setItem("userId", JSON.stringify(parseRes.user._id_user));
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
+
   useEffect(() => {
-    verifyToken();
-  }, []);
+    // Use an async IIFE to be able to use await inside useEffect
+    (async () => {
+      await verifyToken();
+      if (localStorage.token) {
+        await getName();
+      } else {
+        if (
+          !(
+            location.pathname === "/t&c" ||
+            location.pathname === "/aviso-privacidad"
+          )
+        ) {
+          navigate("/login");
+        }
+      }
+    })();
+  }, [token]);
 
   useEffect(() => {
     async function getPostes() {
@@ -501,40 +552,6 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
     }
   }, [setPostes]);
 
-  useEffect(() => {
-    async function getName() {
-      const myHeaders = new Headers();
-      const token = localStorage.token;
-      if (!token) {
-        // Manejar el error aquí, por ejemplo, redirigir al usuario a la página de inicio de sesión
-        console.error("No hay token en localStorage");
-        // Puedes redirigir al usuario o realizar otra acción
-        return;
-      }
-      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
-      const requestOptions = {
-        method: "GET",
-        headers: myHeaders,
-        redirect: "follow",
-      };
-
-      try {
-        const response = await fetch(
-          "https://api.whistleblowwer.net/users",
-          requestOptions
-        );
-        const parseRes = await response.json();
-        setUpdateForm(parseRes.user);
-        setName(parseRes.user);
-        localStorage.setItem("userName", JSON.stringify(parseRes.user.name));
-        localStorage.setItem("userId", JSON.stringify(parseRes.user._id_user));
-      } catch (err) {
-        console.error(err.message);
-      }
-    }
-    getName();
-  }, []);
-
   const [updateForm, setUpdateForm] = useState({
     name: name.name,
     last_name: name.last_name,
@@ -562,7 +579,6 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
           requestOptions
         );
         const parseRes = await response.json();
-        console.log(parseRes);
         window.location.href = "/home";
       } catch (err) {
         console.error(err.message);
@@ -602,8 +618,6 @@ const AppProvider = ({ children, darkMode, FunctionContext }) => {
     handleCommentClick,
     handleNewUpdateProfileModal,
   };
-
-  console.log(name);
 
   return (
     <>

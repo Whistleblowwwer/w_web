@@ -66,6 +66,21 @@ const Sidebar = ({
               <p className="text-[#7404E0] font-bold p-3">Crear empresa</p>
             </button>
           </div>
+          <div className="flex justify-center text-gray-600">
+            <a href="/t&c" target="_blank" rel="noopener noreferrer">
+              Terminos y condiciones
+            </a>
+          </div>
+          <div className="flex justify-center text-gray-600 mb-6">
+            <a
+              href="/aviso-privacidad"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Aviso de privacidad
+            </a>
+          </div>
+
           <div className="flex justify-between">
             <div
               className="flex items-center gap-2 cursor-pointer"

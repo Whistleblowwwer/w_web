@@ -43,8 +43,6 @@ export default function Search({ setAuth }) {
     getRecommendedUsers();
   }, []);
 
-  console.log(recommendedUsers);
-
   return (
     <div className="w-[30%] bg-[#FFF] lg:block hidden p-4">
       <div className="flex flex-col gap-4">

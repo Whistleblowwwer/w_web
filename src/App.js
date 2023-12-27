@@ -16,6 +16,9 @@ import {
   Notifications,
 } from "./pages";
 
+import Tyc from "./pages/tyc";
+import AvisoPrivavidad from "./pages/avisoPrivacidad";
+
 import {
   BrowserRouter as Router,
   Route,
@@ -26,6 +29,8 @@ import AppProvider from "./providers/AppProvider";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
+
   const [darkMode, setDarkMode] = useState(() => {
     return JSON.parse(localStorage.getItem("darkMode")) || false;
   });
@@ -37,46 +42,83 @@ function App() {
   };
 
   async function isAuth() {
+    let token = ""
     try {
-      const body = {
-        client_email: localStorage.client_email,
-        client_password: localStorage.client_password,
+      // const body = {
+      //   client_email: localStorage.client_email,
+      //   client_password: localStorage.client_password,
+      // };
+
+      // const response = await fetch(
+      //   "https://api.whistleblowwer.net/users/login",
+      //   {
+      //     method: "POST",
+      //     mode: "cors",
+      //     headers: { "Content-Type": "application/json" },
+      //     body: JSON.stringify(body),
+      //   }
+      // );
+
+      // const parseRes = await response.json();
+      // token = parseRes.token
+
+      const myHeaders = new Headers();
+      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
       };
-      const response = await fetch(
-        "https://api.whistleblowwer.net/users/login",
-        {
-          method: "POST",
-          mode: "cors",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
-        }
+      const response_token = await fetch(
+        "https://api.whistleblowwer.net/users/token",
+        requestOptions
       );
 
-      const parseRes = await response.json();
-      parseRes.token ? setIsAuthenticated(true) : setIsAuthenticated(false);
+      if (response_token.status == 401) { setIsAuthenticated(false) }
+      else {
+        setIsAuthenticated(true)
+      }
     } catch (err) {
+      setIsAuthenticated(false)
       console.error(err.message);
+    } finally {
+      setLoading(false)
     }
   }
 
   useEffect(() => {
     isAuth();
-  });
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("darkMode", JSON.stringify(darkMode));
   }, [darkMode]);
 
+  if (loading) {
+    <div>
+      loading...
+    </div>
+  }
+
   return (
     <main
-      className={`bg-[#EEEFEF] w-full flex gap-1 pt-20 pb-14 lg:p-0 lg:pb-0 ${
-        darkMode ? "dark-login-bg" : ""
-      }`}
+      className={`bg-[#EEEFEF] w-full flex gap-1 pt-20 pb-14 lg:p-0 lg:pb-0 ${darkMode ? "dark-login-bg" : ""
+        }`}
     >
       <Router>
-        <AppProvider darkMode={darkMode} FunctionContext={FunctionContext}>
+        <AppProvider darkMode={darkMode} FunctionContext={FunctionContext} token={localStorage.token}>
           <Routes>
-            <Route path="/" element={<Begin />} />
+            <Route path="/" element={
+              isAuthenticated ? (
+                <Home
+                  setAuth={setAuth}
+                  darkMode={darkMode}
+                  FunctionContext={FunctionContext}
+                />
+              ) : (
+                <Navigate to="/login" />
+              )
+            } />
             <Route path="/admin" element={<Admin />} />
             <Route
               path="/login"
@@ -145,6 +187,8 @@ function App() {
               }
             />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/t&c" element={<Tyc />} />
+            <Route path="/aviso-privacidad" element={<AvisoPrivavidad />} />
             <Route path="/notificaciones" element={<Notifications />} />
           </Routes>
         </AppProvider>

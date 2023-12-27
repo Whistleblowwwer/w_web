@@ -33,8 +33,6 @@ export default function Chats(darkMode) {
     userId: "",
   });
 
-  console.log("chatsList", chatsList);
-
   socket.on("newMessage", (message) => {
     setCurrentConversation([...currentConversation, message]);
   });
@@ -203,7 +201,6 @@ export default function Chats(darkMode) {
 
   useEffect(() => {
     if (location?.state?.id_user) {
-      console.log("location", location?.state);
       setSelectedChat({
         Receiver: {
           _id_user: location?.state?.id_user,
@@ -252,7 +249,6 @@ export default function Chats(darkMode) {
           let invertedConversationArray = parseRes?.messages;
           invertedConversationArray = [...invertedConversationArray].reverse();
           setCurrentConversation(invertedConversationArray);
-          console.log(invertedConversationArray);
         } catch (err) {
           console.error(err.message);
         }

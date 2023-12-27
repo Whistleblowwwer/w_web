@@ -27,7 +27,7 @@ const PostCard = ({
     post?.Business?.is_followed
   );
 
-  const [modalDelete, setModalDelete] = useState (false);
+  const [modalDelete, setModalDelete] = useState(false);
 
   const handleViewPicture = (picture) => {
     setCurrentPicture(picture);
@@ -56,8 +56,6 @@ const PostCard = ({
           requestOptions
         );
         const parseRes = await response.json();
-        console.log(parseRes);
-
         // Actualizar el estado local
         setFollowConditionBusiness(!followConditionBusiness);
       } catch (err) {
@@ -73,18 +71,20 @@ const PostCard = ({
       const myHeaders = new Headers();
       myHeaders.append("authorization", `Bearer ${localStorage.token}`);
       var requestOptions = {
-        method: 'PATCH',
+        method: "PATCH",
         headers: myHeaders,
-        redirect: 'follow'
+        redirect: "follow",
       };
-  
+
       try {
-        const response = await fetch(`https://api.whistleblowwer.net/reviews/?_id_review=${post?._id_review}`, requestOptions);
+        const response = await fetch(
+          `https://api.whistleblowwer.net/reviews/?_id_review=${post?._id_review}`,
+          requestOptions
+        );
         const result = await response.text();
         window.location.reload();
-        console.log(result);
       } catch (error) {
-        console.error('Error during fetch:', error);
+        console.error("Error during fetch:", error);
       }
     }
     deleteReview();
@@ -92,7 +92,7 @@ const PostCard = ({
   };
 
   const storedUserName = localStorage.getItem("userName");
-  const formattedStoredUserName = storedUserName.replace(/"/g, '');
+  const formattedStoredUserName = storedUserName.replace(/"/g, "");
 
   return (
     <>
@@ -124,7 +124,9 @@ const PostCard = ({
               <p className="text-black text-base font-bold">
                 {post?.Business?.name}
               </p>
-              <span className="text-sm opacity-40 mt-[-3%]">{post?.Business?.entity}</span>
+              <span className="text-sm opacity-40 mt-[-3%]">
+                {post?.Business?.entity}
+              </span>
             </div>
             <img src={paginaEmpre} alt="empresa" />
           </button>
@@ -150,7 +152,9 @@ const PostCard = ({
                     alt="Imagen"
                     className="w-[35px] h-[35px] relative mb-[-23%]"
                   />
-                  {isUserProfile || editable == "true" || post?.User?.name === formattedStoredUserName ? (
+                  {isUserProfile ||
+                  editable == "true" ||
+                  post?.User?.name === formattedStoredUserName ? (
                     <p></p>
                   ) : (
                     <button className="w-[15px] h-[15px] rounded-full border border-solid border-black flex items-center justify-center bg-[#141414] text-[#FFF] z-20">
@@ -181,7 +185,12 @@ const PostCard = ({
               </p>
             </div>
             {isUserProfile && editable == "true" ? (
-              <div className="relative" onClick={() => {handleDeleteModal()}}>
+              <div
+                className="relative"
+                onClick={() => {
+                  handleDeleteModal();
+                }}
+              >
                 <svg
                   fill="currentColor"
                   viewBox="0 0 16 16"

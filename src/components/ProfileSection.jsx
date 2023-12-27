@@ -38,8 +38,6 @@ const ProfileSection = ({
   const [viewPictureModal, setViewPictureModal] = useState(false);
   const navigate = useNavigate();
 
-  console.log("user detsil", userDetail);
-
   const handleNavigate = () => {
     // Navigate to a different page
     navigate("/chats", {

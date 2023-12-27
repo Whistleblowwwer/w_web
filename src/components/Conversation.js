@@ -2,7 +2,6 @@ import { React, useRef, useEffect } from "react";
 import sendMessage from "../assets/SendMessage.svg";
 
 function Conversation(props) {
-  console.log("conversation props", props)
   const sender = props.userId;
   const messagesEndRef = useRef(null);
 
