@@ -27,8 +27,6 @@ export default function Home({ setAuth, darkMode, FunctionContext }) {
   } = useContext(FunctionContext);
   const [pageReloaded, setPageReloaded] = useState(false);
 
-  console.log("is cycling?");
-
   useEffect(() => {
     // async function verifyToken() {
     //   const myHeaders = new Headers();

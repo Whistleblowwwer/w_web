@@ -100,7 +100,6 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
       setShowPublishIcon(false);
     }
   };
-  console.log("commnent text", textComment);
   const handleTextCommnetChange = (event) => {
     setTextComment(event.target.value);
     if (event.target.value.trim() !== "") {
@@ -218,7 +217,6 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
         );
         const parseRes = await response.json();
         setUserDetail(parseRes.user);
-        console.log(parseRes.user);
       } catch (err) {
         console.error(err.message);
       }
@@ -233,7 +231,6 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
       } else {
         setEditable("false");
       }
-      console.log(editable);
     };
     getEditable();
   }, [name, users.name, editable, userDetail.name]);
@@ -289,7 +286,6 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
   };
 
   const handleLike = (_id_review) => {
-    console.log("Liked - ID => ", _id_review);
     async function postLike() {
       const myHeaders = new Headers();
       myHeaders.append("authorization", `Bearer ${localStorage.token}`);
@@ -311,18 +307,13 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
   };
 
   const handleComment = () => {
-    console.log("comment - ID => ", idReviewComment);
     async function postComment() {
       const myHeaders = new Headers();
       myHeaders.append("authorization", `Bearer ${localStorage.token}`);
-      console.log("content", textComment);
       var raw = JSON.stringify({
         content: textComment,
         _id_review: idReviewComment,
       });
-      console.log("idreviww", idReviewComment);
-
-      console.log("raw", raw);
 
       const requestOptions = {
         method: "POST",
@@ -365,7 +356,6 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
           requestOptions
         );
         const parseRes = await response.json();
-        console.log(parseRes);
         window.location.reload();
       } catch (err) {
         console.error(err.message);
@@ -390,7 +380,6 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
         handleLike={handleLike}
         handleCommentClick={handleCommentClick}
         handleFollow={handleFollowUser}
-
         isUserProfile
       />
       {/* <div className="w-1/4 bg-[#FFF] h-screen fixed right-0 p-4">

@@ -66,7 +66,6 @@ export default function Register({ setAuth }) {
   };
 
   const onChange = (e) => {
-    console.log(e.target.name);
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
@@ -88,7 +87,6 @@ export default function Register({ setAuth }) {
         password,
         role,
       };
-      console.log(body);
       const response = await fetch("https://api.whistleblowwer.net/users/", {
         method: "POST",
         mode: "cors",

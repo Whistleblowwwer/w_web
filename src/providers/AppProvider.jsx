@@ -411,7 +411,6 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     setUpdateModalOpen(false);
   };
 
-  console.log("page reload", pageReloaded);
   async function verifyToken() {
     const myHeaders = new Headers();
     myHeaders.append("authorization", `Bearer ${token}`);
@@ -442,7 +441,6 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
           localStorage.setItem("pageReloaded", "true");
           window.location.reload();
         }
-        console.log("correct token");
       }
     } catch (err) {
       console.error(err.message);
@@ -480,11 +478,9 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     }
   }
 
-  console.log("token prop", token);
   useEffect(() => {
     // Use an async IIFE to be able to use await inside useEffect
     (async () => {
-      console.log("enter!");
       await verifyToken();
       if (localStorage.token) {
         await getName();

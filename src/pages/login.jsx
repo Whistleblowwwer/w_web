@@ -43,7 +43,6 @@ export default function Login({ setAuth }) {
         }
       );
       const parseRes = await response.json();
-      console.log("login res", parseRes);
 
       if (parseRes.token) {
         localStorage.setItem("client_email", client_email);

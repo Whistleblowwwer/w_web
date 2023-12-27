@@ -27,7 +27,6 @@ const ProfilePicture = ({
         headersBase,
         selectedFile
       );
-      console.log("res", res);
     } catch (error) {
       console.error("Error al subir los archivos:", error);
     }
