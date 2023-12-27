@@ -203,15 +203,36 @@ export default function Chats(darkMode) {
 
   useEffect(() => {
     if (location?.state?.id_user) {
-      console.log("it works!");
+      console.log("location", location?.state);
       setSelectedChat({
         Receiver: {
           _id_user: location?.state?.id_user,
+          name: location?.state?.name,
+          last_name: location?.state?.last_name,
         },
         Sender: {
           _id_user: currentUserData?.userId,
+          name: currentUserData?.name,
+          last_name: currentUserData?.last_name,
         },
       });
+
+      setChatList((chatsList) => [
+        {
+          Message: "",
+          Receiver: {
+            _id_user: location?.state?.id_user,
+            name: location?.state?.name,
+            last_name: location?.state?.last_name,
+          },
+          Sender: {
+            _id_user: currentUserData?.userId,
+            name: currentUserData?.name,
+            last_name: currentUserData?.last_name,
+          },
+        },
+        ...chatsList,
+      ]);
       async function getMessages() {
         const myHeaders = new Headers();
         myHeaders.append("authorization", `Bearer ${localStorage.token}`);

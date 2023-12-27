@@ -42,7 +42,13 @@ const ProfileSection = ({
 
   const handleNavigate = () => {
     // Navigate to a different page
-    navigate("/chats", { state: { id_user: userDetail?._id_user } });
+    navigate("/chats", {
+      state: {
+        id_user: userDetail?._id_user,
+        name: userDetail?.name,
+        last_name: userDetail?.last_name,
+      },
+    });
   };
 
   return (
