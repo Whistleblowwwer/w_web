@@ -165,6 +165,17 @@ export default function Login({ setAuth }) {
                 </span>
               </button>
             </div>
+            <div className="flex justify-center items-center mt-4">
+              <p
+                className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${
+                  darkMode ? "dark-text-white" : ""
+                }`}
+              >
+                <a onClick={() => handleButtonClick("/register")}>
+                  Crea una cuenta nueva
+                </a>
+              </p>
+            </div>
           </div>
         </div>
       </form>

@@ -236,6 +236,25 @@ iframe {
   border: none; /* Remove iframe border */
 }
 
+.otp-input {
+  display: flex;
+  justify-content: space-between;
+  width: 200px; /* Adjust the width as needed */
+}
+
+.partitioned input {
+  width: calc(
+    100% / 7
+  ); /* Assuming you have 6 input spaces, adjust accordingly */
+  padding: 8px;
+  text-align: center;
+  height: 70px;
+  border: 1px solid #888888; /* Blue outline color */
+  border-radius: 10px;
+  margin-right: 15px; /* Adjust the spacing between input spaces */
+  font-size: 25px; /* Adjust the font size as needed */
+}
+
 /** Responsive **/
 .navbar {
   width: auto;
