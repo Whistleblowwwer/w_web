@@ -17,6 +17,11 @@ function UpdateProfileModal(props) {
             <i className="fas fa-times"></i>
           </button>
         </div>
+        <h1
+          className={`text-neutral-900 text-2xl font-semibold leading-7 ml-8`}
+        >
+          Editar perfil
+        </h1>
         <form
           onSubmit={props.handleSubmit}
           className="max-w-md mx-auto mt-3 p-4 bg-white rounded"
@@ -72,20 +77,20 @@ function UpdateProfileModal(props) {
               />
             </div>
             <div className="w-full md:w-1/2 px-2">
-            <label
-              htmlFor="email"
-              className="block text-gray-600 font-semibold mb-2"
-            >
-              Email
-            </label>
-            <input
-              type="text"
-              id="email"
-              name="email"
-              value={props.email}
-              onChange={props.handleChange}
-              className="w-full p-2 border border-gray-300 rounded"
-            />
+              <label
+                htmlFor="email"
+                className="block text-gray-600 font-semibold mb-2"
+              >
+                Email
+              </label>
+              <input
+                type="text"
+                id="email"
+                name="email"
+                value={props.email}
+                onChange={props.handleChange}
+                className="w-full p-2 border border-gray-300 rounded"
+              />
             </div>
             <div className="w-full md:w-1/2 px-2">
               <label

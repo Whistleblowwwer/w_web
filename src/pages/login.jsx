@@ -123,7 +123,7 @@ export default function Login({ setAuth }) {
                 value={client_email}
                 onChange={(e) => onChange(e)}
                 placeholder="Teléfono o Correo electrónico"
-                className={`placeholder-black mr-4 mt-4 p-2  rounded-[10px] w-[87%] h-8 bg-stone-50 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${
+                className={`placeholder-black mr-4 mt-4 p-2  rounded-[10px] w-[87%] h-8 bg-stone-200 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${
                   darkMode ? "dark-register-bt placeholder-black-dk" : ""
                 }`}
               />
@@ -135,7 +135,7 @@ export default function Login({ setAuth }) {
                 value={client_password}
                 onChange={(e) => onChange(e)}
                 placeholder="Contraseña"
-                className={`placeholder-black mr-4 mt-4 p-2 rounded-[10px] w-[87%] h-8 bg-stone-50 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${
+                className={`placeholder-black mr-4 mt-4 p-2 rounded-[10px] w-[87%] h-8 bg-stone-200 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${
                   darkMode ? "dark-register-bt placeholder-black-dk" : ""
                 }`}
               />

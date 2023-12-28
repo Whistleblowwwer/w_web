@@ -586,7 +586,7 @@ export default function Register({ setAuth }) {
                 </div>
                 <div className="flex mt-5 ml-5">
                   <p
-                    className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${
+                    className={`text-zinc-900 mt-2 text-[10px] font-medium leading-[9.31px] ${
                       darkMode ? "dark-text-white" : ""
                     }`}
                   >
@@ -595,7 +595,7 @@ export default function Register({ setAuth }) {
                 </div>
                 <div className="flex justify-center items-center mt-5 text-neutral-900 text-opacity-100 text-xs font-semibold leading-[11.17px] mr-1 mt-[3px]">
                   <div
-                    className={`w-[120px] mt-2 h-8 bg-stone-200 rounded-[10px] mr-3 flex justify-around items-center ${
+                    className={`w-[120px] h-8 bg-stone-200 rounded-[10px] mr-3 flex justify-around items-center ${
                       darkMode ? "dark-register-bt placeholder-black-dk" : ""
                     }`}
                   >
