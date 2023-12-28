@@ -194,10 +194,10 @@ export default function Register({ setAuth }) {
         const parseRes = await response.json();
         console.log("res register", parseRes);
         if (parseRes.token) {
-          localStorage.setItem("token", parseRes.token);
-          setAuth(false);
-          Navigate("/login");
           toast.success("¡Registro exitoso!");
+          localStorage.setItem("token", parseRes.token);
+          setAuth(true);
+          Navigate("/");
         } else {
           toast.error(parseRes.message);
         }
