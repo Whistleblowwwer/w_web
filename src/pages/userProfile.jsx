@@ -356,7 +356,11 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
           requestOptions
         );
         const parseRes = await response.json();
-        window.location.reload();
+        if (userDetail?.is_followed) {
+          setUserDetail({ ...userDetail, is_followed: false });
+        } else {
+          setUserDetail({ ...userDetail, is_followed: true });
+        }
       } catch (err) {
         console.error(err.message);
       }

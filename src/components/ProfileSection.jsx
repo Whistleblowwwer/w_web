@@ -12,7 +12,7 @@ import { formatDate, renderStars } from "../utils";
 import { USER_PROFILE_TABS } from "../constants";
 import PostCard from "./PostCard";
 import chatIcon from "../assets/chatIcon.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProfilePicture from "./ProfilePicture";
 import defaultPp from "../assets/defaultProfilePicture.webp";
 
@@ -37,6 +37,7 @@ const ProfileSection = ({
 }) => {
   const [viewPictureModal, setViewPictureModal] = useState(false);
   const navigate = useNavigate();
+  console.log("user detail", userDetail);
 
   const handleNavigate = () => {
     // Navigate to a different page
@@ -48,6 +49,8 @@ const ProfileSection = ({
       },
     });
   };
+
+  useEffect(() => {}, [userDetail]);
 
   return (
     <>
@@ -178,7 +181,11 @@ const ProfileSection = ({
                   className="bg-neutral-100 h-full rounded-xl px-3 py-1.5"
                 >
                   <p className="text-black text-[14px] font-bold">
-                    {editable === "true" ? "Editar perfil" : "Seguir"}
+                    {editable === "true"
+                      ? "Editar perfil"
+                      : userDetail?.is_followed
+                      ? "Dejar de seguir"
+                      : "Seguir"}
                   </p>
                 </button>
               </div>

@@ -349,8 +349,11 @@ export default function BusinessProfile({
           requestOptions
         );
         const parseRes = await response.json();
-
-        window.location.reload();
+        if (businessDetails?.is_followed) {
+          setBusinessDetails({ ...businessDetails, is_followed: false });
+        } else {
+          setBusinessDetails({ ...businessDetails, is_followed: true });
+        }
       } catch (err) {
         console.error(err.message);
       }
