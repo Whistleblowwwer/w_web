@@ -18,7 +18,7 @@ function UpdateProfileModal(props) {
           </button>
         </div>
         <h1
-          className={`text-neutral-900 text-2xl font-semibold leading-7 ml-8`}
+          className={`text-neutral-900 text-2xl font-semibold leading-7 ml-6`}
         >
           Editar perfil
         </h1>
@@ -112,9 +112,9 @@ function UpdateProfileModal(props) {
           <button
             type="submit"
             onClick={props.handleUpdate}
-            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-300"
+            className="w-full bg-violet-700 text-white p-2 rounded hover:bg-blue-600 transition duration-300"
           >
-            Enviar
+            Guardar cambios
           </button>
         </form>
       </div>

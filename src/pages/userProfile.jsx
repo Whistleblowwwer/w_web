@@ -296,6 +296,20 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
       };
 
       try {
+        setPostes((prevPostes) => {
+          return prevPostes.map((prevPost) => {
+            if (prevPost._id_review === _id_review) {
+              return {
+                ...prevPost,
+                is_liked: !prevPost.is_liked, // Invertir el estado
+                likesCount: prevPost.is_liked
+                  ? prevPost.likesCount - 1
+                  : prevPost.likesCount + 1,
+              };
+            }
+            return prevPost;
+          });
+        });
         const url = `https://api.whistleblowwer.net/users/reviews/like/?_id_review=${_id_review}`;
         const response = await fetch(url, requestOptions);
         const parseRes = await response.json();
@@ -356,7 +370,11 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
           requestOptions
         );
         const parseRes = await response.json();
-        window.location.reload();
+        if (userDetail?.is_followed) {
+          setUserDetail({ ...userDetail, is_followed: false });
+        } else {
+          setUserDetail({ ...userDetail, is_followed: true });
+        }
       } catch (err) {
         console.error(err.message);
       }

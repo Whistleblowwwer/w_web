@@ -43,7 +43,7 @@ export default function Register({ setAuth }) {
     number4: "",
   });
 
-  console.log(otpCode);
+  console.log("register inputs", inputs);
 
   const {
     name,
@@ -116,6 +116,13 @@ export default function Register({ setAuth }) {
     }
   };
 
+  const ageValidator = (birth_date) => {
+    const birthDateObj = new Date(birth_date);
+    const ageInMilliseconds = Date.now() - birthDateObj.getTime();
+    const ageInYears = ageInMilliseconds / (365.25 * 24 * 60 * 60 * 1000);
+    return ageInYears < 18;
+  };
+
   const handleNext = (e) => {
     e.preventDefault();
     console.log("step", step);
@@ -166,40 +173,43 @@ export default function Register({ setAuth }) {
 
   const onSubmitForm = async (e) => {
     e.preventDefault();
-
-    try {
-      const body = {
-        name,
-        last_name,
-        email,
-        phone_number,
-        birth_date,
-        gender,
-        password,
-        role,
-      };
-      const response = await fetch("https://api.whistleblowwer.net/users", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-      const parseRes = await response.json();
-      console.log("res register", parseRes);
-      if (parseRes.token) {
-        localStorage.setItem("token", parseRes.token);
-        setAuth(false);
-        Navigate("/home");
-        toast.success("¡Registro exitoso!", {
-          duration: 10000, 
+    
+    if (!ageValidator(birth_date)) {
+      try {
+        const body = {
+          name,
+          last_name,
+          email,
+          phone_number,
+          birth_date,
+          gender,
+          password,
+          role,
+        };
+        const response = await fetch("https://api.whistleblowwer.net/users", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
         });
-      } else {
-        toast.error(parseRes.message);
+        const parseRes = await response.json();
+        console.log("res register", parseRes);
+        if (parseRes.token) {
+ toast.success("¡Registro exitoso!", {
+          duration: 10000, 
+        });          localStorage.setItem("token", parseRes.token);
+          setAuth(true);
+          Navigate("/");
+        } else {
+          toast.error(parseRes.message);
+        }
+      } catch (err) {
+        console.error("Error during registration:", err);
+        toast.error(
+          "Ha ocurrido un error al registrar. Por favor, inténtelo de nuevo."
+        );
       }
-    } catch (err) {
-      console.error("Error during registration:", err);
-      toast.error(
-        "Ha ocurrido un error al registrar. Por favor, inténtelo de nuevo."
-      );
+    } else {
+      toast.error("Tienes que ser mayor de 18 años para crear una cuenta.");
     }
   };
 
