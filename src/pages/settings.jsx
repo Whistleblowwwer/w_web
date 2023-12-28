@@ -25,7 +25,17 @@ export default function Settings() {
     accesibilidad: false,
   });
 
-  const handleCloseSesion = () => {};
+  const handleCloseSesion = () => {
+    localStorage.removeItem("client_password");
+    localStorage.removeItem("recentSearches");
+    localStorage.removeItem("client_email");
+    localStorage.removeItem("token");
+    localStorage.removeItem("validCredentials");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("pageReloaded");
+    window.location.reload();
+  };
 
   const handleButtonClick = (buttonName) => {
     setActiveButtonCon(buttonName);
