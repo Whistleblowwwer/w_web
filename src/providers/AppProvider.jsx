@@ -248,9 +248,6 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
       };
 
       try {
-        const url = `https://api.whistleblowwer.net/users/reviews/like/?_id_review=${_id_review}`;
-        const response = await fetch(url, requestOptions);
-        const parseRes = await response.json();
         setPostes((prevPostes) => {
           return prevPostes.map((prevPost) => {
             if (prevPost._id_review === _id_review) {
@@ -265,6 +262,9 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
             return prevPost;
           });
         });
+        const url = `https://api.whistleblowwer.net/users/reviews/like/?_id_review=${_id_review}`;
+        const response = await fetch(url, requestOptions);
+        const parseRes = await response.json();
       } catch (err) {
         console.error(err.message);
       }
