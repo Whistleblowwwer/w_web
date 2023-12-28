@@ -47,10 +47,8 @@ function Conversation(props) {
             value={props.message}
             onChange={(e) => props.setMessage(e.target.value)}
           />
-          <button onClick={() => handleSendMessage()}>
-            <span className="relative right-0 pl-3 flex items-center">
-              <i className="fas fa-search text-gray-700"></i>
-            </span>
+          <button className="bg-neutral-900 rounded-[25px] m-2" onClick={() => handleSendMessage()}>
+            <img src={sendMessage} alt="sendmessage" />
           </button>
         </div>
       </div>

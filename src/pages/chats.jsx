@@ -55,6 +55,8 @@ export default function Chats(darkMode) {
 
   const handleNewChat = () => {
     setIsMessagesModalActive(true);
+    setCurrentConversation([]);
+    setSelectedChat(undefined);
     async function getUsersList() {
       const myHeaders = new Headers();
       myHeaders.append("authorization", `Bearer ${localStorage.token}`);
@@ -97,29 +99,31 @@ export default function Chats(darkMode) {
       },
     });
 
-    setChatList((chatsList) => [
-      {
-        Message: "",
-        Receiver: {
-          _id_user: newMessageUser.userId,
-          name: newMessageUser.name,
-          last_name: newMessageUser.last_name,
-        },
-        Sender: {
-          _id_user: currentUserData?.userId,
-          name: currentUserData.name,
-          last_name: currentUserData.last_name,
-        },
+    let auxChatList = {
+      Message: "",
+      Receiver: {
+        _id_user: newMessageUser.userId,
+        name: newMessageUser.name,
+        last_name: newMessageUser.last_name,
+        profile_picture_url: newMessageUser.profile_picture_url,
       },
-      ...chatsList,
-    ]);
+      Sender: {
+        _id_user: currentUserData?.userId,
+        name: currentUserData.name,
+        last_name: currentUserData.last_name,
+        profile_picture_url: currentUserData.profile_picture_url,
+      },
+    };
+
+    setChatList((chatsList) => [auxChatList, ...chatsList]);
 
     setNewMessageUser({
       ...newMessageUser, // Preserve existing key-value pairs
       name: "",
       userId: "",
     });
-    async function getMessages() {
+
+    async function getMessages(auxChatList) {
       const myHeaders = new Headers();
       myHeaders.append("authorization", `Bearer ${localStorage.token}`);
       const requestOptions = {
@@ -129,7 +133,7 @@ export default function Chats(darkMode) {
       };
 
       try {
-        const messagesURL = `http://3.18.112.92:4000/messages/?_id_receiver=${selectedChat?.Receiver._id_user}`;
+        const messagesURL = `http://3.18.112.92:4000/messages/?_id_receiver=${auxChatList?.Receiver._id_user}`;
         const response = await fetch(messagesURL, requestOptions);
         const parseRes = await response.json();
 
@@ -142,7 +146,7 @@ export default function Chats(darkMode) {
         console.error(err.message);
       }
     }
-    getMessages();
+    getMessages(auxChatList);
   };
 
   useEffect(() => {
@@ -167,6 +171,7 @@ export default function Chats(darkMode) {
           name: parseRes?.user?.name,
           lastname: parseRes?.user?.last_name,
           userId: parseRes?.user._id_user,
+          profile_picture_url: parseRes?.user.profile_picture_url,
         });
         auxUserId = parseRes?.user._id_user;
       } catch (err) {
