@@ -20,7 +20,7 @@ function Conversation(props) {
 
   return (
     <div className="conversation-container">
-      <div className="flex justify-center pt-2 fixed w-full top-0 left-[19%] ">
+      <div className="flex justify-center pt-2 fixed w-[100%] top-0 left-[19%] ">
         <p className="text-zinc-900 text-xl font-medium leading-[18.62px]">
           {props?.userName}
         </p>
@@ -48,7 +48,9 @@ function Conversation(props) {
             onChange={(e) => props.setMessage(e.target.value)}
           />
           <button onClick={() => handleSendMessage()}>
-            <img src={sendMessage} alt="sendmessage" />
+            <span className="relative right-0 pl-3 flex items-center">
+              <i className="fas fa-search text-gray-700"></i>
+            </span>
           </button>
         </div>
       </div>

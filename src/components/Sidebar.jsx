@@ -60,10 +60,10 @@ const Sidebar = ({
         <div className="w-full items-center">
           <div className="flex items-center justify-center p-9">
             <button
-              className="py-2 px-4 mt-4 w-[180px] h-[41px] bg-slate-300	 rounded-[44px] relative mt-12 mr-2"
+              className="bg-purple-800 py-2 px-4 mt-4 w-[280px] h-[41px] bg-neutral-900 rounded-[44px] relative mt-12"
               onClick={handleNewCompanyModal}
             >
-              <p className="font-extrabold text-violet-700 text-[15px] leading-[13.96px]">
+              <p className="text-stone-50 text-[15px] font-medium leading-[13.96px]">
                 Crear empresa
               </p>
             </button>

@@ -25,6 +25,8 @@ export default function Settings() {
     accesibilidad: false,
   });
 
+  const handleCloseSesion = () => {};
+
   const handleButtonClick = (buttonName) => {
     setActiveButtonCon(buttonName);
     setDivsVisibility((prevVisibility) => {
@@ -179,81 +181,14 @@ export default function Settings() {
                 >
                   Tu cuenta
                 </p>
-                <p
-                  className={`mt-4 w-[80%] text-[14px] font-medium leading-[10.71px] ${
-                    darkMode ? "dark-text-white" : ""
-                  }`}
+                <button
+                  className="hover:bg-gray-700 py-2 px-4 mt-4 w-[150px] h-[41px] bg-neutral-900 rounded-[44px] relative mt-12"
+                  onClick={() => handleCloseSesion()}
                 >
-                  Ve la información de la cuenta, descarga un archivo con tus
-                  datos u obtén más información acerca de las opciones de
-                  desactivación de la cuenta
-                </p>
-                <div
-                  className={`w-[100%] margin-top mt-3 ${
-                    darkMode ? "dark-text-white" : ""
-                  } sidebarcontain`}
-                >
-                  <button
-                    className={
-                      activeButtonCon === "seguridad"
-                        ? darkMode
-                          ? "active-buttonH font-bold"
-                          : "active-buttonD font-bold"
-                        : ""
-                    }
-                  >
-                    <p className="p-txt">
-                      Información de la cuenta
-                      <i class="ml-8 mt-1 fa-solid fa-chevron-right"></i>
-                    </p>
-                  </button>
-                </div>
-                <div
-                  className={`w-[100%] margin-top mt-3 ${
-                    darkMode ? "dark-text-white" : ""
-                  } sidebarcontain`}
-                >
-                  <button
-                    className={
-                      activeButtonCon === "seguridad"
-                        ? darkMode
-                          ? "active-buttonH font-bold"
-                          : "active-buttonD font-bold"
-                        : ""
-                    }
-                  >
-                    <p className="mr-[22%]">
-                      Cambia tu contraseña
-                      <i class="ml-8 mt-1 fa-solid fa-chevron-right"></i>
-                    </p>
-                    <p className="ml-1 text-[12px] font-medium leading-[10.71px]">
-                      Cambia tu contraseña en cualquier momento.
-                    </p>
-                  </button>
-                </div>
-                <div
-                  className={`w-[100%] margin-top mt-3 ${
-                    darkMode ? "dark-text-white" : ""
-                  } sidebarcontain`}
-                >
-                  <button
-                    className={
-                      activeButtonCon === "seguridad"
-                        ? darkMode
-                          ? "active-buttonH font-bold"
-                          : "active-buttonD font-bold"
-                        : ""
-                    }
-                  >
-                    <p className="mr-[28%] p-txt">
-                      Elimina tu cuenta
-                      <i class="ml-8 mt-1 fa-solid fa-chevron-right"></i>
-                    </p>
-                    <p className="ml-1 text-[12px] font-medium leading-[10.71px]">
-                      Averigua cómo puedes eliminar tu cuenta
-                    </p>
-                  </button>
-                </div>
+                  <span className="text-stone-50 text-[15px] font-medium leading-[13.96px]">
+                    Cerrar sesión
+                  </span>
+                </button>
               </div>
             )}
             {activeButtonCon === "seguridad" && (
@@ -276,7 +211,7 @@ export default function Settings() {
                 >
                   Privacidad
                 </p>
-                <p className="mt-3">
+                <p className="mt-3 mb-3">
                   D.R.© ANCER 2023, S.A.P.I. DE C.V., México 2023. Utilización
                   del sitio únicamente bajo términos legales. Whistleblowwer®
                   Pedro Infante # 1000, Colonia Cumbres Oro Regency, Monterrey,
@@ -286,7 +221,7 @@ export default function Settings() {
                   href="/t&c"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-gray-500 font-bold"
+                  className="text-indigo-800 text-black font-bold mt-4"
                 >
                   Terminos y condiciones
                 </a>
@@ -313,7 +248,7 @@ export default function Settings() {
                   Accesibilidad
                 </p>
                 <div className="mt-3 margin-top">
-                  <button className="toggle-dark-mode" onClick={toggleDarkMode}>
+                  {/* <button className="toggle-dark-mode" onClick={toggleDarkMode}>
                     {darkMode ? (
                       <>
                         <p className="text-white">
@@ -329,7 +264,7 @@ export default function Settings() {
                         </p>
                       </>
                     )}
-                  </button>
+                  </button> */}
                 </div>
               </div>
             )}

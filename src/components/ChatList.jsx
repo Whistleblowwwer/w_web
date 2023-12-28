@@ -58,7 +58,7 @@ function ChatList(props) {
               <p className="text-lg">
                 {props.userId == chat?.Receiver._id_user
                   ? `${chat?.Sender.name} ${chat?.Sender.last_name}`
-                  : `${chat?.Receiver.name} ${chat?.Receiver.last_name}`}
+                  : `${chat?.Receiver.name} ${chat?.Receiver?.last_name}`}
               </p>
               <p>{chat?.Message.content}</p>
             </div>

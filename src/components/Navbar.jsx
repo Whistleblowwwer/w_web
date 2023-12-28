@@ -22,7 +22,7 @@ const Navbar = ({ darkMode, handleUserClick }) => {
             onClick={handleUserClick}
             src={proSet}
             alt="Imagen"
-            className="cursor-pointer"
+            className="cursor-pointer w-[5%] h-auto"
           />
         </div>
       </div>
