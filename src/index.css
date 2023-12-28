@@ -172,13 +172,22 @@ body {
 
 .sent {
   align-self: flex-end;
-  background-color: #4caf50; /* Green color for sent messages */
+  background: linear-gradient(to right, #5888e0, #285BE0); /* Degradado de derecha a izquierda */
   color: white;
+  border-top-left-radius: 10px; /* Radio del borde superior izquierdo */
+  border-top-right-radius: 0; /* Sin radio en el borde superior derecho */
+  border-bottom-right-radius: 10px; /* Radio del borde inferior derecho */
+  border-bottom-left-radius: 10px; /* Radio del borde inferior izquierdo */
+  padding: 10px; /* Ajusta según sea necesario */
 }
 
 .received {
   align-self: flex-start;
-  background-color: #cccccc; /* Light gray color for received messages */
+  background-color: #ffffff;
+  border-top-left-radius: 0; /* Radio del borde superior izquierdo */
+  border-top-right-radius: 10px; /* Sin radio en el borde superior derecho */
+  border-bottom-right-radius: 10px; /* Radio del borde inferior derecho */
+  border-bottom-left-radius: 10px; /* Radio del borde inferior izquierdo */ /* Light gray color for received messages */
   color: black;
 }
 
@@ -191,6 +200,7 @@ body {
   align-items: center;
   padding: 10px;
   padding-right: 1%;
+  padding-left: 2%;
 }
 
 .input-container input {
@@ -199,14 +209,11 @@ body {
   border: 1px solid #ccc;
   border-radius: 5px;
   box-sizing: border-box;
-  margin-right: -1%;
+  margin-right: -5%;
 }
 
 .input-container button {
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 0 15px 15px 0;
-  background-color: #000000;
   cursor: pointer;
 }
 

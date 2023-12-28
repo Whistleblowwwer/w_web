@@ -78,9 +78,9 @@ export default function Login({ setAuth }) {
           }`}
         >
           <div
-            className={`w-[438px] h-[504px] bg-[#FBFCF8] rounded-[10px] ${
+            className={`w-auto h-auto bg-[#FBFCF8] rounded-[10px] ${
               darkMode ? "dark-register" : ""
-            }`}
+            } sm:w-[60%] md:w-[60%] lg:w-[40%] xl:w-[30%] 2xl:w-[20%] m-[2%]`}
           >
             <div className="flex justify-between items-center">
               <h1
@@ -91,13 +91,13 @@ export default function Login({ setAuth }) {
                 Inicia sesión
               </h1>
               <button
-                onClick={() => handleButtonClick("/register")}
+                onClick={() => handleButtonClick("/admin")}
                 className={`mr-4 mb-3 ${darkMode ? "dark-text-white" : ""}`}
               >
                 <i className="fas fa-times"></i>
               </button>
             </div>
-            <div className="flex justify-center items-center mt-7">
+            {/* <div className="flex justify-center items-center mt-7">
               <button
                 className={`hover:bg-gray-700 py-2 px-4 mt-4 w-[280px] h-[41px] bg-neutral-900 rounded-[44px] relative ${
                   darkMode ? "dark-button" : ""
@@ -116,7 +116,7 @@ export default function Login({ setAuth }) {
                   Iniciar sesión con Google
                 </span>
               </button>
-            </div>
+            </div> */}
             <div className="flex justify-center items-center mt-6">
               <input
                 name="client_email"
@@ -152,7 +152,7 @@ export default function Login({ setAuth }) {
             <div className="flex justify-center items-center mt-[120px]">
               <button
                 type="submit"
-                className={`hover:bg-gray-700 py-2 px-4 mt-4 w-[280px] h-[41px] bg-neutral-900 rounded-[44px] relative ${
+                className={`hover:bg-gray-700 py-2 px-4 mt-4 w-[60%] h-[41px] bg-neutral-900 rounded-[44px] relative ${
                   darkMode ? "dark-button" : ""
                 }`}
               >
@@ -165,13 +165,13 @@ export default function Login({ setAuth }) {
                 </span>
               </button>
             </div>
-            <div className="flex justify-center items-center mt-4">
+            <div className="flex justify-center items-center mt-4 pb-4">
               <p
                 className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${
                   darkMode ? "dark-text-white" : ""
                 }`}
               >
-                <a onClick={() => handleButtonClick("/register")}>
+                <a className="cursor-pointer" onClick={() => handleButtonClick("/register")}>
                   Crea una cuenta nueva
                 </a>
               </p>

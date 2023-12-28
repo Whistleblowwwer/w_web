@@ -17,11 +17,13 @@ const Searchbar = ({
 }) => {
   const location = useLocation();
 
-  const [selectedTab, setSelectedTab] = useState("empresas"); // Puedes inicializarlo con el valor por defecto deseado
+  const [selectedTab, setSelectedTab] = useState("empresas"); 
   const [isSearchVisible, setIsSearchVisible] = useState(false);
 
   const [isBusinessVisible, setIsBusinessVisible] = useState(false);
   const [isPeopleVisible, setIsPeopleVisible] = useState(false);
+
+
 
   const handleTabClick = (tab) => {
     setSelectedTab(tab);
@@ -348,6 +350,23 @@ const Searchbar = ({
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      )}
+      {activeTabView === "parati" && (
+        <div className="w-full h-full flex justify-center items-center">
+          <p>Proximamente</p>
+        </div>
+      )}
+      {activeTabView === "tendencias" && (
+        <div className="w-full h-full flex justify-center items-center">
+          <p>Proximamente</p>
+        </div>
+      )}
+      {activeTabView === "noticias" && (
+        <div className="w-full h-full flex justify-center">
+          <div className="w-full h-[35%] bg-gradient-to-b from-white to-[#d78fa3] flex items-end p-4">
+            <p className="text-2xl font-extrabold text-left text-white opacity-60">Publicidad</p>
           </div>
         </div>
       )}

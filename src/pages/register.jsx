@@ -188,8 +188,10 @@ export default function Register({ setAuth }) {
       if (parseRes.token) {
         localStorage.setItem("token", parseRes.token);
         setAuth(false);
-        Navigate("/login");
-        toast.success("¡Registro exitoso!");
+        Navigate("/home");
+        toast.success("¡Registro exitoso!", {
+          duration: 10000, 
+        });
       } else {
         toast.error(parseRes.message);
       }
@@ -212,9 +214,9 @@ export default function Register({ setAuth }) {
         }`}
       >
         <div
-          className={`w-[438px] h-[504px] bg-[#FBFCF8] rounded-[10px] ${
+          className={`w-auto h-auto bg-[#FBFCF8] rounded-[10px] ${
             darkMode ? "dark-register" : ""
-          }`}
+          } sm:w-[50%] md:w-[60%] lg:w-[40%] xl:w-[30%] 2xl:w-[20%] m-[3%]`}
         >
           <div className="flex justify-between items-center">
             <h1
@@ -226,6 +228,7 @@ export default function Register({ setAuth }) {
             </h1>
             <button
               className={`mr-4 mb-3 ${darkMode ? "dark-text-white" : ""}`}
+              onClick={() => Navigate(-1)}
             >
               <i className="fas fa-times"></i>
             </button>
@@ -678,7 +681,7 @@ export default function Register({ setAuth }) {
                 </button>
               )}
             </div>
-            <div className="flex justify-center items-center w-[100%] mt-10">
+            <div className="flex justify-center items-center w-[100%] mt-10 pb-4">
               <p
                 className={`text-neutral-900 text-[10px] font-medium mt-4 ml-10 mr-[28px] translate-x-[-12px] ${
                   darkMode ? "dark-text-white" : ""
