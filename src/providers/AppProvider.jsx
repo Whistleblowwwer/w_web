@@ -291,13 +291,23 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
       };
 
       try {
+        setPostes((prevPostes) => {
+          return prevPostes.map((prevPost) => {
+            if (prevPost._id_review === idReviewComment) {
+              return {
+                ...prevPost,
+                commentsCount: prevPost?.commentsCount + 1,
+              };
+            }
+            return prevPost;
+          });
+        });
         const response = await fetch(
           "https://api.whistleblowwer.net/comments",
           requestOptions
         );
         const validationComment = await response.json();
         if (validationComment.message === "Comment created successfully") {
-          window.location.reload();
         }
       } catch (err) {
         console.error(err.message);

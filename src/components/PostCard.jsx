@@ -94,8 +94,6 @@ const PostCard = ({
   const storedUserName = localStorage.getItem("userName");
   const formattedStoredUserName = storedUserName.replace(/"/g, "");
 
-  console.log(post.Business.is_followed);
-
   return (
     <>
       {modalPicture && (
@@ -120,11 +118,11 @@ const PostCard = ({
         {!isBusiness && post?.Business && (
           <>
             <div></div>
-            <div
-              className="bg-[rgba(255, 255, 255, 0.5)] flex justify-between items-center"
-              
-            >
-              <div className="flex flex-col justify-start text-left cursor-pointer" onClick={() => handleBusinessClick(post?.Business)}>
+            <div className="bg-[rgba(255, 255, 255, 0.5)] flex justify-between items-center">
+              <div
+                className="flex flex-col justify-start text-left cursor-pointer"
+                onClick={() => handleBusinessClick(post?.Business)}
+              >
                 <p className="text-black text-base font-bold">
                   {post?.Business?.name}
                 </p>
@@ -138,7 +136,12 @@ const PostCard = ({
               >
                 {followConditionBusiness ? "Siguiendo" : "Unirte"}
               </p>
-              <img src={paginaEmpre} alt="empresa" className="cursor-pointer" onClick={() => handleBusinessClick(post?.Business)} />
+              <img
+                src={paginaEmpre}
+                alt="empresa"
+                className="cursor-pointer"
+                onClick={() => handleBusinessClick(post?.Business)}
+              />
             </div>
           </>
         )}
