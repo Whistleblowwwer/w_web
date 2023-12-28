@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import logoN from "../assets/NavLogo.png";
-import proSet from "../assets/Image-40.png";
+import logoN from "../assets/w_logo.svg";
+import proSet from "../assets/defaultProfilePicture.webp";
 import { SIDEBAR_HOME_LINKS } from "../constants";
 import defaultPp from "../assets/defaultProfilePicture.webp";
 
@@ -60,10 +60,12 @@ const Sidebar = ({
         <div className="w-full items-center">
           <div className="flex items-center justify-center p-9">
             <button
-              className="bg-[rgba(217, 217, 217, 0.5)] rounded-full w-[100%]"
+              className="py-2 px-4 mt-4 w-[180px] h-[41px] bg-slate-300	 rounded-[44px] relative mt-12 mr-2"
               onClick={handleNewCompanyModal}
             >
-              <p className="text-[#7404E0] font-bold p-3">Crear empresa</p>
+              <p className="font-extrabold text-violet-700 text-[15px] leading-[13.96px]">
+                Crear empresa
+              </p>
             </button>
           </div>
           <div className="flex justify-center text-gray-600">

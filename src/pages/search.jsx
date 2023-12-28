@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import logoN from "../assets/NavLogo.png";
-import proSet from "../assets/Image-40.png";
+import proSet from "../assets/defaultProfilePicture.webp";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getHeadersBase } from "../utils/getHeaders";
 import defaultPp from "../assets/defaultProfilePicture.webp";

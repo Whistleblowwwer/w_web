@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import logoN from "../assets/NavLogo.png";
-import proSet from "../assets/Image-40.png";
+import proSet from "../assets/defaultProfilePicture.webp";
 import { useNavigate, useLocation, Navigate } from "react-router-dom";
 import ChatList from "../components/ChatList";
 import { io } from "socket.io-client";

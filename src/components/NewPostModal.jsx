@@ -1,6 +1,6 @@
 import mas from "../assets/Group 99.svg";
 import AddFiles from "./AddFiles";
-import proSet from "../assets/Image-40.png";
+import proSet from "../assets/defaultProfilePicture.webp";
 import CompanyAutocomplete from "./CompanyAutocomplete";
 
 function NewPostModal(props) {

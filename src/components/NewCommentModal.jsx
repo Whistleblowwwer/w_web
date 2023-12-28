@@ -1,4 +1,4 @@
-import proSet from "../assets/Image-40.png";
+import proSet from "../assets/defaultProfilePicture.webp";
 
 function NewCommentModal(props) {
   return (

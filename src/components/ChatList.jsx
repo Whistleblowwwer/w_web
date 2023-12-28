@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from "react";
 import { io } from "socket.io-client";
-import proSet from "../assets/Image-40.png";
+import proSet from "../assets/defaultProfilePicture.webp";
 
 function ChatList(props) {
   const handleChatClick = (chat) => {

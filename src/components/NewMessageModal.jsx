@@ -1,5 +1,5 @@
 import mas from "../assets/Group 99.svg";
-import proSet from "../assets/Image-40.png";
+import proSet from "../assets/defaultProfilePicture.webp";
 import UserListAutoComplete from "./UserListAutoComplete";
 
 function NewMessageModal(props) {

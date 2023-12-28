@@ -1,5 +1,5 @@
 import { formatDate, renderStars } from "../utils";
-import proSet from "../assets/Image-40.png";
+import proSet from "../assets/defaultProfilePicture.webp";
 import paginaEmpre from "../assets/CTA.svg";
 import Like from "../assets/Like.svg";
 import Liked from "../assets/IsLiked.svg";
@@ -116,20 +116,29 @@ const PostCard = ({
         }`}
       >
         {!isBusiness && post?.Business && (
-          <button
-            className="bg-[rgba(255, 255, 255, 0.5)] flex justify-between items-center"
-            onClick={() => handleBusinessClick(post?.Business)}
-          >
-            <div className="flex flex-col justify-start text-left">
-              <p className="text-black text-base font-bold">
-                {post?.Business?.name}
+          <>
+            <div></div>
+            <button
+              className="bg-[rgba(255, 255, 255, 0.5)] flex justify-between items-center"
+              onClick={() => handleBusinessClick(post?.Business)}
+            >
+              <div className="flex flex-col justify-start text-left">
+                <p className="text-black text-base font-bold">
+                  {post?.Business?.name}
+                </p>
+                <span className="text-sm opacity-40 mt-[-3%]">
+                  {post?.Business?.entity}
+                </span>
+              </div>
+              <p
+                className="text-indigo-400 text-base ml-[-55%] font-semibold"
+                onClick={() => handleFollowBusiness(post.Business._id_business)}
+              >
+                {followConditionBusiness ? "Siguiendo" : "Unirte"}
               </p>
-              <span className="text-sm opacity-40 mt-[-3%]">
-                {post?.Business?.entity}
-              </span>
-            </div>
-            <img src={paginaEmpre} alt="empresa" />
-          </button>
+              <img src={paginaEmpre} alt="empresa" />
+            </button>
+          </>
         )}
         <div className="flex flex-col gap-2">
           <div className="flex justify-between items-center cursor-pointer">
@@ -177,12 +186,6 @@ const PostCard = ({
                   </span>
                 </p>
               </div>
-              <p
-                className="text-indigo-400 text-base font-semibold pl-2"
-                onClick={() => handleFollowBusiness(post.Business._id_business)}
-              >
-                {followConditionBusiness ? "Siguiendo" : "Unirte"}
-              </p>
             </div>
             {isUserProfile && editable == "true" ? (
               <div

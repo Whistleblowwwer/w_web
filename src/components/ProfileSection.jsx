@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
 import logoN from "../assets/NavLogo.png";
-import proSet from "../assets/Image-40.png";
+import proSet from "../assets/defaultProfilePicture.webp";
 import Location from "../assets/Location.svg";
 import Like from "../assets/Like.svg";
 import Comment from "../assets/Comment Review.svg";
