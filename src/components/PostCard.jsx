@@ -1,5 +1,5 @@
 import { formatDate, renderStars } from "../utils";
-import proSet from "../assets/Image-40.png";
+import proSet from "../assets/defaultProfilePicture.webp";
 import paginaEmpre from "../assets/CTA.svg";
 import Like from "../assets/Like.svg";
 import Liked from "../assets/IsLiked.svg";

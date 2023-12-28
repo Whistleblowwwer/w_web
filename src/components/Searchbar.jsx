@@ -1,5 +1,6 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
+import proSet from "../assets/defaultProfilePicture.webp";
 
 const Searchbar = ({
   darkMode,
@@ -19,8 +20,8 @@ const Searchbar = ({
   const [selectedTab, setSelectedTab] = useState("empresas"); // Puedes inicializarlo con el valor por defecto deseado
   const [isSearchVisible, setIsSearchVisible] = useState(false);
 
-  const[isBusinessVisible, setIsBusinessVisible] = useState(false);
-  const[isPeopleVisible, setIsPeopleVisible] = useState(false);
+  const [isBusinessVisible, setIsBusinessVisible] = useState(false);
+  const [isPeopleVisible, setIsPeopleVisible] = useState(false);
 
   const handleTabClick = (tab) => {
     setSelectedTab(tab);
@@ -30,12 +31,12 @@ const Searchbar = ({
   const handleVisibleBusiness = () => {
     setIsBusinessVisible(true);
     setIsPeopleVisible(false);
-  }
+  };
 
   const handleVisiblePeople = () => {
     setIsBusinessVisible(false);
     setIsPeopleVisible(true);
-  }
+  };
 
   const handleCloseSearch = () => {
     setIsBusinessVisible(false);
@@ -67,7 +68,7 @@ const Searchbar = ({
               setIsSearchVisible(true);
             }}
           />
-        ): (
+        ) : (
           <input
             value={search}
             className="h-[35px] absolute bg-zinc-500 bg-opacity-10 rounded-lg pl-10 p-2 inline-flex w-full focus:outline-none"
@@ -96,12 +97,16 @@ const Searchbar = ({
                 >
                   <p
                     className={`${
-                      selectedTab === "empresas" ? "font-bold" : "font-bold text-opacity-60"
+                      selectedTab === "empresas"
+                        ? "font-bold"
+                        : "font-bold text-opacity-60"
                     } mb-2`}
                   >
                     Empresas
                   </p>
-                  {selectedTab === "empresas" && <div className="tab-indicator" />}
+                  {selectedTab === "empresas" && (
+                    <div className="tab-indicator" />
+                  )}
                 </button>
                 {/* Añade una pestaña para personas */}
                 <button
@@ -115,12 +120,16 @@ const Searchbar = ({
                 >
                   <p
                     className={`${
-                      selectedTab === "personas" ? "font-bold" : "font-bold text-opacity-60"
+                      selectedTab === "personas"
+                        ? "font-bold"
+                        : "font-bold text-opacity-60"
                     } mb-2`}
                   >
                     Personas
                   </p>
-                  {selectedTab === "personas" && <div className="tab-indicator" />}
+                  {selectedTab === "personas" && (
+                    <div className="tab-indicator" />
+                  )}
                 </button>
                 {/* Añade un botón para cerrar la búsqueda */}
                 <button
@@ -237,7 +246,9 @@ const Searchbar = ({
               >
                 Noticias
               </p>
-              {activeTabView === "noticias" && <div className="tab-indicator" />}
+              {activeTabView === "noticias" && (
+                <div className="tab-indicator" />
+              )}
             </button>
             <button
               className={`${
@@ -258,7 +269,9 @@ const Searchbar = ({
               >
                 Empresas
               </p>
-              {activeTabView === "empresas" && <div className="tab-indicator" />}
+              {activeTabView === "empresas" && (
+                <div className="tab-indicator" />
+              )}
             </button>
           </div>
           {/* AQUI IRAN LAS FOTOS */}
@@ -310,10 +323,28 @@ const Searchbar = ({
               <div key={users._id_user}>
                 <div
                   onClick={() => handleUserClick(users)}
-                  className="flex cursor-pointer"
+                  className="flex cursor-pointer mb-4"
                 >
-                  <h2 className="mr-3">{users.name},</h2>
-                  <p>{users.role}</p>
+                  {/* <h2 className="mr-3">
+                    {users.name} {users.last_name}
+                  </h2> */}
+                  <img
+                    src={
+                      users.profile_picture_url
+                        ? users.profile_picture_url
+                        : proSet
+                    }
+                    alt="Imagen"
+                    className="w-12 h-12 mr-2 rounded-full"
+                  />
+                  <div className="flex flex-col">
+                    <p className="text-lg">
+                      {users.name} {users.last_name}
+                    </p>
+                    <p className="text-sm text-gray-700	text-black">
+                      @{users.nick_name}
+                    </p>
+                  </div>
                 </div>
               </div>
             ))}

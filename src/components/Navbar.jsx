@@ -1,5 +1,5 @@
 import logoN from "../assets/NavLogo.png";
-import proSet from "../assets/Image-40.png";
+import proSet from "../assets/defaultProfilePicture.webp";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = ({ darkMode, handleUserClick }) => {
