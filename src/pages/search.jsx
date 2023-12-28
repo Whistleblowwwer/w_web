@@ -4,10 +4,38 @@ import proSet from "../assets/defaultProfilePicture.webp";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getHeadersBase } from "../utils/getHeaders";
 import defaultPp from "../assets/defaultProfilePicture.webp";
+import bannerAsesores from "../assets/BannerProntoAsesores.jpeg";
 
 export default function Search({ setAuth }) {
   const location = useLocation();
   const recentSearches = location.state ? location.state.searchValue : null;
+
+  const [selectedTab, setSelectedTab] = useState("asesores"); // Puedes inicializarlo con el valor por defecto deseado
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
+
+  const [isBusinessVisible, setIsBusinessVisible] = useState(false);
+  const [isPeopleVisible, setIsPeopleVisible] = useState(false);
+
+  const handleTabClick = (tab) => {
+    setSelectedTab(tab);
+    setIsSearchVisible(true);
+  };
+
+  const handleVisibleBusiness = () => {
+    setIsBusinessVisible(true);
+    setIsPeopleVisible(false);
+  };
+
+  const handleVisiblePeople = () => {
+    setIsBusinessVisible(false);
+    setIsPeopleVisible(true);
+  };
+
+  const handleCloseSearch = () => {
+    setIsBusinessVisible(false);
+    setIsPeopleVisible(false);
+    setIsSearchVisible(false);
+  };
 
   const navigate = useNavigate();
 
@@ -44,33 +72,70 @@ export default function Search({ setAuth }) {
   }, []);
 
   return (
-    <div className="w-[30%] bg-[#FFF] lg:block hidden p-4">
-      <div className="flex flex-col gap-4">
-        <h1 className="text-[22px] font-semibold mb-2">Filtros</h1>
-        <div className="flex flex-col gap-2 p-2 rounded-lg border-2 border-[#EEEFEF]">
-          <p className="font-bold">Personas</p>
-          <div>
-            <label className="flex justify-between">
-              De cualquiera
-              <input type="radio" name="peopleOptions" defaultChecked />
-            </label>
-            <label className="flex justify-between">
-              Personas a las que sigues
-              <input type="radio" name="peopleOptions" />
-            </label>
-          </div>
-          <p className="font-bold">Ubicacion</p>
-          <div>
-            <label className="flex justify-between">
-              En cualquier lugar
-              <input type="radio" name="locationOptions" defaultChecked />
-            </label>
-            <label className="flex justify-between">
-              Cerca de ti
-              <input type="radio" name="locationOptions" />
-            </label>
+    <div className="w-[30%] bg-[#FFF] lg:block hidden p-4 overflow-y-auto h-screen">
+      <div className="flex flex-col gap-4 ">
+        <h1 className="text-[22px] font-semibold mb-2">Buscar</h1>
+        <div className="overflow-y-auto mt-3">
+          <div className="w-full">
+            <div className="flex gap-4">
+              <button
+                className={`${
+                  selectedTab === "asesores" ? "active-asesores" : ""
+                } flex-grow mr-2 mb-2 `}
+                onClick={() => {
+                  handleTabClick("asesores");
+                  handleVisibleBusiness();
+                }}
+              >
+                <p
+                  className={`${
+                    selectedTab === "asesores"
+                      ? "font-bold"
+                      : "font-bold text-opacity-60"
+                  } mb-2`}
+                >
+                  Asesores
+                </p>
+                {selectedTab === "asesores" && (
+                  <div className="tab-indicator" />
+                )}
+              </button>
+              {/* Añade una pestaña para abogados */}
+              <button
+                className={`${
+                  selectedTab === "abogados" ? "active-abogados" : ""
+                } flex-grow mr-2 mb-2 `}
+                onClick={() => {
+                  handleTabClick("abogados");
+                  handleVisiblePeople();
+                }}
+              >
+                <p
+                  className={`${
+                    selectedTab === "abogados"
+                      ? "font-bold"
+                      : "font-bold text-opacity-60"
+                  } mb-2`}
+                >
+                  Abogados
+                </p>
+                {selectedTab === "abogados" && (
+                  <div className="tab-indicator" />
+                )}
+              </button>
+            </div>
           </div>
         </div>
+        {selectedTab == "asesores" && (
+          <div className="w-full">
+            <img src={bannerAsesores} alt="banner" />
+          </div>
+        )}
+        {selectedTab == "abogados" && (
+          <div className="w-full h-full flex justify-between items-center">
+            <p>Proximamente</p>
+          </div>
+        )}
         <div className="flex flex-col gap-2 p-4 rounded-lg bg-[#EEEFEF]">
           <p className="font-bold">A quien seguir</p>
           <div className="flex flex-col gap-2 max-h-[360px] overflow-y-auto ">

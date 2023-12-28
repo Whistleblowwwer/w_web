@@ -41,13 +41,13 @@ export default function Chats(darkMode) {
     const messageData = {
       content: message,
       _id_sender:
-        selectedChat.Sender._id_user == currentUserData?.userId
-          ? selectedChat.Sender._id_user
-          : selectedChat.Receiver._id_user,
+        selectedChat?.Sender?._id_user == currentUserData?.userId
+          ? selectedChat?.Sender?._id_user
+          : selectedChat?.Receiver?._id_user,
       _id_receiver:
-        selectedChat.Sender._id_user == currentUserData?.userId
-          ? selectedChat.Receiver._id_user
-          : selectedChat.Sender._id_user,
+        selectedChat?.Sender?._id_user == currentUserData?.userId
+          ? selectedChat?.Receiver?._id_user
+          : selectedChat?.Sender?._id_user,
     };
     socket.emit("sendMessage", messageData);
     setMessage("");
