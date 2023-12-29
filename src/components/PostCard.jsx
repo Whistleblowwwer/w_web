@@ -247,7 +247,7 @@ const PostCard = ({
                     <img
                       src={image}
                       alt={`post? ${index + 1}`}
-                      className="object-cover w-full h-full rounded-full"
+                      className="object-cover w-full h-full rounded-lg"
                     />
                   </div>
                 ))}
