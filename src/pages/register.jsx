@@ -43,8 +43,6 @@ export default function Register({ setAuth }) {
     number4: "",
   });
 
-  console.log("register inputs", inputs);
-
   const {
     name,
     username,
@@ -57,7 +55,6 @@ export default function Register({ setAuth }) {
     role,
   } = inputs;
 
-  console.log(inputs);
   const handleOtpChange = (e, fieldName) => {
     const value = e.target.value;
     setOtpCode((prevOtpCode) => ({
@@ -77,7 +74,6 @@ export default function Register({ setAuth }) {
         requestOptions
       );
       const parseRes = await response.json();
-      console.log(parseRes);
     } catch (err) {
       console.error(err.message);
     }
@@ -87,7 +83,6 @@ export default function Register({ setAuth }) {
     try {
       const joinedCode =
         otpCode.number1 + otpCode.number2 + otpCode.number3 + otpCode.number4;
-      console.log("otp code", joinedCode);
 
       const requestOptions = {
         method: "POST",
@@ -125,8 +120,6 @@ export default function Register({ setAuth }) {
 
   const handleNext = (e) => {
     e.preventDefault();
-    console.log("step", step);
-
     if (step == 1) {
       setStep(step + 1);
       validateMail(email);
@@ -192,7 +185,6 @@ export default function Register({ setAuth }) {
           body: JSON.stringify(body),
         });
         const parseRes = await response.json();
-        console.log("res register", parseRes);
         if (parseRes.token) {
           toast.success("¡Registro exitoso!", {
             duration: 10000,

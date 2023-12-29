@@ -42,9 +42,7 @@ function NewCompanyModal(props) {
     setFilteredCountries(countriesList);
   }, []);
 
-  console.log(props.fetchResultHandler);
   useEffect(() => {
-    console.log("fetch here!");
     if (props.fetchResultHandler != undefined) {
       toast.error(
         "El nombre del proyecto o empresa ya existe. Intenta con uno distinto.",

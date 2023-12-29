@@ -33,9 +33,6 @@ function App() {
 
   const FunctionContext = createContext();
 
-  console.log("loading", loading)
-  console.log("token", localStorage.getItem("token"))
-
   const setAuth = (boolean) => {
     setIsAuthenticated(boolean);
   };
