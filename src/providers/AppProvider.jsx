@@ -649,11 +649,12 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
         getPostes();
       }
     }, 2500);
-    if (localStorage.getItem("token") == null) {
-      setTimeout(() => {
+    setTimeout(() => {
+      console.log("This will be executed after 2000 milliseconds (2 seconds).");
+      if (localStorage.getItem("token") != null) {
         getPostes();
-      }, 3000);
-    }
+      }
+    }, 4000);
   }, [setPostes]);
 
   const [updateForm, setUpdateForm] = useState({

@@ -17,8 +17,8 @@ function ChatList(props) {
       try {
         const messagesURL =
           props.userId == chat?.Receiver._id_user
-            ? `http://3.18.112.92:4000/messages/?_id_receiver=${chat?.Sender._id_user}`
-            : `http://3.18.112.92:4000/messages/?_id_receiver=${chat?.Receiver._id_user}`;
+            ? `https://api.whistleblowwer.net/messages/?_id_receiver=${chat?.Sender._id_user}`
+            : `https://api.whistleblowwer.net/messages/?_id_receiver=${chat?.Receiver._id_user}`;
         const response = await fetch(messagesURL, requestOptions);
         const parseRes = await response.json();
         let invertedConversationArray = parseRes?.messages;
