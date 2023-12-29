@@ -9,19 +9,23 @@ function NewMessageModal(props) {
       <div
         className={`z-50 bg-[#FFF] p-4 shadow-md rounded-[20px] min-h-auto md:w-2/4 w-[80%]`}
       >
-        <div className="flex flex-col">
-          <div>
-            <p className="text-lg">Nuevo mensaje</p>
-          </div>
-          <div className="flex justify-end mr-2">
-            <button
+        <div className="flex justify-between items-center">
+          <h1
+            className={`text-neutral-900 text-xl font-semibold leading-7 mt-2 ml-1`}
+          >
+            Nuevo mensaje{" "}
+          </h1>
+          <button
+            // onClick={() => handleButtonClick("/admin")}
+            className={`mr-4 mt-2`}
+          >
+            <i
+              className="fas fa-times"
               onClick={() => props.handleCloseNewMessageModal()}
-              className={`hover:text-gray-500 cursor-pointer`}
-            >
-              <i className="fas fa-times text-2xl"></i>
-            </button>
-          </div>
-
+            ></i>
+          </button>
+        </div>
+        <div className="flex flex-col">
           <div className="flex sm:flex-row flex-col items-center justify-between w-full mt-5 gap-2">
             <div className="flex gap-2 w-full">
               <div

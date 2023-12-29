@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import countriesList from "../utils/countries.json";
+import { Toaster, toast } from "react-hot-toast";
 
 function NewCompanyModal(props) {
-
   //variables category
   const [categoryOptions, setCategoryOptions] = useState([
     "Inmobiliaria",
     "Automotriz",
     "Restaurantes",
-    "Otro"
+    "Otro",
   ]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [isCategoryListVisible, setIsCategoryListVisible] = useState(false);
@@ -42,6 +42,22 @@ function NewCompanyModal(props) {
     setFilteredCountries(countriesList);
   }, []);
 
+  console.log(props.fetchResultHandler);
+  useEffect(() => {
+    console.log("fetch here!");
+    if (props.fetchResultHandler != undefined) {
+      toast.error(
+        "El nombre del proyecto o empresa ya existe. Intenta con uno distinto.",
+        { duration: 3000 }
+      );
+      props.setFetchResultHandler({
+        ...props.fetchResultHandler,
+        error: undefined,
+        message: undefined,
+      });
+    }
+  }, [props.fetchResultHandler]);
+
   const handleCountryChange = (e) => {
     const searchValue = e.target.value;
     setCountrySearch(searchValue);
@@ -57,7 +73,7 @@ function NewCompanyModal(props) {
   const handleStateChange = (e) => {
     const searchValue = e.target.value;
     setStateSearch(searchValue);
-  
+
     // Filtrar la lista de estados según la búsqueda
     const filtered = stateList.filter((state) =>
       state.name.toLowerCase().includes(searchValue.toLowerCase())
@@ -65,7 +81,7 @@ function NewCompanyModal(props) {
     setFilteredStates(filtered);
     setIsStateListVisible(true);
   };
-  
+
   const handleCountrySelect = (name, iso2) => {
     setSelectedCountry(name);
     setCountrySearch(name);
@@ -73,25 +89,28 @@ function NewCompanyModal(props) {
     setIsListVisible(false);
 
     props.handleCountrySelect(name, iso2);
-  
+
     const apiUrl = `https://api.countrystatecity.in/v1/countries/${iso2}/states`;
-  
+
     var headers = new Headers();
-    headers.append("X-CSCAPI-KEY", "NWlXQUJPZ2JmejVZY2NSODdTNXpBc3VxdWVxSTAydEpqU01tVENZaQ==");
-  
+    headers.append(
+      "X-CSCAPI-KEY",
+      "NWlXQUJPZ2JmejVZY2NSODdTNXpBc3VxdWVxSTAydEpqU01tVENZaQ=="
+    );
+
     var requestOptions = {
-      method: 'GET',
+      method: "GET",
       headers: headers,
-      redirect: 'follow'
+      redirect: "follow",
     };
-  
+
     fetch(apiUrl, requestOptions)
-      .then(response => response.json())
-      .then(result => {
+      .then((response) => response.json())
+      .then((result) => {
         setStateList(result);
         setFilteredStates(result); // Filtrar también la lista de estados inicialmente
       })
-      .catch(error => console.log('error', error));
+      .catch((error) => console.log("error", error));
   };
 
   const handleStateSelect = (name, iso2) => {
@@ -104,27 +123,30 @@ function NewCompanyModal(props) {
     const apiUrl = `https://api.countrystatecity.in/v1/countries/${iso2Country}/states/${iso2}/cities`;
 
     var headers = new Headers();
-    headers.append("X-CSCAPI-KEY", "NWlXQUJPZ2JmejVZY2NSODdTNXpBc3VxdWVxSTAydEpqU01tVENZaQ==");
+    headers.append(
+      "X-CSCAPI-KEY",
+      "NWlXQUJPZ2JmejVZY2NSODdTNXpBc3VxdWVxSTAydEpqU01tVENZaQ=="
+    );
 
     var requestOptions = {
-      method: 'GET',
+      method: "GET",
       headers: headers,
-      redirect: 'follow'
+      redirect: "follow",
     };
 
     fetch(apiUrl, requestOptions)
-      .then(response => response.json()) // Cambiado a .json() para obtener un objeto JSON
-      .then(result => {
+      .then((response) => response.json()) // Cambiado a .json() para obtener un objeto JSON
+      .then((result) => {
         setCityList(result);
         setFilteredCity(result);
       })
-      .catch(error => console.log('error', error));
+      .catch((error) => console.log("error", error));
   };
 
   const handleCityChange = (e) => {
     const searchValue = e.target.value;
     setCitySearch(searchValue);
-  
+
     // Filtrar la lista de estados según la búsqueda
     const filtered = cityList.filter((city) =>
       city.name.toLowerCase().includes(searchValue.toLowerCase())
@@ -174,7 +196,7 @@ function NewCompanyModal(props) {
     setFilteredCategories(filtered);
     setIsCategoryListVisible(true);
   };
-  
+
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
     props.handleCategorySelect(category);
@@ -189,74 +211,29 @@ function NewCompanyModal(props) {
           props.darkMode ? "dark-register-bg" : ""
         }`}
       >
-        <div className="text-right">
-          <button
-            onClick={props.handleNewCompanyModal}
-            className={`${
-              props.darkMode ? "dark-text-white" : ""
-            } hover:text-gray-500 cursor-pointer`}
+        <div className="flex justify-between items-center">
+          <h1
+            className={`text-neutral-900 text-xl font-semibold leading-7 mt-2 ml-6`}
           >
-            <i className="fas fa-times"></i>
+            Nueva compañía
+          </h1>
+          <button className={`mr-4 mt-2`}>
+            <i
+              className="fas fa-times"
+              onClick={() => props.handleNewCompanyModal()}
+            ></i>
           </button>
         </div>
         <form
           onSubmit={props.handleSubmit}
           className="max-w-md mx-auto mt-3 p-4 bg-white rounded"
         >
-          <div className="mb-4">
-            <label
-              htmlFor="name"
-              className="block text-gray-600 font-semibold mb-2"
-            >
-              Nombre
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={props.name}
-              onChange={props.handleChange}
-              className="w-full p-2 border border-gray-300 rounded"
-            />
-          </div>
           {/* Agregué clases de tamaño a los contenedores de las etiquetas e inputs */}
           <div className="flex flex-wrap -mx-2 mb-4">
-            <div className="w-full md:w-1/2 px-2">
-              <label
-                htmlFor="address"
-                className="block text-gray-600 font-semibold mb-2"
-              >
-                Dirección
-              </label>
-              <input
-                type="text"
-                id="address"
-                name="address"
-                value={props.address}
-                onChange={props.handleChange}
-                className="w-full p-2 border border-gray-300 rounded"
-              />
-            </div>
-            <div className="w-full md:w-1/2 px-2">
-              <label
-                htmlFor="entity"
-                className="block text-gray-600 font-semibold mb-2"
-              >
-                Entidad
-              </label>
-              <input
-                type="text"
-                id="entity"
-                name="entity"
-                value={props.entity}
-                onChange={props.handleChange}
-                className="w-full p-2 border border-gray-300 rounded"
-              />
-            </div>
             <div className="w-full md:w-1/2 px-2" ref={inputRef}>
               <label
                 htmlFor="country"
-                className="block text-gray-600 font-semibold mb-2"
+                className="block text-gray-600 font-semibold"
               >
                 Pais
               </label>
@@ -290,7 +267,7 @@ function NewCompanyModal(props) {
             <div className="w-full md:w-1/2 px-2" ref={inputRef}>
               <label
                 htmlFor="state"
-                className="block text-gray-600 font-semibold mb-2"
+                className="block text-gray-600 font-semibold"
               >
                 Estado
               </label>
@@ -321,10 +298,10 @@ function NewCompanyModal(props) {
                 </div>
               )}
             </div>
-            <div className="w-full md:w-1/2 px-2">
+            <div className="w-full md:w-1/2 px-2 mt-4">
               <label
                 htmlFor="city"
-                className="block text-gray-600 font-semibold mb-2"
+                className="block text-gray-600 font-semibold"
               >
                 Ciudad
               </label>
@@ -343,9 +320,7 @@ function NewCompanyModal(props) {
                     {filteredCity.map((city) => (
                       <li
                         key={city.id}
-                        onClick={() =>
-                          handleCitySelect(city.name)
-                        }
+                        onClick={() => handleCitySelect(city.name)}
                         className="cursor-pointer p-2 hover:bg-gray-100"
                       >
                         {city.name}
@@ -355,10 +330,10 @@ function NewCompanyModal(props) {
                 </div>
               )}
             </div>
-            <div className="w-full md:w-1/2 px-2">
+            <div className="w-full md:w-1/2 px-2 mt-4">
               <label
                 htmlFor="category"
-                className="block text-gray-600 font-semibold mb-2"
+                className="block text-gray-600 font-tiny"
               >
                 Categoría
               </label>
@@ -389,12 +364,44 @@ function NewCompanyModal(props) {
               </div>
             </div>
           </div>
+          <div className="mb-4">
+            <label htmlFor="name" className="block text-gray-600 font-semibold">
+              {selectedCategory == "Inmobiliaria"
+                ? "Proyecto"
+                : "Empresa/Marca"}
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={props.name}
+              onChange={props.handleChange}
+              className="w-full p-2 border border-gray-300 rounded	"
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="name" className="block text-gray-600 font-semibold">
+              {selectedCategory == "Inmobiliaria"
+                ? "Empresa Desarrolladora"
+                : "Sucursal/Agencia"}
+            </label>
+            <input
+              type="text"
+              id="entity"
+              name="entity"
+              value={props.entity}
+              onChange={props.handleChange}
+              className="w-full p-2 border border-gray-300 rounded	"
+            />
+          </div>
           <button
             type="submit"
-            onClick={props.handleCreateBusiness}
-            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-300"
+            onClick={() => {
+              props.handleCreateBusiness();
+            }}
+            className="w-full bg-violet-700 text-white p-2 rounded-full hover:bg-blue-600 transition duration-300"
           >
-            Enviar
+            Crear
           </button>
         </form>
       </div>

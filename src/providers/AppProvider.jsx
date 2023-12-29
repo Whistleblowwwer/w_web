@@ -59,7 +59,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
   const [companyModalOpen, setCompanyModalOpen] = useState(false);
   const [companyForm, setCompanyForm] = useState({
     name: "",
-    address: "",
+    address: "default-adress",
     entity: "",
     country: "",
     iso2_country_code: "",
@@ -68,6 +68,11 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     city: "",
     category: "",
   });
+  const [fetchResultHandler, setFetchResultHandler] = useState({
+    error: undefined,
+    message: undefined,
+  });
+
   useEffect(() => {
     // Initialize pageReloaded in localStorage if not present
     if (localStorage.getItem("pageReloaded") === null) {
@@ -116,13 +121,12 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
 
   const handlePostTextChange = (event) => {
     setText(event.target.value);
-    if (event.target.value.trim() !== "") {
-      setShowPublishIcon(true);
-    } else {
+    if (textPost == "") {
       setIsTyping(false);
       setShowPublishIcon(false);
     }
   };
+
   const handleTextCommnetChange = (event) => {
     setTextComment(event.target.value);
     if (event.target.value.trim() !== "") {
@@ -139,21 +143,16 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
   };
 
   const handleNewCommnent = () => {
-    console.log("comment type", isCommentingReview);
     if (isCommentingReview) {
       handleCommentReview();
     } else {
-      console.log("this is a commnet!");
       handleCommentComment();
     }
   };
 
   const handleTextChange2 = (event) => {
     setText(event.target.value);
-    if (event.target.value.trim() !== "") {
-      setIsTyping(true);
-      setShowPublishIcon(true);
-    } else {
+    if (textPost == "") {
       setIsTyping(false);
       setShowPublishIcon(false);
     }
@@ -199,6 +198,8 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
 
   const headersBase = getHeadersBase();
 
+  console.log("selected img", selectedImages);
+
   const handleAddPost = async () => {
     async function createReview() {
       const body = JSON.stringify({
@@ -237,8 +238,8 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
         const res = await uploadFiles(
           `https://api.whistleblowwer.net/bucket/review?_id_review=${post.review._id_review}`,
           headersBase,
-          selectedImages,
-          true // <- is more than one file?
+          selectedImages
+          // true // <- is more than one file?
         );
       } catch (error) {
         console.error("Error al subir los archivos:", error);
@@ -287,7 +288,6 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
   };
 
   const handleCommentReview = () => {
-    console.log("commenting review!");
     async function postComment() {
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
@@ -348,7 +348,6 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
   };
 
   const handleCommentComment = () => {
-    console.log("commenting comment!");
     async function postComment() {
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
@@ -416,11 +415,13 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
           requestOptions
         );
         const parseRes = await response.json();
+        setSelectedCompany(parseRes?.business._id_business);
+        setCompanySearchQuery(companyForm.name);
+        setCompanyModalOpen(false);
       } catch (err) {
         console.error(err.message);
       }
     }
-    setCompanyModalOpen(!companyModalOpen);
     createBusiness();
   };
 
@@ -447,6 +448,12 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     }
     getCompanies();
   };
+
+  useEffect(() => {
+    if (textPost !== "" && reviewRating > 0) {
+      setShowPublishIcon(true);
+    }
+  }, [textPost, reviewRating]);
 
   const handleRatingClick = (clickedRating) => {
     setReviewRating(clickedRating);
@@ -717,7 +724,6 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
       {postModalOpen && (
         <NewPostModal
           handlePostModal={handlePostModal}
-          darkMode={darkMode}
           handleTextChange={handlePostTextChange}
           textPost={textPost}
           maxLength={maxLength}
@@ -764,6 +770,8 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
           handleStateSelect={handleStateChangeInForm}
           handleCitySelect={handleCityChangeInForm}
           handleCategorySelect={handleCategoryChangeInForm}
+          fetchResultHandler={fetchResultHandler}
+          setFetchResultHandler={setFetchResultHandler}
         />
       )}
       {updateModalOpen && (

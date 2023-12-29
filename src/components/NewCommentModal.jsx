@@ -10,14 +10,17 @@ function NewCommentModal(props) {
         }`}
       >
         <div className="flex flex-col">
-          <div className="flex justify-end mr-2">
-            <button
-              onClick={props.handleCommentModal}
-              className={` ${
-                props.darkMode ? "dark-text-white" : ""
-              } hover:text-gray-500 cursor-pointer`}
+          <div className="flex justify-between items-center mb-6">
+            <h1
+              className={`text-neutral-900 text-xl font-semibold leading-7 mt-2`}
             >
-              <i className="fas fa-times text-2xl"></i>
+              Nuevo comentario
+            </h1>
+            <button className={`mr-4 mt-2`}>
+              <i
+                className="fas fa-times text-2xl"
+                onClick={() => props.handleCommentModal()}
+              ></i>
             </button>
           </div>
 
