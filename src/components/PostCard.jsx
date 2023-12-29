@@ -97,6 +97,8 @@ const PostCard = ({
   const storedUserName = localStorage.getItem("userName");
   const formattedStoredUserName = storedUserName.replace(/"/g, "");
 
+  console.log(post.Business.is_followed);
+
   return (
     <>
       {modalPicture && (

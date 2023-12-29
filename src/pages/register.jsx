@@ -173,7 +173,7 @@ export default function Register({ setAuth }) {
 
   const onSubmitForm = async (e) => {
     e.preventDefault();
-
+    
     if (!ageValidator(birth_date)) {
       try {
         const body = {

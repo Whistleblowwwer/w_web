@@ -204,6 +204,7 @@ body {
   align-items: center;
   padding: 10px;
   padding-right: 1%;
+  padding-left: 2%;
 }
 
 .input-container input {
