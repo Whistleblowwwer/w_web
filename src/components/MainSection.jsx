@@ -103,7 +103,7 @@ const MainSection = ({
                 }`}
               >
                 <p
-                  className={`mt-1 text-[#A9A9A9] text-[20px] ${
+                  className={`text-[#A9A9A9] text-md ${
                     darkMode ? "dark-text" : ""
                   }`}
                 >
@@ -123,7 +123,7 @@ const MainSection = ({
                 }`}
               >
                 <p
-                  className={`mt-1 text-[#FFF] text-[20px] ${
+                  className={`text-[#FFF] text-md ${
                     darkMode ? "dark-text" : ""
                   }`}
                 >

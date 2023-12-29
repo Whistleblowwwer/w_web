@@ -222,10 +222,12 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
         requestOptions
       );
       const jsonRes = await response.json();
+      setText("");
+      setReviewRating(0);
+      setShowPublishIcon(false);
       setPostes([jsonRes?.review, ...postes]);
       return jsonRes;
     }
-
     const post = await createReview();
 
     if (
@@ -238,8 +240,8 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
         const res = await uploadFiles(
           `https://api.whistleblowwer.net/bucket/review?_id_review=${post.review._id_review}`,
           headersBase,
-          selectedImages
-          // true // <- is more than one file?
+          selectedImages,
+          true // <- is more than one file?
         );
       } catch (error) {
         console.error("Error al subir los archivos:", error);
@@ -251,6 +253,8 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     setReviewRating(0);
     setPostModalOpen(false);
   };
+
+  console.log("publish icon", showPublishIcon);
 
   const handleLike = (_id_review) => {
     async function postLike() {
@@ -452,6 +456,8 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
   useEffect(() => {
     if (textPost !== "" && reviewRating > 0) {
       setShowPublishIcon(true);
+    } else {
+      setShowPublishIcon(false);
     }
   }, [textPost, reviewRating]);
 
