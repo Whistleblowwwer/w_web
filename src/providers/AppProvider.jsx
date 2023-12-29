@@ -140,6 +140,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     setIdReviewComment(_id_review);
     setIsCommentingReview(!isComment);
     setCommentModalOpen(!commentModalOpen);
+    setTextComment("");
   };
 
   const handleNewCommnent = () => {
@@ -454,12 +455,16 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
   };
 
   useEffect(() => {
-    if (textPost !== "" && reviewRating > 0) {
+    if (
+      textPost !== "" &&
+      reviewRating > 0 &&
+      (selectedCompany != undefined || selectedCompany == "")
+    ) {
       setShowPublishIcon(true);
     } else {
       setShowPublishIcon(false);
     }
-  }, [textPost, reviewRating]);
+  }, [textPost, reviewRating, selectedCompany]);
 
   const handleRatingClick = (clickedRating) => {
     setReviewRating(clickedRating);

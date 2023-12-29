@@ -136,7 +136,7 @@ export default function Search({ setAuth }) {
             <p>Proximamente</p>
           </div>
         )}
-        <div className="flex flex-col gap-2 p-4 rounded-lg bg-[#EEEFEF]">
+        {/* <div className="flex flex-col gap-2 p-4 rounded-lg bg-[#EEEFEF]">
           <p className="font-bold">A quien seguir</p>
           <div className="flex flex-col gap-2 max-h-[360px] overflow-y-auto ">
             {recommendedUsers.map((user) => (
@@ -168,7 +168,7 @@ export default function Search({ setAuth }) {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
