@@ -543,7 +543,6 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
           localStorage.setItem("validCredentials", true);
           setPageReloaded(true);
           localStorage.setItem("pageReloaded", "true");
-          window.location.reload();
         }
       }
     } catch (err) {
@@ -607,7 +606,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
 
       if (!token) {
         console.error("No hay token en localStorage");
-        // Puedes redirigir al usuario o realizar otra acción
+        navigate("/login");
         return;
       }
 
@@ -644,9 +643,16 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     }
 
     // Llamar a getPostes solo si hay un token
-    const token = localStorage.token;
-    if (token) {
-      getPostes();
+    setTimeout(() => {
+      console.log("This will be executed after 2000 milliseconds (2 seconds).");
+      if (localStorage.getItem("token") != null) {
+        getPostes();
+      }
+    }, 2500);
+    if (localStorage.getItem("token") == null) {
+      setTimeout(() => {
+        getPostes();
+      }, 3000);
     }
   }, [setPostes]);
 
