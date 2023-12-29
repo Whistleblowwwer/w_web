@@ -15,6 +15,8 @@ const PostCard = ({
   handleUserClick,
   handleReview,
   handleLike,
+  handleCommentComment,
+  handleCommentReview,
   handleCommentClick,
   editable,
   isUserProfile,
@@ -26,6 +28,7 @@ const PostCard = ({
   const [followConditionBusiness, setFollowConditionBusiness] = useState(
     post?.Business?.is_followed
   );
+  const [conteoComentarios, setConteoComentarios] = useState();
 
   const [modalDelete, setModalDelete] = useState(false);
 
@@ -276,9 +279,9 @@ const PostCard = ({
             <div
               className="bg-[#F5F5F5] px-6 py-3 rounded-full w-full cursor-pointer text-gray-400"
               onClick={() =>
-                handleCommentClick(
-                  isComment ? post?._id_comment : post?._id_review
-                )
+                isComment
+                  ? handleCommentClick(post?._id_comment, true)
+                  : handleCommentClick(post?._id_review, false)
               }
             >
               Escribe una respuesta...
