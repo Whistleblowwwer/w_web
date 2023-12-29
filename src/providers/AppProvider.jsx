@@ -1,6 +1,7 @@
 import { redirect, useLocation, useNavigate } from "react-router-dom";
 import { uploadFiles } from "../utils";
 import { useEffect, useState } from "react";
+import { Toaster, toast } from "react-hot-toast";
 
 import {
   Sidebar,
@@ -13,6 +14,7 @@ import {
   Navbar,
 } from "../components";
 import { getHeadersBase } from "../utils/getHeaders";
+import differenceInCalendarQuarters from "date-fns/esm/fp/differenceInCalendarQuarters/index.js";
 
 const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
   const navigate = useNavigate();
@@ -41,6 +43,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
   const [commentModalOpen, setCommentModalOpen] = useState(false);
   const [textComment, setTextComment] = useState("");
   const [idReviewComment, setIdReviewComment] = useState("");
+  const [isCommentingReview, setIsCommentingReview] = useState(undefined);
 
   //general variables
   const [isTyping, setIsTyping] = useState(false);
@@ -129,9 +132,20 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     }
   };
 
-  const handleCommentClick = (_id_review) => {
+  const handleCommentClick = (_id_review, isComment) => {
     setIdReviewComment(_id_review);
+    setIsCommentingReview(!isComment);
     setCommentModalOpen(!commentModalOpen);
+  };
+
+  const handleNewCommnent = () => {
+    console.log("comment type", isCommentingReview);
+    if (isCommentingReview) {
+      handleCommentReview();
+    } else {
+      console.log("this is a commnet!");
+      handleCommentComment();
+    }
   };
 
   const handleTextChange2 = (event) => {
@@ -272,11 +286,14 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     postLike();
   };
 
-  const handleComment = () => {
+  const handleCommentReview = () => {
+    console.log("commenting review!");
     async function postComment() {
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+
+      const reviewId = extractIdFromUrl();
 
       var raw = JSON.stringify({
         content: textComment,
@@ -291,12 +308,86 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
       };
 
       try {
+        setPostes((prevPostes) => {
+          return prevPostes.map((prevPost) => {
+            if (prevPost._id_review === idReviewComment) {
+              return {
+                ...prevPost,
+                commentsCount: prevPost?.commentsCount + 1,
+              };
+            }
+            return prevPost;
+          });
+        });
         const response = await fetch(
           "https://api.whistleblowwer.net/comments",
           requestOptions
         );
         const validationComment = await response.json();
         if (validationComment.message === "Comment created successfully") {
+          toast.success("Comentario enviado");
+
+          // TO-DO: elminar este if, mejorar logica para no tener que recargar pagina
+          const currentUrl = window.location.href;
+          if (currentUrl.includes("/review")) {
+            window.location.reload();
+          }
+        }
+      } catch (err) {
+        console.error(err.message);
+      }
+    }
+    setCommentModalOpen(!commentModalOpen);
+    postComment();
+  };
+
+  const extractIdFromUrl = () => {
+    const currentUrl = window.location.href;
+    const match = currentUrl.match(/\/review\/([^/]+)$/);
+    return match ? match[1] : null;
+  };
+
+  const handleCommentComment = () => {
+    console.log("commenting comment!");
+    async function postComment() {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+
+      const reviewId = extractIdFromUrl();
+
+      var raw = JSON.stringify({
+        content: textComment,
+        _id_review: reviewId,
+        _id_parent: idReviewComment,
+      });
+
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+      };
+
+      try {
+        setPostes((prevPostes) => {
+          return prevPostes.map((prevPost) => {
+            if (prevPost._id_review === idReviewComment) {
+              return {
+                ...prevPost,
+                commentsCount: prevPost?.commentsCount + 1,
+              };
+            }
+            return prevPost;
+          });
+        });
+        const response = await fetch(
+          "https://api.whistleblowwer.net/comments",
+          requestOptions
+        );
+        const validationComment = await response.json();
+        if (validationComment.message === "Comment created successfully") {
+          toast.success("Comentario enviado");
           window.location.reload();
         }
       } catch (err) {
@@ -616,6 +707,8 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     handleReview,
     handleLike,
     handleCommentClick,
+    handleCommentComment,
+    handleCommentReview,
     handleNewUpdateProfileModal,
   };
 
@@ -649,7 +742,8 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
           handleTextCommentChange={handleTextCommnetChange}
           textComment={textComment}
           maxLength={maxLength}
-          addComment={handleComment}
+          addComment={handleNewCommnent}
+          isReview={isCommentingReview}
         />
       )}
       {companyModalOpen && (

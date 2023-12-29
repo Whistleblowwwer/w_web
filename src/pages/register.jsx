@@ -194,9 +194,10 @@ export default function Register({ setAuth }) {
         const parseRes = await response.json();
         console.log("res register", parseRes);
         if (parseRes.token) {
- toast.success("¡Registro exitoso!", {
-          duration: 10000, 
-        });          localStorage.setItem("token", parseRes.token);
+          toast.success("¡Registro exitoso!", {
+            duration: 10000,
+          });
+          localStorage.setItem("token", parseRes.token);
           setAuth(true);
           Navigate("/");
         } else {
@@ -686,7 +687,7 @@ export default function Register({ setAuth }) {
                   onClick={handleNext}
                 >
                   <span className="text-stone-50 text-[15px] font-medium leading-[13.96px]">
-                    {step == 2 ? "valida codigo" : "siguiente"}
+                    {step == 2 ? "validar codigo" : "siguiente"}
                   </span>
                 </button>
               )}

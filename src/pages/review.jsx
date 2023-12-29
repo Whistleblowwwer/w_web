@@ -10,6 +10,8 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
     handleReview,
     handleLike,
     handleCommentClick,
+    handleCommentComment,
+    handleCommentReview,
   } = useContext(FunctionContext);
 
   const location = useLocation();
@@ -100,6 +102,8 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
               handleUserClick={handleUserClick}
               handleReview={handleReview}
               handleLike={handleLikeComment}
+              handleCommentComment={handleCommentComment}
+              handleCommentReview={handleCommentReview}
               handleCommentClick={handleCommentClick}
               isBusiness
               isComment

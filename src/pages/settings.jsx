@@ -25,6 +25,18 @@ export default function Settings() {
     accesibilidad: false,
   });
 
+  const handleCloseSesion = () => {
+    localStorage.removeItem("client_password");
+    localStorage.removeItem("recentSearches");
+    localStorage.removeItem("client_email");
+    localStorage.removeItem("token");
+    localStorage.removeItem("validCredentials");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("pageReloaded");
+    window.location.reload();
+  };
+
   const handleButtonClick = (buttonName) => {
     setActiveButtonCon(buttonName);
     setDivsVisibility((prevVisibility) => {
@@ -179,7 +191,14 @@ export default function Settings() {
                 >
                   Tu cuenta
                 </p>
-                <button className="mt-3 hover:text-gray-500">Cerrar Sesion</button>
+                <button
+                  className="hover:bg-gray-700 py-2 px-4 mt-4 w-[150px] h-[41px] bg-neutral-900 rounded-[44px] relative mt-12"
+                  onClick={() => handleCloseSesion()}
+                >
+                  <span className="text-stone-50 text-[15px] font-medium leading-[13.96px]">
+                    Cerrar sesión
+                  </span>
+                </button>
               </div>
             )}
             {activeButtonCon === "seguridad" && (
@@ -202,7 +221,7 @@ export default function Settings() {
                 >
                   Privacidad
                 </p>
-                <p className="mt-3">
+                <p className="mt-3 mb-3">
                   D.R.© ANCER 2023, S.A.P.I. DE C.V., México 2023. Utilización
                   del sitio únicamente bajo términos legales. Whistleblowwer®
                   Pedro Infante # 1000, Colonia Cumbres Oro Regency, Monterrey,
@@ -212,7 +231,7 @@ export default function Settings() {
                   href="/t&c"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-gray-500 font-bold"
+                  className="text-indigo-800 text-black font-bold mt-4"
                 >
                   Terminos y condiciones
                 </a>
