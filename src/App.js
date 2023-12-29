@@ -31,10 +31,6 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const [darkMode, setDarkMode] = useState(() => {
-    return JSON.parse(localStorage.getItem("darkMode")) || false;
-  });
-
   const FunctionContext = createContext();
 
   const setAuth = (boolean) => {
@@ -90,10 +86,6 @@ function App() {
     isAuth();
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("darkMode", JSON.stringify(darkMode));
-  }, [darkMode]);
-
   if (loading) {
     <div>
       loading...
@@ -102,17 +94,15 @@ function App() {
 
   return (
     <main
-      className={`bg-[#EEEFEF] w-full flex gap-1 pt-20 pb-14 lg:p-0 lg:pb-0 ${darkMode ? "dark-login-bg" : ""
-        }`}
+      className={`bg-[#EEEFEF] w-full flex gap-1 pt-20 pb-14 lg:p-0 lg:pb-0`}
     >
       <Router>
-        <AppProvider darkMode={darkMode} FunctionContext={FunctionContext} token={localStorage.token}>
+        <AppProvider FunctionContext={FunctionContext} token={localStorage.token}>
           <Routes>
             <Route path="/" element={
               isAuthenticated ? (
                 <Home
                   setAuth={setAuth}
-                  darkMode={darkMode}
                   FunctionContext={FunctionContext}
                 />
               ) : (
@@ -146,7 +136,6 @@ function App() {
                 isAuthenticated ? (
                   <Home
                     setAuth={setAuth}
-                    darkMode={darkMode}
                     FunctionContext={FunctionContext}
                   />
                 ) : (
@@ -159,7 +148,6 @@ function App() {
               element={
                 <Review
                   setAuth={setAuth}
-                  darkMode={darkMode}
                   FunctionContext={FunctionContext}
                 />
               }
@@ -171,7 +159,6 @@ function App() {
               element={
                 <BusinessProfile
                   setAuth={setAuth}
-                  darkMode={darkMode}
                   FunctionContext={FunctionContext}
                 />
               }
@@ -181,7 +168,6 @@ function App() {
               element={
                 <UserProfile
                   setAuth={setAuth}
-                  darkMode={darkMode}
                   FunctionContext={FunctionContext}
                 />
               }

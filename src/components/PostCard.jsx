@@ -144,7 +144,7 @@ const PostCard = ({
               <img
                 src={paginaEmpre}
                 alt="empresa"
-                className="cursor-pointer"
+                className="cursor-pointer rounded-full"
                 onClick={() => handleBusinessClick(post?.Business)}
               />
             </div>
@@ -169,7 +169,7 @@ const PostCard = ({
                         : defaultPp
                     }
                     alt="Imagen"
-                    className="w-[35px] h-[35px] relative mb-[-23%]"
+                    className="w-[35px] h-[35px] relative mb-[-23%] rounded-full"
                   />
                   {isUserProfile ||
                   editable == "true" ||
@@ -249,7 +249,7 @@ const PostCard = ({
                     <img
                       src={image}
                       alt={`post? ${index + 1}`}
-                      className="object-cover w-full h-full rounded-lg"
+                      className="object-cover w-full h-full rounded-full"
                     />
                   </div>
                 ))}

@@ -95,7 +95,7 @@ const Sidebar = ({
                     : defaultPp
                 }
                 alt="Imagen"
-                className="w-10 h-10"
+                className="w-10 h-10 rounded-full"
               />
               <div className="flex flex-col">
                 <p className={`text-xl ${darkMode ? "dark-text-white" : ""}`}>
