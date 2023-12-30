@@ -23,13 +23,13 @@ function NewDeleteModal(props) {
             </p>
           </button>
         </div>
-        <div className="flex justify-left ml-4 items-center text-black text-base font-normal leading-normal">
+        {/* <div className="flex justify-left ml-4 items-center text-black text-base font-normal leading-normal">
           <button onClick={props.handleDeleteModal}>
             <p className="p-2" onClick={props.handleDeleteReview}>
               Seguir usuario
             </p>
           </button>
-        </div>
+        </div> */}
         <div className="flex justify-left ml-4 items-center text-black text-base font-normal leading-normal">
           <button onClick={props.handleDeleteClick}>
             <p className="p-2" onClick={props.handleDeleteReview}>
