@@ -15,6 +15,7 @@ import {
 } from "../components";
 import { getHeadersBase } from "../utils/getHeaders";
 import differenceInCalendarQuarters from "date-fns/esm/fp/differenceInCalendarQuarters/index.js";
+import NewDeleteModal from "../components/NewDeleteModal";
 
 const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
   const navigate = useNavigate();
@@ -72,6 +73,11 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     error: undefined,
     message: undefined,
   });
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleteModalData, setDeleteModalData] = useState({
+    isUserProfile: false,
+    isComment: false,
+  });
 
   useEffect(() => {
     // Initialize pageReloaded in localStorage if not present
@@ -90,6 +96,16 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     localStorage.setItem("recentSearches", JSON.stringify(newRecentSearches));
     setShowResults(false);
     navigate(`/empresa/${business.name}`, { state: { business } });
+  };
+
+  const handleDeleteModal = () => {};
+  const handleDeleteClick = (isUserProfile, isComment) => {
+    setDeleteModalOpen(!deleteModalOpen);
+    setDeleteModalData({
+      ...deleteModalData,
+      isUserProfile: isUserProfile,
+      isComment: isComment,
+    });
   };
 
   const handleRecentSearch = async (searchValue) => {
@@ -140,6 +156,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     setIdReviewComment(_id_review);
     setIsCommentingReview(!isComment);
     setCommentModalOpen(!commentModalOpen);
+    setTextComment("");
   };
 
   const handleNewCommnent = () => {
@@ -198,8 +215,6 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
 
   const headersBase = getHeadersBase();
 
-  console.log("selected img", selectedImages);
-
   const handleAddPost = async () => {
     async function createReview() {
       const body = JSON.stringify({
@@ -222,10 +237,12 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
         requestOptions
       );
       const jsonRes = await response.json();
+      setText("");
+      setReviewRating(0);
+      setShowPublishIcon(false);
       setPostes([jsonRes?.review, ...postes]);
       return jsonRes;
     }
-
     const post = await createReview();
 
     if (
@@ -238,8 +255,8 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
         const res = await uploadFiles(
           `https://api.whistleblowwer.net/bucket/review?_id_review=${post.review._id_review}`,
           headersBase,
-          selectedImages
-          // true // <- is more than one file?
+          selectedImages,
+          true // <- is more than one file?
         );
       } catch (error) {
         console.error("Error al subir los archivos:", error);
@@ -450,10 +467,16 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
   };
 
   useEffect(() => {
-    if (textPost !== "" && reviewRating > 0) {
+    if (
+      textPost !== "" &&
+      reviewRating > 0 &&
+      (selectedCompany != undefined || selectedCompany == "")
+    ) {
       setShowPublishIcon(true);
+    } else {
+      setShowPublishIcon(false);
     }
-  }, [textPost, reviewRating]);
+  }, [textPost, reviewRating, selectedCompany]);
 
   const handleRatingClick = (clickedRating) => {
     setReviewRating(clickedRating);
@@ -543,7 +566,6 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
           localStorage.setItem("validCredentials", true);
           setPageReloaded(true);
           localStorage.setItem("pageReloaded", "true");
-          window.location.reload();
         }
       }
     } catch (err) {
@@ -607,7 +629,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
 
       if (!token) {
         console.error("No hay token en localStorage");
-        // Puedes redirigir al usuario o realizar otra acción
+        navigate("/login");
         return;
       }
 
@@ -644,10 +666,16 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     }
 
     // Llamar a getPostes solo si hay un token
-    const token = localStorage.token;
-    if (token) {
-      getPostes();
-    }
+    setTimeout(() => {
+      if (localStorage.getItem("token") != null) {
+        getPostes();
+      }
+    }, 2500);
+    setTimeout(() => {
+      if (localStorage.getItem("token") != null) {
+        getPostes();
+      }
+    }, 4000);
   }, [setPostes]);
 
   const [updateForm, setUpdateForm] = useState({
@@ -717,10 +745,17 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     handleCommentComment,
     handleCommentReview,
     handleNewUpdateProfileModal,
+    handleDeleteClick,
   };
 
   return (
     <>
+      {deleteModalOpen && (
+        <NewDeleteModal
+          handleDeleteModal={handleDeleteModal}
+          handleDeleteClick={handleDeleteClick}
+        />
+      )}
       {postModalOpen && (
         <NewPostModal
           handlePostModal={handlePostModal}

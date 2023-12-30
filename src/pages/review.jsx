@@ -43,7 +43,7 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
       }
     }
     getPostes();
-  }, [reviewValue]);
+  }, []);
 
   const handleLikeComment = (_id_comment) => {
     async function commentLike() {

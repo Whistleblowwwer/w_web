@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import proSet from "../assets/defaultProfilePicture.webp";
+import imgNoticias from "../assets/noticias_img.png";
+import imgParaTi from "../assets/parati_img.png";
 
 const Searchbar = ({
   darkMode,
@@ -17,13 +19,11 @@ const Searchbar = ({
 }) => {
   const location = useLocation();
 
-  const [selectedTab, setSelectedTab] = useState("empresas"); 
+  const [selectedTab, setSelectedTab] = useState("empresas");
   const [isSearchVisible, setIsSearchVisible] = useState(false);
 
   const [isBusinessVisible, setIsBusinessVisible] = useState(false);
   const [isPeopleVisible, setIsPeopleVisible] = useState(false);
-
-
 
   const handleTabClick = (tab) => {
     setSelectedTab(tab);
@@ -276,12 +276,12 @@ const Searchbar = ({
               )}
             </button>
           </div>
-          {/* AQUI IRAN LAS FOTOS */}
         </div>
       )}
       {isBusinessVisible && (
         <div className="w-full h-full p-2">
-          <div>
+          {/* TO-DO: reisar si es necesaria la seccion de recent search */}
+          {/* <div>
             {recentSearches.map((term, index) => (
               <div
                 key={index}
@@ -291,16 +291,18 @@ const Searchbar = ({
                 <p>{term}</p>
               </div>
             ))}
-          </div>
+          </div> */}
           <div>
             {businesses.map((business) => (
-              <div key={business._id_business}>
+              <div className="mb-2" key={business._id_business}>
                 <div
+                  className="flex flex-col"
                   onClick={() => handleBusinessClick(business)}
-                  className="flex cursor-pointer"
                 >
-                  <h2 className="mr-3">{business.name},</h2>
-                  <p>{business.city}</p>
+                  <p className="text-lg">{business.name}</p>
+                  <p className="text-sm text-gray-700	text-black">
+                    {business.entity} - {business.city}
+                  </p>
                 </div>
               </div>
             ))}
@@ -309,7 +311,8 @@ const Searchbar = ({
       )}
       {isPeopleVisible && (
         <div className="w-full h-full p-2">
-          <div>
+          {/* TO-DO:revisar si es necesaria esta seccion */}
+          {/* <div>
             {recentSearches.map((term, index) => (
               <div
                 key={index}
@@ -319,7 +322,7 @@ const Searchbar = ({
                 <p>{term}</p>
               </div>
             ))}
-          </div>
+          </div> */}
           <div>
             {searchUser.map((users) => (
               <div key={users._id_user}>
@@ -354,20 +357,27 @@ const Searchbar = ({
         </div>
       )}
       {activeTabView === "parati" && (
-        <div className="w-full h-full flex justify-center items-center">
-          <p>Proximamente</p>
-        </div>
+        <img
+          src={imgParaTi}
+          alt={"pon tu publicidad aqui"}
+          className="object-cover rounded-lg"
+        />
       )}
       {activeTabView === "tendencias" && (
         <div className="w-full h-full flex justify-center items-center">
-          <p>Proximamente</p>
+          <p>Contenido en tendencias</p>
         </div>
       )}
       {activeTabView === "noticias" && (
-        <div className="w-full h-full flex justify-center">
-          <div className="w-full h-[35%] bg-gradient-to-b from-white to-[#d78fa3] flex items-end p-4">
-            <p className="text-2xl font-extrabold text-left text-white opacity-60">Publicidad</p>
-          </div>
+        <img
+          src={imgNoticias}
+          alt={"pon tu publicidad aqui"}
+          className="object-cover rounded-lg"
+        />
+      )}
+      {activeTabView === "empresas" && (
+        <div className="w-full h-full flex justify-center items-center">
+          <p>Contenido en empresas</p>
         </div>
       )}
     </div>

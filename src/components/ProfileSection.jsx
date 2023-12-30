@@ -37,7 +37,6 @@ const ProfileSection = ({
 }) => {
   const [viewPictureModal, setViewPictureModal] = useState(false);
   const navigate = useNavigate();
-  console.log("user detail", userDetail);
 
   const handleNavigate = () => {
     // Navigate to a different page

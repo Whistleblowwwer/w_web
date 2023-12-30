@@ -22,6 +22,7 @@ const PostCard = ({
   isUserProfile,
   isBusiness,
   isComment,
+  handleDeleteClick,
 }) => {
   const [modalPicture, setModalPicture] = useState(false);
   const [currentPicture, setCurrentPicture] = useState(null);
@@ -199,13 +200,16 @@ const PostCard = ({
               <div
                 className="relative"
                 onClick={() => {
-                  handleDeleteModal();
+                  handleDeleteClick(isUserProfile, isComment);
                 }}
               >
                 <svg
                   fill="currentColor"
                   viewBox="0 0 16 16"
-                  className={`w-8 h-8 ${darkMode && "dark-text-white"}`}
+                  className={`w-8 h-8`}
+                  onClick={() => {
+                    handleDeleteClick();
+                  }}
                 >
                   <path d="M3 9.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" />
                 </svg>
@@ -214,7 +218,10 @@ const PostCard = ({
               <svg
                 fill="currentColor"
                 viewBox="0 0 16 16"
-                className={`w-8 h-8 ${darkMode && "dark-text-white"}`}
+                className={`w-8 h-8`}
+                onClick={() => {
+                  handleDeleteClick(isUserProfile, isComment);
+                }}
               >
                 <path d="M3 9.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" />
               </svg>
@@ -247,7 +254,7 @@ const PostCard = ({
                     <img
                       src={image}
                       alt={`post? ${index + 1}`}
-                      className="object-cover w-full h-full rounded-full"
+                      className="object-cover w-full h-full rounded-lg"
                     />
                   </div>
                 ))}

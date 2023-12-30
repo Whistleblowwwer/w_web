@@ -7,7 +7,7 @@ import { io } from "socket.io-client";
 import Conversation from "../components/Conversation";
 import NewMessageModal from "../components/NewMessageModal";
 
-const socket = io("http://3.18.112.92:4000", {
+const socket = io("https://api.whistleblowwer.net", {
   auth: {
     token: localStorage.token,
   },
@@ -70,7 +70,7 @@ export default function Chats(darkMode) {
 
       try {
         const response = await fetch(
-          `http://3.18.112.92:4000/messages/users-list`,
+          `https://api.whistleblowwer.net/messages/users-list`,
           requestOptions
         );
         const parseRes = await response.json();
@@ -135,7 +135,7 @@ export default function Chats(darkMode) {
       };
 
       try {
-        const messagesURL = `http://3.18.112.92:4000/messages/?_id_receiver=${auxChatList?.Receiver._id_user}`;
+        const messagesURL = `https://api.whistleblowwer.net/messages/?_id_receiver=${auxChatList?.Receiver._id_user}`;
         const response = await fetch(messagesURL, requestOptions);
         const parseRes = await response.json();
 
@@ -164,7 +164,7 @@ export default function Chats(darkMode) {
 
       try {
         const response = await fetch(
-          `http://3.18.112.92:4000/users`,
+          `https://api.whistleblowwer.net/users`,
           requestOptions
         );
         const parseRes = await response.json();
@@ -192,7 +192,7 @@ export default function Chats(darkMode) {
 
       try {
         const response = await fetch(
-          "http://3.18.112.92:4000/messages/conversations",
+          "https://api.whistleblowwer.net/messages/conversations",
           requestOptions
         );
         const parseRes = await response.json();
@@ -249,8 +249,8 @@ export default function Chats(darkMode) {
         try {
           const messagesURL =
             currentUserData?.userId == selectedChat?.Receiver._id_user
-              ? `http://3.18.112.92:4000/messages/?_id_receiver=${selectedChat?.Sender._id_user}`
-              : `http://3.18.112.92:4000/messages/?_id_receiver=${selectedChat?.Receiver._id_user}`;
+              ? `https://api.whistleblowwer.net/messages/?_id_receiver=${selectedChat?.Sender._id_user}`
+              : `https://api.whistleblowwer.net/messages/?_id_receiver=${selectedChat?.Receiver._id_user}`;
           const response = await fetch(messagesURL, requestOptions);
           const parseRes = await response.json();
           let invertedConversationArray = parseRes?.messages;
