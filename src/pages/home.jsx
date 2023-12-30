@@ -24,6 +24,7 @@ export default function Home({ setAuth, darkMode, FunctionContext }) {
     handleReview,
     handleLike,
     handleCommentClick,
+    handleDeleteClick,
   } = useContext(FunctionContext);
   const [pageReloaded, setPageReloaded] = useState(false);
 
@@ -93,6 +94,7 @@ export default function Home({ setAuth, darkMode, FunctionContext }) {
       handleReview={handleReview}
       handleLike={handleLike}
       handleCommentClick={handleCommentClick}
+      handleDeleteClick={handleDeleteClick}
     />
   );
 }

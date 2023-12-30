@@ -15,6 +15,7 @@ import {
 } from "../components";
 import { getHeadersBase } from "../utils/getHeaders";
 import differenceInCalendarQuarters from "date-fns/esm/fp/differenceInCalendarQuarters/index.js";
+import NewDeleteModal from "../components/NewDeleteModal";
 
 const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
   const navigate = useNavigate();
@@ -72,6 +73,11 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     error: undefined,
     message: undefined,
   });
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleteModalData, setDeleteModalData] = useState({
+    isUserProfile: false,
+    isComment: false,
+  });
 
   useEffect(() => {
     // Initialize pageReloaded in localStorage if not present
@@ -90,6 +96,16 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     localStorage.setItem("recentSearches", JSON.stringify(newRecentSearches));
     setShowResults(false);
     navigate(`/empresa/${business.name}`, { state: { business } });
+  };
+
+  const handleDeleteModal = () => {};
+  const handleDeleteClick = (isUserProfile, isComment) => {
+    setDeleteModalOpen(!deleteModalOpen);
+    setDeleteModalData({
+      ...deleteModalData,
+      isUserProfile: isUserProfile,
+      isComment: isComment,
+    });
   };
 
   const handleRecentSearch = async (searchValue) => {
@@ -199,8 +215,6 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
 
   const headersBase = getHeadersBase();
 
-  console.log("selected img", selectedImages);
-
   const handleAddPost = async () => {
     async function createReview() {
       const body = JSON.stringify({
@@ -254,8 +268,6 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     setReviewRating(0);
     setPostModalOpen(false);
   };
-
-  console.log("publish icon", showPublishIcon);
 
   const handleLike = (_id_review) => {
     async function postLike() {
@@ -655,13 +667,11 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
 
     // Llamar a getPostes solo si hay un token
     setTimeout(() => {
-      console.log("This will be executed after 2000 milliseconds (2 seconds).");
       if (localStorage.getItem("token") != null) {
         getPostes();
       }
     }, 2500);
     setTimeout(() => {
-      console.log("This will be executed after 2000 milliseconds (2 seconds).");
       if (localStorage.getItem("token") != null) {
         getPostes();
       }
@@ -735,10 +745,17 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     handleCommentComment,
     handleCommentReview,
     handleNewUpdateProfileModal,
+    handleDeleteClick,
   };
 
   return (
     <>
+      {deleteModalOpen && (
+        <NewDeleteModal
+          handleDeleteModal={handleDeleteModal}
+          handleDeleteClick={handleDeleteClick}
+        />
+      )}
       {postModalOpen && (
         <NewPostModal
           handlePostModal={handlePostModal}

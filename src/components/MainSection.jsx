@@ -27,6 +27,7 @@ const MainSection = ({
   handleReview,
   handleLike,
   handleCommentClick,
+  handleDeleteClick,
 }) => {
   return (
     <div className="lg:w-[50%] w-full bg-[#EEEFEF] lg:px-0 p-1">
@@ -145,6 +146,7 @@ const MainSection = ({
             handleLike={handleLike}
             handleReview={handleReview}
             handleUserClick={handleUserClick}
+            handleDeleteClick={handleDeleteClick}
           />
         ))}
       </div>
