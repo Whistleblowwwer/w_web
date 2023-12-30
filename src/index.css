@@ -301,7 +301,44 @@ iframe {
   opacity: 20%;
 }
 
+.response-hidden{
+  display: block;
+}
+
+.response-show{
+  display: none;
+}
+
+.conversation-response{
+  display: none;
+}
 @media (max-width: 768px) {
+  .input-container input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin-right: -12%;
+  }
+
+  .input-container{
+    width: 100%;
+    padding-bottom: 15%;
+  }
+
+  .conversation-container{
+    display: none;
+  }
+  .conversation-response{
+    display: block;
+  }
+  .response-show{
+    display: block;
+  }
+  .response-hidden{
+    display: none;
+  }
   .post-search {
     margin-left: 4%;
   }
@@ -331,7 +368,7 @@ iframe {
     padding-left: 0;
     padding-right: 0;
   }
-  .contain-principal-begin {
+  .contain-response-begin {
     margin-left: 10%;
     margin-right: 0;
     padding-left: 0;
@@ -345,10 +382,10 @@ iframe {
   .imagenresponb {
     margin-right: 27%;
   }
-  .contain-principal-begin > h1 {
+  .contain-response-begin > h1 {
     font-size: 50px;
   }
-  .contain-principal {
+  .contain-response {
     width: auto;
     overflow-x: hidden;
     flex-wrap: wrap;
@@ -418,7 +455,24 @@ iframe {
     width: 92%;
   }
 }
+
 @media screen and (min-width: 769px) and (max-width: 1024px) {
+  .input-container{
+    width: 100%;
+    padding-bottom: 10%;
+  }
+  .conversation-container{
+    display: none;
+  }
+  .conversation-response{
+    display: block;
+  }
+  .response-show{
+    display: block;
+  }
+  .response-hidden{
+    display: none;
+  }
   .iconeres {
     margin-top: 1%;
     font-size: 200%;
@@ -446,7 +500,7 @@ iframe {
     padding-left: 0;
     padding-right: 0;
   }
-  .contain-principal-begin {
+  .contain-response-begin {
     margin-left: 10%;
     margin-right: 0;
     padding-left: 0;
@@ -463,11 +517,12 @@ iframe {
   .contain-principal-begin > h1 {
     font-size: 50px;
   }
-  .contain-principal {
+  .contain-response {
     width: auto;
     overflow-x: hidden;
     flex-wrap: wrap;
   }
+  
   .p-fa {
     margin-left: 0;
     margin-right: 2px;
