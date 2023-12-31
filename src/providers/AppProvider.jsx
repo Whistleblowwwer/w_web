@@ -51,7 +51,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
   const [activeFeed, setActiveFeed] = useState("feed");
   const [activeTabView, setActiveTabView] = useState("parati");
   const [showPublishIcon, setShowPublishIcon] = useState(false);
-  const [name, setName] = useState([]);
+  const [name, setName] = useState("");
   const [postes, setPostes] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
   const [selectedCompany, setSelectedCompany] = useState();
@@ -78,16 +78,88 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     isUserProfile: false,
     isComment: false,
   });
+  const [tokenVerified, setTokenVerified] = useState(false);
 
   useEffect(() => {
     // Initialize pageReloaded in localStorage if not present
     if (localStorage.getItem("pageReloaded") === null) {
       localStorage.setItem("pageReloaded", "false");
     }
-  }, []);
+
+    async function verifyToken() {
+      const myHeaders = new Headers();
+      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
+      };
+
+      try {
+        const response = await fetch(
+          "https://api.whistleblowwer.net/users/token",
+          requestOptions
+        );
+        await response.json().then((result) => {
+          console.log(result);
+          if (result?.success == false) {
+            if (localStorage.token != undefined) {
+              // Borra los elementos del localStorage
+              console.log("invalid_token");
+              localStorage.removeItem("client_password");
+              localStorage.removeItem("recentSearches");
+              localStorage.removeItem("client_email");
+              localStorage.removeItem("token");
+              localStorage.removeItem("validCredentials");
+              if (
+                !(
+                  location.pathname === "/t&c" ||
+                  location.pathname === "/aviso-privacidad"
+                )
+              ) {
+                navigate("/login");
+              }
+            } else {
+              let i = 0;
+              const intervalId = setInterval(() => {
+                if (localStorage.token !== undefined || i >= 10) {
+                  clearInterval(intervalId);
+                  if (localStorage.token !== undefined) {
+                    getName();
+                    getPostes();
+                  }
+                }
+                i++;
+              }, 1000);
+            }
+          } else {
+            // Token válido, recarga la página solo una vez para cargar la información del usuario
+            if (!pageReloaded && !localStorage.getItem("validCredentials")) {
+              localStorage.setItem("validCredentials", true);
+              window.location.reload();
+              setPageReloaded(true);
+              localStorage.setItem("pageReloaded", "true");
+              console.log("refresh_for_valid_credentials");
+            } else {
+              console.log("token_ok");
+              getName();
+              getPostes();
+            }
+          }
+        });
+        setTokenVerified(true);
+      } catch (err) {
+        console.log("error validating token");
+      }
+    }
+
+    verifyToken();
+  }, [localStorage]);
+
   const [pageReloaded, setPageReloaded] = useState(() => {
     return localStorage.getItem("pageReloaded") === "true" || false;
   });
+
   const maxLength = 1200;
 
   const handleBusinessClick = async (business) => {
@@ -538,107 +610,15 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     setUpdateModalOpen(false);
   };
 
-  async function verifyToken() {
-    const myHeaders = new Headers();
-    myHeaders.append("authorization", `Bearer ${token}`);
-    const requestOptions = {
-      method: "GET",
-      headers: myHeaders,
-      redirect: "follow",
-    };
-
-    try {
-      const response = await fetch(
-        "https://api.whistleblowwer.net/users/token",
-        requestOptions
-      );
-      const parseRes = await response.json();
-
-      if (!parseRes.success && parseRes.message === "Invalid token") {
-        // Borra los elementos del localStorage
-        localStorage.removeItem("client_password");
-        localStorage.removeItem("recentSearches");
-        localStorage.removeItem("client_email");
-        localStorage.removeItem("token");
-      } else {
-        // Token válido, recarga la página solo una vez para cargar la información del usuario
-        if (!pageReloaded) {
-          localStorage.setItem("validCredentials", true);
-          setPageReloaded(true);
-          localStorage.setItem("pageReloaded", "true");
-        }
-      }
-    } catch (err) {
-      console.error(err.message);
-    }
-  }
-
   async function getName() {
     const myHeaders = new Headers();
-    const token = localStorage.token;
-    if (!token) {
+    if (localStorage.token == null || localStorage.token == undefined) {
       // Manejar el error aquí, por ejemplo, redirigir al usuario a la página de inicio de sesión
       console.error("No hay token en localStorage");
       // Puedes redirigir al usuario o realizar otra acción
       return;
-    }
-    myHeaders.append("authorization", `Bearer ${localStorage.token}`);
-    const requestOptions = {
-      method: "GET",
-      headers: myHeaders,
-      redirect: "follow",
-    };
-
-    try {
-      const response = await fetch(
-        "https://api.whistleblowwer.net/users",
-        requestOptions
-      );
-      const parseRes = await response.json();
-      setUpdateForm(parseRes.user);
-      setName(parseRes.user);
-      localStorage.setItem("userName", JSON.stringify(parseRes.user.name));
-      localStorage.setItem("userId", JSON.stringify(parseRes.user._id_user));
-    } catch (err) {
-      console.error(err.message);
-    }
-  }
-
-  useEffect(() => {
-    // Use an async IIFE to be able to use await inside useEffect
-    (async () => {
-      await verifyToken();
-      if (localStorage.token) {
-        await getName();
-      } else {
-        if (
-          !(
-            location.pathname === "/t&c" ||
-            location.pathname === "/aviso-privacidad"
-          )
-        ) {
-          navigate("/login");
-        }
-      }
-    })();
-  }, [token]);
-
-  useEffect(() => {
-    async function getPostes() {
-      const token = localStorage.token;
-
-      if (!token) {
-        console.error("No hay token en localStorage");
-        navigate("/login");
-        return;
-      }
-
-      // Verificar el token antes de hacer la solicitud
-      await verifyToken();
-
-      const myHeaders = new Headers();
-      myHeaders.append("authorization", `Bearer ${token}`);
-
+    } else {
+      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
       const requestOptions = {
         method: "GET",
         headers: myHeaders,
@@ -647,36 +627,57 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
 
       try {
         const response = await fetch(
-          "https://api.whistleblowwer.net/reviews/",
+          "https://api.whistleblowwer.net/users",
           requestOptions
         );
-
-        if (response.status === 401) {
-          // Manejar el error de autorización
-          console.error("Error de autorización");
-          // Puedes redirigir al usuario a la página de inicio de sesión
-          return;
-        }
-
         const parseRes = await response.json();
-        setPostes(parseRes.reviews);
+        setUpdateForm(parseRes.user);
+        setName(parseRes.user);
+        localStorage.setItem("userName", JSON.stringify(parseRes.user.name));
+        localStorage.setItem("userId", JSON.stringify(parseRes.user._id_user));
       } catch (err) {
         console.error(err.message);
       }
     }
+  }
 
-    // Llamar a getPostes solo si hay un token
-    setTimeout(() => {
-      if (localStorage.getItem("token") != null) {
-        getPostes();
+  async function getPostes() {
+    const token = localStorage.token;
+
+    if (!token) {
+      console.error("No hay token en localStorage");
+      navigate("/login");
+      return;
+    }
+
+    const myHeaders = new Headers();
+    myHeaders.append("authorization", `Bearer ${token}`);
+
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    try {
+      const response = await fetch(
+        "https://api.whistleblowwer.net/reviews/",
+        requestOptions
+      );
+
+      if (response.status === 401) {
+        // Manejar el error de autorización
+        console.error("Error de autorización");
+        // Puedes redirigir al usuario a la página de inicio de sesión
+        return;
       }
-    }, 2500);
-    setTimeout(() => {
-      if (localStorage.getItem("token") != null) {
-        getPostes();
-      }
-    }, 4000);
-  }, [setPostes]);
+
+      const parseRes = await response.json();
+      setPostes(parseRes.reviews);
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
 
   const [updateForm, setUpdateForm] = useState({
     name: name.name,
@@ -750,140 +751,166 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
 
   return (
     <>
-      {deleteModalOpen && (
-        <NewDeleteModal
-          handleDeleteModal={handleDeleteModal}
-          handleDeleteClick={handleDeleteClick}
-        />
-      )}
-      {postModalOpen && (
-        <NewPostModal
-          handlePostModal={handlePostModal}
-          handleTextChange={handlePostTextChange}
-          textPost={textPost}
-          maxLength={maxLength}
-          setSelectedImages={setSelectedImages}
-          selectedImages={selectedImages}
-          setShowPublishIcon={setShowPublishIcon}
-          addPost={handleAddPost}
-          suggestions={suggestions}
-          setSelectedCompany={setSelectedCompany}
-          companySearchQuery={companySearchQuery}
-          setCompanySearchQuery={setCompanySearchQuery}
-          handleRatingClick={handleRatingClick}
-          reviewRating={reviewRating}
-          handleSearchCompanyClick={handleSearchCompanyClick}
-          setCompanyModalOpen={() => setCompanyModalOpen(true)}
-        />
-      )}
-      {commentModalOpen && (
-        <NewCommentModal
-          handleCommentModal={handleCommentClick}
-          darkMode={darkMode}
-          handleTextCommentChange={handleTextCommnetChange}
-          textComment={textComment}
-          maxLength={maxLength}
-          addComment={handleNewCommnent}
-          isReview={isCommentingReview}
-        />
-      )}
-      {companyModalOpen && (
-        <NewCompanyModal
-          handleNewCompanyModal={handleNewCompanyModal}
-          handleSubmit={handleSubmitCompany}
-          handleChange={handleChangeCompany}
-          darkMode={darkMode}
-          name={companyForm.name}
-          address={companyForm.address}
-          entity={companyForm.entity}
-          country={companyForm.country}
-          state={companyForm.state}
-          city={companyForm.city}
-          category={companyForm.category}
-          handleCreateBusiness={handleCreateBusiness}
-          handleCountrySelect={handleCountryChangeInForm}
-          handleStateSelect={handleStateChangeInForm}
-          handleCitySelect={handleCityChangeInForm}
-          handleCategorySelect={handleCategoryChangeInForm}
-          fetchResultHandler={fetchResultHandler}
-          setFetchResultHandler={setFetchResultHandler}
-        />
-      )}
-      {updateModalOpen && (
-        <UpdateProfileModal
-          handleNewUpdateProfileModal={handleNewUpdateProfileModal}
-          handleSubmit={handleSubmitUpdate}
-          handleChange={handleChangeUpdate}
-          darkMode={darkMode}
-          name={updateForm.name}
-          last_name={updateForm.last_name}
-          phone_number={updateForm.phone_number}
-          email={updateForm.email}
-          nick_name={updateForm.nick_name}
-          handleUpdate={handleUpdateProfile}
-        />
-      )}
-      {!shouldHideComponent && (
+      {tokenVerified == true ? (
         <>
-          <Navbar
-            darkMode={darkMode}
-            handleUserClick={() => handleUserClick(name)}
-          />
-          <Sidebar
-            darkMode={darkMode}
-            handlePostModal={handlePostModal}
-            handleUserClick={() => handleUserClick(name)}
-            handleNewCompanyModal={handleNewCompanyModal}
-            user={name}
-          />
-        </>
-      )}
-      {location.pathname === "/search" ? (
-        <>
-          <Searchbar
-            darkMode={darkMode}
-            activeTabView={activeTabView}
-            businesses={businesses}
-            handleBusinessClick={handleBusinessClick}
-            handleRecentSearch={handleRecentSearch}
-            handleSearch={handleSearch}
-            handleUserClick={handleUserClick}
-            recentSearches={recentSearches}
-            search={search}
-            searchUser={searchUser}
-            setActiveTabView={setActiveTabView}
-          />
-          <FunctionContext.Provider value={generalFunctions}>
-            {children}
-          </FunctionContext.Provider>
-          <BottomNavbar darkMode={darkMode} />
-        </>
-      ) : (
-        <>
-          <FunctionContext.Provider value={generalFunctions}>
-            {children}
-          </FunctionContext.Provider>
+          {deleteModalOpen && (
+            <NewDeleteModal
+              handleDeleteModal={handleDeleteModal}
+              handleDeleteClick={handleDeleteClick}
+            />
+          )}
+          {postModalOpen && (
+            <NewPostModal
+              handlePostModal={handlePostModal}
+              handleTextChange={handlePostTextChange}
+              textPost={textPost}
+              maxLength={maxLength}
+              setSelectedImages={setSelectedImages}
+              selectedImages={selectedImages}
+              setShowPublishIcon={setShowPublishIcon}
+              addPost={handleAddPost}
+              suggestions={suggestions}
+              setSelectedCompany={setSelectedCompany}
+              companySearchQuery={companySearchQuery}
+              setCompanySearchQuery={setCompanySearchQuery}
+              handleRatingClick={handleRatingClick}
+              reviewRating={reviewRating}
+              handleSearchCompanyClick={handleSearchCompanyClick}
+              setCompanyModalOpen={() => setCompanyModalOpen(true)}
+            />
+          )}
+          {commentModalOpen && (
+            <NewCommentModal
+              handleCommentModal={handleCommentClick}
+              darkMode={darkMode}
+              handleTextCommentChange={handleTextCommnetChange}
+              textComment={textComment}
+              maxLength={maxLength}
+              addComment={handleNewCommnent}
+              isReview={isCommentingReview}
+            />
+          )}
+          {companyModalOpen && (
+            <NewCompanyModal
+              handleNewCompanyModal={handleNewCompanyModal}
+              handleSubmit={handleSubmitCompany}
+              handleChange={handleChangeCompany}
+              darkMode={darkMode}
+              name={companyForm.name}
+              address={companyForm.address}
+              entity={companyForm.entity}
+              country={companyForm.country}
+              state={companyForm.state}
+              city={companyForm.city}
+              category={companyForm.category}
+              handleCreateBusiness={handleCreateBusiness}
+              handleCountrySelect={handleCountryChangeInForm}
+              handleStateSelect={handleStateChangeInForm}
+              handleCitySelect={handleCityChangeInForm}
+              handleCategorySelect={handleCategoryChangeInForm}
+              fetchResultHandler={fetchResultHandler}
+              setFetchResultHandler={setFetchResultHandler}
+            />
+          )}
+          {updateModalOpen && (
+            <UpdateProfileModal
+              handleNewUpdateProfileModal={handleNewUpdateProfileModal}
+              handleSubmit={handleSubmitUpdate}
+              handleChange={handleChangeUpdate}
+              darkMode={darkMode}
+              name={updateForm.name}
+              last_name={updateForm.last_name}
+              phone_number={updateForm.phone_number}
+              email={updateForm.email}
+              nick_name={updateForm.nick_name}
+              handleUpdate={handleUpdateProfile}
+            />
+          )}
           {!shouldHideComponent && (
             <>
-              {location.pathname !== "/chats" && (
-                <Searchbar
-                  darkMode={darkMode}
-                  activeTabView={activeTabView}
-                  businesses={businesses}
-                  handleBusinessClick={handleBusinessClick}
-                  handleRecentSearch={handleRecentSearch}
-                  handleSearch={handleSearch}
-                  handleUserClick={handleUserClick}
-                  recentSearches={recentSearches}
-                  search={search}
-                  searchUser={searchUser}
-                  setActiveTabView={setActiveTabView}
-                />
-              )}
+              <Navbar
+                darkMode={darkMode}
+                handleUserClick={() => handleUserClick(name)}
+              />
+              <Sidebar
+                darkMode={darkMode}
+                handlePostModal={handlePostModal}
+                handleUserClick={() => handleUserClick(name)}
+                handleNewCompanyModal={handleNewCompanyModal}
+                user={name}
+              />
+            </>
+          )}
+          {location.pathname === "/search" ? (
+            <>
+              <Searchbar
+                darkMode={darkMode}
+                activeTabView={activeTabView}
+                businesses={businesses}
+                handleBusinessClick={handleBusinessClick}
+                handleRecentSearch={handleRecentSearch}
+                handleSearch={handleSearch}
+                handleUserClick={handleUserClick}
+                recentSearches={recentSearches}
+                search={search}
+                searchUser={searchUser}
+                setActiveTabView={setActiveTabView}
+              />
+              <FunctionContext.Provider value={generalFunctions}>
+                {children}
+              </FunctionContext.Provider>
               <BottomNavbar darkMode={darkMode} />
+            </>
+          ) : (
+            <>
+              <FunctionContext.Provider value={generalFunctions}>
+                {children}
+              </FunctionContext.Provider>
+              {!shouldHideComponent && (
+                <>
+                  {location.pathname !== "/chats" && (
+                    <Searchbar
+                      darkMode={darkMode}
+                      activeTabView={activeTabView}
+                      businesses={businesses}
+                      handleBusinessClick={handleBusinessClick}
+                      handleRecentSearch={handleRecentSearch}
+                      handleSearch={handleSearch}
+                      handleUserClick={handleUserClick}
+                      recentSearches={recentSearches}
+                      search={search}
+                      searchUser={searchUser}
+                      setActiveTabView={setActiveTabView}
+                    />
+                  )}
+                  <BottomNavbar darkMode={darkMode} />
+                </>
+              )}
             </>
           )}
         </>
+      ) : (
+        <div className="flex items-center justify-center h-screen w-screen">
+          <div role="status" className="text-center">
+            <svg
+              aria-hidden="true"
+              className="w-16 h-16 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+              viewBox="0 0 100 101"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                fill="currentColor"
+              />
+              <path
+                d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                fill="currentFill"
+              />
+            </svg>
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
       )}
     </>
   );
