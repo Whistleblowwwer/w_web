@@ -17,6 +17,8 @@ const socket = io("https://api.whistleblowwer.net", {
 export default function Chats(darkMode) {
   const location = useLocation();
 
+  const [isResponseChatVisible, setResponseChatVisible] = useState(true);
+
   const [currentUserData, setCurrentUserData] = useState({
     name: "",
     userId: "",
@@ -260,7 +262,18 @@ export default function Chats(darkMode) {
       }
       getMessages();
     }
-  }, [currentUserData]);
+    if (selectedChat) {
+      handleChatVisible();
+    }
+  }, [currentUserData, selectedChat]);
+
+  const handleChatVisible = () => {
+    setResponseChatVisible(false);
+  }
+
+  const handleChatVisible2 = () => {
+    setResponseChatVisible(true);
+  }
 
   return (
     <>
@@ -275,7 +288,7 @@ export default function Chats(darkMode) {
           handleNewConversation={handleNewConversation}
         />
       )}
-      <div className={`bg-[#EEEFEF] h-screen w-screen`}>
+      <div className={`bg-[#EEEFEF] h-screen w-screen response-hidden`}>
         <div className={`bg-[#EEEFEF] h-auto ""}`}>
           <div className="contain-principal h-screen">
             <div className="w-[25%] pt-6 pl-6">
@@ -338,6 +351,77 @@ export default function Chats(darkMode) {
                 />
               )}
             </div>
+          </div>
+        </div>
+      </div>
+      {/* Mostrar response  */}
+      <div className={`bg-[#EEEFEF] h-screen w-screen response-show`}>
+        <div className={`bg-[#EEEFEF] h-auto ""}`}>
+          <div className="contain-response h-screen">
+            {isResponseChatVisible && (
+              <div className="w-[100%] pt-6 pl-6">
+                <div className="flex justify-between items-center">
+                  <p className="text-neutral-900 text-2xl font-bold leading-7">
+                    Mensajes
+                  </p>
+                  <i
+                    class="fa-regular fa-pen-to-square mr-7"
+                    style={{ fontSize: "20px" }}
+                    onClick={() => handleNewChat()}
+                  />
+                </div>
+                <div className="mt-4 flex items-center">
+                  <div
+                    className={`relative placeholder-black p-2 w-[96%] h-[38px] bg-[#FFF] rounded-2xl`}
+                  >
+                    <i className="p-fa fa-solid fa-magnifying-glass mr-2 ml-2 relative" />
+                    <input
+                      placeholder="Buscar en chats"
+                      className="w-[85%] h-[120%]"
+                      style={{ outline: "none", border: "none" }}
+                    />
+                  </div>
+                </div>
+                <div className="mt-4 flex items-center" onClick={handleChatVisible}>
+                  {socket && (
+                    <ChatList
+                      chatsList={chatsList}
+                      setSelectedChat={setSelectedChat}
+                      selectedChat={selectedChat}
+                      currentConversation={currentConversation}
+                      setCurrentConversation={setCurrentConversation}
+                      socket={socket}
+                      userId={currentUserData?.userId}
+                    />
+                  )}
+                </div>
+              </div>
+            )}
+            {!isResponseChatVisible && (
+              <div className="w-[100%] justify-center items-center overflow-y-auto">
+                {selectedChat == undefined ? (
+                  <div className="h-full flex justify-center items-center">
+                    <p className="text-neutral-900 text-[25px] font-semibold leading-normal">
+                      No hay ningún chat seleccionado
+                    </p>
+                  </div>
+                ) : (
+                  <Conversation
+                    messages={currentConversation}
+                    userId={currentUserData?.userId}
+                    userName={
+                      currentUserData?.userId == selectedChat?.Receiver._id_user
+                        ? `${selectedChat?.Sender.name} ${selectedChat?.Sender.last_name}`
+                        : `${selectedChat?.Receiver.name} ${selectedChat?.Receiver.last_name}`
+                    }
+                    message={message}
+                    setMessage={setMessage}
+                    handleSendMessage={handleSendMessage}
+                    handleChatVisible={handleChatVisible2}
+                  />
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
