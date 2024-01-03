@@ -11,9 +11,10 @@ const BottomNavbar = ({ darkMode }) => {
       }`}
     >
       <div className="flex justify-around items-center">
-        {BOTTOM_NAVBAR_LINKS.map((link) => (
+        {BOTTOM_NAVBAR_LINKS.map((link, index) => (
           <i
-            class={`fa-solid ${link.icon} ${
+            key={index}
+            className={`fa-solid ${link.icon} ${
               darkMode ? "dark-text-white" : ""
             } text-[130%] iconeres`}
             onClick={() => navigate(link.href)}

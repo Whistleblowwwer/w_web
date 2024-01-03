@@ -84,7 +84,7 @@ export default function Settings() {
               >
                 <p className="ml-4 p-txt">
                   Tu cuenta
-                  <i class="ml-[200px] mt-1 fa-solid fa-chevron-right"></i>
+                  <i className="ml-[200px] mt-1 fa-solid fa-chevron-right"></i>
                 </p>
               </button>
             </div>
@@ -107,7 +107,7 @@ export default function Settings() {
               >
                 <p className="ml-4 p-txt">
                   Seguridad y acceso a la cuenta
-                  <i class="ml-8 mt-1 fa-solid fa-chevron-right"></i>
+                  <i className="ml-8 mt-1 fa-solid fa-chevron-right"></i>
                 </p>
               </button>
             </div>
@@ -130,7 +130,7 @@ export default function Settings() {
               >
                 <p className="ml-4 p-txt">
                   Privacidad y seguridad
-                  <i class="ml-[97px] mt-1 fa-solid fa-chevron-right"></i>
+                  <i className="ml-[97px] mt-1 fa-solid fa-chevron-right"></i>
                 </p>
               </button>
             </div>
@@ -153,7 +153,7 @@ export default function Settings() {
               >
                 <p className="ml-4 p-txt">
                   Notificaciones
-                  <i class="ml-[165px] mt-1 fa-solid fa-chevron-right"></i>
+                  <i className="ml-[165px] mt-1 fa-solid fa-chevron-right"></i>
                 </p>
               </button>
             </div>
@@ -176,7 +176,7 @@ export default function Settings() {
               >
                 <p className="ml-4 p-txt">
                   Accesibilidad, pantalla e idiomas
-                  <i class="ml-4 mt-1 fa-solid fa-chevron-right"></i>
+                  <i className="ml-4 mt-1 fa-solid fa-chevron-right"></i>
                 </p>
               </button>
             </div>

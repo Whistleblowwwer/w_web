@@ -58,7 +58,7 @@ function Conversation(props) {
       </div>
       <div className="conversation-response">
         <div className="fixed w-[100%] top-[9%] z-10000">
-          <span className="absolute mt-2 ml-2" onClick={props.handleChatVisible}><i class="fa-solid fa-arrow-left"></i></span>
+          <span className="absolute mt-2 ml-2" onClick={props.handleChatVisible}><i className="fa-solid fa-arrow-left"></i></span>
           <p className="flex justify-center text-zinc-900 text-center p-2 text-xl font-medium leading-[18.62px] h-10 w-[100%] " style={{ backgroundColor: 'rgba(169, 169, 169, 0.06)' }}>
             {props?.userName}
           </p>

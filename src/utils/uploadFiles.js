@@ -3,10 +3,10 @@ const uploadFiles = async (url, headers, files, isMultiple) => {
     const formData = new FormData();
 
     if (isMultiple) {
-      // files.forEach((file) => {
-      //   formData.append("fileN", file);
-      // });
-      formData.append("fileN", files);
+      files.forEach((file) => {
+        formData.append("fileN", file);
+      });
+      // formData.append("fileN", files);
     } else {
       formData.append("fileN", files[0]);
     }

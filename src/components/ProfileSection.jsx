@@ -70,7 +70,7 @@ const ProfileSection = ({
           <div className="w-[100%] h-auto pb-3 pl-3 pt-1 pr-3 bg-gradient-to-b from-white to-[#d78fa3]">
             <div className="flex mb-[20%]">
               <i
-                class="fa-solid fa-arrow-left-long mt-2 mr-2 cursor-pointer"
+                className="fa-solid fa-arrow-left-long mt-2 mr-2 cursor-pointer"
                 onClick={() => navigate(-1)}
               ></i>
               <p className="text-[20px] font-bold">
@@ -112,7 +112,7 @@ const ProfileSection = ({
                 </p>
               </div>
               <div className="opacity-30 flex items-center gap-2">
-                <i class="fa-regular fa-calendar"></i>
+                <i className="fa-regular fa-calendar"></i>
                 {userDetail && (
                   <p>
                     Se creó el{" "}
@@ -150,7 +150,7 @@ const ProfileSection = ({
               </div>
               <div className="flex items-center lg:items-end flex-col md:flex-row lg:flex-col xl:flex-row gap-2 pt-3 justify-between w-full lg:w-auto lg:justify-end">
                 <div className="opacity-30 flex items-center text-right py-1.5 gap-1">
-                  <i class="fa-regular fa-calendar"></i>
+                  <i className="fa-regular fa-calendar"></i>
                   {userDetail && (
                     <p>
                       Se creó el{" "}

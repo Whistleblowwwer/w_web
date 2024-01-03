@@ -46,7 +46,9 @@ function NewMessageModal(props) {
 
           <div className="flex flex-col sm:flex-row items-center justify-between w-full mt-5">
             <button
-              onClick={props.handleNewConversation}
+              onClick={() => {
+                props.handleNewConversation();
+              }}
               className={` bg-neutral-900 rounded-[20.50px] border px-4 py-2 sm:mt-0 mt-5`}
             >
               <p className={`text-stone-50`}>Siguiente</p>

@@ -25,7 +25,7 @@ function NewCommentModal(props) {
           </div>
 
           <div className="flex items-center gap-2">
-            <img src={proSet} class="w-[35px] h-[35px]" alt="logo" />
+            <img src={proSet} className="w-[35px] h-[35px]" alt="logo" />
             <p
               className={`text-neutral-900 text-base font-bold ${
                 props.darkMode ? "dark-text-white" : ""

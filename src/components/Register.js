@@ -59,7 +59,6 @@ const Register = ({ setAuth }) => {
   }
 
   const onChange = e => {
-    console.log(e.target.name)
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
@@ -72,7 +71,6 @@ const Register = ({ setAuth }) => {
 
     try {
       const body = { name, last_name, email, phone_number, birth_date, gender, password, role };
-      console.log(body);
       const response = await fetch("http://18.220.124.246:4000/users/", {
         method: "POST",
         mode: "cors",

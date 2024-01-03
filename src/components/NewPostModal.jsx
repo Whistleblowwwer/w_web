@@ -43,9 +43,7 @@ function NewPostModal(props) {
 
           <div className="w-full mt-5 flex flex-col ">
             <textarea
-              className={`w-full rounded-lg bg-gray-50 p-2 min-h-[90px]  ${
-                props.darkMode ? "dark-register" : ""
-              }`}
+              className={`w-full rounded-lg bg-gray-50 p-2 min-h-[90px]`}
               onChange={props.handleTextChange}
               placeholder="Escribe algo.."
               value={props.textPost}

@@ -37,7 +37,7 @@ function CompanyAutocomplete(props) {
   };
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full pr-2">
       <input
         type="text"
         value={props.usersSearchQuery}
@@ -49,7 +49,7 @@ function CompanyAutocomplete(props) {
         <ul className="absolute z-50 w-full h-full mt-1 bg-white border rounded-md shadow-md">
           {filteredSuggestions.map((suggestion) => (
             <li
-              key={suggestion?._id_business}
+              key={suggestion?._id_user}
               className={classNames(
                 "p-2 cursor-pointer bg-[#FFF] hover:bg-gray-100",
                 {
