@@ -6,6 +6,7 @@ import Liked from "../assets/IsLiked.svg";
 import { useState, useEffect } from "react";
 import FullPicture from "./FullPicture";
 import defaultPp from "../assets/defaultProfilePicture.webp";
+import NewReportModal from "./NewReportModal";
 import NewDeleteModal from "./NewDeleteModal";
 
 const PostCard = ({
@@ -31,11 +32,17 @@ const PostCard = ({
   );
   const [conteoComentarios, setConteoComentarios] = useState();
 
+  const [modalReport, setModalReport] = useState(false);
+
   const [modalDelete, setModalDelete] = useState(false);
 
   const handleViewPicture = (picture) => {
     setCurrentPicture(picture);
     setModalPicture(!currentPicture);
+  };
+
+  const handleReportModal = () => {
+    setModalReport(!modalReport);
   };
 
   const handleDeleteModal = () => {
@@ -105,6 +112,12 @@ const PostCard = ({
           darkMode={darkMode}
           picture={currentPicture}
           handleViewPicture={handleViewPicture}
+        />
+      )}
+      {modalReport && (
+        <NewReportModal
+          darkMode={darkMode}
+          handleReportModal={handleReportModal}
         />
       )}
       {modalDelete && (
@@ -189,16 +202,13 @@ const PostCard = ({
             {isUserProfile && editable == "true" ? (
               <div
                 className="relative"
-                onClick={() => {
-                  handleDeleteClick(isUserProfile, isComment);
-                }}
               >
                 <svg
                   fill="currentColor"
                   viewBox="0 0 16 16"
                   className={`w-8 h-8`}
                   onClick={() => {
-                    handleDeleteClick();
+                    handleDeleteModal();
                   }}
                 >
                   <path d="M3 9.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" />

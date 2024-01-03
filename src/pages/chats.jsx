@@ -264,6 +264,8 @@ export default function Chats(darkMode) {
     getConversations();
   }, []);
 
+  // console.log(chatsList)
+
   useEffect(() => {
     if (location?.state?.id_user) {
       setSelectedChat({
@@ -324,6 +326,7 @@ export default function Chats(darkMode) {
       handleChatVisible();
     }
   }, [currentUserData, selectedChat]);
+  console.log(currentConversation);
 
   const handleChatVisible = () => {
     setResponseChatVisible(false);
@@ -416,6 +419,7 @@ export default function Chats(darkMode) {
                   message={message}
                   setMessage={setMessage}
                   handleSendMessage={handleSendMessage}
+                  profile_picture_url={selectedChat?.Receiver.profile_picture_url}
                 />
               )}
             </div>
@@ -489,6 +493,7 @@ export default function Chats(darkMode) {
                     setMessage={setMessage}
                     handleSendMessage={handleSendMessage}
                     handleChatVisible={handleChatVisible2}
+                    profile_picture_url={selectedChat?.Receiver.profile_picture_url}
                   />
                 )}
               </div>

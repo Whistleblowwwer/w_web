@@ -411,7 +411,7 @@ export default function Register({ setAuth }) {
                 <div className="flex justify-center items-center mt-2 text-neutral-900 text-opacity-100 text-xs font-semibold leading-[11.17px] mr-4 mt-[3px]">
                   <div className="mr-3">
                     <select
-                      className={`w-[119px] h-8 bg-stone-200 rounded-[10px] ${
+                      className={` h-8 bg-stone-200 rounded-[10px] ${
                         darkMode ? "dark-register-bt placeholder-black-dk" : ""
                       }`}
                       name="month"
@@ -435,7 +435,7 @@ export default function Register({ setAuth }) {
                   </div>
                   <div className="mr-3">
                     <select
-                      className={`w-[119px] h-8 bg-stone-200 rounded-[10px] ${
+                      className={`w-[100%] h-8 bg-stone-200 rounded-[10px] mr-5 ${
                         darkMode ? "dark-register-bt placeholder-black-dk" : ""
                       }`}
                       name="day"
@@ -478,7 +478,7 @@ export default function Register({ setAuth }) {
                   </div>
                   <div>
                     <select
-                      className={`w-[119px] h-8 bg-stone-200 rounded-[10px] ${
+                      className={`w-[120%] h-8 bg-stone-200 rounded-[10px] ${
                         darkMode ? "dark-register-bt placeholder-black-dk" : ""
                       }`}
                       name="year"

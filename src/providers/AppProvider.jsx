@@ -15,7 +15,7 @@ import {
 } from "../components";
 import { getHeadersBase } from "../utils/getHeaders";
 import differenceInCalendarQuarters from "date-fns/esm/fp/differenceInCalendarQuarters/index.js";
-import NewDeleteModal from "../components/NewDeleteModal";
+import NewDeleteModal from "../components/NewReportModal";
 
 const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
   const navigate = useNavigate();
