@@ -17,10 +17,20 @@ function NewDeleteModal(props) {
                         <i className="fas fa-times"></i>
                     </button>
                 </div>
-                <div className='flex mt-3 mb-3'>
-                    <p className='mr-4'>¿Seguro quieres borrar esta publicacion?</p>
-                    <button className='mr-2 font-bold hover:text-gray-500' onClick={props.handleDeleteReview}>Si</button>
-                    <button className='font-bold hover:text-gray-500' onClick={props.handleDeleteModal}>No</button>
+                <div className='flex flex-col mt-3 mb-4 justify-center items-center'>
+                    <p className='text-center mb-4'>¿Seguro quieres borrar esta publicacion?</p>
+                    <button 
+                        className='font-bold hover:text-gray-500 mb-3 rounded-full w-[80%] bg-red-500 hover:bg-red-700 text-white p-3'
+                        onClick={props.handleDeleteReview}
+                    >
+                        Eliminar
+                    </button>
+                    <button 
+                        className='font-bold hover:text-gray-500 rounded-full bg-black w-[80%] hover:bg-gray-800 text-white p-3'
+                        onClick={props.handleDeleteModal}
+                    >
+                        Cancelar
+                    </button>
                 </div>      
             </div>
         </div>
