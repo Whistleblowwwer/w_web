@@ -45,6 +45,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
   const [textComment, setTextComment] = useState("");
   const [idReviewComment, setIdReviewComment] = useState("");
   const [isCommentingReview, setIsCommentingReview] = useState(undefined);
+  const [idReview, setIdReview] = useState("");
 
   //general variables
   const [isTyping, setIsTyping] = useState(false);
@@ -52,7 +53,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
   const [activeTabView, setActiveTabView] = useState("parati");
   const [showPublishIcon, setShowPublishIcon] = useState(false);
   const [name, setName] = useState("");
-  const [postes, setPostes] = useState([]);
+  const [postes, setPostes] = useState(undefined);
   const [suggestions, setSuggestions] = useState([]);
   const [selectedCompany, setSelectedCompany] = useState();
   const [reviewRating, setReviewRating] = useState(0);
@@ -185,7 +186,40 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
   };
 
   const handleReview = async (reviewValue) => {
-    navigate(`/review/${reviewValue._id_review}`, { state: { reviewValue } });
+    let isComment = false;
+    navigate(`/review/${reviewValue._id_review}`, {
+      state: { reviewValue, isComment },
+    });
+  };
+
+  const handleChildComments = async (comment) => {
+    // console.log("clicked comment info:", comment);
+    // async function getChildComments() {
+    //   const myHeaders = new Headers();
+    //   myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+
+    //   const requestOptions = {
+    //     method: "GET",
+    //     headers: myHeaders,
+    //     redirect: "follow",
+    //   };
+
+    //   try {
+    //     const response = await fetch(
+    //       `https://api.whistleblowwer.net/comments/children/?_id_comment=${comment._id_comment}`,
+    //       requestOptions
+    //     );
+    //     const parseRes = await response.json();
+    //     console.log("child comments res", parseRes.comment.Comments);
+    //   } catch (err) {
+    //     console.error(err.message);
+    //   }
+    // }
+    // getChildComments();
+    let isComment = true;
+    navigate(`/review/${comment._id_comment}`, {
+      state: { comment, isComment },
+    });
   };
 
   const handleUserClick = async (users) => {
@@ -224,11 +258,19 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     }
   };
 
-  const handleCommentClick = (_id_review, isComment) => {
-    setIdReviewComment(_id_review);
-    setIsCommentingReview(!isComment);
-    setCommentModalOpen(!commentModalOpen);
-    setTextComment("");
+  const handleCommentClick = (_id_review, isComment, _id_parent) => {
+    if (isComment) {
+      setIdReviewComment(_id_review);
+      setIdReview(_id_parent);
+      setIsCommentingReview(false);
+      setCommentModalOpen(!commentModalOpen);
+      setTextComment("");
+    } else {
+      setIdReviewComment(_id_review);
+      setIsCommentingReview(true);
+      setCommentModalOpen(!commentModalOpen);
+      setTextComment("");
+    }
   };
 
   const handleNewCommnent = () => {
@@ -382,8 +424,6 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("authorization", `Bearer ${localStorage.token}`);
 
-      const reviewId = extractIdFromUrl();
-
       var raw = JSON.stringify({
         content: textComment,
         _id_review: idReviewComment,
@@ -442,11 +482,9 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("authorization", `Bearer ${localStorage.token}`);
 
-      const reviewId = extractIdFromUrl();
-
       var raw = JSON.stringify({
         content: textComment,
-        _id_review: reviewId,
+        _id_review: idReview,
         _id_parent: idReviewComment,
       });
 
@@ -741,6 +779,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     handleBusinessClick,
     handleUserClick,
     handleReview,
+    handleChildComments,
     handleLike,
     handleCommentClick,
     handleCommentComment,

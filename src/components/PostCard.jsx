@@ -114,11 +114,7 @@ const PostCard = ({
           handleDeleteReview={handleDeleteReview}
         />
       )}
-      <div
-        className={`bg-[#FFF] p-4 flex flex-col gap-4 ${
-          darkMode ? "dark-register-bg" : ""
-        }`}
-      >
+      <div className={`bg-[#FFF] p-4 flex flex-col gap-4`}>
         {!isBusiness && post?.Business && (
           <>
             <div></div>
@@ -180,16 +176,10 @@ const PostCard = ({
                     </button>
                   )}
                 </div>
-                <p
-                  className={`text-black text-base font-bold ml-3 ${
-                    darkMode ? "dark-text-white" : ""
-                  }`}
-                >
+                <p className={`text-black text-base font-bold ml-3`}>
                   {post?.User?.name} {post?.User?.last_name}
                   <span
-                    className={`flex text-center text-neutral-400 text-sm font-light ${
-                      darkMode ? "dark-text-white" : ""
-                    }`}
+                    className={`flex text-center text-neutral-400 text-sm font-light`}
                   >
                     {post?.User?.nick_name} . {formatDate(post?.createdAt)}
                   </span>
@@ -229,9 +219,7 @@ const PostCard = ({
           </div>
           <div className="flex flex-col gap-2">
             <p
-              className={`cursor-pointer prevent-word-break text-black text-sm font-normal leading-normal tracking-wide${
-                darkMode ? "dark-text-white" : ""
-              }`}
+              className={`cursor-pointer prevent-word-break text-black text-sm font-normal leading-normal tracking-wide`}
               onClick={() => handleReview(post)}
             >
               {post?.content}
@@ -287,26 +275,22 @@ const PostCard = ({
               className="bg-[#F5F5F5] px-6 py-3 rounded-full w-full cursor-pointer text-gray-400"
               onClick={() =>
                 isComment
-                  ? handleCommentClick(post?._id_comment, true)
-                  : handleCommentClick(post?._id_review, false)
+                  ? handleCommentClick(
+                      post?._id_comment,
+                      true,
+                      post?._id_review
+                    )
+                  : handleCommentClick(post?._id_review, false, undefined)
               }
             >
               Escribe una respuesta...
             </div>
           </div>
           <div className="flex space-x-4">
-            <p
-              className={`text-gray-400 text-s font-light leading-normal ${
-                darkMode ? "dark-text-white" : ""
-              }`}
-            >
+            <p className={`text-gray-400 text-s font-light leading-normal`}>
               {post?.likesCount} me gusta
             </p>
-            <p
-              className={`text-gray-400 text-s font-light leading-normal ${
-                darkMode ? "dark-text-white" : ""
-              }`}
-            >
+            <p className={`text-gray-400 text-s font-light leading-normal`}>
               {post?.commentsCount} comentarios
             </p>
           </div>
