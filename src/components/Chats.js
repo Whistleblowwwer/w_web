@@ -39,7 +39,7 @@ function Chats() {
                     <div className='w-[23%] pt-6 pl-6'>
                         <div className='flex justify-between items-center'>
                             <p className='text-neutral-900 text-3xl font-bold leading-7'>Chats</p>
-                            <i class="fa-regular fa-pen-to-square mr-7" style={{ fontSize: "20px" }} />
+                            <i className="fa-regular fa-pen-to-square mr-7" style={{ fontSize: "20px" }} />
                         </div>
                         <div className='mt-4 flex items-center'>
                             <div className={`relative placeholder-black p-2 w-[96%] h-[38px] bg-[#FFF] rounded-2xl ${darkMode ? 'dark-login-bg placeholder-black-p' : ''}`}>

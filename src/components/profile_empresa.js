@@ -43,25 +43,25 @@ const Profile_empresa = ({ setAuth }) => {
 
   const maxLength = 1200;
 
-    const formatDate = (createdAt) => {
-      const parsedDate = parseISO(createdAt);
-      const currentDate = new Date();
-      const millisecondsDifference = differenceInMilliseconds(currentDate, parsedDate);
-      const secondsDifference = Math.floor(millisecondsDifference / 1000);
-      const hoursDifference = differenceInHours(currentDate, parsedDate);
-      const daysDifference = differenceInDays(currentDate, parsedDate);
-      const monthsDifference = differenceInMonths(currentDate, parsedDate);
+  const formatDate = (createdAt) => {
+    const parsedDate = parseISO(createdAt);
+    const currentDate = new Date();
+    const millisecondsDifference = differenceInMilliseconds(currentDate, parsedDate);
+    const secondsDifference = Math.floor(millisecondsDifference / 1000);
+    const hoursDifference = differenceInHours(currentDate, parsedDate);
+    const daysDifference = differenceInDays(currentDate, parsedDate);
+    const monthsDifference = differenceInMonths(currentDate, parsedDate);
 
-      if (secondsDifference < 60) {
-        return `${secondsDifference}s`;
-      } else if (hoursDifference < 24) {
-        return `${hoursDifference}h`;
-      } else if (daysDifference < 30) {
-        return `${daysDifference}d`;
-      } else {
-        return `${monthsDifference}m`;
-      }
-    };
+    if (secondsDifference < 60) {
+      return `${secondsDifference}s`;
+    } else if (hoursDifference < 24) {
+      return `${hoursDifference}h`;
+    } else if (daysDifference < 30) {
+      return `${daysDifference}d`;
+    } else {
+      return `${monthsDifference}m`;
+    }
+  };
 
   const handlePostModal = () => {
     setPostModalOpen(!postModalOpen);
@@ -77,7 +77,6 @@ const Profile_empresa = ({ setAuth }) => {
       setShowPublishIcon(false);
     }
   };
-  console.log("commnent text", textComment)
   const handleTextCommnetChange = (event) => {
     setTextComment(event.target.value);
     if (event.target.value.trim() !== '') {
@@ -90,8 +89,6 @@ const Profile_empresa = ({ setAuth }) => {
   const handleCommentClick = (_id_review) => {
     setIdReviewComment(_id_review)
     setCommentModalOpen(!commentModalOpen)
-    console.log("Comment clicked!")
-    console.log("Comment modal status => ", commentModalOpen)
   }
 
   const handleTextChange2 = (event) => {
@@ -113,20 +110,19 @@ const Profile_empresa = ({ setAuth }) => {
     async function getPostes() {
       const myHeaders = new Headers();
       myHeaders.append("authorization", `Bearer ${localStorage.token}`);
-  
+
       const requestOptions = {
         method: "GET",
         headers: myHeaders,
         redirect: "follow",
       };
-  
+
       try {
         if (business && business._id_business) {
           const businessId = business._id_business;
-  
+
           const response = await fetch(`http://18.220.124.246:4000/reviews/business/?_id_business=${businessId}`, requestOptions);
           const parseRes = await response.json();
-          console.log(parseRes.reviews);
           setPostes(parseRes.reviews);
         } else {
           console.error("El objeto business no tiene la propiedad _id_business");
@@ -135,7 +131,7 @@ const Profile_empresa = ({ setAuth }) => {
         console.error(err.message);
       }
     }
-  
+
     getPostes();
   }, [business]);
 
@@ -153,7 +149,6 @@ const Profile_empresa = ({ setAuth }) => {
       try {
         const response = await fetch("http://18.220.124.246:4000/users", requestOptions);
         const parseRes = await response.json();
-        console.log(parseRes.user.name);
         setName(parseRes.user.name);
       } catch (err) {
         console.error(err.message);
@@ -214,7 +209,6 @@ const Profile_empresa = ({ setAuth }) => {
   }
 
   const handleLike = (_id_review) => {
-    console.log("Liked - ID => ", _id_review)
     async function postLike() {
       const myHeaders = new Headers();
       myHeaders.append("authorization", `Bearer ${localStorage.token}`);
@@ -236,19 +230,13 @@ const Profile_empresa = ({ setAuth }) => {
   }
 
   const handleComment = () => {
-    console.log("comment - ID => ", idReviewComment)
     async function postComment() {
       const myHeaders = new Headers();
       myHeaders.append("authorization", `Bearer ${localStorage.token}`);
-      console.log("content", textComment)
       var raw = JSON.stringify({
         "content": textComment,
         "_id_review": idReviewComment,
       });
-      console.log("idreviww", idReviewComment)
-
-      console.log("raw", raw)
-
 
       const requestOptions = {
         method: "POST",
@@ -359,18 +347,18 @@ const Profile_empresa = ({ setAuth }) => {
             <div className={`w-[66%] h-auto bg-[#FFF] ${darkMode ? 'dark-register-bg' : ''} create-post`}>
               <div className="w-[100%] h-auto pb-3 pl-3 pt-1 pr-3 bg-gradient-to-b from-white to-[#d78fa3]">
                 <div className='flex mb-[20%]'>
-                  <i class="fa-solid fa-arrow-left-long mt-2 mr-2 cursor-pointer" onClick={()=> navigate('/home')}></i>
+                  <i className="fa-solid fa-arrow-left-long mt-2 mr-2 cursor-pointer" onClick={() => navigate('/home')}></i>
                   <p className='text-[20px] font-bold'>{business.name}</p>
                 </div>
                 <div className='flex justify-between'>
                   <div className='flex-col'>
                     <p className='text-white text-base font-bold'>{business.name}</p>
                     <div className="flex items-center">
-                      <i class={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#688BFF", fontSize: "18px", cursor: "pointer" }}></i>
-                      <i class={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#688BFF", fontSize: "18px", cursor: "pointer" }}></i>
-                      <i class={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#D9D9D9", fontSize: "18px", cursor: "pointer" }}></i>
-                      <i class={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#D9D9D9", fontSize: "18px", cursor: "pointer" }}></i>
-                      <i class={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#D9D9D9", fontSize: "18px", cursor: "pointer" }}></i>
+                      <i className={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#688BFF", fontSize: "18px", cursor: "pointer" }}></i>
+                      <i className={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#688BFF", fontSize: "18px", cursor: "pointer" }}></i>
+                      <i className={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#D9D9D9", fontSize: "18px", cursor: "pointer" }}></i>
+                      <i className={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#D9D9D9", fontSize: "18px", cursor: "pointer" }}></i>
+                      <i className={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#D9D9D9", fontSize: "18px", cursor: "pointer" }}></i>
                       <p className="text-center text-[#D9D9D9] text-sm font-semibold">(0)</p>
                     </div>
                   </div>
@@ -475,11 +463,11 @@ const Profile_empresa = ({ setAuth }) => {
                       <img src={Share} alt='share' />
                     </div>
                     <div className="flex items-center">
-                      <i class={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#688BFF", fontSize: "18px", cursor: "pointer" }}></i>
-                      <i class={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#688BFF", fontSize: "18px", cursor: "pointer" }}></i>
-                      <i class={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#D9D9D9", fontSize: "18px", cursor: "pointer" }}></i>
-                      <i class={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#D9D9D9", fontSize: "18px", cursor: "pointer" }}></i>
-                      <i class={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#D9D9D9", fontSize: "18px", cursor: "pointer" }}></i>
+                      <i className={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#688BFF", fontSize: "18px", cursor: "pointer" }}></i>
+                      <i className={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#688BFF", fontSize: "18px", cursor: "pointer" }}></i>
+                      <i className={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#D9D9D9", fontSize: "18px", cursor: "pointer" }}></i>
+                      <i className={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#D9D9D9", fontSize: "18px", cursor: "pointer" }}></i>
+                      <i className={`fa-solid fa-star mr-2 ${darkMode ? 'dark-text-white' : ''}`} style={{ color: "#D9D9D9", fontSize: "18px", cursor: "pointer" }}></i>
                     </div>
                   </div>
                   <div className="flex mt-6 mb-4">
@@ -551,9 +539,9 @@ const Profile_empresa = ({ setAuth }) => {
       </div>
       <div className={`bg-[#FFF] w-[100%] h-[6%] flex bottombar ${darkMode ? 'dark-bg' : ''}`}>
         <div className="flex justify-around items-center mt-3">
-          <i class={`fa-solid fa-house ${darkMode ? 'dark-text-white' : ''} text-[130%] iconeres`} onClick={() => navigate("/home")}></i>
-          <i class={`fa-solid fa-magnifying-glass ${darkMode ? 'dark-text-white' : ''} text-[130%] iconeres`} onClick={() => navigate("/search")}></i>
-          <i class={`fa-solid fa-message ${darkMode ? 'dark-text-white' : ''} text-[130%] iconeres`} onClick={() => navigate("/chats")}></i>
+          <i className={`fa-solid fa-house ${darkMode ? 'dark-text-white' : ''} text-[130%] iconeres`} onClick={() => navigate("/home")}></i>
+          <i className={`fa-solid fa-magnifying-glass ${darkMode ? 'dark-text-white' : ''} text-[130%] iconeres`} onClick={() => navigate("/search")}></i>
+          <i className={`fa-solid fa-message ${darkMode ? 'dark-text-white' : ''} text-[130%] iconeres`} onClick={() => navigate("/chats")}></i>
         </div>
       </div>
     </div>

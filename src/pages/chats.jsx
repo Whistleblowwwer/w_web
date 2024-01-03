@@ -269,11 +269,11 @@ export default function Chats(darkMode) {
 
   const handleChatVisible = () => {
     setResponseChatVisible(false);
-  }
+  };
 
   const handleChatVisible2 = () => {
     setResponseChatVisible(true);
-  }
+  };
 
   return (
     <>
@@ -297,7 +297,7 @@ export default function Chats(darkMode) {
                   Mensajes
                 </p>
                 <i
-                  class="fa-regular fa-pen-to-square mr-7"
+                  className="fa-regular fa-pen-to-square mr-7"
                   style={{ fontSize: "20px" }}
                   onClick={() => handleNewChat()}
                 />
@@ -365,7 +365,7 @@ export default function Chats(darkMode) {
                     Mensajes
                   </p>
                   <i
-                    class="fa-regular fa-pen-to-square mr-7"
+                    className="fa-regular fa-pen-to-square mr-7"
                     style={{ fontSize: "20px" }}
                     onClick={() => handleNewChat()}
                   />
@@ -382,7 +382,10 @@ export default function Chats(darkMode) {
                     />
                   </div>
                 </div>
-                <div className="mt-4 flex items-center" onClick={handleChatVisible}>
+                <div
+                  className="mt-4 flex items-center"
+                  onClick={handleChatVisible}
+                >
                   {socket && (
                     <ChatList
                       chatsList={chatsList}

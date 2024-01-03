@@ -24,8 +24,6 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
     ? location.state.comment
     : location.state.reviewValue;
 
-  console.log("fetch result", fetchResult);
-
   useEffect(() => {
     async function getPostes() {
       const myHeaders = new Headers();
@@ -108,7 +106,7 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
             className="flex bg-[#FFF] gap-2 items-center px-3 pt-3"
             onClick={() => navigate(-1)}
           >
-            <i class="fa-solid fa-arrow-left-long cursor-pointer"></i>
+            <i className="fa-solid fa-arrow-left-long cursor-pointer"></i>
             <p className="text-[20px] font-bold">Post</p>
           </div>
           {location.state.isComment ? (

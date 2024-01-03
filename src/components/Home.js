@@ -61,7 +61,7 @@ const Home = ({ setAuth }) => {
     navigate(`/empresa/${business.name}`, { state: { business } });
   };
 
-  const handleRecentSearch = async(searchValue) => {
+  const handleRecentSearch = async (searchValue) => {
     navigate(`/search`, { state: { searchValue } });
   }
 
@@ -329,14 +329,14 @@ const Home = ({ setAuth }) => {
   const formatDate = (createdAt) => {
     const parsedDate = parseISO(createdAt);
     const currentDate = new Date();
-  
+
     const millisecondsDifference = differenceInMilliseconds(currentDate, parsedDate);
     const secondsDifference = Math.floor(millisecondsDifference / 1000);
     const minutesDifference = Math.floor(secondsDifference / 60);
     const hoursDifference = differenceInHours(currentDate, parsedDate);
     const daysDifference = differenceInDays(currentDate, parsedDate);
     const monthsDifference = differenceInMonths(currentDate, parsedDate);
-  
+
     if (minutesDifference < 1) {
       return `${secondsDifference}s`;
     } else if (hoursDifference < 1) {
@@ -584,7 +584,7 @@ const Home = ({ setAuth }) => {
                   </div>
                   <div className="flex mt-4 mb-4">
                     <p className={`text-gray-400 text-s font-light leading-normal ${darkMode ? 'dark-text-white' : ''}`}>
-                    {post.is_liked ? post.likes + 1 : post.likes} me gusta
+                      {post.is_liked ? post.likes + 1 : post.likes} me gusta
                     </p>
                     <p className={`ml-4 text-gray-400 text-s font-light leading-normal ${darkMode ? 'dark-text-white' : ''}`}>
                       {post.comments} comentarios
@@ -699,9 +699,9 @@ const Home = ({ setAuth }) => {
       </div>
       <div className={`bg-[#FFF] w-[100%] h-[6%] flex bottombar ${darkMode ? 'dark-bg' : ''}`}>
         <div className="flex justify-around items-center mt-3">
-          <i class={`fa-solid fa-house ${darkMode ? 'dark-text-white' : ''} text-[130%] iconeres`} onClick={() => navigate("/home")}></i>
-          <i class={`fa-solid fa-magnifying-glass ${darkMode ? 'dark-text-white' : ''} text-[130%] iconeres`} onClick={() => navigate("/search")}></i>
-          <i class={`fa-solid fa-message ${darkMode ? 'dark-text-white' : ''} text-[130%] iconeres`} onClick={() => navigate("/chats")}></i>
+          <i className={`fa-solid fa-house ${darkMode ? 'dark-text-white' : ''} text-[130%] iconeres`} onClick={() => navigate("/home")}></i>
+          <i className={`fa-solid fa-magnifying-glass ${darkMode ? 'dark-text-white' : ''} text-[130%] iconeres`} onClick={() => navigate("/search")}></i>
+          <i className={`fa-solid fa-message ${darkMode ? 'dark-text-white' : ''} text-[130%] iconeres`} onClick={() => navigate("/chats")}></i>
         </div>
       </div>
     </div>

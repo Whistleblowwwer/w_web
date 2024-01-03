@@ -102,11 +102,9 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
           requestOptions
         );
         await response.json().then((result) => {
-          console.log(result);
           if (result?.success == false) {
             if (localStorage.token != undefined) {
               // Borra los elementos del localStorage
-              console.log("invalid_token");
               localStorage.removeItem("client_password");
               localStorage.removeItem("recentSearches");
               localStorage.removeItem("client_email");
@@ -140,18 +138,14 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
               window.location.reload();
               setPageReloaded(true);
               localStorage.setItem("pageReloaded", "true");
-              console.log("refresh_for_valid_credentials");
             } else {
-              console.log("token_ok");
               getName();
               getPostes();
             }
           }
         });
         setTokenVerified(true);
-      } catch (err) {
-        console.log("error validating token");
-      }
+      } catch (err) {}
     }
 
     verifyToken();
@@ -351,10 +345,10 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
         requestOptions
       );
       const jsonRes = await response.json();
+
       setText("");
       setReviewRating(0);
       setShowPublishIcon(false);
-      setPostes([jsonRes?.review, ...postes]);
       return jsonRes;
     }
     const post = await createReview();
@@ -364,14 +358,17 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
       selectedImages.length > 0
     ) {
       headersBase.delete("Content-Type");
+      let auxPostJson = post?.review;
 
       try {
         const res = await uploadFiles(
           `https://api.whistleblowwer.net/bucket/review?_id_review=${post.review._id_review}`,
           headersBase,
           selectedImages,
-          true // <- is more than one file?
+          selectedImages.length > 1 ? true : false
         );
+        auxPostJson.Images = res.Images;
+        setPostes([auxPostJson, ...postes]);
       } catch (error) {
         console.error("Error al subir los archivos:", error);
       }
@@ -468,12 +465,6 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     }
     setCommentModalOpen(!commentModalOpen);
     postComment();
-  };
-
-  const extractIdFromUrl = () => {
-    const currentUrl = window.location.href;
-    const match = currentUrl.match(/\/review\/([^/]+)$/);
-    return match ? match[1] : null;
   };
 
   const handleCommentComment = () => {

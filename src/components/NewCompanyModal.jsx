@@ -42,19 +42,19 @@ function NewCompanyModal(props) {
     setFilteredCountries(countriesList);
   }, []);
 
-  useEffect(() => {
-    if (props.fetchResultHandler != undefined) {
-      toast.error(
-        "El nombre del proyecto o empresa ya existe. Intenta con uno distinto.",
-        { duration: 3000 }
-      );
-      props.setFetchResultHandler({
-        ...props.fetchResultHandler,
-        error: undefined,
-        message: undefined,
-      });
-    }
-  }, [props.fetchResultHandler]);
+  // useEffect(() => {
+  //   if (props.fetchResultHandler != undefined) {
+  //     toast.error(
+  //       "El nombre del proyecto o empresa ya existe. Intenta con uno distinto.",
+  //       { duration: 3000 }
+  //     );
+  //     props.setFetchResultHandler({
+  //       ...props.fetchResultHandler,
+  //       error: undefined,
+  //       message: undefined,
+  //     });
+  //   }
+  // }, [props.fetchResultHandler]);
 
   const handleCountryChange = (e) => {
     const searchValue = e.target.value;

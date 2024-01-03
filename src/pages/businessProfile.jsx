@@ -110,8 +110,6 @@ export default function BusinessProfile({
   // const handleCommentClick = (_id_review) => {
   //   setIdReviewComment(_id_review);
   //   setCommentModalOpen(!commentModalOpen);
-  //   console.log("Comment clicked!");
-  //   console.log("Comment modal status => ", commentModalOpen);
   // };
 
   const handleTextChange2 = (event) => {

@@ -54,8 +54,8 @@ function NewPostModal(props) {
                                 }}
                             />
                         </label>
-                        <i class={`fa-solid fa-link mr-6 ${props.darkMode ? 'dark-text-white' : ''}`} style={{ fontSize: "16px" }}></i>
-                        <i class={`fa-solid fa-bolt ${props.darkMode ? 'dark-text-white' : ''}`} style={{ fontSize: "16px" }}></i>
+                        <i className={`fa-solid fa-link mr-6 ${props.darkMode ? 'dark-text-white' : ''}`} style={{ fontSize: "16px" }}></i>
+                        <i className={`fa-solid fa-bolt ${props.darkMode ? 'dark-text-white' : ''}`} style={{ fontSize: "16px" }}></i>
                     </div>
                     <div>
                         <button onClick={props.addPost} className={`w-[84px] h-[32px] bg-neutral-900 rounded-[20.50px] border ml-12 mt-1 ${props.darkMode ? 'dark-button' : ''}`}>
