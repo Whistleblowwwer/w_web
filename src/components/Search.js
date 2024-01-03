@@ -126,8 +126,6 @@ const Search = ({ setAuth }) => {
     setAuth(false);
   }
 
-  console.log(textPost);
-
   return (
     <div className={`bg-[#EEEFEF] h-screen w-screen ${darkMode ? 'dark-login-bg' : ''}`}>
       <div className={`bg-[#EEEFEF] h-auto ${darkMode ? 'dark-login-bg' : ''}`}>

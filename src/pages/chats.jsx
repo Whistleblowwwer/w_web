@@ -6,6 +6,7 @@ import ChatList from "../components/ChatList";
 import { io } from "socket.io-client";
 import Conversation from "../components/Conversation";
 import NewMessageModal from "../components/NewMessageModal";
+import SearchCurrentChat from "../components/SearchCurrentChat.js";
 
 const socket = io("https://api.whistleblowwer.net", {
   auth: {
@@ -55,6 +56,22 @@ export default function Chats(darkMode) {
     setMessage("");
   };
 
+  const handleSearchChats = () => {
+    return chatsList.map((suggestion) => {
+      const receiver =
+        currentUserData?.userId == suggestion?.Sender._id_user
+          ? suggestion?.Receiver
+          : suggestion?.Sender;
+      return {
+        name: receiver.name,
+        last_name: receiver.last_name,
+        _id_user: receiver._id_user,
+      };
+    });
+  };
+
+  const handleSelectSearchedUser = () => {};
+
   const handleNewChat = () => {
     setIsMessagesModalActive(true);
     setCurrentConversation([]);
@@ -86,36 +103,76 @@ export default function Chats(darkMode) {
     setIsMessagesModalActive(false);
   };
 
-  const handleNewConversation = () => {
-    setIsMessagesModalActive(false);
-    setSelectedChat({
-      Receiver: {
-        _id_user: newMessageUser.userId,
-        name: newMessageUser.name,
-        last_name: newMessageUser.last_name,
-      },
-      Sender: {
-        _id_user: currentUserData?.userId,
-        name: currentUserData.name,
-        last_name: currentUserData.last_name,
-      },
-    });
+  function deleteElementById(arr, idToDelete) {
+    return arr.filter((obj) => obj.Receiver._id_user !== idToDelete);
+  }
 
-    let auxChatList = {
-      Message: "",
-      Receiver: {
-        _id_user: newMessageUser.userId,
-        name: newMessageUser.name,
-        last_name: newMessageUser.last_name,
-        profile_picture_url: newMessageUser.profile_picture_url,
-      },
-      Sender: {
-        _id_user: currentUserData?.userId,
-        name: currentUserData.name,
-        last_name: currentUserData.last_name,
-        profile_picture_url: currentUserData.profile_picture_url,
-      },
-    };
+  const handleNewConversation = (auxNewMessageUser) => {
+    setIsMessagesModalActive(false);
+    let auxChatList = {};
+    if (auxNewMessageUser == undefined) {
+      setSelectedChat({
+        Receiver: {
+          _id_user: newMessageUser.userId,
+          name: newMessageUser.name,
+          last_name: newMessageUser.last_name,
+        },
+        Sender: {
+          _id_user: currentUserData?.userId,
+          name: currentUserData.name,
+          last_name: currentUserData.last_name,
+        },
+      });
+
+      auxChatList = {
+        Message: "",
+        Receiver: {
+          _id_user: newMessageUser.userId,
+          name: newMessageUser.name,
+          last_name: newMessageUser.last_name,
+          profile_picture_url: newMessageUser.profile_picture_url,
+        },
+        Sender: {
+          _id_user: currentUserData?.userId,
+          name: currentUserData.name,
+          last_name: currentUserData.last_name,
+          profile_picture_url: currentUserData.profile_picture_url,
+        },
+      };
+    } else {
+      setSelectedChat({
+        Receiver: {
+          _id_user: auxNewMessageUser.userId,
+          name: auxNewMessageUser.name,
+          last_name: auxNewMessageUser.last_name,
+        },
+        Sender: {
+          _id_user: currentUserData?.userId,
+          name: currentUserData.name,
+          last_name: currentUserData.last_name,
+        },
+      });
+
+      auxChatList = {
+        Message: "",
+        Receiver: {
+          _id_user: auxNewMessageUser.userId,
+          name: auxNewMessageUser.name,
+          last_name: auxNewMessageUser.last_name,
+          profile_picture_url: auxNewMessageUser.profile_picture_url,
+        },
+        Sender: {
+          _id_user: currentUserData?.userId,
+          name: currentUserData.name,
+          last_name: currentUserData.last_name,
+          profile_picture_url: currentUserData.profile_picture_url,
+        },
+      };
+    }
+
+    setChatList((chatsList) =>
+      deleteElementById(chatsList, auxChatList.Receiver._id_user)
+    );
 
     setChatList((chatsList) => [auxChatList, ...chatsList]);
 
@@ -149,6 +206,7 @@ export default function Chats(darkMode) {
       }
     }
     getMessages(auxChatList);
+    setUsersSearchQuery("");
   };
 
   useEffect(() => {
@@ -302,17 +360,27 @@ export default function Chats(darkMode) {
                   onClick={() => handleNewChat()}
                 />
               </div>
-              <div className="mt-4 flex items-center">
-                <div
-                  className={`relative placeholder-black p-2 w-[96%] h-[38px] bg-[#FFF] rounded-2xl`}
-                >
-                  <i className="p-fa fa-solid fa-magnifying-glass mr-2 ml-2 relative" />
-                  <input
+              <div
+                className="mt-4 flex items-center"
+                onClick={() => {
+                  setUsersList(handleSearchChats());
+                }}
+              >
+                {/* <i className="p-fa fa-solid fa-magnifying-glass mr-2 ml-2 relative" /> */}
+                {/* <input
                     placeholder="Buscar en chats"
                     className="w-[85%] h-[120%]"
                     style={{ outline: "none", border: "none" }}
-                  />
-                </div>
+              />*/}
+                <SearchCurrentChat
+                  suggestions={usersList}
+                  usersSearchQuery={usersSearchQuery}
+                  setUsersSearchQuery={setUsersSearchQuery}
+                  setNewMessageUser={setNewMessageUser}
+                  newMessageUser={newMessageUser}
+                  handleNewConversation={handleNewConversation}
+                  isMessagesModalActive={isMessagesModalActive}
+                />
               </div>
               <div className="mt-4 flex items-center">
                 {socket && (
