@@ -697,6 +697,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
       if (response.status === 401) {
         // Manejar el error de autorización
         console.error("Error de autorización");
+        window.location.reload();
         // Puedes redirigir al usuario a la página de inicio de sesión
         return;
       }
