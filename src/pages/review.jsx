@@ -111,64 +111,68 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
           </div>
           {location.state.isComment ? (
             <>
-              <PostCard
-                post={fetchResult?.comment}
-                handleBusinessClick={handleBusinessClick}
-                handleUserClick={handleUserClick}
-                handleReview={handleReview}
-                handleLike={handleLikeComment}
-                handleCommentClick={handleCommentClick}
-                handleCommentReview={handleCommentComment}
-                isComment={true}
-                isBusiness={false}
-              />
-              {fetchResult?.comment?.commentsCount > 0 &&
-                fetchResult.comment.Comments.map((post, index) => (
-                  <PostCard
-                    key={index}
-                    post={post}
-                    darkMode={darkMode}
-                    handleBusinessClick={handleBusinessClick}
-                    handleUserClick={handleUserClick}
-                    handleReview={handleChildComments}
-                    handleLike={handleLikeComment}
-                    handleCommentComment={handleCommentComment}
-                    handleCommentReview={handleCommentReview}
-                    handleCommentClick={handleCommentClick}
-                    isComment={true}
-                    isBusiness={false}
-                  />
-                ))}
+              <div className="flex flex-col lg:pb-0">
+                <PostCard
+                  post={fetchResult?.comment}
+                  handleBusinessClick={handleBusinessClick}
+                  handleUserClick={handleUserClick}
+                  handleReview={handleReview}
+                  handleLike={handleLikeComment}
+                  handleCommentClick={handleCommentClick}
+                  handleCommentReview={handleCommentComment}
+                  isComment={true}
+                  isBusiness={false}
+                />
+                {fetchResult?.comment?.commentsCount > 0 &&
+                  fetchResult.comment.Comments.map((post, index) => (
+                    <PostCard
+                      key={index}
+                      post={post}
+                      darkMode={darkMode}
+                      handleBusinessClick={handleBusinessClick}
+                      handleUserClick={handleUserClick}
+                      handleReview={handleChildComments}
+                      handleLike={handleLikeComment}
+                      handleCommentComment={handleCommentComment}
+                      handleCommentReview={handleCommentReview}
+                      handleCommentClick={handleCommentClick}
+                      isComment={true}
+                      isBusiness={false}
+                    />
+                  ))}
+              </div>
             </>
           ) : (
             <>
-              <PostCard
-                post={fetchResult}
-                darkMode={darkMode}
-                handleBusinessClick={handleBusinessClick}
-                handleUserClick={handleUserClick}
-                handleReview={handleReview}
-                handleLike={handleLike}
-                handleCommentClick={handleCommentClick}
-                isComment={false}
-              />
-              {fetchResult.Comments &&
-                fetchResult.Comments.map((post, index) => (
-                  <PostCard
-                    key={index}
-                    post={post}
-                    darkMode={darkMode}
-                    handleBusinessClick={handleBusinessClick}
-                    handleUserClick={handleUserClick}
-                    handleReview={handleChildComments}
-                    handleLike={handleLikeComment}
-                    handleCommentComment={handleCommentComment}
-                    handleCommentReview={handleCommentReview}
-                    handleCommentClick={handleCommentClick}
-                    isBusiness
-                    isComment={true}
-                  />
-                ))}
+              <div className="flex flex-col gap-1 mt-1 lg:pb-0">
+                <PostCard
+                  post={fetchResult}
+                  darkMode={darkMode}
+                  handleBusinessClick={handleBusinessClick}
+                  handleUserClick={handleUserClick}
+                  handleReview={handleReview}
+                  handleLike={handleLike}
+                  handleCommentClick={handleCommentClick}
+                  isComment={false}
+                />
+                {fetchResult.Comments &&
+                  fetchResult.Comments.map((post, index) => (
+                    <PostCard
+                      key={index}
+                      post={post}
+                      darkMode={darkMode}
+                      handleBusinessClick={handleBusinessClick}
+                      handleUserClick={handleUserClick}
+                      handleReview={handleChildComments}
+                      handleLike={handleLikeComment}
+                      handleCommentComment={handleCommentComment}
+                      handleCommentReview={handleCommentReview}
+                      handleCommentClick={handleCommentClick}
+                      isBusiness
+                      isComment={true}
+                    />
+                  ))}
+              </div>
             </>
           )}
         </div>

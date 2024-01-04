@@ -313,6 +313,12 @@ iframe {
   display: none;
 }
 @media (max-width: 768px) {
+  .responsive-post{
+    padding: 1%;
+  }
+  .responsive-postimg{
+    position: relative;
+  }
   .input-container input {
     width: calc(100% - 20px);
     padding: 10px;
@@ -457,6 +463,12 @@ iframe {
 }
 
 @media screen and (min-width: 769px) and (max-width: 1024px) {
+  .responsive-postimg{
+    position: relative;
+  }
+  .responsive-post{
+    padding: 1%;
+  }
   .input-container{
     width: 100%;
     padding-bottom: 10%;
