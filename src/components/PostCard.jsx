@@ -227,7 +227,7 @@ const PostCard = ({
               <svg
                 fill="currentColor"
                 viewBox="0 0 16 16"
-                className={`w-8 h-8`}
+                className={`w-8 h-8 responsive-postimg`}
                 onClick={() => {
                   handleDeleteModal();
                 }}
@@ -238,7 +238,7 @@ const PostCard = ({
           </div>
           <div className="flex flex-col gap-2">
             <p
-              className={`cursor-pointer prevent-word-break text-black text-sm font-normal leading-normal tracking-wide`}
+              className={`cursor-pointer prevent-word-break text-black text-sm font-normal leading-normal tracking-wide responsive-post`}
               onClick={() => handleReview(post)}
             >
               {post?.content}
