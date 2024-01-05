@@ -102,8 +102,8 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
           requestOptions
         );
         await response.json().then((result) => {
-          if (result?.success == false) {
-            if (localStorage.token != undefined) {
+          if (result?.success === false) {
+            if (localStorage.token !== undefined) {
               // Borra los elementos del localStorage
               localStorage.removeItem("client_password");
               localStorage.removeItem("recentSearches");
@@ -240,7 +240,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
 
   const handlePostTextChange = (event) => {
     setText(event.target.value);
-    if (textPost == "") {
+    if (textPost === "") {
       setIsTyping(false);
       setShowPublishIcon(false);
     }
@@ -280,7 +280,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
 
   const handleTextChange2 = (event) => {
     setText(event.target.value);
-    if (textPost == "") {
+    if (textPost === "") {
       setIsTyping(false);
       setShowPublishIcon(false);
     }
@@ -574,7 +574,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     if (
       textPost !== "" &&
       reviewRating > 0 &&
-      (selectedCompany != undefined || selectedCompany == "")
+      (selectedCompany != undefined || selectedCompany === "")
     ) {
       setShowPublishIcon(true);
     } else {
@@ -644,7 +644,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
 
   async function getName() {
     const myHeaders = new Headers();
-    if (localStorage.token == null || localStorage.token == undefined) {
+    if (localStorage.token == null || localStorage.token === undefined) {
       // Manejar el error aquí, por ejemplo, redirigir al usuario a la página de inicio de sesión
       console.error("No hay token en localStorage");
       // Puedes redirigir al usuario o realizar otra acción
@@ -738,7 +738,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
           `https://api.whistleblowwer.net/users?_id_user=${name._id_user}`,
           requestOptions
         );
-        const parseRes = await response.json();
+
         window.location.href = "/home";
       } catch (err) {
         console.error(err.message);
@@ -785,7 +785,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
 
   return (
     <>
-      {tokenVerified == true ? (
+      {tokenVerified === true ? (
         <>
           {deleteModalOpen && (
             <NewDeleteModal
