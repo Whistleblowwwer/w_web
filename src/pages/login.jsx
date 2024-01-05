@@ -62,6 +62,14 @@ export default function Login({ setAuth }) {
     }
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      // Execute your action here
+      console.log("Enter key pressed! Perform action.");
+      onSubmitForm();
+    }
+  };
+
   return (
     <div
       className={`overflow-y-hidden w-screen flex justify-center items-center h-screen ${
@@ -91,7 +99,7 @@ export default function Login({ setAuth }) {
                 Inicia sesión
               </h1>
               <button
-                onClick={() => handleButtonClick("/admin")}
+                onClick={() => onSubmitForm}
                 className={`mr-4 mb-3 ${darkMode ? "dark-text-white" : ""}`}
               >
                 <i className="fas fa-times"></i>
@@ -122,10 +130,9 @@ export default function Login({ setAuth }) {
                 name="client_email"
                 value={client_email}
                 onChange={(e) => onChange(e)}
-                placeholder="Teléfono o Correo electrónico"
-                className={`placeholder-black mr-4 mt-4 p-2  rounded-[10px] w-[87%] h-8 bg-stone-200 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${
-                  darkMode ? "dark-register-bt placeholder-black-dk" : ""
-                }`}
+                placeholder="Correo electrónico"
+                required
+                className="placeholder-black mr-4 mt-4 p-2 rounded-[10px] w-[87%] h-8 bg-stone-200 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px]"
               />
             </div>
             <div className="flex justify-center items-center">
@@ -135,6 +142,7 @@ export default function Login({ setAuth }) {
                 value={client_password}
                 onChange={(e) => onChange(e)}
                 placeholder="Contraseña"
+                required
                 className={`placeholder-black mr-4 mt-4 p-2 rounded-[10px] w-[87%] h-8 bg-stone-200 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${
                   darkMode ? "dark-register-bt placeholder-black-dk" : ""
                 }`}
@@ -171,7 +179,10 @@ export default function Login({ setAuth }) {
                   darkMode ? "dark-text-white" : ""
                 }`}
               >
-                <a className="cursor-pointer" onClick={() => handleButtonClick("/register")}>
+                <a
+                  className="cursor-pointer"
+                  onClick={() => handleButtonClick("/register")}
+                >
                   Crea una cuenta nueva
                 </a>
               </p>

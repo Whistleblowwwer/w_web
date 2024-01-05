@@ -264,6 +264,8 @@ export default function Chats(darkMode) {
     getConversations();
   }, []);
 
+  // console.log(chatsList)
+
   useEffect(() => {
     if (location?.state?.id_user) {
       setSelectedChat({
@@ -279,22 +281,26 @@ export default function Chats(darkMode) {
         },
       });
 
-      setChatList((chatsList) => [
-        {
-          Message: "",
-          Receiver: {
-            _id_user: location?.state?.id_user,
-            name: location?.state?.name,
-            last_name: location?.state?.last_name,
-          },
-          Sender: {
-            _id_user: currentUserData?.userId,
-            name: currentUserData?.name,
-            last_name: currentUserData?.last_name,
-          },
+      const auxChatList = {
+        Message: "",
+        Receiver: {
+          _id_user: location?.state?.id_user,
+          name: location?.state?.name,
+          last_name: location?.state?.last_name,
         },
-        ...chatsList,
-      ]);
+        Sender: {
+          _id_user: currentUserData?.userId,
+          name: currentUserData?.name,
+          last_name: currentUserData?.last_name,
+        },
+      };
+
+      setChatList((chatsList) =>
+        deleteElementById(chatsList, auxChatList.Receiver._id_user)
+      );
+
+      setChatList((chatsList) => [auxChatList, ...chatsList]);
+
       async function getMessages() {
         const myHeaders = new Headers();
         myHeaders.append("authorization", `Bearer ${localStorage.token}`);
@@ -323,7 +329,8 @@ export default function Chats(darkMode) {
     if (selectedChat) {
       handleChatVisible();
     }
-  }, [currentUserData, selectedChat]);
+  }, [currentUserData]);
+  console.log(currentConversation);
 
   const handleChatVisible = () => {
     setResponseChatVisible(false);
@@ -416,6 +423,9 @@ export default function Chats(darkMode) {
                   message={message}
                   setMessage={setMessage}
                   handleSendMessage={handleSendMessage}
+                  profile_picture_url={
+                    selectedChat?.Receiver.profile_picture_url
+                  }
                 />
               )}
             </div>
@@ -489,6 +499,9 @@ export default function Chats(darkMode) {
                     setMessage={setMessage}
                     handleSendMessage={handleSendMessage}
                     handleChatVisible={handleChatVisible2}
+                    profile_picture_url={
+                      selectedChat?.Receiver.profile_picture_url
+                    }
                   />
                 )}
               </div>

@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import proSet from "../assets/defaultProfilePicture.webp";
 import imgNoticias from "../assets/noticias_img.png";
 import imgParaTi from "../assets/parati_img.png";
+import imgLogoW from "../assets/w_logo.svg";
 
 const Searchbar = ({
   darkMode,
@@ -369,11 +370,24 @@ const Searchbar = ({
         </div>
       )}
       {activeTabView === "noticias" && (
-        <img
-          src={imgNoticias}
-          alt={"pon tu publicidad aqui"}
-          className="object-cover rounded-lg"
-        />
+        <>
+          <img
+            src={imgNoticias}
+            alt={"pon tu publicidad aqui"}
+            className="object-cover rounded-lg"
+          />
+          <div className="pt-10 flex">
+            <img src={imgLogoW} alt="" className="w-[20%] h-[20%]" />
+            <div className="flex flex-col pl-3">
+              <p className="pb-2 pt-3">HOLA, SOMOS WHISTLEBLOWWER</p>
+              <p>
+                ¡Hola! Somos Whistleblowwer. Nosotros al igual que tu, fuimos
+                victimas de un incumplimiento de una desarrolladora
+                inmobiliaria.
+              </p>
+            </div>
+          </div>
+        </>
       )}
       {activeTabView === "empresas" && (
         <div className="w-full h-full flex justify-center items-center">

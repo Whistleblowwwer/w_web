@@ -166,7 +166,7 @@ export default function Register({ setAuth }) {
 
   const onSubmitForm = async (e) => {
     e.preventDefault();
-    
+
     if (!ageValidator(birth_date)) {
       try {
         const body = {
@@ -256,6 +256,7 @@ export default function Register({ setAuth }) {
                       darkMode ? "dark-register-bt placeholder-black-dk" : ""
                     }`}
                     value={username}
+                    required
                     onChange={(e) => onChange(e)}
                   ></input>
                 </div>
@@ -276,6 +277,7 @@ export default function Register({ setAuth }) {
                       darkMode ? "dark-register-bt placeholder-black-dk" : ""
                     }`}
                     value={name}
+                    required
                     onChange={(e) => onChange(e)}
                   ></input>
                 </div>
@@ -296,6 +298,7 @@ export default function Register({ setAuth }) {
                       darkMode ? "dark-register-bt placeholder-black-dk" : ""
                     }`}
                     value={last_name}
+                    required
                     onChange={(e) => onChange(e)}
                   ></input>
                 </div>
@@ -316,6 +319,7 @@ export default function Register({ setAuth }) {
                       darkMode ? "dark-register-bt placeholder-black-dk" : ""
                     }`}
                     value={email}
+                    required
                     onChange={(e) => onChange(e)}
                   ></input>
                 </div>
@@ -332,24 +336,28 @@ export default function Register({ setAuth }) {
                       type="text"
                       maxLength="1"
                       value={otpCode.number1}
+                      required
                       onChange={(e) => handleOtpChange(e, "number1")}
                     />
                     <input
                       type="text"
                       maxLength="1"
                       value={otpCode.number2}
+                      required
                       onChange={(e) => handleOtpChange(e, "number2")}
                     />
                     <input
                       type="text"
                       maxLength="1"
                       value={otpCode.number3}
+                      required
                       onChange={(e) => handleOtpChange(e, "number3")}
                     />
                     <input
                       type="text"
                       maxLength="1"
                       value={otpCode.number4}
+                      required
                       onChange={(e) => handleOtpChange(e, "number4")}
                     />
                   </div>
@@ -372,6 +380,7 @@ export default function Register({ setAuth }) {
                     type="password"
                     name="password"
                     placeholder="Contraseña"
+                    required
                     className={`mr-4 mt-2 p-2  rounded-[10px] w-[87%] h-8 bg-stone-200 text-neutral-900 text-opacity-100 text-xs font-medium leading-[11.17px] ${
                       darkMode ? "dark-register-bt placeholder-black-dk" : ""
                     }`}
@@ -396,6 +405,7 @@ export default function Register({ setAuth }) {
                       darkMode ? "dark-register-bt placeholder-black-dk" : ""
                     }`}
                     value={phone_number}
+                    required
                     onChange={(e) => onChange(e)}
                   ></input>
                 </div>
@@ -411,11 +421,12 @@ export default function Register({ setAuth }) {
                 <div className="flex justify-center items-center mt-2 text-neutral-900 text-opacity-100 text-xs font-semibold leading-[11.17px] mr-4 mt-[3px]">
                   <div className="mr-3">
                     <select
-                      className={`w-[119px] h-8 bg-stone-200 rounded-[10px] ${
+                      className={` h-8 bg-stone-200 rounded-[10px] ${
                         darkMode ? "dark-register-bt placeholder-black-dk" : ""
                       }`}
                       name="month"
                       value={selectedMonth}
+                      required
                       onChange={onChangeMonth}
                     >
                       <option value="nuM">Mes</option>
@@ -435,12 +446,13 @@ export default function Register({ setAuth }) {
                   </div>
                   <div className="mr-3">
                     <select
-                      className={`w-[119px] h-8 bg-stone-200 rounded-[10px] ${
+                      className={`w-[100%] h-8 bg-stone-200 rounded-[10px] mr-5 ${
                         darkMode ? "dark-register-bt placeholder-black-dk" : ""
                       }`}
                       name="day"
                       value={selectedDay}
                       onChange={onChangeDay}
+                      required
                     >
                       <option value="nuD">Día</option>
                       <option value="1">1</option>
@@ -478,12 +490,13 @@ export default function Register({ setAuth }) {
                   </div>
                   <div>
                     <select
-                      className={`w-[119px] h-8 bg-stone-200 rounded-[10px] ${
+                      className={`w-[120%] h-8 bg-stone-200 rounded-[10px] ${
                         darkMode ? "dark-register-bt placeholder-black-dk" : ""
                       }`}
                       name="year"
                       value={selectedYear}
                       onChange={onChangeYear}
+                      required
                     >
                       <option value="nuA">Año</option>
                       <option value="1923">1923</option>
@@ -612,6 +625,7 @@ export default function Register({ setAuth }) {
                       name="gender"
                       checked={inputs.gender === "M"}
                       onChange={onGenderChange}
+                      required
                     ></input>
                   </div>
                   <div
@@ -626,6 +640,7 @@ export default function Register({ setAuth }) {
                       name="gender"
                       checked={inputs.gender === "F"}
                       onChange={onGenderChange}
+                      required
                     ></input>
                   </div>
                   <div
@@ -640,6 +655,7 @@ export default function Register({ setAuth }) {
                       name="gender"
                       checked={inputs.gender === "O"}
                       onChange={onGenderChange}
+                      required
                     ></input>
                   </div>
                 </div>
@@ -692,7 +708,7 @@ export default function Register({ setAuth }) {
               >
                 Al registrarte, aceptas los{" "}
                 <a href="/t&c" target="_blank" className="underline">
-                  Términos de servicio
+                  Términos legales
                 </a>{" "}
                 y la{" "}
                 <a

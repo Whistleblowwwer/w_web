@@ -114,7 +114,7 @@ export default function Begin() {
               }`}
             >
               Al registrarte, aceptas los{" "}
-              <span className="underline">Términos de servicio</span> y la{" "}
+              <span className="underline">Términos de legales</span> y la{" "}
               <span className="underline">
                 Política
                 <br /> de privacidad,

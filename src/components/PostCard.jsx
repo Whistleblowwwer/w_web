@@ -6,6 +6,7 @@ import Liked from "../assets/IsLiked.svg";
 import { useState, useEffect } from "react";
 import FullPicture from "./FullPicture";
 import defaultPp from "../assets/defaultProfilePicture.webp";
+import NewReportModal from "./NewReportModal";
 import NewDeleteModal from "./NewDeleteModal";
 
 const PostCard = ({
@@ -31,14 +32,30 @@ const PostCard = ({
   );
   const [conteoComentarios, setConteoComentarios] = useState();
 
+  const [modalReport, setModalReport] = useState(false);
+
   const [modalDelete, setModalDelete] = useState(false);
+  const [isOwnPost, setIsOwnPost] = useState(false);
 
   const handleViewPicture = (picture) => {
     setCurrentPicture(picture);
     setModalPicture(!currentPicture);
   };
 
+  const handleReportModal = () => {
+    setModalReport(!modalReport);
+  };
+
   const handleDeleteModal = () => {
+    const postId = post.User._id_user;
+    const localStorageUserId = localStorage.userId;
+
+    if (postId === localStorageUserId.slice(1, -1)) {
+      setIsOwnPost(true);
+      console.log("hey!");
+    } else {
+      setIsOwnPost(false);
+    }
     setModalDelete(!modalDelete);
   };
 
@@ -107,11 +124,18 @@ const PostCard = ({
           handleViewPicture={handleViewPicture}
         />
       )}
+      {modalReport && (
+        <NewReportModal
+          darkMode={darkMode}
+          handleReportModal={handleReportModal}
+        />
+      )}
       {modalDelete && (
         <NewDeleteModal
           darkMode={darkMode}
           handleDeleteModal={handleDeleteModal}
           handleDeleteReview={handleDeleteReview}
+          isOwnPost={isOwnPost}
         />
       )}
       <div className={`bg-[#FFF] p-4 flex flex-col gap-4`}>
@@ -187,18 +211,13 @@ const PostCard = ({
               </div>
             </div>
             {isUserProfile && editable == "true" ? (
-              <div
-                className="relative"
-                onClick={() => {
-                  handleDeleteClick(isUserProfile, isComment);
-                }}
-              >
+              <div className="relative">
                 <svg
                   fill="currentColor"
                   viewBox="0 0 16 16"
                   className={`w-8 h-8`}
                   onClick={() => {
-                    handleDeleteClick();
+                    handleDeleteModal();
                   }}
                 >
                   <path d="M3 9.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" />
@@ -210,7 +229,7 @@ const PostCard = ({
                 viewBox="0 0 16 16"
                 className={`w-8 h-8`}
                 onClick={() => {
-                  handleDeleteClick(isUserProfile, isComment);
+                  handleDeleteModal();
                 }}
               >
                 <path d="M3 9.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" />

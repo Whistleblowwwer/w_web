@@ -84,7 +84,6 @@ function App() {
                 <Navigate to="/login" />
               )
             } />
-            <Route path="/admin" element={<Admin />} />
             <Route
               path="/login"
               element={
