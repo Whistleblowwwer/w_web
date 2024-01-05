@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { MainSection } from "../components";
 
 export default function Home({ setAuth, darkMode, FunctionContext }) {
@@ -24,9 +24,9 @@ export default function Home({ setAuth, darkMode, FunctionContext }) {
     handleReview,
     handleLike,
     handleCommentClick,
-    handleDeleteClick,
-  } = useContext(FunctionContext);
-  const [pageReloaded, setPageReloaded] = useState(false);
+    handleDeleteClick } =
+  useContext(FunctionContext);
+
 
   useEffect(() => {
     // async function verifyToken() {
@@ -64,37 +64,37 @@ export default function Home({ setAuth, darkMode, FunctionContext }) {
     // verifyToken();
   }, [setAuth]);
 
-  const logout = (e) => {
-    e.preventDefault();
-    localStorage.removeItem("token");
-    setAuth(false);
-  };
+
+
+
+
+
 
   return (
     <MainSection
-      darkMode={darkMode}
-      handleTextChange2={handleTextChange2}
-      textPost={textPost}
-      maxLength={maxLength}
-      selectedImages={selectedImages}
-      setSelectedImages={setSelectedImages}
-      setCompanyModalOpen={handleNewCompanyModal}
-      handleSearchCompanyClick={handleSearchCompanyClick}
-      suggestions={suggestions}
-      setSelectedCompany={setSelectedCompany}
-      companySearchQuery={companySearchQuery}
-      setCompanySearchQuery={setCompanySearchQuery}
-      reviewRating={reviewRating}
-      handleRatingClick={handleRatingClick}
-      showPublishIcon={showPublishIcon}
-      handleAddPost={handleAddPost}
-      postes={postes}
-      handleBusinessClick={handleBusinessClick}
-      handleUserClick={handleUserClick}
-      handleReview={handleReview}
-      handleLike={handleLike}
-      handleCommentClick={handleCommentClick}
-      handleDeleteClick={handleDeleteClick}
-    />
-  );
+    darkMode={darkMode}
+    handleTextChange2={handleTextChange2}
+    textPost={textPost}
+    maxLength={maxLength}
+    selectedImages={selectedImages}
+    setSelectedImages={setSelectedImages}
+    setCompanyModalOpen={handleNewCompanyModal}
+    handleSearchCompanyClick={handleSearchCompanyClick}
+    suggestions={suggestions}
+    setSelectedCompany={setSelectedCompany}
+    companySearchQuery={companySearchQuery}
+    setCompanySearchQuery={setCompanySearchQuery}
+    reviewRating={reviewRating}
+    handleRatingClick={handleRatingClick}
+    showPublishIcon={showPublishIcon}
+    handleAddPost={handleAddPost}
+    postes={postes}
+    handleBusinessClick={handleBusinessClick}
+    handleUserClick={handleUserClick}
+    handleReview={handleReview}
+    handleLike={handleLike}
+    handleCommentClick={handleCommentClick}
+    handleDeleteClick={handleDeleteClick} />);
+
+
 }

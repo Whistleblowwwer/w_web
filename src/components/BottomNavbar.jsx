@@ -6,23 +6,23 @@ const BottomNavbar = ({ darkMode }) => {
 
   return (
     <footer
-      className={`bg-[#FFF] w-full lg:hidden fixed bottom-0 p-4 z-50 ${
-        darkMode ? "dark-bg" : ""
-      }`}
-    >
+    className={`bg-[#FFF] w-full lg:hidden fixed bottom-0 p-4 z-50 ${
+    darkMode ? "dark-bg" : ""
+    }`}>
+
       <div className="flex justify-around items-center">
-        {BOTTOM_NAVBAR_LINKS.map((link, index) => (
-          <i
-            key={index}
-            className={`fa-solid ${link.icon} ${
-              darkMode ? "dark-text-white" : ""
-            } text-[130%] iconeres`}
-            onClick={() => navigate(link.href)}
-          ></i>
-        ))}
+        {BOTTOM_NAVBAR_LINKS.map((link, index) =>
+        <i
+        key={index}
+        className={`fa-solid ${link.icon} ${
+        darkMode ? "dark-text-white" : ""
+        } text-[130%] iconeres`}
+        onClick={() => navigate(link.href)}>
+        </i>)}
+
       </div>
-    </footer>
-  );
+    </footer>);
+
 };
 
 export default BottomNavbar;

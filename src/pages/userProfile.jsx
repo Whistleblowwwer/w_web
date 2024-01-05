@@ -1,26 +1,16 @@
 import { useState, useEffect, useContext } from "react";
 
-import {
-  useNavigate,
-  useLocation,
-  Navigate,
-  useParams,
-} from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import {
   differenceInMilliseconds,
   differenceInHours,
   differenceInDays,
   differenceInMonths,
-  format,
   parseISO,
 } from "date-fns";
-import {
-  NewCommentModal,
-  NewPostModal,
-  ProfileSection,
-  UpdateProfileModal,
-} from "../components";
+
+import { ProfileSection } from "../components";
 
 export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
   const { handleUserClick, handleNewUpdateProfileModal, handleCommentClick } =

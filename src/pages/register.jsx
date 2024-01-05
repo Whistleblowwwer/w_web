@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Toaster, toast } from "react-hot-toast";
-import { join } from "path-browserify";
+
 
 export default function Register({ setAuth }) {
   const location = useLocation();
@@ -23,7 +23,7 @@ export default function Register({ setAuth }) {
   const [selectedMonth, setSelectedMonth] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
   const [step, setStep] = useState(1);
-  const [tokenVerified, setTokenVerified] = useState(false);
+  const [setTokenVerified] = useState(false);
   const [inputs, setInputs] = useState({
     name: "",
     username: "",
@@ -33,15 +33,15 @@ export default function Register({ setAuth }) {
     birth_date: "",
     gender: "",
     password: "",
-    role: "consumer",
-  });
+    role: "consumer" });
+
 
   const [otpCode, setOtpCode] = useState({
     number1: "",
     number2: "",
     number3: "",
-    number4: "",
-  });
+    number4: "" });
+
 
   const {
     name,
@@ -52,28 +52,28 @@ export default function Register({ setAuth }) {
     birth_date,
     gender,
     password,
-    role,
-  } = inputs;
+    role } =
+  inputs;
 
   const handleOtpChange = (e, fieldName) => {
     const value = e.target.value;
     setOtpCode((prevOtpCode) => ({
       ...prevOtpCode,
-      [fieldName]: value,
-    }));
+      [fieldName]: value }));
+
   };
 
   const validateMail = async (mail) => {
     try {
       const requestOptions = {
         method: "GET",
-        redirect: "follow",
-      };
+        redirect: "follow" };
+
       const response = await fetch(
-        `https://api.whistleblowwer.net/users/send-otp/?email=${mail}`,
-        requestOptions
-      );
-      const parseRes = await response.json();
+      `https://api.whistleblowwer.net/users/send-otp/?email=${mail}`,
+      requestOptions);
+
+
     } catch (err) {
       console.error(err.message);
     }
@@ -82,26 +82,26 @@ export default function Register({ setAuth }) {
   const validateOtpCode = async () => {
     try {
       const joinedCode =
-        otpCode.number1 + otpCode.number2 + otpCode.number3 + otpCode.number4;
+      otpCode.number1 + otpCode.number2 + otpCode.number3 + otpCode.number4;
 
       const requestOptions = {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-        },
+          "Content-Type": "application/json" },
+
         redirect: "follow",
         body: JSON.stringify({
           code: Number(joinedCode),
-          email: email,
-        }),
-      };
+          email: email }) };
+
+
 
       const response = await fetch(
-        "https://api.whistleblowwer.net/users/validate-otp/",
-        requestOptions
-      );
+      "https://api.whistleblowwer.net/users/validate-otp/",
+      requestOptions);
 
-      const parseRes = await response.json();
+
+
       if (response.status === 200 || response.status === 201) {
         setTokenVerified(true);
         setStep(step + 1);
@@ -177,18 +177,18 @@ export default function Register({ setAuth }) {
           birth_date,
           gender,
           password,
-          role,
-        };
+          role };
+
         const response = await fetch("https://api.whistleblowwer.net/users", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
-        });
+          body: JSON.stringify(body) });
+
         const parseRes = await response.json();
         if (parseRes.token) {
           toast.success("¡Registro exitoso!", {
-            duration: 10000,
-          });
+            duration: 10000 });
+
           localStorage.setItem("token", parseRes.token);
           setAuth(true);
           Navigate("/");
@@ -198,8 +198,8 @@ export default function Register({ setAuth }) {
       } catch (err) {
         console.error("Error during registration:", err);
         toast.error(
-          "Ha ocurrido un error al registrar. Por favor, inténtelo de nuevo."
-        );
+        "Ha ocurrido un error al registrar. Por favor, inténtelo de nuevo.");
+
       }
     } else {
       toast.error("Tienes que ser mayor de 18 años para crear una cuenta.");
@@ -212,223 +212,223 @@ export default function Register({ setAuth }) {
         <Toaster position="top-center" reverseOrder={false} />
       </div>
       <div
-        className={`flex justify-center items-center h-screen w-screen ${
-          darkMode ? "dark-register-bg" : ""
-        }`}
-      >
+      className={`flex justify-center items-center h-screen w-screen ${
+      darkMode ? "dark-register-bg" : ""
+      }`}>
+
         <div
-          className={`w-auto h-auto bg-[#FBFCF8] rounded-[10px] ${
-            darkMode ? "dark-register" : ""
-          } sm:w-[50%] md:w-[60%] lg:w-[40%] xl:w-[30%] 2xl:w-[20%] m-[3%]`}
-        >
+        className={`w-auto h-auto bg-[#FBFCF8] rounded-[10px] ${
+        darkMode ? "dark-register" : ""
+        } sm:w-[50%] md:w-[60%] lg:w-[40%] xl:w-[30%] 2xl:w-[20%] m-[3%]`}>
+
           <div className="flex justify-between items-center">
             <h1
-              className={`text-neutral-900 text-3xl font-semibold leading-7 mt-8 ml-8 ${
-                darkMode ? "dark-text-white" : ""
-              }`}
-            >
+            className={`text-neutral-900 text-3xl font-semibold leading-7 mt-8 ml-8 ${
+            darkMode ? "dark-text-white" : ""
+            }`}>
+
               Crea tu cuenta
             </h1>
             <button
-              className={`mr-4 mb-3 ${darkMode ? "dark-text-white" : ""}`}
-              onClick={() => Navigate(-1)}
-            >
+            className={`mr-4 mb-3 ${darkMode ? "dark-text-white" : ""}`}
+            onClick={() => Navigate(-1)}>
+
               <i className="fas fa-times"></i>
             </button>
           </div>
           <form onSubmit={onSubmitForm}>
-            {step === 1 && (
-              <>
+            {step === 1 &&
+            <>
                 <div className="flex mt-5 ml-5">
                   <p
-                    className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${
-                      darkMode ? "dark-text-white" : ""
-                    }`}
-                  >
+                className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${
+                darkMode ? "dark-text-white" : ""
+                }`}>
+
                     Username
                   </p>
                 </div>
                 <div className="flex justify-center items-center">
                   <input
-                    name="username"
-                    placeholder="Username"
-                    className={`mr-4 mt-2 p-2  rounded-[10px] w-[87%] h-8 bg-stone-200 text-neutral-900 text-opacity-100 text-xs font-medium leading-[11.17px]${
-                      darkMode ? "dark-register-bt placeholder-black-dk" : ""
-                    }`}
-                    value={username}
-                    required
-                    onChange={(e) => onChange(e)}
-                  ></input>
+                name="username"
+                placeholder="Username"
+                className={`mr-4 mt-2 p-2  rounded-[10px] w-[87%] h-8 bg-stone-200 text-neutral-900 text-opacity-100 text-xs font-medium leading-[11.17px]${
+                darkMode ? "dark-register-bt placeholder-black-dk" : ""
+                }`}
+                value={username}
+                required
+                onChange={(e) => onChange(e)}>
+                </input>
                 </div>
                 <div className="flex mt-5 ml-5">
                   <p
-                    className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${
-                      darkMode ? "dark-text-white" : ""
-                    }`}
-                  >
+                className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${
+                darkMode ? "dark-text-white" : ""
+                }`}>
+
                     Nombre
                   </p>
                 </div>
                 <div className="flex justify-center items-center">
                   <input
-                    name="name"
-                    placeholder="Nombre"
-                    className={`mr-4 mt-2 p-2  rounded-[10px] w-[87%] h-8 bg-stone-200 text-neutral-900 text-opacity-100 text-xs font-medium leading-[11.17px]${
-                      darkMode ? "dark-register-bt placeholder-black-dk" : ""
-                    }`}
-                    value={name}
-                    required
-                    onChange={(e) => onChange(e)}
-                  ></input>
+                name="name"
+                placeholder="Nombre"
+                className={`mr-4 mt-2 p-2  rounded-[10px] w-[87%] h-8 bg-stone-200 text-neutral-900 text-opacity-100 text-xs font-medium leading-[11.17px]${
+                darkMode ? "dark-register-bt placeholder-black-dk" : ""
+                }`}
+                value={name}
+                required
+                onChange={(e) => onChange(e)}>
+                </input>
                 </div>
                 <div className="flex mt-5 ml-5">
                   <p
-                    className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${
-                      darkMode ? "dark-text-white" : ""
-                    }`}
-                  >
+                className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${
+                darkMode ? "dark-text-white" : ""
+                }`}>
+
                     Apellidos
                   </p>
                 </div>
                 <div className="flex justify-center items-center">
                   <input
-                    name="last_name"
-                    placeholder="Apellido"
-                    className={`mr-4 mt-2 p-2  rounded-[10px] w-[87%] h-8 bg-stone-200 text-neutral-900 text-opacity-100 text-xs font-medium leading-[11.17px]${
-                      darkMode ? "dark-register-bt placeholder-black-dk" : ""
-                    }`}
-                    value={last_name}
-                    required
-                    onChange={(e) => onChange(e)}
-                  ></input>
+                name="last_name"
+                placeholder="Apellido"
+                className={`mr-4 mt-2 p-2  rounded-[10px] w-[87%] h-8 bg-stone-200 text-neutral-900 text-opacity-100 text-xs font-medium leading-[11.17px]${
+                darkMode ? "dark-register-bt placeholder-black-dk" : ""
+                }`}
+                value={last_name}
+                required
+                onChange={(e) => onChange(e)}>
+                </input>
                 </div>
                 <div className="flex mt-5 ml-5">
                   <p
-                    className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${
-                      darkMode ? "dark-text-white" : ""
-                    }`}
-                  >
+                className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${
+                darkMode ? "dark-text-white" : ""
+                }`}>
+
                     Correo electrónico
                   </p>
                 </div>
                 <div className="flex justify-center items-center">
                   <input
-                    name="email"
-                    placeholder="Correo electrónico"
-                    className={`mr-4 mt-2 p-2  rounded-[10px] w-[87%] h-8 bg-stone-200 text-neutral-1000 text-opacity-100 text-xs font-medium leading-[11.17px] ${
-                      darkMode ? "dark-register-bt placeholder-black-dk" : ""
-                    }`}
-                    value={email}
-                    required
-                    onChange={(e) => onChange(e)}
-                  ></input>
+                name="email"
+                placeholder="Correo electrónico"
+                className={`mr-4 mt-2 p-2  rounded-[10px] w-[87%] h-8 bg-stone-200 text-neutral-1000 text-opacity-100 text-xs font-medium leading-[11.17px] ${
+                darkMode ? "dark-register-bt placeholder-black-dk" : ""
+                }`}
+                value={email}
+                required
+                onChange={(e) => onChange(e)}>
+                </input>
                 </div>
-              </>
-            )}
-            {step === 2 && (
-              <>
+              </>}
+
+            {step === 2 &&
+            <>
                 <div className="flex flex-col">
                   <div className="text-neutral-900 text-lg font-semibold leading-7 mt-8 ml-8 mb-8">
                     <p>Verifica tu codigo:</p>
                   </div>
                   <div className="partitioned flex justify-center items-center">
                     <input
-                      type="text"
-                      maxLength="1"
-                      value={otpCode.number1}
-                      required
-                      onChange={(e) => handleOtpChange(e, "number1")}
-                    />
+                  type="text"
+                  maxLength="1"
+                  value={otpCode.number1}
+                  required
+                  onChange={(e) => handleOtpChange(e, "number1")} />
+
                     <input
-                      type="text"
-                      maxLength="1"
-                      value={otpCode.number2}
-                      required
-                      onChange={(e) => handleOtpChange(e, "number2")}
-                    />
+                  type="text"
+                  maxLength="1"
+                  value={otpCode.number2}
+                  required
+                  onChange={(e) => handleOtpChange(e, "number2")} />
+
                     <input
-                      type="text"
-                      maxLength="1"
-                      value={otpCode.number3}
-                      required
-                      onChange={(e) => handleOtpChange(e, "number3")}
-                    />
+                  type="text"
+                  maxLength="1"
+                  value={otpCode.number3}
+                  required
+                  onChange={(e) => handleOtpChange(e, "number3")} />
+
                     <input
-                      type="text"
-                      maxLength="1"
-                      value={otpCode.number4}
-                      required
-                      onChange={(e) => handleOtpChange(e, "number4")}
-                    />
+                  type="text"
+                  maxLength="1"
+                  value={otpCode.number4}
+                  required
+                  onChange={(e) => handleOtpChange(e, "number4")} />
+
                   </div>
                 </div>
-              </>
-            )}
-            {step === 3 && (
-              <>
+              </>}
+
+            {step === 3 &&
+            <>
                 <div className="flex mt-5 ml-5">
                   <p
-                    className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${
-                      darkMode ? "dark-text-white" : ""
-                    }`}
-                  >
+                className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${
+                darkMode ? "dark-text-white" : ""
+                }`}>
+
                     Contraseña
                   </p>
                 </div>
                 <div className="flex justify-center items-center">
                   <input
-                    type="password"
-                    name="password"
-                    placeholder="Contraseña"
-                    required
-                    className={`mr-4 mt-2 p-2  rounded-[10px] w-[87%] h-8 bg-stone-200 text-neutral-900 text-opacity-100 text-xs font-medium leading-[11.17px] ${
-                      darkMode ? "dark-register-bt placeholder-black-dk" : ""
-                    }`}
-                    value={password}
-                    onChange={(e) => onChange(e)}
-                  ></input>
+                type="password"
+                name="password"
+                placeholder="Contraseña"
+                required
+                className={`mr-4 mt-2 p-2  rounded-[10px] w-[87%] h-8 bg-stone-200 text-neutral-900 text-opacity-100 text-xs font-medium leading-[11.17px] ${
+                darkMode ? "dark-register-bt placeholder-black-dk" : ""
+                }`}
+                value={password}
+                onChange={(e) => onChange(e)}>
+                </input>
                 </div>
                 <div className="flex mt-5 ml-5">
                   <p
-                    className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${
-                      darkMode ? "dark-text-white" : ""
-                    }`}
-                  >
+                className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${
+                darkMode ? "dark-text-white" : ""
+                }`}>
+
                     Telefono
                   </p>
                 </div>
                 <div className="flex justify-center items-center">
                   <input
-                    name="phone_number"
-                    placeholder="Telefono"
-                    className={`mr-4 mt-2 p-2  rounded-[10px] w-[87%] h-8 bg-stone-200 text-neutral-900 text-opacity-100 text-xs font-medium leading-[11.17px] ${
-                      darkMode ? "dark-register-bt placeholder-black-dk" : ""
-                    }`}
-                    value={phone_number}
-                    required
-                    onChange={(e) => onChange(e)}
-                  ></input>
+                name="phone_number"
+                placeholder="Telefono"
+                className={`mr-4 mt-2 p-2  rounded-[10px] w-[87%] h-8 bg-stone-200 text-neutral-900 text-opacity-100 text-xs font-medium leading-[11.17px] ${
+                darkMode ? "dark-register-bt placeholder-black-dk" : ""
+                }`}
+                value={phone_number}
+                required
+                onChange={(e) => onChange(e)}>
+                </input>
                 </div>
                 <div className="flex mt-5 mb-2 ml-5">
                   <p
-                    className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${
-                      darkMode ? "dark-text-white" : ""
-                    }`}
-                  >
+                className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${
+                darkMode ? "dark-text-white" : ""
+                }`}>
+
                     Cumpleaños
                   </p>
                 </div>
                 <div className="flex justify-center items-center mt-2 text-neutral-900 text-opacity-100 text-xs font-semibold leading-[11.17px] mr-4 mt-[3px]">
                   <div className="mr-3">
                     <select
-                      className={` h-8 bg-stone-200 rounded-[10px] ${
-                        darkMode ? "dark-register-bt placeholder-black-dk" : ""
-                      }`}
-                      name="month"
-                      value={selectedMonth}
-                      required
-                      onChange={onChangeMonth}
-                    >
+                  className={` h-8 bg-stone-200 rounded-[10px] ${
+                  darkMode ? "dark-register-bt placeholder-black-dk" : ""
+                  }`}
+                  name="month"
+                  value={selectedMonth}
+                  required
+                  onChange={onChangeMonth}>
+
                       <option value="nuM">Mes</option>
                       <option value="01">Enero</option>
                       <option value="02">Febrero</option>
@@ -446,14 +446,14 @@ export default function Register({ setAuth }) {
                   </div>
                   <div className="mr-3">
                     <select
-                      className={`w-[100%] h-8 bg-stone-200 rounded-[10px] mr-5 ${
-                        darkMode ? "dark-register-bt placeholder-black-dk" : ""
-                      }`}
-                      name="day"
-                      value={selectedDay}
-                      onChange={onChangeDay}
-                      required
-                    >
+                  className={`w-[100%] h-8 bg-stone-200 rounded-[10px] mr-5 ${
+                  darkMode ? "dark-register-bt placeholder-black-dk" : ""
+                  }`}
+                  name="day"
+                  value={selectedDay}
+                  onChange={onChangeDay}
+                  required>
+
                       <option value="nuD">Día</option>
                       <option value="1">1</option>
                       <option value="2">2</option>
@@ -490,14 +490,14 @@ export default function Register({ setAuth }) {
                   </div>
                   <div>
                     <select
-                      className={`w-[120%] h-8 bg-stone-200 rounded-[10px] ${
-                        darkMode ? "dark-register-bt placeholder-black-dk" : ""
-                      }`}
-                      name="year"
-                      value={selectedYear}
-                      onChange={onChangeYear}
-                      required
-                    >
+                  className={`w-[120%] h-8 bg-stone-200 rounded-[10px] ${
+                  darkMode ? "dark-register-bt placeholder-black-dk" : ""
+                  }`}
+                  name="year"
+                  value={selectedYear}
+                  onChange={onChangeYear}
+                  required>
+
                       <option value="nuA">Año</option>
                       <option value="1923">1923</option>
                       <option value="1924">1924</option>
@@ -605,125 +605,125 @@ export default function Register({ setAuth }) {
                 </div>
                 <div className="flex mt-5 ml-5">
                   <p
-                    className={`text-zinc-900 mt-2 text-[10px] font-medium leading-[9.31px] ${
-                      darkMode ? "dark-text-white" : ""
-                    }`}
-                  >
+                className={`text-zinc-900 mt-2 text-[10px] font-medium leading-[9.31px] ${
+                darkMode ? "dark-text-white" : ""
+                }`}>
+
                     Género
                   </p>
                 </div>
                 <div className="flex justify-center items-center mt-5 text-neutral-900 text-opacity-100 text-xs font-semibold leading-[11.17px] mr-1 mt-[3px]">
                   <div
-                    className={`w-[120px] h-8 bg-stone-200 rounded-[10px] mr-3 flex justify-around items-center ${
-                      darkMode ? "dark-register-bt placeholder-black-dk" : ""
-                    }`}
-                  >
+                className={`w-[120px] h-8 bg-stone-200 rounded-[10px] mr-3 flex justify-around items-center ${
+                darkMode ? "dark-register-bt placeholder-black-dk" : ""
+                }`}>
+
                     <label className="mr-10">Hombre</label>
                     <input
-                      type="radio"
-                      value="M"
-                      name="gender"
-                      checked={inputs.gender === "M"}
-                      onChange={onGenderChange}
-                      required
-                    ></input>
+                  type="radio"
+                  value="M"
+                  name="gender"
+                  checked={inputs.gender === "M"}
+                  onChange={onGenderChange}
+                  required>
+                  </input>
                   </div>
                   <div
-                    className={`w-[120px] h-8 bg-stone-200 rounded-[10px] mr-3 flex justify-around items-center ${
-                      darkMode ? "dark-register-bt placeholder-black-dk" : ""
-                    }`}
-                  >
+                className={`w-[120px] h-8 bg-stone-200 rounded-[10px] mr-3 flex justify-around items-center ${
+                darkMode ? "dark-register-bt placeholder-black-dk" : ""
+                }`}>
+
                     <label className="mr-10">Mujer</label>
                     <input
-                      type="radio"
-                      value="F"
-                      name="gender"
-                      checked={inputs.gender === "F"}
-                      onChange={onGenderChange}
-                      required
-                    ></input>
+                  type="radio"
+                  value="F"
+                  name="gender"
+                  checked={inputs.gender === "F"}
+                  onChange={onGenderChange}
+                  required>
+                  </input>
                   </div>
                   <div
-                    className={`w-[120px] h-8 bg-stone-200 rounded-[10px] mr-3 flex justify-around items-center ${
-                      darkMode ? "dark-register-bt placeholder-black-dk" : ""
-                    }`}
-                  >
+                className={`w-[120px] h-8 bg-stone-200 rounded-[10px] mr-3 flex justify-around items-center ${
+                darkMode ? "dark-register-bt placeholder-black-dk" : ""
+                }`}>
+
                     <label className="mr-10">Custom</label>
                     <input
-                      type="radio"
-                      value="O"
-                      name="gender"
-                      checked={inputs.gender === "O"}
-                      onChange={onGenderChange}
-                      required
-                    ></input>
+                  type="radio"
+                  value="O"
+                  name="gender"
+                  checked={inputs.gender === "O"}
+                  onChange={onGenderChange}
+                  required>
+                  </input>
                   </div>
                 </div>
                 <div className="flex justify-center items-center mt-4">
                   <button
-                    className="bg-purple-800 py-2 px-4 mt-4 w-[280px] h-[41px] bg-neutral-900 rounded-[44px] relative mt-12"
-                    type="submit"
-                  >
+                className="bg-purple-800 py-2 px-4 mt-4 w-[280px] h-[41px] bg-neutral-900 rounded-[44px] relative mt-12"
+                type="submit">
+
                     <span className="text-stone-50 text-[15px] font-medium leading-[13.96px]">
                       Crear cuenta
                     </span>
                   </button>
                 </div>
-              </>
-            )}
+              </>}
+
 
             <div
-              className={
-                step === 3 || step === 1
-                  ? "flex justify-center items-center"
-                  : "flex justify-center items-center mt-24"
-              }
-            >
-              {step !== 1 && (
-                <button
-                  className="hover:bg-gray-700 py-2 px-4 mt-4 w-[180px] h-[41px] bg-neutral-900 rounded-[44px] relative mt-12 mr-2"
-                  onClick={handlePrevious}
-                >
+            className={
+            step === 3 || step === 1 ?
+            "flex justify-center items-center" :
+            "flex justify-center items-center mt-24"}>
+
+
+              {step !== 1 &&
+              <button
+              className="hover:bg-gray-700 py-2 px-4 mt-4 w-[180px] h-[41px] bg-neutral-900 rounded-[44px] relative mt-12 mr-2"
+              onClick={handlePrevious}>
+
                   <span className="text-stone-50 text-[15px] font-medium leading-[13.96px]">
                     {step === 2 ? "cambiar numero" : "atras"}
                   </span>
-                </button>
-              )}
-              {step !== 3 && (
-                <button
-                  className="hover:bg-gray-700 py-2 px-4 mt-4 w-[150px] h-[41px] bg-neutral-900 rounded-[44px] relative mt-12 ml-2"
-                  onClick={handleNext}
-                >
+                </button>}
+
+              {step !== 3 &&
+              <button
+              className="hover:bg-gray-700 py-2 px-4 mt-4 w-[150px] h-[41px] bg-neutral-900 rounded-[44px] relative mt-12 ml-2"
+              onClick={handleNext}>
+
                   <span className="text-stone-50 text-[15px] font-medium leading-[13.96px]">
                     {step === 2 ? "validar codigo" : "siguiente"}
                   </span>
-                </button>
-              )}
+                </button>}
+
             </div>
             <div className="flex justify-center items-center w-[100%] mt-10 pb-4">
               <p
-                className={`text-neutral-900 text-[10px] font-medium mt-4 ml-10 mr-[28px] translate-x-[-12px] ${
-                  darkMode ? "dark-text-white" : ""
-                }`}
-              >
+              className={`text-neutral-900 text-[10px] font-medium mt-4 ml-10 mr-[28px] translate-x-[-12px] ${
+              darkMode ? "dark-text-white" : ""
+              }`}>
+
                 Al registrarte, aceptas los{" "}
                 <a href="/t&c" target="_blank" className="underline">
                   Términos legales
                 </a>{" "}
                 y la{" "}
                 <a
-                  href="aviso-privacidad"
-                  target="_blank"
-                  className="underline"
-                >
+                href="aviso-privacidad"
+                target="_blank"
+                className="underline">
+
                   Política de privacidad
                 </a>{" "}
                 , incluida la política de{" "}
                 <a
-                  href="aviso-privacidad"
-                  target="_blank"
-                  className="underline"
-                >
+                href="aviso-privacidad"
+                target="_blank"
+                className="underline">
+
                   Uso de Cookies
                 </a>
                 .
@@ -732,6 +732,6 @@ export default function Register({ setAuth }) {
           </form>
         </div>
       </div>
-    </div>
-  );
+    </div>);
+
 }

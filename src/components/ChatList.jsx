@@ -1,5 +1,4 @@
-import { React, useEffect, useState } from "react";
-import { io } from "socket.io-client";
+import { useEffect } from "react";
 import proSet from "../assets/defaultProfilePicture.webp";
 
 function ChatList(props) {
@@ -11,14 +10,14 @@ function ChatList(props) {
       const requestOptions = {
         method: "GET",
         headers: myHeaders,
-        redirect: "follow",
-      };
+        redirect: "follow" };
+
 
       try {
         const messagesURL =
-          props.userId === chat?.Receiver._id_user
-            ? `https://api.whistleblowwer.net/messages/?_id_receiver=${chat?.Sender._id_user}`
-            : `https://api.whistleblowwer.net/messages/?_id_receiver=${chat?.Receiver._id_user}`;
+        props.userId === chat?.Receiver._id_user ?
+        `https://api.whistleblowwer.net/messages/?_id_receiver=${chat?.Sender._id_user}` :
+        `https://api.whistleblowwer.net/messages/?_id_receiver=${chat?.Receiver._id_user}`;
         const response = await fetch(messagesURL, requestOptions);
         const parseRes = await response.json();
         let invertedConversationArray = parseRes?.messages;
@@ -34,38 +33,38 @@ function ChatList(props) {
 
   useEffect(() => {
     props.socket.on("connect", () => {});
-  }, []);
+  });
 
   return (
     <div>
       {props.chatsList &&
-        props.chatsList.map((chat, index) => (
-          <div
-            key={index}
-            className="flex items-center gap-2 cursor-pointer pb-2"
-            onClick={() => handleChatClick(chat)}
-          >
+      props.chatsList.map((chat, index) =>
+      <div
+      key={index}
+      className="flex items-center gap-2 cursor-pointer pb-2"
+      onClick={() => handleChatClick(chat)}>
+
             <img
-              src={
-                chat?.Receiver.profile_picture_url
-                  ? chat?.Receiver.profile_picture_url
-                  : proSet
-              }
-              alt="Imagen"
-              className="w-14 h-14 rounded-full"
-            />
+        src={
+        chat?.Receiver.profile_picture_url ?
+        chat?.Receiver.profile_picture_url :
+        proSet}
+
+        alt="Imagen"
+        className="w-14 h-14 rounded-full" />
+
             <div className="flex flex-col">
               <p className="text-lg">
-                {props.userId === chat?.Receiver._id_user
-                  ? `${chat?.Sender.name} ${chat?.Sender.last_name}`
-                  : `${chat?.Receiver.name} ${chat?.Receiver?.last_name}`}
+                {props.userId === chat?.Receiver._id_user ?
+            `${chat?.Sender.name} ${chat?.Sender.last_name}` :
+            `${chat?.Receiver.name} ${chat?.Receiver?.last_name}`}
               </p>
               <p>{chat?.Message.content}</p>
             </div>
-          </div>
-        ))}
-    </div>
-  );
+          </div>)}
+
+    </div>);
+
 }
 
 export default ChatList;
