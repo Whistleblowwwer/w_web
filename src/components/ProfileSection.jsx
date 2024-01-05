@@ -133,10 +133,10 @@ const ProfileSection = ({
               <div className="rounded-full w-[202px] h-[202px] bg-[#FFF] flex justify-center items-center mt-[-13%]">
                 <div
                   onClick={() =>
-                    editable === "true" && setViewPictureModal(true)
+                    editable ==== "true" && setViewPictureModal(true)
                   }
                   className={`rounded-full w-[196px] h-[196px] bg-[#D9D9D9] ${
-                    editable === "true" && "cursor-pointer"
+                    editable ==== "true" && "cursor-pointer"
                   } `}
                 >
                   {userDetail?.profile_picture_url && (
@@ -175,12 +175,12 @@ const ProfileSection = ({
                 </div>
                 <button
                   onClick={
-                    editable === "true" ? setUpdateModalOpen : handleFollow
+                    editable ==== "true" ? setUpdateModalOpen : handleFollow
                   }
                   className="bg-neutral-100 h-full rounded-xl px-3 py-1.5"
                 >
                   <p className="text-black text-[14px] font-bold">
-                    {editable === "true"
+                    {editable ==== "true"
                       ? "Editar perfil"
                       : userDetail?.is_followed
                       ? "Dejar de seguir"
@@ -211,7 +211,7 @@ const ProfileSection = ({
                 <button
                   key={tab.key}
                   className={`w-1/3 ${
-                    activeTabView === tab.tabName
+                    activeTabView ==== tab.tabName
                       ? darkMode
                         ? tab.active
                         : ""
@@ -221,14 +221,14 @@ const ProfileSection = ({
                 >
                   <p
                     className={`${darkMode ? "dark-text-white" : ""} ${
-                      activeTabView === tab.tabName
+                      activeTabView ==== tab.tabName
                         ? "font-bold"
                         : "font-bold text-opacity-60"
                     } capitalize`}
                   >
                     {tab.tabName}
                   </p>
-                  {activeTabView === tab.tabName && (
+                  {activeTabView ==== tab.tabName && (
                     <div className="tab-indicator" />
                   )}
                 </button>

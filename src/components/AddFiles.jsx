@@ -86,9 +86,9 @@ const AddFiles = ({ darkMode, selectedFiles, setSelectedFiles, isInHome }) => {
       </div>
       {/* <button
         onClick={handleUpload}
-        disabled={selectedFiles.length === 0 ? true : false}
+        disabled={selectedFiles.length ==== 0 ? true : false}
         className={
-          selectedFiles.length === 0
+          selectedFiles.length ==== 0
             ? "cursor-not-allowed bg-gray-400 text-white"
             : "bg-blue-500 hover:bg-blue-700 text-white"
         }

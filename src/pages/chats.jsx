@@ -44,11 +44,11 @@ export default function Chats(darkMode) {
     const messageData = {
       content: message,
       _id_sender:
-        selectedChat?.Sender?._id_user == currentUserData?.userId
+        selectedChat?.Sender?._id_user === currentUserData?.userId
           ? selectedChat?.Sender?._id_user
           : selectedChat?.Receiver?._id_user,
       _id_receiver:
-        selectedChat?.Sender?._id_user == currentUserData?.userId
+        selectedChat?.Sender?._id_user === currentUserData?.userId
           ? selectedChat?.Receiver?._id_user
           : selectedChat?.Sender?._id_user,
     };
@@ -59,7 +59,7 @@ export default function Chats(darkMode) {
   const handleSearchChats = () => {
     return chatsList.map((suggestion) => {
       const receiver =
-        currentUserData?.userId == suggestion?.Sender._id_user
+        currentUserData?.userId === suggestion?.Sender._id_user
           ? suggestion?.Receiver
           : suggestion?.Sender;
       return {
@@ -104,13 +104,13 @@ export default function Chats(darkMode) {
   };
 
   function deleteElementById(arr, idToDelete) {
-    return arr.filter((obj) => obj.Receiver._id_user !== idToDelete);
+    return arr.filter((obj) => obj.Receiver._id_user !==== idToDelete);
   }
 
   const handleNewConversation = (auxNewMessageUser) => {
     setIsMessagesModalActive(false);
     let auxChatList = {};
-    if (auxNewMessageUser == undefined) {
+    if (auxNewMessageUser === undefined) {
       setSelectedChat({
         Receiver: {
           _id_user: newMessageUser.userId,
@@ -312,7 +312,7 @@ export default function Chats(darkMode) {
 
         try {
           const messagesURL =
-            currentUserData?.userId == selectedChat?.Receiver._id_user
+            currentUserData?.userId === selectedChat?.Receiver._id_user
               ? `https://api.whistleblowwer.net/messages/?_id_receiver=${selectedChat?.Sender._id_user}`
               : `https://api.whistleblowwer.net/messages/?_id_receiver=${selectedChat?.Receiver._id_user}`;
           const response = await fetch(messagesURL, requestOptions);
@@ -405,7 +405,7 @@ export default function Chats(darkMode) {
             </div>
             <div className="bg-[#141414] w-[1px]" />
             <div className="w-[77%] justify-center items-center overflow-y-auto">
-              {selectedChat == undefined ? (
+              {selectedChat === undefined ? (
                 <div className="h-full h-full flex justify-center items-center">
                   <p className="text-neutral-900 text-[25px] font-semibold leading-normal">
                     No hay ningún chat seleccionado
@@ -416,7 +416,7 @@ export default function Chats(darkMode) {
                   messages={currentConversation}
                   userId={currentUserData?.userId}
                   userName={
-                    currentUserData?.userId == selectedChat?.Receiver._id_user
+                    currentUserData?.userId === selectedChat?.Receiver._id_user
                       ? `${selectedChat?.Sender.name} ${selectedChat?.Sender.last_name}`
                       : `${selectedChat?.Receiver.name} ${selectedChat?.Receiver.last_name}`
                   }
@@ -480,7 +480,7 @@ export default function Chats(darkMode) {
             )}
             {!isResponseChatVisible && (
               <div className="w-[100%] justify-center items-center overflow-y-auto">
-                {selectedChat == undefined ? (
+                {selectedChat === undefined ? (
                   <div className="h-full flex justify-center items-center">
                     <p className="text-neutral-900 text-[25px] font-semibold leading-normal">
                       No hay ningún chat seleccionado
@@ -491,7 +491,7 @@ export default function Chats(darkMode) {
                     messages={currentConversation}
                     userId={currentUserData?.userId}
                     userName={
-                      currentUserData?.userId == selectedChat?.Receiver._id_user
+                      currentUserData?.userId === selectedChat?.Receiver._id_user
                         ? `${selectedChat?.Sender.name} ${selectedChat?.Sender.last_name}`
                         : `${selectedChat?.Receiver.name} ${selectedChat?.Receiver.last_name}`
                     }

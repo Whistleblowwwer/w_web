@@ -87,7 +87,7 @@ const Search = ({ setAuth }) => {
     setText(event.target.value);
 
     // Comprobar si el usuario ha comenzado a escribir
-    if (event.target.value.trim() !== '') {
+    if (event.target.value.trim() !==== '') {
       setIsTyping(true);
       setShowPublishIcon(true); // Mostrar el ícono de publicación
     } else {
@@ -142,7 +142,7 @@ const Search = ({ setAuth }) => {
         <div className="contain-principal">
           <div className="w-[100%] mt-6 ml-[40px] sidebar1">
             <div className={`margin-top ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
-              <button className={activeButton === 'home' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
+              <button className={activeButton ==== 'home' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
                 onClick={() => {
                   setActiveButton('home')
                   navigate("/home");
@@ -151,7 +151,7 @@ const Search = ({ setAuth }) => {
               </button>
             </div>
             <div className={`margin-top mt-3 ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
-              <button className={activeButton === 'search' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''} onClick={() => {
+              <button className={activeButton ==== 'search' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''} onClick={() => {
                 setActiveButton('search');
                 navigate("/search");
               }}>
@@ -159,7 +159,7 @@ const Search = ({ setAuth }) => {
               </button>
             </div>
             <div className={`margin-top mt-3 ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
-              <button className={activeButton === 'mensajes' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''} onClick={() => {
+              <button className={activeButton ==== 'mensajes' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''} onClick={() => {
                 setActiveButton('mensajes');
                 navigate("/chats");
               }}>

@@ -33,7 +33,7 @@ function Settings() {
         setDivsVisibility((prevVisibility) => {
             const updatedVisibility = { ...prevVisibility };
             for (const key in updatedVisibility) {
-                updatedVisibility[key] = key === buttonName;
+                updatedVisibility[key] = key ==== buttonName;
             }
             return updatedVisibility;
         });
@@ -60,7 +60,7 @@ function Settings() {
                 <div className="contain-principal">
                     <div className="w-[60%] mt-6 ml-[40px] sidebar1">
                         <div className={`margin-top ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
-                            <button className={activeButton === 'home' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
+                            <button className={activeButton ==== 'home' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
                                 onClick={() => {
                                     setActiveButton('home');
                                     navigate("/home");
@@ -69,7 +69,7 @@ function Settings() {
                             </button>
                         </div>
                         <div className={`margin-top mt-3 ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
-                            <button className={activeButton === 'search' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
+                            <button className={activeButton ==== 'search' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
                                 onClick={() => {
                                     setActiveButton('search');
                                     navigate("/search");
@@ -78,7 +78,7 @@ function Settings() {
                             </button>
                         </div>
                         <div className={`margin-top mt-3 ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
-                            <button className={activeButton === 'mensajes' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''} onClick={() => {
+                            <button className={activeButton ==== 'mensajes' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''} onClick={() => {
                                 setActiveButton('mensajes');
                                 navigate("/chats");
                             }}>
@@ -86,7 +86,7 @@ function Settings() {
                             </button>
                         </div>
                         <div className={`margin-top mt-3 ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
-                            <button className={activeButton === 'settings' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''} onClick={() => {
+                            <button className={activeButton ==== 'settings' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''} onClick={() => {
                                 setActiveButton('settings');
                                 navigate("/settings");
                             }}>
@@ -97,35 +97,35 @@ function Settings() {
                     <div className="w-[60%] mt-6">
                         <p className={`text-xl font-bold leading-[18.62px] ${darkMode ? 'dark-text-white' : ''}`}>Configuración</p>
                         <div className={`margin-top mt-3 ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
-                            <button className={activeButtonCon === 'tucuen' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''} onClick={() => {
+                            <button className={activeButtonCon ==== 'tucuen' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''} onClick={() => {
                                 setActiveButtonCon('tucuen');
                             }}>
                                 <p className="ml-4 p-txt">Tu cuenta<i className="ml-[200px] mt-1 fa-solid fa-chevron-right"></i></p>
                             </button>
                         </div>
                         <div className={`margin-top mt-3 ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
-                            <button className={activeButtonCon === 'seguridad' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''} onClick={() => {
+                            <button className={activeButtonCon ==== 'seguridad' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''} onClick={() => {
                                 setActiveButtonCon('seguridad');
                             }}>
                                 <p className="ml-4 p-txt">Seguridad y acceso a la cuenta<i className="ml-8 mt-1 fa-solid fa-chevron-right"></i></p>
                             </button>
                         </div>
                         <div className={`margin-top mt-3 ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
-                            <button className={activeButtonCon === 'privacidad' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''} onClick={() => {
+                            <button className={activeButtonCon ==== 'privacidad' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''} onClick={() => {
                                 setActiveButtonCon('privacidad');
                             }}>
                                 <p className="ml-4 p-txt">Privacidad y seguridad<i className="ml-[97px] mt-1 fa-solid fa-chevron-right"></i></p>
                             </button>
                         </div>
                         <div className={`margin-top mt-3 ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
-                            <button className={activeButtonCon === 'notificaciones' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''} onClick={() => {
+                            <button className={activeButtonCon ==== 'notificaciones' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''} onClick={() => {
                                 setActiveButtonCon('notificaciones');
                             }}>
                                 <p className="ml-4 p-txt">Notificaciones<i className="ml-[165px] mt-1 fa-solid fa-chevron-right"></i></p>
                             </button>
                         </div>
                         <div className={`margin-top mt-3 ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
-                            <button className={activeButtonCon === 'acceses' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''} onClick={() => {
+                            <button className={activeButtonCon ==== 'acceses' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''} onClick={() => {
                                 setActiveButtonCon('acceses');
                             }}>
                                 <p className="ml-4 p-txt">Accesibilidad, pantalla e idiomas<i className="ml-4 mt-1 fa-solid fa-chevron-right"></i></p>
@@ -133,46 +133,46 @@ function Settings() {
                         </div>
                     </div>
                     <div className="w-[100%] mt-6">
-                        {activeButtonCon === 'tucuen' && (
+                        {activeButtonCon ==== 'tucuen' && (
                             <div className="w-[100%] mt-6">
                                 <p className={`text-xl font-bold leading-[18.62px] ${darkMode ? 'dark-text-white' : ''}`}>Tu cuenta</p>
                                 <p className={`mt-4 w-[80%] text-[14px] font-medium leading-[10.71px] ${darkMode ? 'dark-text-white' : ''}`}>Ve la información de la cuenta, descarga un archivo con tus datos u obtén más información acerca de las opciones de desactivación de la cuenta</p>
                                 <div className={`w-[100%] margin-top mt-3 ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
-                                    <button className={activeButtonCon === 'seguridad' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''} >
+                                    <button className={activeButtonCon ==== 'seguridad' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''} >
                                         <p className="mr-[58%] p-txt">Información de la cuenta<i className="ml-8 mt-1 fa-solid fa-chevron-right"></i></p>
                                         <p className='ml-1 text-[12px] font-medium leading-[10.71px]'>Ve la información de tu cuenta, como el número de teléfono y la dirección de correo electrónico.</p>
                                     </button>
                                 </div>
                                 <div className={`w-[100%] margin-top mt-3 ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
-                                    <button className={activeButtonCon === 'seguridad' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''} >
+                                    <button className={activeButtonCon ==== 'seguridad' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''} >
                                         <p className="mr-[22%] p-txt">Cambia tu contraseña<i className="ml-8 mt-1 fa-solid fa-chevron-right"></i></p>
                                         <p className='ml-1 text-[12px] font-medium leading-[10.71px]'>Cambia tu contraseña en cualquier momento.</p>
                                     </button>
                                 </div>
                                 <div className={`w-[100%] margin-top mt-3 ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
-                                    <button className={activeButtonCon === 'seguridad' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}>
+                                    <button className={activeButtonCon ==== 'seguridad' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}>
                                         <p className="mr-[28%] p-txt">Elimina tu cuenta<i className="ml-8 mt-1 fa-solid fa-chevron-right"></i></p>
                                         <p className='ml-1 text-[12px] font-medium leading-[10.71px]'>Averigua cómo puedes eliminar tu cuenta</p>
                                     </button>
                                 </div>
                             </div>
                         )}
-                        {activeButtonCon === 'seguridad' && (
+                        {activeButtonCon ==== 'seguridad' && (
                             <div>
                                 <p className={`text-xl font-bold leading-[18.62px] ${darkMode ? 'dark-text-white' : ''}`}>Seguridad</p>
                             </div>
                         )}
-                        {activeButtonCon === 'privacidad' && (
+                        {activeButtonCon ==== 'privacidad' && (
                             <div>
                                 <p className={`text-xl font-bold leading-[18.62px] ${darkMode ? 'dark-text-white' : ''}`}>Privacidad</p>
                             </div>
                         )}
-                        {activeButtonCon === 'notificaciones' && (
+                        {activeButtonCon ==== 'notificaciones' && (
                             <div>
                                 <p className={`text-xl font-bold leading-[18.62px] ${darkMode ? 'dark-text-white' : ''}`}>Notificaciones</p>
                             </div>
                         )}
-                        {activeButtonCon === 'acceses' && (
+                        {activeButtonCon ==== 'acceses' && (
                             <div>
                                 <p className={`text-xl font-bold leading-[18.62px] ${darkMode ? 'dark-text-white' : ''}`}>Accesibilidad</p>
                                 <div className="mt-3 margin-top">

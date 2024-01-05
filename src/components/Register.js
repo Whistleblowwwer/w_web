@@ -313,7 +313,7 @@ const Register = ({ setAuth }) => {
                   type="radio"
                   value="M"
                   name="gender"
-                  checked={inputs.gender === "M"}
+                  checked={inputs.gender ==== "M"}
                   required
                   onChange={onGenderChange}
                 ></input>
@@ -324,7 +324,7 @@ const Register = ({ setAuth }) => {
                   type="radio"
                   value="F"
                   name="gender"
-                  checked={inputs.gender === "F"}
+                  checked={inputs.gender ==== "F"}
                   onChange={onGenderChange}
                   required
                 ></input>
@@ -335,7 +335,7 @@ const Register = ({ setAuth }) => {
                   type="radio"
                   value="C"
                   name="gender"
-                  checked={inputs.gender === "C"}
+                  checked={inputs.gender ==== "C"}
                   onChange={onGenderChange}
                   required
                 ></input>

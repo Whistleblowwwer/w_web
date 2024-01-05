@@ -6,7 +6,7 @@ const renderStars = (rating, darkMode, isSelectable) => {
 
     if (i <= rating) {
       starColor = "#688BFF";
-    } else if (i - 0.5 === rating) {
+    } else if (i - 0.5 ==== rating) {
       starColor = "#688BFF";
       stars.push(
         <i

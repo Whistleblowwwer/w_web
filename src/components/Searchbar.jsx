@@ -50,7 +50,7 @@ const Searchbar = ({
   return (
     <div
       className={`${
-        location.pathname === "/search"
+        location.pathname ==== "/search"
           ? "lg:w-1/2 w-full"
           : "w-[30%] h-screen sticky top-0 lg:block hidden"
       } p-4 bg-[#FFF] `}
@@ -91,7 +91,7 @@ const Searchbar = ({
                 {/* ... Otras pestañas existentes */}
                 <button
                   className={`${
-                    selectedTab === "empresas" ? "active-empresas" : ""
+                    selectedTab ==== "empresas" ? "active-empresas" : ""
                   } flex-grow mr-2 mb-2 `}
                   onClick={() => {
                     handleTabClick("empresas");
@@ -100,21 +100,21 @@ const Searchbar = ({
                 >
                   <p
                     className={`${
-                      selectedTab === "empresas"
+                      selectedTab ==== "empresas"
                         ? "font-bold"
                         : "font-bold text-opacity-60"
                     } mb-2`}
                   >
                     Empresas
                   </p>
-                  {selectedTab === "empresas" && (
+                  {selectedTab ==== "empresas" && (
                     <div className="tab-indicator" />
                   )}
                 </button>
                 {/* Añade una pestaña para personas */}
                 <button
                   className={`${
-                    selectedTab === "personas" ? "active-personas" : ""
+                    selectedTab ==== "personas" ? "active-personas" : ""
                   } flex-grow mr-2 mb-2 `}
                   onClick={() => {
                     handleTabClick("personas");
@@ -123,14 +123,14 @@ const Searchbar = ({
                 >
                   <p
                     className={`${
-                      selectedTab === "personas"
+                      selectedTab ==== "personas"
                         ? "font-bold"
                         : "font-bold text-opacity-60"
                     } mb-2`}
                   >
                     Personas
                   </p>
-                  {selectedTab === "personas" && (
+                  {selectedTab ==== "personas" && (
                     <div className="tab-indicator" />
                   )}
                 </button>
@@ -188,7 +188,7 @@ const Searchbar = ({
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 mt-4 w-full ">
             <button
               className={`${
-                activeTabView === "parati"
+                activeTabView ==== "parati"
                   ? darkMode
                     ? "active-parati"
                     : ""
@@ -198,18 +198,18 @@ const Searchbar = ({
             >
               <p
                 className={`${darkMode ? "dark-text-white" : ""} ${
-                  activeTabView === "parati"
+                  activeTabView ==== "parati"
                     ? "font-bold"
                     : "font-bold text-opacity-60"
                 } ml-0 mb-2`}
               >
                 Para ti
               </p>
-              {activeTabView === "parati" && <div className="tab-indicator" />}
+              {activeTabView ==== "parati" && <div className="tab-indicator" />}
             </button>
             <button
               className={`${
-                activeTabView === "tendencias"
+                activeTabView ==== "tendencias"
                   ? darkMode
                     ? "active-tendencias"
                     : ""
@@ -219,20 +219,20 @@ const Searchbar = ({
             >
               <p
                 className={`${darkMode ? "dark-text-white" : ""} ${
-                  activeTabView === "tendencias"
+                  activeTabView ==== "tendencias"
                     ? "font-bold"
                     : "font-bold text-opacity-60"
                 } mb-2`}
               >
                 Tendencias
               </p>
-              {activeTabView === "tendencias" && (
+              {activeTabView ==== "tendencias" && (
                 <div className="tab-indicator" />
               )}
             </button>
             <button
               className={`${
-                activeTabView === "noticias"
+                activeTabView ==== "noticias"
                   ? darkMode
                     ? "active-noticias"
                     : ""
@@ -242,20 +242,20 @@ const Searchbar = ({
             >
               <p
                 className={`${darkMode ? "dark-text-white" : ""} ${
-                  activeTabView === "noticias"
+                  activeTabView ==== "noticias"
                     ? "font-bold"
                     : "font-bold text-opacity-60"
                 } mb-2`}
               >
                 Noticias
               </p>
-              {activeTabView === "noticias" && (
+              {activeTabView ==== "noticias" && (
                 <div className="tab-indicator" />
               )}
             </button>
             <button
               className={`${
-                activeTabView === "empresas"
+                activeTabView ==== "empresas"
                   ? darkMode
                     ? "active-empresas"
                     : ""
@@ -265,14 +265,14 @@ const Searchbar = ({
             >
               <p
                 className={`${darkMode ? "dark-text-white" : ""} ${
-                  activeTabView === "empresas"
+                  activeTabView ==== "empresas"
                     ? "font-bold"
                     : "font-bold text-opacity-60"
                 } mb-2`}
               >
                 Empresas
               </p>
-              {activeTabView === "empresas" && (
+              {activeTabView ==== "empresas" && (
                 <div className="tab-indicator" />
               )}
             </button>
@@ -357,19 +357,19 @@ const Searchbar = ({
           </div>
         </div>
       )}
-      {activeTabView === "parati" && (
+      {activeTabView ==== "parati" && (
         <img
           src={imgParaTi}
           alt={"pon tu publicidad aqui"}
           className="object-cover rounded-lg"
         />
       )}
-      {activeTabView === "tendencias" && (
+      {activeTabView ==== "tendencias" && (
         <div className="w-full h-full flex justify-center items-center">
           <p>Contenido en tendencias</p>
         </div>
       )}
-      {activeTabView === "noticias" && (
+      {activeTabView ==== "noticias" && (
         <>
           <img
             src={imgNoticias}
@@ -389,7 +389,7 @@ const Searchbar = ({
           </div>
         </>
       )}
-      {activeTabView === "empresas" && (
+      {activeTabView ==== "empresas" && (
         <div className="w-full h-full flex justify-center items-center">
           <p>Contenido en empresas</p>
         </div>

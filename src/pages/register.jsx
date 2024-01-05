@@ -102,7 +102,7 @@ export default function Register({ setAuth }) {
       );
 
       const parseRes = await response.json();
-      if (response.status == 200 || response.status == 201) {
+      if (response.status === 200 || response.status === 201) {
         setTokenVerified(true);
         setStep(step + 1);
       }
@@ -120,11 +120,11 @@ export default function Register({ setAuth }) {
 
   const handleNext = (e) => {
     e.preventDefault();
-    if (step == 1) {
+    if (step === 1) {
       setStep(step + 1);
       validateMail(email);
     }
-    if (step == 2) {
+    if (step === 2) {
       validateOtpCode();
     }
   };
@@ -237,7 +237,7 @@ export default function Register({ setAuth }) {
             </button>
           </div>
           <form onSubmit={onSubmitForm}>
-            {step == 1 && (
+            {step === 1 && (
               <>
                 <div className="flex mt-5 ml-5">
                   <p
@@ -325,7 +325,7 @@ export default function Register({ setAuth }) {
                 </div>
               </>
             )}
-            {step == 2 && (
+            {step === 2 && (
               <>
                 <div className="flex flex-col">
                   <div className="text-neutral-900 text-lg font-semibold leading-7 mt-8 ml-8 mb-8">
@@ -364,7 +364,7 @@ export default function Register({ setAuth }) {
                 </div>
               </>
             )}
-            {step == 3 && (
+            {step === 3 && (
               <>
                 <div className="flex mt-5 ml-5">
                   <p
@@ -623,7 +623,7 @@ export default function Register({ setAuth }) {
                       type="radio"
                       value="M"
                       name="gender"
-                      checked={inputs.gender === "M"}
+                      checked={inputs.gender ==== "M"}
                       onChange={onGenderChange}
                       required
                     ></input>
@@ -638,7 +638,7 @@ export default function Register({ setAuth }) {
                       type="radio"
                       value="F"
                       name="gender"
-                      checked={inputs.gender === "F"}
+                      checked={inputs.gender ==== "F"}
                       onChange={onGenderChange}
                       required
                     ></input>
@@ -653,7 +653,7 @@ export default function Register({ setAuth }) {
                       type="radio"
                       value="O"
                       name="gender"
-                      checked={inputs.gender === "O"}
+                      checked={inputs.gender ==== "O"}
                       onChange={onGenderChange}
                       required
                     ></input>
@@ -674,28 +674,28 @@ export default function Register({ setAuth }) {
 
             <div
               className={
-                step == 3 || step == 1
+                step === 3 || step === 1
                   ? "flex justify-center items-center"
                   : "flex justify-center items-center mt-24"
               }
             >
-              {step != 1 && (
+              {step !== 1 && (
                 <button
                   className="hover:bg-gray-700 py-2 px-4 mt-4 w-[180px] h-[41px] bg-neutral-900 rounded-[44px] relative mt-12 mr-2"
                   onClick={handlePrevious}
                 >
                   <span className="text-stone-50 text-[15px] font-medium leading-[13.96px]">
-                    {step == 2 ? "cambiar numero" : "atras"}
+                    {step === 2 ? "cambiar numero" : "atras"}
                   </span>
                 </button>
               )}
-              {step != 3 && (
+              {step !== 3 && (
                 <button
                   className="hover:bg-gray-700 py-2 px-4 mt-4 w-[150px] h-[41px] bg-neutral-900 rounded-[44px] relative mt-12 ml-2"
                   onClick={handleNext}
                 >
                   <span className="text-stone-50 text-[15px] font-medium leading-[13.96px]">
-                    {step == 2 ? "validar codigo" : "siguiente"}
+                    {step === 2 ? "validar codigo" : "siguiente"}
                   </span>
                 </button>
               )}

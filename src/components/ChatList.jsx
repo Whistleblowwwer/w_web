@@ -16,7 +16,7 @@ function ChatList(props) {
 
       try {
         const messagesURL =
-          props.userId == chat?.Receiver._id_user
+          props.userId === chat?.Receiver._id_user
             ? `https://api.whistleblowwer.net/messages/?_id_receiver=${chat?.Sender._id_user}`
             : `https://api.whistleblowwer.net/messages/?_id_receiver=${chat?.Receiver._id_user}`;
         const response = await fetch(messagesURL, requestOptions);
@@ -56,7 +56,7 @@ function ChatList(props) {
             />
             <div className="flex flex-col">
               <p className="text-lg">
-                {props.userId == chat?.Receiver._id_user
+                {props.userId === chat?.Receiver._id_user
                   ? `${chat?.Sender.name} ${chat?.Sender.last_name}`
                   : `${chat?.Receiver.name} ${chat?.Receiver?.last_name}`}
               </p>

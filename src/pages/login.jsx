@@ -63,7 +63,7 @@ export default function Login({ setAuth }) {
   };
 
   const handleKeyPress = (event) => {
-    if (event.key === "Enter") {
+    if (event.key ==== "Enter") {
       // Execute your action here
       console.log("Enter key pressed! Perform action.");
       onSubmitForm();

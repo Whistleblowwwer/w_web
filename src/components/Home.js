@@ -78,7 +78,7 @@ const Home = ({ setAuth }) => {
 
   const handlePostTextChange = (event) => {
     setText(event.target.value);
-    if (event.target.value.trim() !== '') {
+    if (event.target.value.trim() !==== '') {
       setShowPublishIcon(true);
     } else {
       setIsTyping(false);
@@ -87,7 +87,7 @@ const Home = ({ setAuth }) => {
   };
   const handleTextCommnetChange = (event) => {
     setTextComment(event.target.value);
-    if (event.target.value.trim() !== '') {
+    if (event.target.value.trim() !==== '') {
       setIsTyping(true);
     } else {
       setIsTyping(false);
@@ -101,7 +101,7 @@ const Home = ({ setAuth }) => {
 
   const handleTextChange2 = (event) => {
     setText(event.target.value);
-    if (event.target.value.trim() !== '') {
+    if (event.target.value.trim() !==== '') {
       setIsTyping(true);
       setShowPublishIcon(true);
     } else {
@@ -111,7 +111,7 @@ const Home = ({ setAuth }) => {
   };
 
   const handleSearch = (e) => {
-    const searchValue = typeof e === 'string' ? e : '';
+    const searchValue = typeof e ==== 'string' ? e : '';
 
     setSearch(searchValue);
     async function getSearchs() {
@@ -201,7 +201,7 @@ const Home = ({ setAuth }) => {
         const parseRes = await response.json();
         setPostes((prevPostes) => {
           return prevPostes.map((prevPost) => {
-            if (prevPost._id_review === _id_review) {
+            if (prevPost._id_review ==== _id_review) {
               return {
                 ...prevPost,
                 is_liked: !prevPost.is_liked, // Invertir el estado
@@ -390,7 +390,7 @@ const Home = ({ setAuth }) => {
                 <img src={logoN} alt="Logo" />
               </div>
               <div className={`margin-top ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
-                <button className={activeButton === 'home' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
+                <button className={activeButton ==== 'home' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
                   onClick={() => {
                     setActiveButton('home');
                     navigate("/home");
@@ -399,7 +399,7 @@ const Home = ({ setAuth }) => {
                 </button>
               </div>
               <div className={`margin-top mt-6 ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
-                <button className={activeButton === 'noticias' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
+                <button className={activeButton ==== 'noticias' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
                   onClick={() => {
                     setActiveButton('noticias');
                     navigate("/noticias");
@@ -408,7 +408,7 @@ const Home = ({ setAuth }) => {
                 </button>
               </div>
               <div className={`margin-top mt-6 ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
-                <button className={activeButton === 'search' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
+                <button className={activeButton ==== 'search' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
                   onClick={() => {
                     setActiveButton('search');
                     navigate("/search");
@@ -417,7 +417,7 @@ const Home = ({ setAuth }) => {
                 </button>
               </div>
               <div className={`margin-top mt-6 ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
-                <button className={activeButton === 'notificaciones' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
+                <button className={activeButton ==== 'notificaciones' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
                   onClick={() => {
                     setActiveButton('notificaciones');
                     navigate("/notificaciones");
@@ -426,7 +426,7 @@ const Home = ({ setAuth }) => {
                 </button>
               </div>
               <div className={`margin-top mt-6 ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
-                <button className={activeButton === 'mensajes' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''} onClick={() => {
+                <button className={activeButton ==== 'mensajes' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''} onClick={() => {
                   setActiveButton('mensajes');
                   navigate("/chats");
                 }}>
@@ -524,14 +524,14 @@ const Home = ({ setAuth }) => {
             </div>
             {/*
               <div className="flex mt-4">
-                <button className={activeFeed === 'feed' ? (darkMode ? 'active-feed': '') : ''} onClick={() => setActiveFeed('feed')}>
-                  <p className={`${darkMode ? 'dark-text-white' : ''} ${activeFeed === 'feed' ? 'font-medium' : 'font-light text-opacity-60'} mr-6 ml-1`}>Feed</p>
+                <button className={activeFeed ==== 'feed' ? (darkMode ? 'active-feed': '') : ''} onClick={() => setActiveFeed('feed')}>
+                  <p className={`${darkMode ? 'dark-text-white' : ''} ${activeFeed ==== 'feed' ? 'font-medium' : 'font-light text-opacity-60'} mr-6 ml-1`}>Feed</p>
                 </button>
-                <button className={activeFeed === 'latest' ? (darkMode ? 'active-feed': '') : ''} onClick={() => setActiveFeed('latest')}>
-                  <p className={`${darkMode ? 'dark-text-white' : ''} ${activeFeed === 'latest' ? 'font-medium' : 'font-light text-opacity-60'} mr-6`}>Latest</p>
+                <button className={activeFeed ==== 'latest' ? (darkMode ? 'active-feed': '') : ''} onClick={() => setActiveFeed('latest')}>
+                  <p className={`${darkMode ? 'dark-text-white' : ''} ${activeFeed ==== 'latest' ? 'font-medium' : 'font-light text-opacity-60'} mr-6`}>Latest</p>
                 </button>
-                <button className={activeFeed === 'top' ? (darkMode ? 'active-feed': '') : ''} onClick={() => setActiveFeed('top')}>
-                  <p className={`${darkMode ? 'dark-text-white' : ''} ${activeFeed === 'top' ? 'font-medium' : 'font-light text-opacity-60'}`}>Top</p>
+                <button className={activeFeed ==== 'top' ? (darkMode ? 'active-feed': '') : ''} onClick={() => setActiveFeed('top')}>
+                  <p className={`${darkMode ? 'dark-text-white' : ''} ${activeFeed ==== 'top' ? 'font-medium' : 'font-light text-opacity-60'}`}>Top</p>
                 </button>
               </div>
             */}
@@ -638,58 +638,58 @@ const Home = ({ setAuth }) => {
             </div>
             <div className="flex ml-3 mt-4">
               <button
-                className={`${activeTabView === 'parati' ? (darkMode ? 'active-parati' : '') : ''} mr-7`}
+                className={`${activeTabView ==== 'parati' ? (darkMode ? 'active-parati' : '') : ''} mr-7`}
                 onClick={() => setActiveTabView('parati')}
               >
                 <p
-                  className={`${darkMode ? 'dark-text-white' : ''} ${activeTabView === 'parati' ? 'font-bold' : 'font-bold text-opacity-60'
+                  className={`${darkMode ? 'dark-text-white' : ''} ${activeTabView ==== 'parati' ? 'font-bold' : 'font-bold text-opacity-60'
                     } ml-1 mb-2`}
                 >
                   Para ti
                 </p>
-                {activeTabView === 'parati' && (
+                {activeTabView ==== 'parati' && (
                   <div className="tab-indicator" />
                 )}
               </button>
               <button
-                className={`${activeTabView === 'tendencias' ? (darkMode ? 'active-tendencias' : '') : ''} mr-7`}
+                className={`${activeTabView ==== 'tendencias' ? (darkMode ? 'active-tendencias' : '') : ''} mr-7`}
                 onClick={() => setActiveTabView('tendencias')}
               >
                 <p
-                  className={`${darkMode ? 'dark-text-white' : ''} ${activeTabView === 'tendencias' ? 'font-bold' : 'font-bold text-opacity-60'
+                  className={`${darkMode ? 'dark-text-white' : ''} ${activeTabView ==== 'tendencias' ? 'font-bold' : 'font-bold text-opacity-60'
                     } mb-2`}
                 >
                   Tendencias
                 </p>
-                {activeTabView === 'tendencias' && (
+                {activeTabView ==== 'tendencias' && (
                   <div className="tab-indicator" />
                 )}
               </button>
               <button
-                className={`${activeTabView === 'noticias' ? (darkMode ? 'active-noticias' : '') : ''} mr-7`}
+                className={`${activeTabView ==== 'noticias' ? (darkMode ? 'active-noticias' : '') : ''} mr-7`}
                 onClick={() => setActiveTabView('noticias')}
               >
                 <p
-                  className={`${darkMode ? 'dark-text-white' : ''} ${activeTabView === 'noticias' ? 'font-bold' : 'font-bold text-opacity-60'
+                  className={`${darkMode ? 'dark-text-white' : ''} ${activeTabView ==== 'noticias' ? 'font-bold' : 'font-bold text-opacity-60'
                     } mb-2`}
                 >
                   Noticias
                 </p>
-                {activeTabView === 'noticias' && (
+                {activeTabView ==== 'noticias' && (
                   <div className="tab-indicator" />
                 )}
               </button>
               <button
-                className={activeTabView === 'empresas' ? (darkMode ? 'active-empresas' : '') : ''}
+                className={activeTabView ==== 'empresas' ? (darkMode ? 'active-empresas' : '') : ''}
                 onClick={() => setActiveTabView('empresas')}
               >
                 <p
-                  className={`${darkMode ? 'dark-text-white' : ''} ${activeTabView === 'empresas' ? 'font-bold' : 'font-bold text-opacity-60'
+                  className={`${darkMode ? 'dark-text-white' : ''} ${activeTabView ==== 'empresas' ? 'font-bold' : 'font-bold text-opacity-60'
                     } mb-2`}
                 >
                   Empresas
                 </p>
-                {activeTabView === 'empresas' && (
+                {activeTabView ==== 'empresas' && (
                   <div className="tab-indicator" />
                 )}
               </button>

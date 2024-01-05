@@ -48,7 +48,7 @@ function App() {
                 requestOptions
             );
 
-            if (response_token.status == 401) {
+            if (response_token.status === 401) {
                 setIsAuthenticated(false);
             } else {
                 setIsAuthenticated(true);
@@ -80,7 +80,7 @@ function App() {
                                 path="/"
                                 element={
                                     isAuthenticated &&
-                                    localStorage.getItem("token") != null ? (
+                                    localStorage.getItem("token") !== null ? (
                                         <Home
                                             setAuth={setAuth}
                                             FunctionContext={FunctionContext}
@@ -114,7 +114,7 @@ function App() {
                                 path="/home"
                                 element={
                                     isAuthenticated &&
-                                    localStorage.getItem("token") != null ? (
+                                    localStorage.getItem("token") !== null ? (
                                         <Home
                                             setAuth={setAuth}
                                             FunctionContext={FunctionContext}

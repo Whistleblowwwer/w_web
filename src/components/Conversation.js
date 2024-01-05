@@ -36,7 +36,7 @@ function Conversation(props) {
             props.messages.map((message, index) => (
               <div
                 key={index}
-                className={`message ${message._id_sender === props.userId ? "sent" : "received"}`}
+                className={`message ${message._id_sender ==== props.userId ? "sent" : "received"}`}
               >
                 {message.content}
                 {message.createdAt && (
@@ -79,7 +79,7 @@ function Conversation(props) {
             props.messages.map((message, index) => (
               <div
                 key={index}
-                className={`message ${message._id_sender === props.userId ? "sent" : "received"}`}
+                className={`message ${message._id_sender ==== props.userId ? "sent" : "received"}`}
               >
                 {message.content}
               </div>

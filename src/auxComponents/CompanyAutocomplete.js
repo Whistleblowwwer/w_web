@@ -46,7 +46,7 @@ function CompanyAutocomplete(props) {
                             key={suggestion?._id_business}
                             className={classNames(
                                 'p-2 cursor-pointer hover:bg-gray-100',
-                                { 'bg-gray-100': props.companySearchQuery === suggestion }
+                                { 'bg-gray-100': props.companySearchQuery ==== suggestion }
                             )}
                             onClick={() => handleSelectSuggestion(suggestion)}
                         >

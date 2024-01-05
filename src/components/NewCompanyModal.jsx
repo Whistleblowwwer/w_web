@@ -43,7 +43,7 @@ function NewCompanyModal(props) {
   }, []);
 
   // useEffect(() => {
-  //   if (props.fetchResultHandler != undefined) {
+  //   if (props.fetchResultHandler !== undefined) {
   //     toast.error(
   //       "El nombre del proyecto o empresa ya existe. Intenta con uno distinto.",
   //       { duration: 3000 }
@@ -93,7 +93,7 @@ function NewCompanyModal(props) {
     var headers = new Headers();
     headers.append(
       "X-CSCAPI-KEY",
-      "NWlXQUJPZ2JmejVZY2NSODdTNXpBc3VxdWVxSTAydEpqU01tVENZaQ=="
+      "NWlXQUJPZ2JmejVZY2NSODdTNXpBc3VxdWVxSTAydEpqU01tVENZaQ==="
     );
 
     var requestOptions = {
@@ -123,7 +123,7 @@ function NewCompanyModal(props) {
     var headers = new Headers();
     headers.append(
       "X-CSCAPI-KEY",
-      "NWlXQUJPZ2JmejVZY2NSODdTNXpBc3VxdWVxSTAydEpqU01tVENZaQ=="
+      "NWlXQUJPZ2JmejVZY2NSODdTNXpBc3VxdWVxSTAydEpqU01tVENZaQ==="
     );
 
     var requestOptions = {
@@ -364,7 +364,7 @@ function NewCompanyModal(props) {
           </div>
           <div className="mb-4">
             <label htmlFor="name" className="block text-gray-600 font-semibold">
-              {selectedCategory == "Inmobiliaria"
+              {selectedCategory === "Inmobiliaria"
                 ? "Proyecto"
                 : "Empresa/Marca"}
             </label>
@@ -379,7 +379,7 @@ function NewCompanyModal(props) {
           </div>
           <div className="mb-4">
             <label htmlFor="name" className="block text-gray-600 font-semibold">
-              {selectedCategory == "Inmobiliaria"
+              {selectedCategory === "Inmobiliaria"
                 ? "Empresa Desarrolladora"
                 : "Sucursal/Agencia"}
             </label>

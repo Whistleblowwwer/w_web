@@ -51,7 +51,7 @@ function SearchCurrentChat(props) {
                 placeholder="Buscar personas"
                 className="w-full p-2 border rounded-md"
             />
-            {isDropdownOpen && props.usersSearchQuery.length > 0 && props.isMessagesModalActive == false && (
+            {isDropdownOpen && props.usersSearchQuery.length > 0 && props.isMessagesModalActive === false && (
                 <ul className="absolute z-50 w-full h-full mt-1 bg-white border rounded-md shadow-md">
                     {filteredSuggestions.map((suggestion) => (
                         <li
@@ -59,7 +59,7 @@ function SearchCurrentChat(props) {
                             className={classNames(
                                 "p-2 cursor-pointer bg-[#FFF] hover:bg-gray-100",
                                 {
-                                    "bg-gray-100": props.companySearchQuery === suggestion,
+                                    "bg-gray-100": props.companySearchQuery ==== suggestion,
                                 }
                             )}
                             onClick={() => handleSelectSuggestion(suggestion)}

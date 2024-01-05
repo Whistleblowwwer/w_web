@@ -90,7 +90,7 @@ export default function BusinessProfile({
 
   const handlePostTextChange = (event) => {
     setText(event.target.value);
-    if (event.target.value.trim() !== "") {
+    if (event.target.value.trim() !==== "") {
       setIsTyping(true);
       setShowPublishIcon(true);
     } else {
@@ -100,7 +100,7 @@ export default function BusinessProfile({
   };
   const handleTextCommnetChange = (event) => {
     setTextComment(event.target.value);
-    if (event.target.value.trim() !== "") {
+    if (event.target.value.trim() !==== "") {
       setIsTyping(true);
     } else {
       setIsTyping(false);
@@ -114,7 +114,7 @@ export default function BusinessProfile({
 
   const handleTextChange2 = (event) => {
     setText2(event.target.value);
-    if (event.target.value.trim() !== "") {
+    if (event.target.value.trim() !==== "") {
       setIsTyping(true);
       setShowPublishIcon(true);
     } else {
@@ -278,7 +278,7 @@ export default function BusinessProfile({
       try {
         setPostes((prevPostes) => {
           return prevPostes.map((prevPost) => {
-            if (prevPost._id_review === _id_review) {
+            if (prevPost._id_review ==== _id_review) {
               return {
                 ...prevPost,
                 is_liked: !prevPost.is_liked, // Invertir el estado

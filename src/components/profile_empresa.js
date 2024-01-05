@@ -69,7 +69,7 @@ const Profile_empresa = ({ setAuth }) => {
 
   const handlePostTextChange = (event) => {
     setText(event.target.value);
-    if (event.target.value.trim() !== '') {
+    if (event.target.value.trim() !==== '') {
       setIsTyping(true);
       setShowPublishIcon(true);
     } else {
@@ -79,7 +79,7 @@ const Profile_empresa = ({ setAuth }) => {
   };
   const handleTextCommnetChange = (event) => {
     setTextComment(event.target.value);
-    if (event.target.value.trim() !== '') {
+    if (event.target.value.trim() !==== '') {
       setIsTyping(true);
     } else {
       setIsTyping(false);
@@ -93,7 +93,7 @@ const Profile_empresa = ({ setAuth }) => {
 
   const handleTextChange2 = (event) => {
     setText2(event.target.value);
-    if (event.target.value.trim() !== '') {
+    if (event.target.value.trim() !==== '') {
       setIsTyping(true);
       setShowPublishIcon(true);
     } else {
@@ -288,7 +288,7 @@ const Profile_empresa = ({ setAuth }) => {
                 <img src={logoN} alt="Logo" />
               </div>
               <div className={`margin-top ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
-                <button className={activeButton === 'home' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
+                <button className={activeButton ==== 'home' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
                   onClick={() => {
                     setActiveButton('home');
                     navigate("/home");
@@ -297,7 +297,7 @@ const Profile_empresa = ({ setAuth }) => {
                 </button>
               </div>
               <div className={`margin-top mt-6 ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
-                <button className={activeButton === 'noticias' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
+                <button className={activeButton ==== 'noticias' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
                   onClick={() => {
                     setActiveButton('noticias');
                     navigate("/noticias");
@@ -306,7 +306,7 @@ const Profile_empresa = ({ setAuth }) => {
                 </button>
               </div>
               <div className={`margin-top mt-6 ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
-                <button className={activeButton === 'search' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
+                <button className={activeButton ==== 'search' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
                   onClick={() => {
                     setActiveButton('search');
                     navigate("/search");
@@ -315,7 +315,7 @@ const Profile_empresa = ({ setAuth }) => {
                 </button>
               </div>
               <div className={`margin-top mt-6 ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
-                <button className={activeButton === 'notificaciones' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
+                <button className={activeButton ==== 'notificaciones' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''}
                   onClick={() => {
                     setActiveButton('notificaciones');
                     navigate("/notificaciones");
@@ -324,7 +324,7 @@ const Profile_empresa = ({ setAuth }) => {
                 </button>
               </div>
               <div className={`margin-top mt-6 ${darkMode ? 'dark-text-white' : ''} sidebarcontain`}>
-                <button className={activeButton === 'mensajes' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''} onClick={() => {
+                <button className={activeButton ==== 'mensajes' ? (darkMode ? 'active-buttonH font-bold' : 'active-buttonD font-bold') : ''} onClick={() => {
                   setActiveButton('mensajes');
                   navigate("/chats");
                 }}>
@@ -376,44 +376,44 @@ const Profile_empresa = ({ setAuth }) => {
                 <p>Siguen a este grupo</p>
                 <div className="flex">
                   <button
-                    className={`${activeTabView === 'reseñas' ? (darkMode ? 'active-reseñas' : '') : ''} mr-7`}
+                    className={`${activeTabView ==== 'reseñas' ? (darkMode ? 'active-reseñas' : '') : ''} mr-7`}
                     onClick={() => setActiveTabView('reseñas')}
                   >
                     <p
-                      className={`${darkMode ? 'dark-text-white' : ''} ${activeTabView === 'reseñas' ? 'font-bold' : 'font-bold text-opacity-60'
+                      className={`${darkMode ? 'dark-text-white' : ''} ${activeTabView ==== 'reseñas' ? 'font-bold' : 'font-bold text-opacity-60'
                         } ml-1 mb-2`}
                     >
                       Reseñas
                     </p>
-                    {activeTabView === 'reseñas' && (
+                    {activeTabView ==== 'reseñas' && (
                       <div className="tab-indicator" />
                     )}
                   </button>
                   <button
-                    className={`${activeTabView === 'destacados' ? (darkMode ? 'active-destacados' : '') : ''} mr-7`}
+                    className={`${activeTabView ==== 'destacados' ? (darkMode ? 'active-destacados' : '') : ''} mr-7`}
                     onClick={() => setActiveTabView('destacados')}
                   >
                     <p
-                      className={`${darkMode ? 'dark-text-white' : ''} ${activeTabView === 'destacados' ? 'font-bold' : 'font-bold text-opacity-60'
+                      className={`${darkMode ? 'dark-text-white' : ''} ${activeTabView ==== 'destacados' ? 'font-bold' : 'font-bold text-opacity-60'
                         } mb-2`}
                     >
                       Destacados
                     </p>
-                    {activeTabView === 'destacados' && (
+                    {activeTabView ==== 'destacados' && (
                       <div className="tab-indicator" />
                     )}
                   </button>
                   <button
-                    className={`${activeTabView === 'multimedia' ? (darkMode ? 'active-multimedia' : '') : ''} mr-7`}
+                    className={`${activeTabView ==== 'multimedia' ? (darkMode ? 'active-multimedia' : '') : ''} mr-7`}
                     onClick={() => setActiveTabView('multimedia')}
                   >
                     <p
-                      className={`${darkMode ? 'dark-text-white' : ''} ${activeTabView === 'multimedia' ? 'font-bold' : 'font-bold text-opacity-60'
+                      className={`${darkMode ? 'dark-text-white' : ''} ${activeTabView ==== 'multimedia' ? 'font-bold' : 'font-bold text-opacity-60'
                         } mb-2`}
                     >
                       Multimedia
                     </p>
-                    {activeTabView === 'multimedia' && (
+                    {activeTabView ==== 'multimedia' && (
                       <div className="tab-indicator" />
                     )}
                   </button>
@@ -422,14 +422,14 @@ const Profile_empresa = ({ setAuth }) => {
             </div>
             {/*
               <div className="flex mt-4">
-                <button className={activeFeed === 'feed' ? (darkMode ? 'active-feed': '') : ''} onClick={() => setActiveFeed('feed')}>
-                  <p className={`${darkMode ? 'dark-text-white' : ''} ${activeFeed === 'feed' ? 'font-medium' : 'font-light text-opacity-60'} mr-6 ml-1`}>Feed</p>
+                <button className={activeFeed ==== 'feed' ? (darkMode ? 'active-feed': '') : ''} onClick={() => setActiveFeed('feed')}>
+                  <p className={`${darkMode ? 'dark-text-white' : ''} ${activeFeed ==== 'feed' ? 'font-medium' : 'font-light text-opacity-60'} mr-6 ml-1`}>Feed</p>
                 </button>
-                <button className={activeFeed === 'latest' ? (darkMode ? 'active-feed': '') : ''} onClick={() => setActiveFeed('latest')}>
-                  <p className={`${darkMode ? 'dark-text-white' : ''} ${activeFeed === 'latest' ? 'font-medium' : 'font-light text-opacity-60'} mr-6`}>Latest</p>
+                <button className={activeFeed ==== 'latest' ? (darkMode ? 'active-feed': '') : ''} onClick={() => setActiveFeed('latest')}>
+                  <p className={`${darkMode ? 'dark-text-white' : ''} ${activeFeed ==== 'latest' ? 'font-medium' : 'font-light text-opacity-60'} mr-6`}>Latest</p>
                 </button>
-                <button className={activeFeed === 'top' ? (darkMode ? 'active-feed': '') : ''} onClick={() => setActiveFeed('top')}>
-                  <p className={`${darkMode ? 'dark-text-white' : ''} ${activeFeed === 'top' ? 'font-medium' : 'font-light text-opacity-60'}`}>Top</p>
+                <button className={activeFeed ==== 'top' ? (darkMode ? 'active-feed': '') : ''} onClick={() => setActiveFeed('top')}>
+                  <p className={`${darkMode ? 'dark-text-white' : ''} ${activeFeed ==== 'top' ? 'font-medium' : 'font-light text-opacity-60'}`}>Top</p>
                 </button>
               </div>
             */}
