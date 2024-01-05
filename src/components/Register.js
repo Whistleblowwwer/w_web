@@ -59,7 +59,6 @@ const Register = ({ setAuth }) => {
   }
 
   const onChange = e => {
-    console.log(e.target.name)
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
@@ -72,7 +71,6 @@ const Register = ({ setAuth }) => {
 
     try {
       const body = { name, last_name, email, phone_number, birth_date, gender, password, role };
-      console.log(body);
       const response = await fetch("http://18.220.124.246:4000/users/", {
         method: "POST",
         mode: "cors",
@@ -111,23 +109,23 @@ const Register = ({ setAuth }) => {
           <form onSubmit={onSubmitForm}>
             <div className="flex justify-center items-center mt-5">
               <div className="w-[45%]">
-                <input name="name" placeholder="Nombre" className={`mt-1 p-2 rounded-[10px] w-[92%] h-8 bg-stone-50 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${darkMode ? 'dark-register-bt placeholder-black-dk' : ''}`} value={name} onChange={e => onChange(e)}></input>
+                <input name="name" placeholder="Nombre" required className={`mt-1 p-2 rounded-[10px] w-[92%] h-8 bg-stone-50 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${darkMode ? 'dark-register-bt placeholder-black-dk' : ''}`} value={name} onChange={e => onChange(e)}></input>
               </div>
               <div className="w-[45%]">
-                <input name="last_name" placeholder="Apellido" className={`mt-1 p-2  rounded-[10px] w-[92%] h-8 bg-stone-50 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${darkMode ? 'dark-register-bt placeholder-black-dk' : ''}`} value={last_name} onChange={e => onChange(e)}></input>
+                <input name="last_name" placeholder="Apellido" required className={`mt-1 p-2  rounded-[10px] w-[92%] h-8 bg-stone-50 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${darkMode ? 'dark-register-bt placeholder-black-dk' : ''}`} value={last_name} onChange={e => onChange(e)}></input>
               </div>
             </div>
             <div className="flex justify-center items-center">
-              <input name="email" placeholder="Correo electrónico" className={`mr-4 mt-4 p-2  rounded-[10px] w-[87%] h-8 bg-stone-50 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${darkMode ? 'dark-register-bt placeholder-black-dk' : ''}`} value={email} onChange={e => onChange(e)}></input>
+              <input name="email" placeholder="Correo electrónico" required className={`mr-4 mt-4 p-2  rounded-[10px] w-[87%] h-8 bg-stone-50 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${darkMode ? 'dark-register-bt placeholder-black-dk' : ''}`} value={email} onChange={e => onChange(e)}></input>
             </div>
             <div className="flex justify-center items-center">
-              <input name="password" placeholder="Contraseña" className={`mr-4 mt-4 p-2  rounded-[10px] w-[87%] h-8 bg-stone-50 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${darkMode ? 'dark-register-bt placeholder-black-dk' : ''}`} value={password} onChange={e => onChange(e)}></input>
+              <input name="password" placeholder="Contraseña" required className={`mr-4 mt-4 p-2  rounded-[10px] w-[87%] h-8 bg-stone-50 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${darkMode ? 'dark-register-bt placeholder-black-dk' : ''}`} value={password} onChange={e => onChange(e)}></input>
             </div>
             <div className="flex justify-center items-center">
               <input name="phone_number" placeholder="Telefono" className={`mr-4 mt-4 p-2  rounded-[10px] w-[87%] h-8 bg-stone-50 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${darkMode ? 'dark-register-bt placeholder-black-dk' : ''}`} value={phone_number} onChange={e => onChange(e)}></input>
             </div>
             <div className="flex mt-5 ml-5">
-              <p className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${darkMode ? 'dark-text-white' : ''}`}>Cumpleaños</p>
+              <p className={`text-zinc-900 text-[10px] font-medium leading-[9.31px]`}>Cumpleaños</p>
             </div>
             <div className="flex justify-center items-center mt-5 text-neutral-900 text-opacity-60 text-xs font-semibold leading-[11.17px] mr-4 mt-[3px]">
               <div className="mr-3">
@@ -135,6 +133,7 @@ const Register = ({ setAuth }) => {
                   className={`w-[119px] h-8 bg-stone-50 rounded-[10px] ${darkMode ? 'dark-register-bt placeholder-black-dk' : ''}`}
                   name="month"
                   value={selectedMonth} onChange={onChangeMonth}
+                  required
                 >
                   <option value="nuM">Mes</option>
                   <option value="01">Enero</option>
@@ -156,6 +155,7 @@ const Register = ({ setAuth }) => {
                   className={`w-[119px] h-8 bg-stone-50 rounded-[10px] ${darkMode ? 'dark-register-bt placeholder-black-dk' : ''}`}
                   name="day"
                   value={selectedDay} onChange={onChangeDay}
+                  required
                 >
                   <option value="nuD">Día</option>
                   <option value="1">1</option>
@@ -196,6 +196,7 @@ const Register = ({ setAuth }) => {
                   className={`w-[119px] h-8 bg-stone-50 rounded-[10px] ${darkMode ? 'dark-register-bt placeholder-black-dk' : ''}`}
                   name="year"
                   value={selectedYear} onChange={onChangeYear}
+                  required
                 >
                   <option value="nuA">Año</option>
                   <option value="1923">1923</option>
@@ -313,6 +314,7 @@ const Register = ({ setAuth }) => {
                   value="M"
                   name="gender"
                   checked={inputs.gender === "M"}
+                  required
                   onChange={onGenderChange}
                 ></input>
               </div>
@@ -324,6 +326,7 @@ const Register = ({ setAuth }) => {
                   name="gender"
                   checked={inputs.gender === "F"}
                   onChange={onGenderChange}
+                  required
                 ></input>
               </div>
               <div className={`w-[120px] h-8 bg-stone-50 rounded-[10px] mr-3 flex justify-around items-center ${darkMode ? 'dark-register-bt placeholder-black-dk' : ''}`}>
@@ -334,11 +337,12 @@ const Register = ({ setAuth }) => {
                   name="gender"
                   checked={inputs.gender === "C"}
                   onChange={onGenderChange}
+                  required
                 ></input>
               </div>
             </div>
             <div className="flex justify-center items-center w-[100%]">
-              <p className={`text-neutral-900 text-[10px] font-medium mt-4 ml-10 mr-[28px] translate-x-[-12px] ${darkMode ? 'dark-text-white' : ''}`}>Al registrarte, aceptas los <span className="underline">Términos de servicio</span> y la <span className="underline">Política
+              <p className={`text-neutral-900 text-[10px] font-medium mt-4 ml-10 mr-[28px] translate-x-[-12px] ${darkMode ? 'dark-text-white' : ''}`}>Al registrarte, aceptas los <span className="underline">Términos de legales</span> y la <span className="underline">Política
                 de privacidad,</span> incluida la política de <span className="underline">Uso de Cookies.</span></p>
             </div>
             <div className="flex justify-center items-center">
