@@ -26,7 +26,9 @@ function SearchCurrentChat(props) {
     };
 
     const handleSelectSuggestion = (suggestion) => {
-        props.setUsersSearchQuery(`${suggestion?.name} ${suggestion?.last_name}`);
+        props.setUsersSearchQuery(
+            `${suggestion?.name} ${suggestion?.last_name}`
+        );
         props.setNewMessageUser({
             ...props.newMessageUser, // Preserve existing key-value pairs
             name: suggestion?.name,
@@ -37,9 +39,9 @@ function SearchCurrentChat(props) {
             name: suggestion?.name,
             last_name: suggestion?.last_name,
             userId: suggestion._id_user,
-        }
-        props.handleNewConversation(auxNewMessageUser)
-        props.setUsersSearchQuery("")
+        };
+        props.handleNewConversation(auxNewMessageUser);
+        props.setUsersSearchQuery("");
     };
 
     return (
@@ -51,24 +53,30 @@ function SearchCurrentChat(props) {
                 placeholder="Buscar personas"
                 className="w-full p-2 border rounded-md"
             />
-            {isDropdownOpen && props.usersSearchQuery.length > 0 && props.isMessagesModalActive === false && (
-                <ul className="absolute z-50 w-full h-full mt-1 bg-white border rounded-md shadow-md">
-                    {filteredSuggestions.map((suggestion) => (
-                        <li
-                            key={suggestion?._id_user}
-                            className={classNames(
-                                "p-2 cursor-pointer bg-[#FFF] hover:bg-gray-100",
-                                {
-                                    "bg-gray-100": props.companySearchQuery ==== suggestion,
+            {isDropdownOpen &&
+                props.usersSearchQuery.length > 0 &&
+                props.isMessagesModalActive === false && (
+                    <ul className="absolute z-50 w-full h-full mt-1 bg-white border rounded-md shadow-md">
+                        {filteredSuggestions.map((suggestion) => (
+                            <li
+                                key={suggestion?._id_user}
+                                className={classNames(
+                                    "p-2 cursor-pointer bg-[#FFF] hover:bg-gray-100",
+                                    {
+                                        "bg-gray-100":
+                                            props.companySearchQuery ===
+                                            suggestion,
+                                    }
+                                )}
+                                onClick={() =>
+                                    handleSelectSuggestion(suggestion)
                                 }
-                            )}
-                            onClick={() => handleSelectSuggestion(suggestion)}
-                        >
-                            {`${suggestion?.name} ${suggestion?.last_name}`}
-                        </li>
-                    ))}
-                </ul>
-            )}
+                            >
+                                {`${suggestion?.name} ${suggestion?.last_name}`}
+                            </li>
+                        ))}
+                    </ul>
+                )}
         </div>
     );
 }

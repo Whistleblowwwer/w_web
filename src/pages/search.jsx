@@ -80,7 +80,7 @@ export default function Search({ setAuth }) {
             <div className="flex gap-4">
               <button
                 className={`${
-                  selectedTab ==== "asesores" ? "active-asesores" : ""
+                  selectedTab === "asesores" ? "active-asesores" : ""
                 } flex-grow mr-2 mb-2 `}
                 onClick={() => {
                   handleTabClick("asesores");
@@ -89,21 +89,21 @@ export default function Search({ setAuth }) {
               >
                 <p
                   className={`${
-                    selectedTab ==== "asesores"
+                    selectedTab === "asesores"
                       ? "font-bold"
                       : "font-bold text-opacity-60"
                   } mb-2`}
                 >
                   Asesores
                 </p>
-                {selectedTab ==== "asesores" && (
+                {selectedTab === "asesores" && (
                   <div className="tab-indicator" />
                 )}
               </button>
               {/* Añade una pestaña para abogados */}
               <button
                 className={`${
-                  selectedTab ==== "abogados" ? "active-abogados" : ""
+                  selectedTab === "abogados" ? "active-abogados" : ""
                 } flex-grow mr-2 mb-2 `}
                 onClick={() => {
                   handleTabClick("abogados");
@@ -112,14 +112,14 @@ export default function Search({ setAuth }) {
               >
                 <p
                   className={`${
-                    selectedTab ==== "abogados"
+                    selectedTab === "abogados"
                       ? "font-bold"
                       : "font-bold text-opacity-60"
                   } mb-2`}
                 >
                   Abogados
                 </p>
-                {selectedTab ==== "abogados" && (
+                {selectedTab === "abogados" && (
                   <div className="tab-indicator" />
                 )}
               </button>

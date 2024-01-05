@@ -104,7 +104,7 @@ export default function Chats(darkMode) {
   };
 
   function deleteElementById(arr, idToDelete) {
-    return arr.filter((obj) => obj.Receiver._id_user !==== idToDelete);
+    return arr.filter((obj) => obj.Receiver._id_user !== idToDelete);
   }
 
   const handleNewConversation = (auxNewMessageUser) => {

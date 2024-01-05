@@ -64,8 +64,8 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
 
         const parseRes = await response.json();
         if (
-          parseRes.message ==== "Comment liked successfully" ||
-          parseRes.message ==== "Comment unliked successfully"
+          parseRes.message === "Comment liked successfully" ||
+          parseRes.message === "Comment unliked successfully"
         ) {
           window.location.reload();
         }
@@ -78,7 +78,7 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
 
   return (
     <>
-      {fetchResult ==== undefined ? (
+      {fetchResult === undefined ? (
         <div className="flex items-center justify-center lg:w-[50%] w-full bg-[#EEEFEF] lg:px-0 p-1">
           <div role="status" className="text-center">
             <svg

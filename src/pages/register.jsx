@@ -623,7 +623,7 @@ export default function Register({ setAuth }) {
                       type="radio"
                       value="M"
                       name="gender"
-                      checked={inputs.gender ==== "M"}
+                      checked={inputs.gender === "M"}
                       onChange={onGenderChange}
                       required
                     ></input>
@@ -638,7 +638,7 @@ export default function Register({ setAuth }) {
                       type="radio"
                       value="F"
                       name="gender"
-                      checked={inputs.gender ==== "F"}
+                      checked={inputs.gender === "F"}
                       onChange={onGenderChange}
                       required
                     ></input>
@@ -653,7 +653,7 @@ export default function Register({ setAuth }) {
                       type="radio"
                       value="O"
                       name="gender"
-                      checked={inputs.gender ==== "O"}
+                      checked={inputs.gender === "O"}
                       onChange={onGenderChange}
                       required
                     ></input>

@@ -42,7 +42,7 @@ export default function Settings() {
     setDivsVisibility((prevVisibility) => {
       const updatedVisibility = { ...prevVisibility };
       for (const key in updatedVisibility) {
-        updatedVisibility[key] = key ==== buttonName;
+        updatedVisibility[key] = key === buttonName;
       }
       return updatedVisibility;
     });
@@ -72,7 +72,7 @@ export default function Settings() {
             >
               <button
                 className={
-                  activeButtonCon ==== "tucuen"
+                  activeButtonCon === "tucuen"
                     ? darkMode
                       ? "active-buttonH font-bold"
                       : "active-buttonD font-bold"
@@ -95,7 +95,7 @@ export default function Settings() {
             >
               <button
                 className={
-                  activeButtonCon ==== "seguridad"
+                  activeButtonCon === "seguridad"
                     ? darkMode
                       ? "active-buttonH font-bold"
                       : "active-buttonD font-bold"
@@ -118,7 +118,7 @@ export default function Settings() {
             >
               <button
                 className={
-                  activeButtonCon ==== "privacidad"
+                  activeButtonCon === "privacidad"
                     ? darkMode
                       ? "active-buttonH font-bold"
                       : "active-buttonD font-bold"
@@ -141,7 +141,7 @@ export default function Settings() {
             >
               <button
                 className={
-                  activeButtonCon ==== "notificaciones"
+                  activeButtonCon === "notificaciones"
                     ? darkMode
                       ? "active-buttonH font-bold"
                       : "active-buttonD font-bold"
@@ -164,7 +164,7 @@ export default function Settings() {
             >
               <button
                 className={
-                  activeButtonCon ==== "acceses"
+                  activeButtonCon === "acceses"
                     ? darkMode
                       ? "active-buttonH font-bold"
                       : "active-buttonD font-bold"
@@ -182,7 +182,7 @@ export default function Settings() {
             </div>
           </div>
           <div className="w-[50%]">
-            {activeButtonCon ==== "tucuen" && (
+            {activeButtonCon === "tucuen" && (
               <div className="w-[100%]">
                 <p
                   className={`text-xl font-bold leading-[18.62px] ${
@@ -201,7 +201,7 @@ export default function Settings() {
                 </button>
               </div>
             )}
-            {activeButtonCon ==== "seguridad" && (
+            {activeButtonCon === "seguridad" && (
               <div>
                 <p
                   className={`text-xl font-bold leading-[18.62px] ${
@@ -212,7 +212,7 @@ export default function Settings() {
                 </p>
               </div>
             )}
-            {activeButtonCon ==== "privacidad" && (
+            {activeButtonCon === "privacidad" && (
               <div>
                 <p
                   className={`text-xl font-bold leading-[18.62px] ${
@@ -237,7 +237,7 @@ export default function Settings() {
                 </a>
               </div>
             )}
-            {activeButtonCon ==== "notificaciones" && (
+            {activeButtonCon === "notificaciones" && (
               <div>
                 <p
                   className={`text-xl font-bold leading-[18.62px] ${
@@ -248,7 +248,7 @@ export default function Settings() {
                 </p>
               </div>
             )}
-            {activeButtonCon ==== "acceses" && (
+            {activeButtonCon === "acceses" && (
               <div>
                 <p
                   className={`text-xl font-bold leading-[18.62px] ${

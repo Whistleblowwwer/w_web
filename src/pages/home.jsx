@@ -43,7 +43,7 @@ export default function Home({ setAuth, darkMode, FunctionContext }) {
     //       requestOptions
     //     );
     //     const parseRes = await response.json();
-    //     if (!parseRes.success && parseRes.message ==== "Invalid token") {
+    //     if (!parseRes.success && parseRes.message === "Invalid token") {
     //       // Borra los elementos del localStorage
     //       localStorage.removeItem("client_password");
     //       localStorage.removeItem("recentSearches");

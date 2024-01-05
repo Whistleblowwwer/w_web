@@ -83,7 +83,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
 
   useEffect(() => {
     // Initialize pageReloaded in localStorage if not present
-    if (localStorage.getItem("pageReloaded") ==== null) {
+    if (localStorage.getItem("pageReloaded") === null) {
       localStorage.setItem("pageReloaded", "false");
     }
 
@@ -102,8 +102,8 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
           requestOptions
         );
         await response.json().then((result) => {
-          if (result?.success ==== false) {
-            if (localStorage.token !==== undefined) {
+          if (result?.success === false) {
+            if (localStorage.token !== undefined) {
               // Borra los elementos del localStorage
               localStorage.removeItem("client_password");
               localStorage.removeItem("recentSearches");
@@ -112,8 +112,8 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
               localStorage.removeItem("validCredentials");
               if (
                 !(
-                  location.pathname ==== "/t&c" ||
-                  location.pathname ==== "/aviso-privacidad"
+                  location.pathname === "/t&c" ||
+                  location.pathname === "/aviso-privacidad"
                 )
               ) {
                 navigate("/login");
@@ -121,9 +121,9 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
             } else {
               let i = 0;
               const intervalId = setInterval(() => {
-                if (localStorage.token !==== undefined || i >= 10) {
+                if (localStorage.token !== undefined || i >= 10) {
                   clearInterval(intervalId);
-                  if (localStorage.token !==== undefined) {
+                  if (localStorage.token !== undefined) {
                     getName();
                     getPostes();
                   }
@@ -155,7 +155,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
   }, [localStorage.token]);
 
   const [pageReloaded, setPageReloaded] = useState(() => {
-    return localStorage.getItem("pageReloaded") ==== "true" || false;
+    return localStorage.getItem("pageReloaded") === "true" || false;
   });
 
   const maxLength = 1200;
@@ -240,7 +240,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
 
   const handlePostTextChange = (event) => {
     setText(event.target.value);
-    if (textPost ==== "") {
+    if (textPost === "") {
       setIsTyping(false);
       setShowPublishIcon(false);
     }
@@ -248,7 +248,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
 
   const handleTextCommnetChange = (event) => {
     setTextComment(event.target.value);
-    if (event.target.value.trim() !==== "") {
+    if (event.target.value.trim() !== "") {
       setIsTyping(true);
     } else {
       setIsTyping(false);
@@ -280,14 +280,14 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
 
   const handleTextChange2 = (event) => {
     setText(event.target.value);
-    if (textPost ==== "") {
+    if (textPost === "") {
       setIsTyping(false);
       setShowPublishIcon(false);
     }
   };
 
   const handleSearch = (e) => {
-    const searchValue = typeof e ==== "string" ? e : "";
+    const searchValue = typeof e === "string" ? e : "";
 
     setSearch(searchValue);
     async function getSearchs() {
@@ -358,7 +358,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     let auxPostJson = post?.review;
 
     if (
-      post.message ==== "Review created successfully" &&
+      post.message === "Review created successfully" &&
       selectedImages.length > 0
     ) {
       headersBase.delete("Content-Type");
@@ -396,7 +396,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
       try {
         setPostes((prevPostes) => {
           return prevPostes.map((prevPost) => {
-            if (prevPost._id_review ==== _id_review) {
+            if (prevPost._id_review === _id_review) {
               return {
                 ...prevPost,
                 is_liked: !prevPost.is_liked, // Invertir el estado
@@ -439,7 +439,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
       try {
         setPostes((prevPostes) => {
           return prevPostes.map((prevPost) => {
-            if (prevPost._id_review ==== idReviewComment) {
+            if (prevPost._id_review === idReviewComment) {
               return {
                 ...prevPost,
                 commentsCount: prevPost?.commentsCount + 1,
@@ -453,7 +453,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
           requestOptions
         );
         const validationComment = await response.json();
-        if (validationComment.message ==== "Comment created successfully") {
+        if (validationComment.message === "Comment created successfully") {
           toast.success("Comentario enviado");
 
           // TO-DO: elminar este if, mejorar logica para no tener que recargar pagina
@@ -492,7 +492,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
       try {
         setPostes((prevPostes) => {
           return prevPostes.map((prevPost) => {
-            if (prevPost._id_review ==== idReviewComment) {
+            if (prevPost._id_review === idReviewComment) {
               return {
                 ...prevPost,
                 commentsCount: prevPost?.commentsCount + 1,
@@ -506,7 +506,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
           requestOptions
         );
         const validationComment = await response.json();
-        if (validationComment.message ==== "Comment created successfully") {
+        if (validationComment.message === "Comment created successfully") {
           toast.success("Comentario enviado");
           window.location.reload();
         }
@@ -572,9 +572,9 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
 
   useEffect(() => {
     if (
-      textPost !==== "" &&
+      textPost !== "" &&
       reviewRating > 0 &&
-      (selectedCompany !== undefined || selectedCompany ==== "")
+      (selectedCompany !== undefined || selectedCompany === "")
     ) {
       setShowPublishIcon(true);
     } else {
@@ -644,7 +644,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
 
   async function getName() {
     const myHeaders = new Headers();
-    if (localStorage.token === null || localStorage.token ==== undefined) {
+    if (localStorage.token === null || localStorage.token === undefined) {
       // Manejar el error aquí, por ejemplo, redirigir al usuario a la página de inicio de sesión
       console.error("No hay token en localStorage");
       // Puedes redirigir al usuario o realizar otra acción
@@ -697,7 +697,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
         requestOptions
       );
 
-      if (response.status ==== 401) {
+      if (response.status === 401) {
         // Manejar el error de autorización
         console.error("Error de autorización");
         window.location.reload();
@@ -785,7 +785,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
 
   return (
     <>
-      {tokenVerified ==== true ? (
+      {tokenVerified === true ? (
         <>
           {deleteModalOpen && (
             <NewDeleteModal
@@ -875,7 +875,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
               />
             </>
           )}
-          {location.pathname ==== "/search" ? (
+          {location.pathname === "/search" ? (
             <>
               <Searchbar
                 darkMode={darkMode}
@@ -902,7 +902,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
               </FunctionContext.Provider>
               {!shouldHideComponent && (
                 <>
-                  {location.pathname !==== "/chats" && (
+                  {location.pathname !== "/chats" && (
                     <Searchbar
                       darkMode={darkMode}
                       activeTabView={activeTabView}

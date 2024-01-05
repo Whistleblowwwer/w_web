@@ -32,7 +32,7 @@ const Sidebar = ({
               <button
                 key={link.key}
                 className={`w-full text-left ${
-                  activeButton ==== link.label
+                  activeButton === link.label
                     ? darkMode
                       ? "active-buttonH font-bold"
                       : "active-buttonD font-bold"

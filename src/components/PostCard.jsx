@@ -50,7 +50,7 @@ const PostCard = ({
     const postId = post.User._id_user;
     const localStorageUserId = localStorage.userId;
 
-    if (postId ==== localStorageUserId.slice(1, -1)) {
+    if (postId === localStorageUserId.slice(1, -1)) {
       setIsOwnPost(true);
       console.log("hey!");
     } else {
@@ -192,7 +192,7 @@ const PostCard = ({
                   />
                   {isUserProfile ||
                   editable === "true" ||
-                  post?.User?.name ==== formattedStoredUserName ? (
+                  post?.User?.name === formattedStoredUserName ? (
                     <p></p>
                   ) : (
                     <button className="w-[15px] h-[15px] rounded-full border border-solid border-black flex items-center justify-center bg-[#141414] text-[#FFF] z-20">

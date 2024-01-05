@@ -21,7 +21,7 @@ const renderPreviews = (
           alt={`Preview ${index}`}
           className="w-20 h-auto rounded-md"
         />
-        {hoveredIndex ==== index && (
+        {hoveredIndex === index && (
           <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-md">
             <button
               className="text-white text-2xl font-bold cursor-pointer"
