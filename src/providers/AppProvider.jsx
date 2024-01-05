@@ -139,17 +139,20 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
               setPageReloaded(true);
               localStorage.setItem("pageReloaded", "true");
             } else {
+              console.log("error here!");
               getName();
               getPostes();
             }
           }
         });
         setTokenVerified(true);
-      } catch (err) {}
+      } catch (err) {
+        window.location.reload();
+        console.log(err);
+      }
     }
-
     verifyToken();
-  }, [localStorage]);
+  }, [localStorage.token]);
 
   const [pageReloaded, setPageReloaded] = useState(() => {
     return localStorage.getItem("pageReloaded") === "true" || false;
@@ -352,13 +355,13 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
       return jsonRes;
     }
     const post = await createReview();
+    let auxPostJson = post?.review;
 
     if (
       post.message === "Review created successfully" &&
       selectedImages.length > 0
     ) {
       headersBase.delete("Content-Type");
-      let auxPostJson = post?.review;
 
       try {
         const res = await uploadFiles(
@@ -368,11 +371,11 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
           selectedImages.length > 1 ? true : false
         );
         auxPostJson.Images = res.Images;
-        setPostes([auxPostJson, ...postes]);
       } catch (error) {
         console.error("Error al subir los archivos:", error);
       }
     }
+    setPostes([auxPostJson, ...postes]);
     setText("");
     setSelectedImages([]);
     setCompanySearchQuery("");

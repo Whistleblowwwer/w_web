@@ -26,7 +26,6 @@ const Login = ({ setAuth }) => {
   };
 
   const onSubmitForm = async e => {
-    e.preventDefault();
 
     try {
       const body = { client_email, client_password };
@@ -43,6 +42,7 @@ const Login = ({ setAuth }) => {
         localStorage.setItem("client_password", client_password);
         localStorage.setItem("token", parseRes.token);
         setAuth(true);
+        navigate("/home")
         toast.success("¡Inicio de sesión exitoso!");
 
       } else {
@@ -61,7 +61,7 @@ const Login = ({ setAuth }) => {
       <div>
         <Toaster position="top-center" reverseOrder={false} />
       </div>
-      <form className="py-1" onSubmit={onSubmitForm}>
+      <form className="py-1" onSubmit={onSubmitForm} novalidate>
         <div className={`w-screen flex justify-center items-center h-screen ${darkMode ? 'dark-register-bg' : ''}`}>
           <div className={`w-[438px] h-[504px] bg-[#FBFCF8] rounded-[10px] ${darkMode ? 'dark-register' : ''}`}>
             <div className="flex justify-between items-center">
@@ -79,7 +79,11 @@ const Login = ({ setAuth }) => {
               </button>
             </div>
             <div className="flex justify-center items-center mt-6">
-              <input name="client_email" value={client_email} onChange={e => onChange(e)} placeholder="Teléfono o Correo electrónico" className={`placeholder-black mr-4 mt-4 p-2  rounded-[10px] w-[87%] h-8 bg-stone-50 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${darkMode ? 'dark-register-bt placeholder-black-dk' : ''}`} />
+              <input name="client_email" value={client_email} required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                onChange={e => onChange(e)} placeholder="heytyy" className=" mr-4 mt-4 p-2 rounded-[10px] w-[87%] h-8 bg-stone-50 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" />
+              <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
+                Please enter a valid email address
+              </span>
             </div>
             <div className="flex justify-center items-center">
               <input name="client_password" value={client_password} onChange={e => onChange(e)} placeholder="Contraseña" className={`placeholder-black mr-4 mt-4 p-2 rounded-[10px] w-[87%] h-8 bg-stone-50 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${darkMode ? 'dark-register-bt placeholder-black-dk' : ''}`} />
