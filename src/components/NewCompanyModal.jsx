@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import countriesList from "../utils/countries.json";
-import { Toaster, toast } from "react-hot-toast";
 
 function NewCompanyModal(props) {
   //variables category
@@ -41,20 +40,6 @@ function NewCompanyModal(props) {
   useEffect(() => {
     setFilteredCountries(countriesList);
   }, []);
-
-  // useEffect(() => {
-  //   if (props.fetchResultHandler != undefined) {
-  //     toast.error(
-  //       "El nombre del proyecto o empresa ya existe. Intenta con uno distinto.",
-  //       { duration: 3000 }
-  //     );
-  //     props.setFetchResultHandler({
-  //       ...props.fetchResultHandler,
-  //       error: undefined,
-  //       message: undefined,
-  //     });
-  //   }
-  // }, [props.fetchResultHandler]);
 
   const handleCountryChange = (e) => {
     const searchValue = e.target.value;

@@ -4,7 +4,6 @@ import proSet from "../assets/defaultProfilePicture.webp";
 import { format } from "date-fns";
 
 function Conversation(props) {
-  const sender = props.userId;
   const messagesEndRef = useRef(null);
 
   useEffect(() => {

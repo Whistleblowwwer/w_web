@@ -1,12 +1,9 @@
-import { useState, useEffect, onSelect } from "react";
+import { useState, useEffect } from "react";
 import classNames from "classnames";
 
 function CompanyAutocomplete(props) {
-  const [query, setQuery] = useState("");
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
-
-  const suggestions = props.suggestions;
 
   useEffect(() => {
     setFilteredSuggestions(

@@ -1,8 +1,6 @@
 import React, { useState, useEffect, createContext } from "react";
 
 import {
-  Admin,
-  Begin,
   Register,
   Login,
   Home,
@@ -12,7 +10,6 @@ import {
   UserProfile,
   Review,
   Settings,
-  Testing,
   Notifications,
 } from "./pages";
 
@@ -51,7 +48,7 @@ function App() {
         requestOptions
       );
 
-      if (response_token.status == 401) { setIsAuthenticated(false) }
+      if (response_token.status === 401) { setIsAuthenticated(false) }
       else {
         setIsAuthenticated(true)
       }
