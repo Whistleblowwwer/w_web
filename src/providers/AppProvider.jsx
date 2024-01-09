@@ -570,6 +570,8 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     getCompanies();
   };
 
+  console.log("");
+
   useEffect(() => {
     if (
       textPost !== "" &&
