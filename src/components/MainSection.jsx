@@ -31,7 +31,7 @@ const MainSection = ({
 }) => {
   return (
     <div className="lg:w-[50%] w-full bg-[#EEEFEF] lg:px-0 p-1">
-      {postes == undefined ? (
+      {postes === undefined ? (
         <div className="flex items-center justify-center h-[100%]  bg-[#EEEFEF] lg:px-0 p-1">
           <div className="animate-pulse flex space-x-4">
             <div className="rounded-full bg-slate-700 h-10 w-10"></div>
