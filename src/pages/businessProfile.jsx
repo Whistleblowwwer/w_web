@@ -2,28 +2,16 @@ import { useState, useEffect, useContext } from "react";
 import { uploadFiles } from "../utils";
 import { getHeadersBase } from "../utils/getHeaders";
 
-import logoN from "../assets/NavLogo.png";
-import proSet from "../assets/defaultProfilePicture.webp";
-import Location from "../assets/Location.svg";
-import Like from "../assets/Like.svg";
-import Comment from "../assets/Comment Review.svg";
-import Share from "../assets/Send.svg";
-import {
-  useNavigate,
-  useLocation,
-  Navigate,
-  useParams,
-} from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import {
   differenceInMilliseconds,
   differenceInHours,
   differenceInDays,
   differenceInMonths,
-  format,
   parseISO,
 } from "date-fns";
-import { NewCommentModal, NewPostModal, ProfileSection } from "../components";
+import { ProfileSection } from "../components";
 
 export default function BusinessProfile({
   setAuth,
@@ -41,22 +29,12 @@ export default function BusinessProfile({
   const [businessDetails, setBusinessDetails] = useState("");
 
   //post variables
-  const [postModalOpen, setPostModalOpen] = useState(false);
   const [textPost, setText] = useState("");
-  const [textPost2, setText2] = useState("");
-  const [posts, setPosts] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
-  const [suggestions, setSuggestions] = useState([]);
   const [selectedCompany, setSelectedCompany] = useState();
   const [reviewRating, setReviewRating] = useState(0);
 
-  //comments variables
-  // const [commentModalOpen, setCommentModalOpen] = useState(false);
-  const [textComment, setTextComment] = useState("");
-  const [idReviewComment, setIdReviewComment] = useState("");
-
   //general variables
-  const [activeButton, setActiveButton] = useState("home");
   const [activeTabView, setActiveTabView] = useState("reseñas");
 
   const [isTyping, setIsTyping] = useState(false);
@@ -90,7 +68,7 @@ export default function BusinessProfile({
     }
   };
 
-  console.log("business details", businessDetails);
+  //ADD POST FUNCTIONS
 
   const handleRatingClick = (clickedRating) => {
     setReviewRating(clickedRating);
@@ -98,7 +76,7 @@ export default function BusinessProfile({
 
   const handleTextChange2 = (event) => {
     setText(event.target.value);
-    if (textPost == "") {
+    if (textPost === "") {
       setIsTyping(false);
       setShowPublishIcon(false);
     }
@@ -167,8 +145,9 @@ export default function BusinessProfile({
     setText("");
     setSelectedImages([]);
     setReviewRating(0);
-    setPostModalOpen(false);
   };
+
+  //GET POSTS FUNCTIONS
 
   useEffect(() => {
     async function getPostes() {
@@ -204,6 +183,8 @@ export default function BusinessProfile({
     getPostes();
   }, [business]);
 
+  //GET BUSINESS INFO FUNCTIONS
+
   useEffect(() => {
     async function getBusinessDetails() {
       const myHeaders = new Headers();
@@ -237,6 +218,8 @@ export default function BusinessProfile({
     getBusinessDetails();
   }, [business]);
 
+  //GET CURRENT USER INFO FUNCTION
+
   useEffect(() => {
     async function getName() {
       const myHeaders = new Headers();
@@ -261,6 +244,8 @@ export default function BusinessProfile({
     }
     getName();
   }, []);
+
+  //HANDLE LIKES AND COMMENTS FUNCTIONS
 
   const handleLike = (_id_review) => {
     async function postLike() {
@@ -289,40 +274,11 @@ export default function BusinessProfile({
         });
         const url = `https://api.whistleblowwer.net/users/reviews/like/?_id_review=${_id_review}`;
         const response = await fetch(url, requestOptions);
-        const parseRes = await response.json();
       } catch (err) {
         console.error(err.message);
       }
     }
     postLike();
-  };
-
-  const handleComment = () => {
-    async function postComment() {
-      const myHeaders = new Headers();
-      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
-      var raw = JSON.stringify({
-        content: textComment,
-        _id_review: idReviewComment,
-      });
-
-      const requestOptions = {
-        method: "POST",
-        headers: myHeaders,
-        body: raw,
-        redirect: "follow",
-      };
-
-      try {
-        const response = await fetch(
-          "https://api.whistleblowwer.net/comments",
-          requestOptions
-        );
-      } catch (err) {
-        console.error(err.message);
-      }
-    }
-    postComment();
   };
 
   const handleReview = async (reviewValue) => {
@@ -357,7 +313,6 @@ export default function BusinessProfile({
           `https://api.whistleblowwer.net/users/business/follow/?_id_business=${businessDetails._id_business}`,
           requestOptions
         );
-        const parseRes = await response.json();
         if (businessDetails?.is_followed) {
           setBusinessDetails({ ...businessDetails, is_followed: false });
         } else {

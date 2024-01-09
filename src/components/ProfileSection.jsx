@@ -266,7 +266,7 @@ const ProfileSection = ({
             style={{ paddingBottom: "90px" }}
           />
           <div className="opacity text-gray-500 text-sm mt-1 ml-2">
-            {/* {textPost.length}/{maxLength} */}
+            {textPost.length}/{maxLength}
           </div>
           <div className="p-4 flex flex-col space-y-2">
             <AddFiles
