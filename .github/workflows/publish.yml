@@ -1,7 +1,7 @@
 name: Generate a build and push to another branch
 
 on:
-  merge:
+  pull_request:
     branches:
       - main
 
