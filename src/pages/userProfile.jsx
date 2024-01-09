@@ -398,7 +398,7 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
         handleLike={handleLike}
         handleCommentClick={handleCommentClick}
         handleFollow={handleFollowUser}
-        isUserProfile
+        isUserProfile={true}
       />
       {/* <div className="w-1/4 bg-[#FFF] h-screen fixed right-0 p-4">
         <div className="relative">

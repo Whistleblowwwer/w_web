@@ -139,7 +139,6 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
               setPageReloaded(true);
               localStorage.setItem("pageReloaded", "true");
             } else {
-              console.log("error here!");
               getName();
               getPostes();
             }
@@ -569,8 +568,6 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     }
     getCompanies();
   };
-
-  console.log("");
 
   useEffect(() => {
     if (

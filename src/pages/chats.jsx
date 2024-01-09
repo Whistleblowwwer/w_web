@@ -330,7 +330,6 @@ export default function Chats(darkMode) {
       handleChatVisible();
     }
   }, [currentUserData]);
-  console.log(currentConversation);
 
   const handleChatVisible = () => {
     setResponseChatVisible(false);
