@@ -19,8 +19,6 @@ function Conversation(props) {
     scrollToBottom();
   };
 
-  console.log(props?.profile_picture_url)
-
   return (
     <div>
       <div className="conversation-container">

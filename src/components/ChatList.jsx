@@ -33,6 +33,7 @@ function ChatList(props) {
 
   useEffect(() => {
     props.socket.on("connect", () => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
