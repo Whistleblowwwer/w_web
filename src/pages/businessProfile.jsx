@@ -1,4 +1,7 @@
 import { useState, useEffect, useContext } from "react";
+import { uploadFiles } from "../utils";
+import { getHeadersBase } from "../utils/getHeaders";
+
 import logoN from "../assets/NavLogo.png";
 import proSet from "../assets/defaultProfilePicture.webp";
 import Location from "../assets/Location.svg";
@@ -43,6 +46,9 @@ export default function BusinessProfile({
   const [textPost2, setText2] = useState("");
   const [posts, setPosts] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
+  const [suggestions, setSuggestions] = useState([]);
+  const [selectedCompany, setSelectedCompany] = useState();
+  const [reviewRating, setReviewRating] = useState(0);
 
   //comments variables
   // const [commentModalOpen, setCommentModalOpen] = useState(false);
@@ -84,43 +90,84 @@ export default function BusinessProfile({
     }
   };
 
-  const handlePostModal = () => {
-    setPostModalOpen(!postModalOpen);
-  };
+  console.log("business details", businessDetails);
 
-  const handlePostTextChange = (event) => {
-    setText(event.target.value);
-    if (event.target.value.trim() !== "") {
-      setIsTyping(true);
-      setShowPublishIcon(true);
-    } else {
-      setIsTyping(false);
-      setShowPublishIcon(false);
-    }
+  const handleRatingClick = (clickedRating) => {
+    setReviewRating(clickedRating);
   };
-  const handleTextCommnetChange = (event) => {
-    setTextComment(event.target.value);
-    if (event.target.value.trim() !== "") {
-      setIsTyping(true);
-    } else {
-      setIsTyping(false);
-    }
-  };
-
-  // const handleCommentClick = (_id_review) => {
-  //   setIdReviewComment(_id_review);
-  //   setCommentModalOpen(!commentModalOpen);
-  // };
 
   const handleTextChange2 = (event) => {
-    setText2(event.target.value);
-    if (event.target.value.trim() !== "") {
-      setIsTyping(true);
-      setShowPublishIcon(true);
-    } else {
+    setText(event.target.value);
+    if (textPost == "") {
       setIsTyping(false);
       setShowPublishIcon(false);
     }
+  };
+
+  useEffect(() => {
+    if (textPost !== "" && reviewRating > 0) {
+      setShowPublishIcon(true);
+    } else {
+      setShowPublishIcon(false);
+    }
+  }, [textPost, reviewRating]);
+
+  const headersBase = getHeadersBase();
+
+  const handleAddPost = async () => {
+    async function createReview() {
+      const body = JSON.stringify({
+        content: textPost,
+        _id_business: businessDetails._id_business,
+        rating: reviewRating,
+      });
+
+      headersBase.append("Content-Type", "application/json");
+
+      const requestOptions = {
+        method: "POST",
+        headers: headersBase,
+        body: body,
+        redirect: "follow",
+      };
+
+      const response = await fetch(
+        "https://api.whistleblowwer.net/reviews",
+        requestOptions
+      );
+      const jsonRes = await response.json();
+
+      setText("");
+      setReviewRating(0);
+      setShowPublishIcon(false);
+      return jsonRes;
+    }
+    const post = await createReview();
+    let auxPostJson = post?.review;
+
+    if (
+      post.message === "Review created successfully" &&
+      selectedImages.length > 0
+    ) {
+      headersBase.delete("Content-Type");
+
+      try {
+        const res = await uploadFiles(
+          `https://api.whistleblowwer.net/bucket/review?_id_review=${post.review._id_review}`,
+          headersBase,
+          selectedImages,
+          selectedImages.length > 1 ? true : false
+        );
+        auxPostJson.Images = res.Images;
+      } catch (error) {
+        console.error("Error al subir los archivos:", error);
+      }
+    }
+    setPostes([auxPostJson, ...postes]);
+    setText("");
+    setSelectedImages([]);
+    setReviewRating(0);
+    setPostModalOpen(false);
   };
 
   useEffect(() => {
@@ -214,56 +261,6 @@ export default function BusinessProfile({
     }
     getName();
   }, []);
-
-  const addPost = () => {
-    if (textPost || selectedImages.length > 0) {
-      const newPost = {
-        text: textPost,
-        images: selectedImages.map((file) => URL.createObjectURL(file)),
-      };
-      setPosts([newPost, ...posts]);
-      setText("");
-      setSelectedImages([]);
-      handlePostModal();
-    } else if (textPost || selectedImages.length <= 0) {
-      const newPost = {
-        text: textPost,
-        images: [],
-      };
-      setPosts([newPost, ...posts]);
-      setText("");
-      handlePostModal();
-    }
-  };
-
-  const addPost2 = () => {
-    if (textPost2 || selectedImages.length > 0) {
-      const newPost = {
-        text: textPost2,
-        images: selectedImages.map((file) => URL.createObjectURL(file)),
-      };
-      setPosts([newPost, ...posts]);
-      setText2("");
-      setSelectedImages([]);
-      setShowPublishIcon(false);
-      handlePostModal();
-    } else if (textPost2 || selectedImages.length <= 0) {
-      const newPost = {
-        text: textPost2,
-        images: [],
-      };
-      setPosts([newPost, ...posts]);
-      setText2("");
-      handlePostModal();
-      setShowPublishIcon(false);
-    }
-  };
-
-  const logout = (e) => {
-    e.preventDefault();
-    localStorage.removeItem("token");
-    setAuth(false);
-  };
 
   const handleLike = (_id_review) => {
     async function postLike() {
@@ -388,6 +385,16 @@ export default function BusinessProfile({
         handleCommentClick={handleCommentClick}
         handleFollow={handleFollowBusiness}
         isBusiness
+        handleTextChange2={handleTextChange2}
+        textPost={textPost}
+        maxLength={maxLength}
+        selectedImages={selectedImages}
+        setSelectedImages={setSelectedImages}
+        setSelectedCompany={setSelectedCompany}
+        reviewRating={reviewRating}
+        handleRatingClick={handleRatingClick}
+        showPublishIcon={showPublishIcon}
+        handleAddPost={handleAddPost}
       />
       {/* <div className="w-1/4 bg-[#FFF] h-screen fixed right-0 p-4">
           <div className="relative">

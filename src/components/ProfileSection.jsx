@@ -15,6 +15,10 @@ import chatIcon from "../assets/chatIcon.png";
 import { useEffect, useState } from "react";
 import ProfilePicture from "./ProfilePicture";
 import defaultPp from "../assets/defaultProfilePicture.webp";
+import NewPostModal from "./NewPostModal";
+import mas from "../assets/Group 99.svg";
+import AddFiles from "../components/AddFiles";
+import CompanyAutocomplete from "../components/CompanyAutocomplete";
 
 const ProfileSection = ({
   darkMode,
@@ -34,6 +38,21 @@ const ProfileSection = ({
   handleFollow,
   isUserProfile,
   isBusiness,
+  handleTextChange2,
+  textPost,
+  maxLength,
+  selectedImages,
+  setSelectedImages,
+  setCompanyModalOpen,
+  handleSearchCompanyClick,
+  suggestions,
+  setSelectedCompany,
+  companySearchQuery,
+  setCompanySearchQuery,
+  reviewRating,
+  handleRatingClick,
+  showPublishIcon,
+  handleAddPost,
 }) => {
   const [viewPictureModal, setViewPictureModal] = useState(false);
   const navigate = useNavigate();
@@ -66,7 +85,7 @@ const ProfileSection = ({
         />
       )}
       <div className="lg:w-[50%] w-full bg-[#EEEFEF] lg:px-0 p-1">
-        <div className={`bg-[#FFF] ${darkMode ? "dark-register-bg" : ""}`}>
+        <div className={`bg-[#FFF]`}>
           <div className="w-[100%] h-auto pb-3 pl-3 pt-1 pr-3 bg-gradient-to-b from-white to-[#d78fa3]">
             <div className="flex mb-[20%]">
               <i
@@ -236,7 +255,77 @@ const ProfileSection = ({
             </div>
           </div>
         </div>
-
+        <div className={`bg-[#FFF] flex flex-col gap-1 mt-1 `}>
+          <input
+            className={`input-style w-full rounded-lg bg-gray-50 p-4 ${
+              darkMode ? "dark-register" : ""
+            }`}
+            onChange={handleTextChange2}
+            placeholder="Escribe algo..."
+            value={textPost}
+            style={{ paddingBottom: "90px" }}
+          />
+          <div className="opacity text-gray-500 text-sm mt-1 ml-2">
+            {/* {textPost.length}/{maxLength} */}
+          </div>
+          <div className="p-4 flex flex-col space-y-2">
+            <AddFiles
+              darkMode={darkMode}
+              selectedFiles={selectedImages}
+              setSelectedFiles={setSelectedImages}
+              isInHome={true}
+            />
+            <div className="flex flex-col lg:flex-row items-center justify-between w-full gap-4">
+              <div className="flex flex-row justify-between w-full lg:w-1/2">
+                <div className="flex items-center relative gap-2">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <i
+                      key={star}
+                      className={`fa-solid fa-star ${
+                        star <= reviewRating ? "dark-text-white" : ""
+                      }`}
+                      style={{
+                        color: star <= reviewRating ? "#688BFF" : "#D9D9D9",
+                        fontSize: "18px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => handleRatingClick(star)}
+                    ></i>
+                  ))}
+                </div>
+                <button
+                  style={{
+                    display: showPublishIcon ? "none" : "block",
+                    background: showPublishIcon
+                      ? "linear-gradient(267deg, #8E1DA1 0%, #2D015A 100%)"
+                      : "#F8F8FB",
+                  }}
+                  className={`bg-[#F8F8FB] w-[45%] h-[42px] rounded-full`}
+                >
+                  <p
+                    className={`text-[#A9A9A9] text-md ${
+                      darkMode ? "dark-text" : ""
+                    }`}
+                  >
+                    Publicar
+                  </p>
+                </button>
+                <button
+                  onClick={handleAddPost}
+                  style={{
+                    display: showPublishIcon ? "block" : "none",
+                    background: showPublishIcon
+                      ? "linear-gradient(267deg, #8E1DA1 0%, #2D015A 100%)"
+                      : "#F8F8FB",
+                  }}
+                  className={`bg-[#F8F8FB] w-[45%] h-[42px] rounded-full`}
+                >
+                  <p className={`text-[#FFF] text-md`}>Publicar</p>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
         <div className="flex flex-col gap-1 mt-1 lg:pb-0 pb-14">
           {postes.map((post, index) => (
             <PostCard
