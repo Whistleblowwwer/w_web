@@ -213,28 +213,18 @@ export default function Settings() {
               </div>
             )}
             {activeButtonCon === "privacidad" && (
-              <div>
-                <p
-                  className={`text-xl font-bold leading-[18.62px] ${
-                    darkMode ? "dark-text-white" : ""
-                  }`}
-                >
-                  Privacidad
+              <div className="flex justify-center text-gray-600 mb-6 text-xs">
+                <p>
+                  D.R.® ANCER 2023, S.A.P.I. DE C.V., México 2023. Utilización
+                  del sitio únicamente bajo
+                  <u>
+                    <a href="/t&c" target="_blank" rel="noopener noreferrer">
+                      {" términos legales"}
+                    </a>
+                  </u>
+                  . Whistleblowwer® Pedro Infante #1000, Colonia Cumbres Oro
+                  Regency, Monterrey, Nuevo León, México. 64347.
                 </p>
-                <p className="mt-3 mb-3">
-                  D.R.© ANCER 2023, S.A.P.I. DE C.V., México 2023. Utilización
-                  del sitio únicamente bajo términos legales. Whistleblowwer®
-                  Pedro Infante # 1000, Colonia Cumbres Oro Regency, Monterrey,
-                  Nuevo León. México. 64347.
-                </p>
-                <a
-                  href="/t&c"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-indigo-800 text-black font-bold mt-4"
-                >
-                  Terminos y condiciones
-                </a>
               </div>
             )}
             {activeButtonCon === "notificaciones" && (

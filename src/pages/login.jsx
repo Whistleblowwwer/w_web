@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import google from "../assets/Group 3.svg";
 import { useNavigate, useLocation } from "react-router-dom";
+import logoN from "../assets/w_logo.svg";
 
 export default function Login({ setAuth }) {
   const location = useLocation();
@@ -85,18 +86,24 @@ export default function Login({ setAuth }) {
           }`}
         >
           <div
-            className={`w-auto h-auto bg-[#FBFCF8] rounded-[10px] ${
-              darkMode ? "dark-register" : ""
-            } sm:w-[60%] md:w-[60%] lg:w-[40%] xl:w-[30%] 2xl:w-[20%] m-[2%]`}
+            className={`w-auto h-auto bg-[#FBFCF8] rounded-[10px] sm:w-[60%] md:w-[60%] lg:w-[40%] xl:w-[30%] 2xl:w-[20%] m-[2%]`}
           >
             <div className="flex justify-between items-center">
-              <h1
-                className={`text-neutral-900 text-3xl font-semibold leading-7 mt-8 ml-8 ${
-                  darkMode ? "dark-text-white" : ""
-                }`}
-              >
-                Inicia sesión
-              </h1>
+              <div className="flex justify-between items-left">
+                <img
+                  src={logoN}
+                  alt="Logo"
+                  className="w-12 h-auto cursor-pointer mt-7 ml-5"
+                />
+                <h1
+                  className={`text-neutral-900 text-2xl font-semibold leading-7 mt-8 ml-2 ${
+                    darkMode ? "dark-text-white" : ""
+                  }`}
+                >
+                  Inicia sesión
+                </h1>
+              </div>
+
               <button
                 onClick={() => onSubmitForm}
                 className={`mr-4 mb-3 ${darkMode ? "dark-text-white" : ""}`}
