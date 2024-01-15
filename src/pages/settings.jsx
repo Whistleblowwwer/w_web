@@ -2,20 +2,9 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation, Navigate } from "react-router-dom";
 
 export default function Settings() {
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
-
-  const navigate = useNavigate();
-
   const [activeButton, setActiveButton] = useState("settings");
 
   const [activeButtonCon, setActiveButtonCon] = useState("tucuen");
-
-  const [darkMode, setDarkMode] = useState(() => {
-    // Inicializa el estado a partir de LocalStorage o usa el valor predeterminado (false)
-    return JSON.parse(localStorage.getItem("darkMode")) || false;
-  });
 
   const [divsVisibility, setDivsVisibility] = useState({
     tucuen: true,
@@ -50,35 +39,16 @@ export default function Settings() {
     });
   };
 
-  useEffect(() => {
-    // Actualiza LocalStorage cuando cambia el estado
-    localStorage.setItem("darkMode", JSON.stringify(darkMode));
-  }, [darkMode]);
-
   return (
     <div className="lg:w-[50%] w-full bg-[#EEEFEF] lg:px-0 p-1">
       <div className="bg-[#FFF] p-4">
-        <p
-          className={`text-xl font-bold leading-[18.62px] ${
-            darkMode ? "dark-text-white" : ""
-          }`}
-        >
-          Configuración
-        </p>
+        <p className={`text-xl font-bold leading-[18.62px]`}>Configuración</p>
         <div className="flex">
           <div className="w-[50%]">
-            <div
-              className={`margin-top mt-3 ${
-                darkMode ? "dark-text-white" : ""
-              } sidebarcontain`}
-            >
+            <div className={`margin-top mt-3 sidebarcontain`}>
               <button
                 className={
-                  activeButtonCon === "tucuen"
-                    ? darkMode
-                      ? "active-buttonH font-bold"
-                      : "active-buttonD font-bold"
-                    : ""
+                  activeButtonCon === "tucuen" ? "active-buttonD font-bold" : ""
                 }
                 onClick={() => {
                   setActiveButtonCon("tucuen");
@@ -90,17 +60,11 @@ export default function Settings() {
                 </p>
               </button>
             </div>
-            <div
-              className={`margin-top mt-3 ${
-                darkMode ? "dark-text-white" : ""
-              } sidebarcontain`}
-            >
+            <div className={`margin-top mt-3 sidebarcontain`}>
               <button
                 className={
                   activeButtonCon === "seguridad"
-                    ? darkMode
-                      ? "active-buttonH font-bold"
-                      : "active-buttonD font-bold"
+                    ? "active-buttonD font-bold"
                     : ""
                 }
                 onClick={() => {
@@ -113,17 +77,11 @@ export default function Settings() {
                 </p>
               </button>
             </div>
-            <div
-              className={`margin-top mt-3 ${
-                darkMode ? "dark-text-white" : ""
-              } sidebarcontain`}
-            >
+            <div className={`margin-top mt-3 sidebarcontain`}>
               <button
                 className={
                   activeButtonCon === "privacidad"
-                    ? darkMode
-                      ? "active-buttonH font-bold"
-                      : "active-buttonD font-bold"
+                    ? "active-buttonD font-bold"
                     : ""
                 }
                 onClick={() => {
@@ -136,17 +94,11 @@ export default function Settings() {
                 </p>
               </button>
             </div>
-            <div
-              className={`margin-top mt-3 ${
-                darkMode ? "dark-text-white" : ""
-              } sidebarcontain`}
-            >
+            <div className={`margin-top mt-3 sidebarcontain`}>
               <button
                 className={
                   activeButtonCon === "notificaciones"
-                    ? darkMode
-                      ? "active-buttonH font-bold"
-                      : "active-buttonD font-bold"
+                    ? "active-buttonD font-bold"
                     : ""
                 }
                 onClick={() => {
@@ -159,17 +111,11 @@ export default function Settings() {
                 </p>
               </button>
             </div>
-            <div
-              className={`margin-top mt-3 ${
-                darkMode ? "dark-text-white" : ""
-              } sidebarcontain`}
-            >
+            <div className={`margin-top mt-3 sidebarcontain`}>
               <button
                 className={
                   activeButtonCon === "acceses"
-                    ? darkMode
-                      ? "active-buttonH font-bold"
-                      : "active-buttonD font-bold"
+                    ? "active-buttonD font-bold"
                     : ""
                 }
                 onClick={() => {
@@ -186,11 +132,7 @@ export default function Settings() {
           <div className="w-[50%]">
             {activeButtonCon === "tucuen" && (
               <div className="w-[100%]">
-                <p
-                  className={`text-xl font-bold leading-[18.62px] ${
-                    darkMode ? "dark-text-white" : ""
-                  }`}
-                >
+                <p className={`text-xl font-bold leading-[18.62px]`}>
                   Tu cuenta
                 </p>
                 <button
@@ -205,11 +147,7 @@ export default function Settings() {
             )}
             {activeButtonCon === "seguridad" && (
               <div>
-                <p
-                  className={`text-xl font-bold leading-[18.62px] ${
-                    darkMode ? "dark-text-white" : ""
-                  }`}
-                >
+                <p className={`text-xl font-bold leading-[18.62px]`}>
                   Seguridad
                 </p>
               </div>
@@ -231,22 +169,14 @@ export default function Settings() {
             )}
             {activeButtonCon === "notificaciones" && (
               <div>
-                <p
-                  className={`text-xl font-bold leading-[18.62px] ${
-                    darkMode ? "dark-text-white" : ""
-                  }`}
-                >
+                <p className={`text-xl font-bold leading-[18.62px]`}>
                   Notificaciones
                 </p>
               </div>
             )}
             {activeButtonCon === "acceses" && (
               <div>
-                <p
-                  className={`text-xl font-bold leading-[18.62px] ${
-                    darkMode ? "dark-text-white" : ""
-                  }`}
-                >
+                <p className={`text-xl font-bold leading-[18.62px`}>
                   Accesibilidad
                 </p>
                 <div className="mt-3 margin-top">

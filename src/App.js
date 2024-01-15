@@ -24,6 +24,8 @@ import {
 } from "react-router-dom";
 import AppProvider from "./providers/AppProvider";
 
+console.log("token", localStorage.token)
+
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -117,7 +119,7 @@ function App() {
             <Route
               path="/settings"
               element={
-                localStorage.getItem("token") ? (
+                localStorage.token ? (
                   <Settings />
                 ) : (
                   <Navigate to="/login" />
