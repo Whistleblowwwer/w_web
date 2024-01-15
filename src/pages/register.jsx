@@ -220,34 +220,28 @@ export default function Register({ setAuth }) {
         <div
           className={`w-auto h-auto bg-[#FBFCF8] rounded-[10px] ${
             darkMode ? "dark-register" : ""
-          } sm:w-[50%] md:w-[60%] lg:w-[40%] xl:w-[30%] 2xl:w-[20%] m-[3%]`}
+          } sm:w-[50%] md:w-[60%] lg:w-[40%] xl:w-[35%] 2xl:w-[35%] m-[3%]`}
         >
-          <div className="flex justify-between items-center">
-            <div className="flex justify-between items-left">
-              <img
-                src={logoN}
-                alt="Logo"
-                className="w-12 h-auto cursor-pointer mt-7 ml-5"
-              />
-              <h1
-                className={`text-neutral-900 text-2xl font-semibold leading-7 mt-8 ml-2 ${
-                  darkMode ? "dark-text-white" : ""
-                }`}
-              >
-                Crear cuenta
-              </h1>
-            </div>
-            <button
-              className={`mr-4 mb-3 ${darkMode ? "dark-text-white" : ""}`}
-              onClick={() => Navigate(-1)}
+          <div className="flex justify-center items-center pt-8">
+            <img
+              src={logoN}
+              alt="Logo"
+              className="w-12 h-auto cursor-pointer"
+            />
+          </div>
+          <div className="flex items-left">
+            <h1
+              className={`text-neutral-900 text-xl font-semibold leading-7 mt-8 ml-8 ${
+                darkMode ? "dark-text-white" : ""
+              }`}
             >
-              <i className="fas fa-times"></i>
-            </button>
+              Crear cuenta en Whistleblowwer
+            </h1>
           </div>
           <form onSubmit={onSubmitForm}>
             {step == 1 && (
               <>
-                <div className="flex mt-5 ml-5">
+                <div className="flex mt-5 ml-8">
                   <p
                     className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${
                       darkMode ? "dark-text-white" : ""
@@ -268,7 +262,7 @@ export default function Register({ setAuth }) {
                     onChange={(e) => onChange(e)}
                   ></input>
                 </div>
-                <div className="flex mt-5 ml-5">
+                <div className="flex mt-5 ml-8">
                   <p
                     className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${
                       darkMode ? "dark-text-white" : ""
@@ -289,7 +283,7 @@ export default function Register({ setAuth }) {
                     onChange={(e) => onChange(e)}
                   ></input>
                 </div>
-                <div className="flex mt-5 ml-5">
+                <div className="flex mt-5 ml-8">
                   <p
                     className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${
                       darkMode ? "dark-text-white" : ""
@@ -310,7 +304,7 @@ export default function Register({ setAuth }) {
                     onChange={(e) => onChange(e)}
                   ></input>
                 </div>
-                <div className="flex mt-5 ml-5">
+                <div className="flex mt-5 ml-8">
                   <p
                     className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${
                       darkMode ? "dark-text-white" : ""
@@ -708,33 +702,17 @@ export default function Register({ setAuth }) {
                 </button>
               )}
             </div>
-            <div className="flex justify-center items-center w-[100%] mt-10 pb-4">
-              <p
-                className={`text-neutral-900 text-[10px] font-medium mt-4 ml-10 mr-[28px] translate-x-[-12px] ${
-                  darkMode ? "dark-text-white" : ""
-                }`}
-              >
-                Al registrarte, aceptas los{" "}
-                <a href="/t&c" target="_blank" className="underline">
-                  Términos legales
-                </a>{" "}
-                y la{" "}
-                <a
-                  href="aviso-privacidad"
-                  target="_blank"
-                  className="underline"
-                >
-                  Política de privacidad
-                </a>{" "}
-                , incluida la política de{" "}
-                <a
-                  href="aviso-privacidad"
-                  target="_blank"
-                  className="underline"
-                >
-                  Uso de Cookies
-                </a>
-                .
+            <div className="flex justify-center items-center w-[100%] mt-10 pb-4 text-xs text-gray-500	">
+              <p className="ml-4 mr-4">
+                D.R.® ANCER 2023, S.A.P.I. DE C.V., México 2023. Utilización del
+                sitio únicamente bajo
+                <u>
+                  <a href="/t&c" target="_blank" rel="noopener noreferrer">
+                    {" términos legales"}
+                  </a>
+                </u>
+                . Whistleblowwer® Pedro Infante #1000, Colonia Cumbres Oro
+                Regency, Monterrey, Nuevo León, México. 64347.
               </p>
             </div>
           </form>
