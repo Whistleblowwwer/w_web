@@ -24,8 +24,6 @@ import {
 } from "react-router-dom";
 import AppProvider from "./providers/AppProvider";
 
-console.log("token", localStorage.token)
-
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
