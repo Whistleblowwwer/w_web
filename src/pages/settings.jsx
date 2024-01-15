@@ -35,6 +35,8 @@ export default function Settings() {
     localStorage.removeItem("userId");
     localStorage.removeItem("pageReloaded");
     window.location.reload();
+
+    // window.location.reload();
   };
 
   const handleButtonClick = (buttonName) => {
