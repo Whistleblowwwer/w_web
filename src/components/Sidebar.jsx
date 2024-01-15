@@ -80,7 +80,7 @@ const Sidebar = ({
           <div className="flex justify-center text-gray-600 text-xs mb-5"></div>
           <div className="flex justify-center text-gray-600 mb-6 text-xs">
             <p>
-              D.R.® ANCER 2023, S.A.P.I. DE C.V., México 2023. Utilización del
+              D.R. ANCER 2023, S.A.P.I. DE C.V., México 2023. Utilización del
               sitio únicamente bajo
               <u>
                 <a href="/t&c" target="_blank" rel="noopener noreferrer">

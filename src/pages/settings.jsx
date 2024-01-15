@@ -215,7 +215,7 @@ export default function Settings() {
             {activeButtonCon === "privacidad" && (
               <div className="flex justify-center text-gray-600 mb-6 text-xs">
                 <p>
-                  D.R.® ANCER 2023, S.A.P.I. DE C.V., México 2023. Utilización
+                  D.R. ANCER 2023, S.A.P.I. DE C.V., México 2023. Utilización
                   del sitio únicamente bajo
                   <u>
                     <a href="/t&c" target="_blank" rel="noopener noreferrer">
