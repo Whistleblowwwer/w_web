@@ -49,6 +49,8 @@ function NewCommentModal(props) {
               onChange={props.handleTextCommentChange}
               placeholder="Escribe algo.."
               value={props.textComment}
+              maxLength={1200}
+              wrap="soft"
             />
             <div className="text-gray-500 text-sm mt-1 ml-2">
               {props.textComment.length}/{props.maxLength} palabras

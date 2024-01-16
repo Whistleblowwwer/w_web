@@ -207,17 +207,23 @@ body {
   padding-left: 2%;
 }
 
-.input-container input {
+.input-container textarea {
   width: calc(100% - 20px);
-  padding: 10px;
+  padding: 4px;
   border: 1px solid #ccc;
   border-radius: 5px;
   box-sizing: border-box;
-  margin-right: -5%;
+  background-color: #FFF;
+  margin-right: 0%;
 }
 
 .input-container button {
-  padding: 12px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-left: none; /* Elimina el borde superior */
+  border-radius: 0 5px 5px 0; /* Curvas en la esquina derecha arriba y derecha abajo */
+  margin-left: -0.3%;
+  background-color: #FFF;
   cursor: pointer;
 }
 
@@ -319,7 +325,7 @@ iframe {
   .responsive-postimg{
     position: relative;
   }
-  .input-container input {
+  .input-container textarea {
     width: calc(100% - 20px);
     padding: 10px;
     border: 1px solid #ccc;

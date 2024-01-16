@@ -80,24 +80,6 @@ export default function Admin() {
               className={`hover:bg-gray-700 py-2 px-4 mt-4 w-[280px] h-[41px] bg-neutral-900 rounded-[44px] relative ${
                 darkMode ? "dark-button" : ""
               }`}
-            >
-              <img
-                src={google}
-                alt="google"
-                className="w-4.5 h-4.5 mr-2 absolute left-10 top-1/2 transform -translate-y-1/2"
-              />
-              <span
-                className={`text-stone-50 text-[15px] font-medium leading-[13.96px] pl-6 ${
-                  darkMode ? "dark-text" : ""
-                }`}
-              >
-                Registrase con Google
-              </span>
-            </button>
-            <button
-              className={`hover:bg-gray-700 py-2 px-4 mt-4 w-[280px] h-[41px] bg-neutral-900 rounded-[44px] relative ${
-                darkMode ? "dark-button" : ""
-              }`}
               onClick={() => handleButtonClick("/register")}
             >
               <span
