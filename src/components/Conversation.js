@@ -49,16 +49,17 @@ function Conversation(props) {
           )}
           <div ref={messagesEndRef}></div>
           <div className="input-container">
-            <input
-              type="text"
+            <textarea
               placeholder="Type your message..."
               value={props.message}
-              onChange={(e) => props.setMessage(e.target.value)} // Agrega esta clase para hacer el input más redondo
+              onChange={(e) => props.setMessage(e.target.value)}
+              className="mr-4 focus:outline-none" // Añade margen derecho al textarea
             />
             <button
               onClick={() => handleSendMessage()}
+              className="ml-2" // Ajusta la posición del botón usando Tailwind
             >
-              <img src={sendMessage} alt="send" className="translate-x-[-60%]" />
+              <img src={sendMessage} alt="send" className="" />
             </button>
           </div>
         </div>
@@ -87,15 +88,13 @@ function Conversation(props) {
           )}
           <div ref={messagesEndRef}></div>
           <div className="input-container">
-            <input
+            <textarea
               type="text"
               placeholder="Type your message..."
               value={props.message}
               onChange={(e) => props.setMessage(e.target.value)}
             />
-            <button
-              onClick={() => handleSendMessage()}
-            >
+            <button onClick={() => handleSendMessage()}>
               <img src={sendMessage} alt="send" className="" />
             </button>
           </div>
