@@ -30,11 +30,9 @@ export default function Register({ setAuth }) {
     username: "",
     last_name: "",
     email: "",
-    phone_number: "",
     birth_date: "",
     gender: "",
     password: "",
-    role: "consumer",
   });
 
   const [otpCode, setOtpCode] = useState({
@@ -686,7 +684,8 @@ export default function Register({ setAuth }) {
                     {" Términos Legales "}
                   </a>
                 </u>
-                y nuestro
+                Pedro Infante #1000, Colonia Cumbres Oro Regency, Monterrey,
+                Nuevo León, México. 64347.
                 <u>
                   <a
                     href="/avisoPrivacidad"
@@ -696,8 +695,6 @@ export default function Register({ setAuth }) {
                     {" Aviso de Privacidad. "}
                   </a>
                 </u>
-                Pedro Infante #1000, Colonia Cumbres Oro Regency, Monterrey,
-                Nuevo León, México. 64347.
               </p>
             </div>
           </form>

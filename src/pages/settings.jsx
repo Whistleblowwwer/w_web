@@ -162,7 +162,8 @@ export default function Settings() {
                       {" Términos Legales "}
                     </a>
                   </u>
-                  y nuestro
+                  Pedro Infante #1000, Colonia Cumbres Oro Regency, Monterrey,
+                  Nuevo León, México. 64347.
                   <u>
                     <a
                       href="/avisoPrivacidad"
@@ -172,8 +173,6 @@ export default function Settings() {
                       {" Aviso de Privacidad. "}
                     </a>
                   </u>
-                  Pedro Infante #1000, Colonia Cumbres Oro Regency, Monterrey,
-                  Nuevo León, México. 64347.
                 </p>
               </div>
             )}

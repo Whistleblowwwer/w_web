@@ -19,6 +19,27 @@ function CompanyAutocomplete(props) {
 
   const handleInputChange = (event) => {
     props.setCompanySearchQuery(event.target.value);
+    async function getCompanies() {
+      const myHeaders = new Headers();
+      myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+      };
+
+      try {
+        const response = await fetch(
+          `https://api.whistleblowwer.net/business/?searchTerm=${event.target.value}`,
+          requestOptions
+        );
+        const parseRes = await response.json();
+        setFilteredSuggestions(parseRes.businesses || []);
+      } catch (err) {
+        console.error(err.message);
+      }
+    }
+    getCompanies();
     setDropdownOpen(true);
   };
 

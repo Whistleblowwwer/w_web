@@ -87,7 +87,8 @@ const Sidebar = ({
                   {" Términos Legales "}
                 </a>
               </u>
-              y nuestro
+              Pedro Infante #1000, Colonia Cumbres Oro Regency, Monterrey, Nuevo
+              León, México. 64347.
               <u>
                 <a
                   href="/avisoPrivacidad"
@@ -97,8 +98,6 @@ const Sidebar = ({
                   {" Aviso de Privacidad. "}
                 </a>
               </u>
-              Pedro Infante #1000, Colonia Cumbres Oro Regency, Monterrey, Nuevo
-              León, México. 64347.
             </p>
           </div>
 
