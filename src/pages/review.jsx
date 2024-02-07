@@ -67,7 +67,6 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
           parseRes.message === "Comment liked successfully" ||
           parseRes.message === "Comment unliked successfully"
         ) {
-          window.location.reload();
         }
       } catch (err) {
         console.error(err.message);

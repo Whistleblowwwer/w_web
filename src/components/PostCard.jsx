@@ -31,7 +31,8 @@ const PostCard = ({
     post?.Business?.is_followed
   );
   const [conteoComentarios, setConteoComentarios] = useState();
-
+  const [auxIsLiked, setAuxIsLiked] = useState(post.is_liked);
+  const [auxLikesCount, setAuxLikesCount] = useState(post.likesCount);
   const [modalReport, setModalReport] = useState(false);
 
   const [modalDelete, setModalDelete] = useState(false);
@@ -44,6 +45,14 @@ const PostCard = ({
 
   const handleReportModal = () => {
     setModalReport(!modalReport);
+  };
+
+  const handleAuxLike = (id) => {
+    handleLike(id);
+    auxIsLiked
+      ? setAuxLikesCount(auxLikesCount - 1)
+      : setAuxLikesCount(auxLikesCount + 1);
+    setAuxIsLiked(!auxIsLiked);
   };
 
   const handleDeleteModal = () => {
@@ -283,7 +292,7 @@ const PostCard = ({
         <div className="flex flex-col space-y-1">
           <div className="flex items-center gap-2 w-full">
             <img
-              src={post?.is_liked ? Liked : Like}
+              src={auxIsLiked ? Liked : Like}
               alt="like"
               className="relative"
               style={{
@@ -292,7 +301,7 @@ const PostCard = ({
                 cursor: "pointer",
               }}
               onClick={() =>
-                handleLike(isComment ? post?._id_comment : post?._id_review)
+                handleAuxLike(isComment ? post?._id_comment : post?._id_review)
               }
             />
             <div
@@ -312,7 +321,7 @@ const PostCard = ({
           </div>
           <div className="flex space-x-4">
             <p className={`text-gray-400 text-s font-light leading-normal`}>
-              {post?.likesCount} me gusta
+              {auxLikesCount} me gusta
             </p>
             <p className={`text-gray-400 text-s font-light leading-normal`}>
               {post?.commentsCount} comentarios
