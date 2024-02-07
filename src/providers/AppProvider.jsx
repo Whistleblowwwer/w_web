@@ -301,7 +301,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
 
       try {
         const response = await fetch(
-          `https://api.whistleblowwer.net/business/search?name=${e}&city=&enitty=&country=&address=&state=`,
+          `https://api.whistleblowwer.net/business/search-name-entity?searchTerm=${e}`,
           requestOptions
         );
         const parseRes = await response.json();
