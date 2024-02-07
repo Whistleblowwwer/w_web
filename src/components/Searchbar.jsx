@@ -280,7 +280,7 @@ const Searchbar = ({
         </div>
       )}
       {isBusinessVisible && (
-        <div className="w-full h-full p-2">
+        <div className="w-full h-screen overflow-y-auto p-2">
           {/* TO-DO: reisar si es necesaria la seccion de recent search */}
           {/* <div>
             {recentSearches.map((term, index) => (
@@ -311,7 +311,7 @@ const Searchbar = ({
         </div>
       )}
       {isPeopleVisible && (
-        <div className="w-full h-full p-2">
+        <div className="w-full h-screen overflow-y-auto p-2">
           {/* TO-DO:revisar si es necesaria esta seccion */}
           {/* <div>
             {recentSearches.map((term, index) => (
