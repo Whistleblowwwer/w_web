@@ -298,12 +298,14 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
         headers: myHeaders,
         redirect: "follow",
       };
+      console.log("e", e);
+      const url_companies =
+        e == ""
+          ? `https://api.whistleblowwer.net/business/`
+          : `https://api.whistleblowwer.net/business/search-name-entity?searchTerm=${e}`;
 
       try {
-        const response = await fetch(
-          `https://api.whistleblowwer.net/business/search?name=${e}&city=&enitty=&country=&address=&state=`,
-          requestOptions
-        );
+        const response = await fetch(url_companies, requestOptions);
         const parseRes = await response.json();
         setBusinesses(parseRes.businesses || []);
       } catch (err) {
