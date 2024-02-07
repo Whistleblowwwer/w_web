@@ -30,7 +30,7 @@ function CompanyAutocomplete(props) {
 
       try {
         const response = await fetch(
-          `https://api.whistleblowwer.net/business/?searchTerm=${event.target.value}`,
+          `https://api.whistleblowwer.net/business/search/?searchTerm=${event.target.value}`,
           requestOptions
         );
         const parseRes = await response.json();
