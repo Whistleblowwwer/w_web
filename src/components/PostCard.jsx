@@ -112,8 +112,13 @@ const PostCard = ({
     handleDeleteModal();
   };
 
-  const storedUserName = localStorage.getItem("userName");
-  const formattedStoredUserName = storedUserName.replace(/"/g, "");
+  let formattedStoredUserName = "";
+  useEffect(() => {
+    if (localStorage.getItem("userName")) {
+      const storedUserName = localStorage.getItem("userName");
+      formattedStoredUserName = storedUserName.replace(/"/g, "");
+    }
+  }, [localStorage.getItem("token")]);
 
   return (
     <>

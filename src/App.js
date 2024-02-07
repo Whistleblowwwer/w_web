@@ -115,6 +115,17 @@ function App() {
               }
             />
             <Route
+              path="/settings"
+              element={
+                localStorage.token ? (
+                  <Settings />
+                ) : (
+                  <Navigate to="/login" />
+                )
+              }
+            />
+
+            <Route
               path="/review/:review"
               element={
                 <Review
@@ -143,7 +154,6 @@ function App() {
                 />
               }
             />
-            <Route path="/settings" element={<Settings />} />
             <Route path="/t&c" element={<Tyc />} />
             <Route path="/aviso-privacidad" element={<AvisoPrivavidad />} />
             <Route path="/notificaciones" element={<Notifications />} />

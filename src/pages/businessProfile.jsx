@@ -93,6 +93,10 @@ export default function BusinessProfile({
   const headersBase = getHeadersBase();
 
   const handleAddPost = async () => {
+    const API_BASE_URL = "https://api.whistleblowwer.net";
+    const REVIEW_ENDPOINT = `${API_BASE_URL}/reviews`;
+    const BUCKET_ENDPOINT = `${API_BASE_URL}/bucket/review`;
+
     async function createReview() {
       const body = JSON.stringify({
         content: textPost,
@@ -109,10 +113,7 @@ export default function BusinessProfile({
         redirect: "follow",
       };
 
-      const response = await fetch(
-        "https://api.whistleblowwer.net/reviews",
-        requestOptions
-      );
+      const response = await fetch(REVIEW_ENDPOINT, requestOptions);
       const jsonRes = await response.json();
 
       setText("");
@@ -120,31 +121,38 @@ export default function BusinessProfile({
       setShowPublishIcon(false);
       return jsonRes;
     }
-    const post = await createReview();
-    let auxPostJson = post?.review;
 
-    if (
-      post.message === "Review created successfully" &&
-      selectedImages.length > 0
-    ) {
-      headersBase.delete("Content-Type");
+    try {
+      const post = await createReview(textPost, selectedCompany, reviewRating);
 
-      try {
-        const res = await uploadFiles(
-          `https://api.whistleblowwer.net/bucket/review?_id_review=${post.review._id_review}`,
-          headersBase,
-          selectedImages,
-          selectedImages.length > 1 ? true : false
-        );
-        auxPostJson.Images = res.Images;
-      } catch (error) {
-        console.error("Error al subir los archivos:", error);
+      if (post.message === "Review created successfully") {
+        if (selectedImages.length > 0) {
+          headersBase.delete("Content-Type");
+
+          try {
+            const uploadUrl = `${BUCKET_ENDPOINT}?_id_review=${post.review._id_review}`;
+            const res = await uploadFiles(
+              uploadUrl,
+              headersBase,
+              selectedImages,
+              selectedImages.length > 1
+            );
+            post.review.Images = res.Images;
+          } catch (error) {
+            console.error("Error uploading files:", error);
+          }
+        }
+
+        setPostes([post.review, ...postes]);
+        setText("");
+        setSelectedImages([]);
+        setReviewRating(0);
+      } else {
+        console.log("Error: Review not created successfully");
       }
+    } catch (error) {
+      console.error("Error creating review:", error);
     }
-    setPostes([auxPostJson, ...postes]);
-    setText("");
-    setSelectedImages([]);
-    setReviewRating(0);
   };
 
   //GET POSTS FUNCTIONS

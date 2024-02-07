@@ -2,20 +2,9 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation, Navigate } from "react-router-dom";
 
 export default function Settings() {
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
-
-  const navigate = useNavigate();
-
   const [activeButton, setActiveButton] = useState("settings");
 
   const [activeButtonCon, setActiveButtonCon] = useState("tucuen");
-
-  const [darkMode, setDarkMode] = useState(() => {
-    // Inicializa el estado a partir de LocalStorage o usa el valor predeterminado (false)
-    return JSON.parse(localStorage.getItem("darkMode")) || false;
-  });
 
   const [divsVisibility, setDivsVisibility] = useState({
     tucuen: true,
@@ -35,6 +24,8 @@ export default function Settings() {
     localStorage.removeItem("userId");
     localStorage.removeItem("pageReloaded");
     window.location.reload();
+
+    // window.location.reload();
   };
 
   const handleButtonClick = (buttonName) => {
@@ -48,35 +39,16 @@ export default function Settings() {
     });
   };
 
-  useEffect(() => {
-    // Actualiza LocalStorage cuando cambia el estado
-    localStorage.setItem("darkMode", JSON.stringify(darkMode));
-  }, [darkMode]);
-
   return (
     <div className="lg:w-[50%] w-full bg-[#EEEFEF] lg:px-0 p-1">
       <div className="bg-[#FFF] p-4">
-        <p
-          className={`text-xl font-bold leading-[18.62px] ${
-            darkMode ? "dark-text-white" : ""
-          }`}
-        >
-          Configuración
-        </p>
+        <p className={`text-xl font-bold leading-[18.62px]`}>Configuración</p>
         <div className="flex">
           <div className="w-[50%]">
-            <div
-              className={`margin-top mt-3 ${
-                darkMode ? "dark-text-white" : ""
-              } sidebarcontain`}
-            >
+            <div className={`margin-top mt-3 sidebarcontain`}>
               <button
                 className={
-                  activeButtonCon === "tucuen"
-                    ? darkMode
-                      ? "active-buttonH font-bold"
-                      : "active-buttonD font-bold"
-                    : ""
+                  activeButtonCon === "tucuen" ? "active-buttonD font-bold" : ""
                 }
                 onClick={() => {
                   setActiveButtonCon("tucuen");
@@ -88,17 +60,11 @@ export default function Settings() {
                 </p>
               </button>
             </div>
-            <div
-              className={`margin-top mt-3 ${
-                darkMode ? "dark-text-white" : ""
-              } sidebarcontain`}
-            >
+            <div className={`margin-top mt-3 sidebarcontain`}>
               <button
                 className={
                   activeButtonCon === "seguridad"
-                    ? darkMode
-                      ? "active-buttonH font-bold"
-                      : "active-buttonD font-bold"
+                    ? "active-buttonD font-bold"
                     : ""
                 }
                 onClick={() => {
@@ -111,17 +77,11 @@ export default function Settings() {
                 </p>
               </button>
             </div>
-            <div
-              className={`margin-top mt-3 ${
-                darkMode ? "dark-text-white" : ""
-              } sidebarcontain`}
-            >
+            <div className={`margin-top mt-3 sidebarcontain`}>
               <button
                 className={
                   activeButtonCon === "privacidad"
-                    ? darkMode
-                      ? "active-buttonH font-bold"
-                      : "active-buttonD font-bold"
+                    ? "active-buttonD font-bold"
                     : ""
                 }
                 onClick={() => {
@@ -134,17 +94,11 @@ export default function Settings() {
                 </p>
               </button>
             </div>
-            <div
-              className={`margin-top mt-3 ${
-                darkMode ? "dark-text-white" : ""
-              } sidebarcontain`}
-            >
+            <div className={`margin-top mt-3 sidebarcontain`}>
               <button
                 className={
                   activeButtonCon === "notificaciones"
-                    ? darkMode
-                      ? "active-buttonH font-bold"
-                      : "active-buttonD font-bold"
+                    ? "active-buttonD font-bold"
                     : ""
                 }
                 onClick={() => {
@@ -157,17 +111,11 @@ export default function Settings() {
                 </p>
               </button>
             </div>
-            <div
-              className={`margin-top mt-3 ${
-                darkMode ? "dark-text-white" : ""
-              } sidebarcontain`}
-            >
+            <div className={`margin-top mt-3 sidebarcontain`}>
               <button
                 className={
                   activeButtonCon === "acceses"
-                    ? darkMode
-                      ? "active-buttonH font-bold"
-                      : "active-buttonD font-bold"
+                    ? "active-buttonD font-bold"
                     : ""
                 }
                 onClick={() => {
@@ -184,11 +132,7 @@ export default function Settings() {
           <div className="w-[50%]">
             {activeButtonCon === "tucuen" && (
               <div className="w-[100%]">
-                <p
-                  className={`text-xl font-bold leading-[18.62px] ${
-                    darkMode ? "dark-text-white" : ""
-                  }`}
-                >
+                <p className={`text-xl font-bold leading-[18.62px]`}>
                   Tu cuenta
                 </p>
                 <button
@@ -203,58 +147,36 @@ export default function Settings() {
             )}
             {activeButtonCon === "seguridad" && (
               <div>
-                <p
-                  className={`text-xl font-bold leading-[18.62px] ${
-                    darkMode ? "dark-text-white" : ""
-                  }`}
-                >
+                <p className={`text-xl font-bold leading-[18.62px]`}>
                   Seguridad
                 </p>
               </div>
             )}
             {activeButtonCon === "privacidad" && (
-              <div>
-                <p
-                  className={`text-xl font-bold leading-[18.62px] ${
-                    darkMode ? "dark-text-white" : ""
-                  }`}
-                >
-                  Privacidad
-                </p>
-                <p className="mt-3 mb-3">
+              <div className="flex justify-center text-gray-600 mb-6 text-xs">
+                <p>
                   D.R.© ANCER 2023, S.A.P.I. DE C.V., México 2023. Utilización
-                  del sitio únicamente bajo términos legales. Whistleblowwer®
-                  Pedro Infante # 1000, Colonia Cumbres Oro Regency, Monterrey,
-                  Nuevo León. México. 64347.
+                  del sitio únicamente bajo
+                  <u>
+                    <a href="/t&c" target="_blank" rel="noopener noreferrer">
+                      {" Términos Legales"}
+                    </a>
+                  </u>
+                  . Pedro Infante #1000, Colonia Cumbres Oro Regency, Monterrey,
+                  Nuevo León, México. 64347.
                 </p>
-                <a
-                  href="/t&c"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-indigo-800 text-black font-bold mt-4"
-                >
-                  Terminos y condiciones
-                </a>
               </div>
             )}
             {activeButtonCon === "notificaciones" && (
               <div>
-                <p
-                  className={`text-xl font-bold leading-[18.62px] ${
-                    darkMode ? "dark-text-white" : ""
-                  }`}
-                >
+                <p className={`text-xl font-bold leading-[18.62px]`}>
                   Notificaciones
                 </p>
               </div>
             )}
             {activeButtonCon === "acceses" && (
               <div>
-                <p
-                  className={`text-xl font-bold leading-[18.62px] ${
-                    darkMode ? "dark-text-white" : ""
-                  }`}
-                >
+                <p className={`text-xl font-bold leading-[18.62px`}>
                   Accesibilidad
                 </p>
                 <div className="mt-3 margin-top">

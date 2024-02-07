@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import google from "../assets/Group 3.svg";
 import { useNavigate, useLocation } from "react-router-dom";
+import logoN from "../assets/w_logo.svg";
 
 export default function Login({ setAuth }) {
   const location = useLocation();
@@ -79,31 +80,27 @@ export default function Login({ setAuth }) {
         <Toaster position="top-center" reverseOrder={false} />
       </div>
       <form className="py-1" onSubmit={onSubmitForm}>
-        <div
-          className={`w-screen flex justify-center items-center h-screen ${
-            darkMode ? "dark-register-bg" : ""
-          }`}
-        >
+        <div className={`w-screen flex justify-center items-center h-screen`}>
           <div
-            className={`w-auto h-auto bg-[#FBFCF8] rounded-[10px] ${
-              darkMode ? "dark-register" : ""
-            } sm:w-[60%] md:w-[60%] lg:w-[40%] xl:w-[30%] 2xl:w-[20%] m-[2%]`}
+            className={`w-auto h-auto bg-[#FBFCF8] rounded-[10px] sm:w-[60%] md:w-[60%] lg:w-[40%] xl:w-[35%] 2xl:w-[35%] m-[2%]`}
           >
-            <div className="flex justify-between items-center">
+            <div className="flex justify-center items-center pt-8">
+              <img
+                src={logoN}
+                alt="Logo"
+                className="w-12 h-auto cursor-pointer"
+              />
+            </div>
+            <div className="flex items-left">
               <h1
-                className={`text-neutral-900 text-3xl font-semibold leading-7 mt-8 ml-8 ${
+                className={`text-neutral-900 text-xl font-semibold leading-7 mt-8 ml-8 ${
                   darkMode ? "dark-text-white" : ""
                 }`}
               >
-                Inicia sesión
+                Iniciar sesión con Whistleblowwer
               </h1>
-              <button
-                onClick={() => onSubmitForm}
-                className={`mr-4 mb-3 ${darkMode ? "dark-text-white" : ""}`}
-              >
-                <i className="fas fa-times"></i>
-              </button>
             </div>
+
             {/* <div className="flex justify-center items-center mt-7">
               <button
                 className={`hover:bg-gray-700 py-2 px-4 mt-4 w-[280px] h-[41px] bg-neutral-900 rounded-[44px] relative ${
@@ -124,7 +121,7 @@ export default function Login({ setAuth }) {
                 </span>
               </button>
             </div> */}
-            <div className="flex justify-center items-center mt-6">
+            <div className="flex justify-center items-center mt-3">
               <input
                 name="client_email"
                 value={client_email}
@@ -147,7 +144,7 @@ export default function Login({ setAuth }) {
                 }`}
               />
             </div>
-            <div className="flex mt-2 ml-5">
+            <div className="flex mt-2 ml-8">
               <p
                 className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${
                   darkMode ? "dark-text-white" : ""
