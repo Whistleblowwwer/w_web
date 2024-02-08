@@ -261,7 +261,10 @@ const Searchbar = ({
                     : ""
                   : ""
               } flex-grow mr-2 mb-2 `}
-              onClick={() => setActiveTabView("empresas")}
+              onClick={() => {
+                setActiveTabView("empresas");
+                handleSearch("");
+              }}
             >
               <p
                 className={`${darkMode ? "dark-text-white" : ""} ${
