@@ -4,7 +4,9 @@ import proSet from "../assets/defaultProfilePicture.webp";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getHeadersBase } from "../utils/getHeaders";
 import defaultPp from "../assets/defaultProfilePicture.webp";
-import bannerAsesores from "../assets/BannerProntoAsesores.jpeg";
+import layer1 from "../assets/Andrés Orozco.jpg";
+import layer2 from "../assets/Victor Barrios.jpg";
+import layer3 from "../assets/Yelile Marcos.jpg"
 
 export default function Search({ setAuth }) {
   const location = useLocation();
@@ -127,8 +129,18 @@ export default function Search({ setAuth }) {
           </div>
         </div>
         {selectedTab == "asesores" && (
-          <div className="w-full">
-            <img src={bannerAsesores} alt="banner" />
+          <div className="flex flex-col">
+            <div className="flex justify-between p-2">
+              <p className="text-[#671BF7]">
+                Consigue ayuda ¡hoy!
+              </p>
+              <p className="opacity-30">
+                Reseñas de hoy
+              </p>
+            </div>
+            <img className="pb-3 rounded-[5%]" src={layer1} alt="banner" />
+            <img className="pb-3 rounded-[5%]" src={layer2} alt="banner" />
+            <img className="rounded-[5%]" src={layer3} alt="banner" />
           </div>
         )}
         {selectedTab == "abogados" && (
