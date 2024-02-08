@@ -390,8 +390,20 @@ const Searchbar = ({
         </>
       )}
       {activeTabView === "empresas" && (
-        <div className="w-full h-full flex justify-center items-center">
-          <p>Contenido en empresas</p>
+        <div>
+          {businesses.map((business) => (
+            <div className="mb-2" key={business._id_business}>
+              <div
+                className="flex flex-col"
+                onClick={() => handleBusinessClick(business)}
+              >
+                <p className="text-lg">{business.name}</p>
+                <p className="text-sm text-gray-700	text-black">
+                  {business.entity} - {business.city}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
       )}
     </div>
