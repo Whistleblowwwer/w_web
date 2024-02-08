@@ -168,7 +168,7 @@ const PostCard = ({
                 </span>
               </div>
               <p
-                className="text-indigo-400 text-base ml-[-55%] font-semibold cursor-pointer"
+                className="text-indigo-400 text-base pr-[50%] font-semibold cursor-pointer"
                 onClick={() => handleFollowBusiness(post.Business._id_business)}
               >
                 {followConditionBusiness ? "Siguiendo" : "Unirte"}
