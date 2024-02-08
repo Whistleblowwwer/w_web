@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { NewCommentModal } from "../components";
 
 import { PostCard } from "../components";
 
@@ -10,19 +11,65 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
     handleReview,
     handleChildComments,
     handleLike,
-    handleCommentClick,
+    // handleCommentClick,
     handleCommentComment,
     handleCommentReview,
+    handleNewCommnentFromReview,
   } = useContext(FunctionContext);
 
   const location = useLocation();
   const navigate = useNavigate();
 
   const [fetchResult, setFetchResult] = useState(undefined);
-  // const reviewValue = location.state ? location.state.reviewValue : null;
+  const [commentModalOpen, setCommentModalOpen] = useState(false);
+  const [textComment, setTextComment] = useState("");
+  const [idReviewComment, setIdReviewComment] = useState("");
+  const [isCommentingReview, setIsCommentingReview] = useState(undefined);
+  const [idReview, setIdReview] = useState("");
+
   const reviewOrCommentData = location.state.isComment
     ? location.state.comment
     : location.state.reviewValue;
+
+  const handleTextCommnetChange = (event) => {
+    setTextComment(event.target.value);
+  };
+
+  console.log("id review", idReview);
+
+  const handleCommentClickAux = (_id_review, isComment, _id_parent) => {
+    console.log("_id_review", _id_review);
+    console.log("isComment", isComment);
+    console.log("_id_parent", _id_parent);
+    if (isComment) {
+      setIdReviewComment(_id_review);
+      setIdReview(_id_parent);
+      setIsCommentingReview(false);
+      setCommentModalOpen(true);
+      setTextComment("");
+    } else {
+      setIdReviewComment(_id_review);
+      setIdReview(_id_parent);
+      setIsCommentingReview(true);
+      setCommentModalOpen(true);
+      setTextComment("");
+    }
+  };
+
+  const handleNewComment = () => {
+    handleNewCommnentFromReview(
+      idReviewComment,
+      isCommentingReview,
+      idReview,
+      textComment
+    );
+
+    setIdReviewComment("");
+    setIsCommentingReview(undefined);
+    setIdReview("");
+    setTextComment("");
+    setCommentModalOpen(!commentModalOpen);
+  };
 
   useEffect(() => {
     async function getPostes() {
@@ -77,6 +124,18 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
 
   return (
     <>
+      {commentModalOpen && (
+        <NewCommentModal
+          handleCommentModal={handleCommentClickAux}
+          darkMode={darkMode}
+          handleTextCommentChange={handleTextCommnetChange}
+          textComment={textComment}
+          maxLength={1200}
+          addComment={() => handleNewComment()}
+          isReview={true}
+        />
+      )}
+
       {fetchResult === undefined ? (
         <div className="flex items-center justify-center lg:w-[50%] w-full bg-[#EEEFEF] lg:px-0 p-1">
           <div role="status" className="text-center">
@@ -117,8 +176,7 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
                   handleUserClick={handleUserClick}
                   handleReview={handleReview}
                   handleLike={handleLikeComment}
-                  handleCommentClick={handleCommentClick}
-                  handleCommentReview={handleCommentComment}
+                  handleCommentClick={handleCommentClickAux}
                   isComment={true}
                   isBusiness={false}
                 />
@@ -132,9 +190,7 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
                       handleUserClick={handleUserClick}
                       handleReview={handleChildComments}
                       handleLike={handleLikeComment}
-                      handleCommentComment={handleCommentComment}
-                      handleCommentReview={handleCommentReview}
-                      handleCommentClick={handleCommentClick}
+                      handleCommentClick={handleCommentClickAux}
                       isComment={true}
                       isBusiness={false}
                     />
@@ -151,7 +207,7 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
                   handleUserClick={handleUserClick}
                   handleReview={handleReview}
                   handleLike={handleLike}
-                  handleCommentClick={handleCommentClick}
+                  handleCommentClick={handleCommentClickAux}
                   isComment={false}
                 />
                 {fetchResult.Comments &&
@@ -164,9 +220,7 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
                       handleUserClick={handleUserClick}
                       handleReview={handleChildComments}
                       handleLike={handleLikeComment}
-                      handleCommentComment={handleCommentComment}
-                      handleCommentReview={handleCommentReview}
-                      handleCommentClick={handleCommentClick}
+                      handleCommentClick={handleCommentClickAux}
                       isBusiness
                       isComment={true}
                     />

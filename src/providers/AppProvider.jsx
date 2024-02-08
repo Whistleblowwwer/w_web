@@ -1,6 +1,6 @@
 import { redirect, useLocation, useNavigate } from "react-router-dom";
 import { uploadFiles } from "../utils";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Toaster, toast } from "react-hot-toast";
 
 import {
@@ -276,6 +276,38 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
       handleCommentComment();
     }
   };
+  const initialRender = useRef(true);
+
+  const handleNewCommnentFromReview = (
+    _id_review,
+    isComment,
+    _id_parent,
+    textComment
+  ) => {
+    if (!isComment) {
+      console.log("Comment!");
+      setIdReviewComment(_id_review);
+      setIsCommentingReview(false);
+      setIdReview(_id_parent);
+      setTextComment(textComment);
+    } else {
+      console.log("review!");
+      setIdReviewComment(_id_review);
+      setIdReview(_id_parent);
+      setIsCommentingReview(true);
+      setTextComment(textComment);
+    }
+  };
+
+  useEffect(() => {
+    if (initialRender.current) {
+      initialRender.current = false;
+    } else {
+      if (textComment != "") handleNewCommnent();
+
+      // This effect will run after state variables have been updated
+    }
+  }, [idReviewComment, idReview, isCommentingReview, textComment]);
 
   const handleTextChange2 = (event) => {
     setText(event.target.value);
@@ -298,7 +330,6 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
         headers: myHeaders,
         redirect: "follow",
       };
-      console.log("e", e);
       const url_companies =
         e == ""
           ? `https://api.whistleblowwer.net/business/`
@@ -469,14 +500,14 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
           // TO-DO: elminar este if, mejorar logica para no tener que recargar pagina
           const currentUrl = window.location.href;
           if (currentUrl.includes("/review")) {
-            window.location.reload();
+            // window.location.reload();
           }
         }
       } catch (err) {
         console.error(err.message);
       }
     }
-    setCommentModalOpen(!commentModalOpen);
+    setCommentModalOpen(false);
     postComment();
   };
 
@@ -518,13 +549,13 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
         const validationComment = await response.json();
         if (validationComment.message === "Comment created successfully") {
           toast.success("Comentario enviado");
-          window.location.reload();
+          // window.location.reload();
         }
       } catch (err) {
         console.error(err.message);
       }
     }
-    setCommentModalOpen(!commentModalOpen);
+    setCommentModalOpen(false);
     postComment();
   };
 
@@ -791,6 +822,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     handleCommentReview,
     handleNewUpdateProfileModal,
     handleDeleteClick,
+    handleNewCommnentFromReview,
   };
 
   return (

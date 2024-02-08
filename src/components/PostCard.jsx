@@ -31,8 +31,8 @@ const PostCard = ({
     post?.Business?.is_followed
   );
   const [conteoComentarios, setConteoComentarios] = useState();
-  const [auxIsLiked, setAuxIsLiked] = useState(post.is_liked);
-  const [auxLikesCount, setAuxLikesCount] = useState(post.likesCount);
+  const [auxIsLiked, setAuxIsLiked] = useState(post?.is_liked);
+  const [auxLikesCount, setAuxLikesCount] = useState(post?.likesCount);
   const [modalReport, setModalReport] = useState(false);
 
   const [modalDelete, setModalDelete] = useState(false);
