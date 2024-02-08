@@ -26,6 +26,7 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
   const [idReviewComment, setIdReviewComment] = useState("");
   const [isCommentingReview, setIsCommentingReview] = useState(undefined);
   const [idReview, setIdReview] = useState("");
+  const [commentedComment, setCommentedComment] = useState("");
 
   const reviewOrCommentData = location.state.isComment
     ? location.state.comment
@@ -35,18 +36,19 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
     setTextComment(event.target.value);
   };
 
-  console.log("id review", idReview);
-
-  const handleCommentClickAux = (_id_review, isComment, _id_parent) => {
-    console.log("_id_review", _id_review);
-    console.log("isComment", isComment);
-    console.log("_id_parent", _id_parent);
+  const handleCommentClickAux = (
+    _id_review,
+    isComment,
+    _id_parent,
+    _id_comment
+  ) => {
     if (isComment) {
       setIdReviewComment(_id_review);
       setIdReview(_id_parent);
       setIsCommentingReview(false);
       setCommentModalOpen(true);
       setTextComment("");
+      setCommentedComment(_id_comment);
     } else {
       setIdReviewComment(_id_review);
       setIdReview(_id_parent);
@@ -63,6 +65,65 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
       idReview,
       textComment
     );
+
+    if (isCommentingReview) {
+      const auxCommentObject = {
+        content: textComment,
+        is_valid: true,
+        createdAt: "2024-02-08T18:51:46.559Z",
+        updatedAt: "2024-02-08T18:51:46.559Z",
+        _id_review: "",
+        _id_parent: null,
+        likesCount: 0,
+        commentsCount: 0,
+        is_liked: false,
+        User: {
+          _id_user: "",
+          name: localStorage.userName,
+          last_name: localStorage.last_name,
+          nick_name: localStorage.userName + localStorage.last_name,
+          profile_picture_url: null,
+          is_followed: false,
+        },
+        Images: [],
+      };
+
+      setFetchResult((prevFetchResult) => ({
+        ...prevFetchResult,
+        Comments: [auxCommentObject, ...prevFetchResult?.Comments],
+      }));
+    } else {
+      if (!location.state.isComment) {
+        setFetchResult((prevFetchResult) => ({
+          ...prevFetchResult,
+          Comments: prevFetchResult?.Comments.map((prevPost) => {
+            if (prevPost._id_comment === commentedComment) {
+              return {
+                ...prevPost,
+                commentsCount: prevPost.commentsCount + 1,
+              };
+            }
+            return prevPost;
+          }),
+        }));
+      } else {
+        setFetchResult((prevFetchResult) => ({
+          ...prevFetchResult,
+          comment: {
+            ...prevFetchResult.comment,
+            Comments: prevFetchResult.comment.Comments.map((prevPost) => {
+              if (prevPost._id_comment === commentedComment) {
+                return {
+                  ...prevPost,
+                  commentsCount: prevPost.commentsCount + 1,
+                };
+              }
+              return prevPost;
+            }),
+          },
+        }));
+      }
+    }
 
     setIdReviewComment("");
     setIsCommentingReview(undefined);
@@ -135,7 +196,6 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
           isReview={true}
         />
       )}
-
       {fetchResult === undefined ? (
         <div className="flex items-center justify-center lg:w-[50%] w-full bg-[#EEEFEF] lg:px-0 p-1">
           <div role="status" className="text-center">
@@ -211,9 +271,9 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
                   isComment={false}
                 />
                 {fetchResult.Comments &&
-                  fetchResult.Comments.map((post, index) => (
+                  fetchResult.Comments.map((post) => (
                     <PostCard
-                      key={index}
+                      key={post._id_comment}
                       post={post}
                       darkMode={darkMode}
                       handleBusinessClick={handleBusinessClick}

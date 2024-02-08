@@ -61,7 +61,6 @@ const PostCard = ({
 
     if (postId === localStorageUserId.slice(1, -1)) {
       setIsOwnPost(true);
-      console.log("hey!");
     } else {
       setIsOwnPost(false);
     }
@@ -311,7 +310,8 @@ const PostCard = ({
                   ? handleCommentClick(
                       post?._id_comment,
                       true,
-                      post?._id_review
+                      post?._id_review,
+                      post?._id_comment
                     )
                   : handleCommentClick(post?._id_review, false, undefined)
               }

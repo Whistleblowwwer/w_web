@@ -285,13 +285,11 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     textComment
   ) => {
     if (!isComment) {
-      console.log("Comment!");
       setIdReviewComment(_id_review);
       setIsCommentingReview(false);
       setIdReview(_id_parent);
       setTextComment(textComment);
     } else {
-      console.log("review!");
       setIdReviewComment(_id_review);
       setIdReview(_id_parent);
       setIsCommentingReview(true);
@@ -303,9 +301,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     if (initialRender.current) {
       initialRender.current = false;
     } else {
-      if (textComment != "") handleNewCommnent();
-
-      // This effect will run after state variables have been updated
+      if (textComment != "" && !commentModalOpen) handleNewCommnent();
     }
   }, [idReviewComment, idReview, isCommentingReview, textComment]);
 
@@ -507,7 +503,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
         console.error(err.message);
       }
     }
-    setCommentModalOpen(false);
+    setCommentModalOpen(!commentModalOpen);
     postComment();
   };
 
@@ -707,6 +703,10 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
         setUpdateForm(parseRes.user);
         setName(parseRes.user);
         localStorage.setItem("userName", JSON.stringify(parseRes.user.name));
+        localStorage.setItem(
+          "last_name",
+          JSON.stringify(parseRes.user.last_name)
+        );
         localStorage.setItem("userId", JSON.stringify(parseRes.user._id_user));
       } catch (err) {
         console.error(err.message);
