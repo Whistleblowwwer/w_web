@@ -75,10 +75,10 @@ export default function Search({ setAuth }) {
   }, []);
 
   return (
-    <div className="w-[30%] bg-[#FFF] lg:block hidden p-4 overflow-y-auto h-screen">
+    <div className="w-[30%] bg-[#FFF] lg:block hidden p-4">
       <div className="flex flex-col gap-4 ">
         <h1 className="text-[22px] font-semibold mb-2">Buscar</h1>
-        <div className="overflow-y-auto mt-3">
+        <div className="mt-3">
           <div className="w-full">
             <div className="flex gap-4">
               <button
@@ -133,12 +133,8 @@ export default function Search({ setAuth }) {
           <div className="flex flex-col">
             <img className="pb-3" src={header} alt="banner" />
             <div className="flex justify-between p-2">
-              <p className="text-[#671BF7]">
-                Consigue ayuda ¡hoy!
-              </p>
-              <p className="opacity-30">
-                Reseñas de hoy
-              </p>
+              <p className="text-[#671BF7]">Consigue ayuda ¡hoy!</p>
+              <p className="opacity-30">Reseñas de hoy</p>
             </div>
             <img className="pb-3" src={layer1} alt="banner" />
             <img className="pb-3" src={layer2} alt="banner" />
