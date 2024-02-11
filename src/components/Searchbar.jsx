@@ -360,7 +360,7 @@ const Searchbar = ({
           </div>
         </div>
       )}
-      {activeTabView === "parati" && (
+      {activeTabView === "parati" && isSearchVisible == false && (
         <img
           src={imgParaTi}
           alt={"pon tu publicidad aqui"}
