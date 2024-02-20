@@ -233,7 +233,7 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
       }
     };
     getEditable();
-  }, [name, users.name, editable, userDetail.name]);
+  }, [name, users?.name, editable, userDetail?.name]);
 
   const addPost = () => {
     if (textPost || selectedImages.length > 0) {
@@ -386,7 +386,7 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
     <>
       <ProfileSection
         darkMode={darkMode}
-        username={users.name}
+        username={users?.name}
         userDetail={userDetail}
         setUpdateModalOpen={handleNewUpdateProfileModal}
         editable={editable}

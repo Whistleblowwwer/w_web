@@ -10,8 +10,10 @@ import {
   UserProfile,
   Review,
   Settings,
-  Notifications,
+  Notifications
 } from "./pages";
+
+import SingleArticlePage from "./pages/singleArticlePage"
 
 import Tyc from "./pages/tyc";
 import AvisoPrivavidad from "./pages/avisoPrivacidad";
@@ -152,6 +154,12 @@ function App() {
                   setAuth={setAuth}
                   FunctionContext={FunctionContext}
                 />
+              }
+            />
+            <Route
+              path="/SingleArticle"
+              element={
+                <SingleArticlePage />
               }
             />
             <Route path="/t&c" element={<Tyc />} />

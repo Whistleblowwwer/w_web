@@ -80,11 +80,36 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     isComment: false,
   });
   const [tokenVerified, setTokenVerified] = useState(false);
+  const [articles, setArticles] = useState([]);
+
+  console.log("articles app provider", articles);
 
   useEffect(() => {
     // Initialize pageReloaded in localStorage if not present
     if (localStorage.getItem("pageReloaded") === null) {
       localStorage.setItem("pageReloaded", "false");
+    }
+
+    async function getArticles() {
+      try {
+        const myHeaders = new Headers();
+        myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+        const requestOptions = {
+          method: "GET",
+          headers: myHeaders,
+          redirect: "follow",
+        };
+
+        const response = await fetch(
+          "https://api.whistleblowwer.net/articles",
+          requestOptions
+        );
+
+        const result = await response.json();
+        setArticles(result);
+      } catch (error) {
+        console.error("Error fetching articles:", error);
+      }
     }
 
     async function verifyToken() {
@@ -151,6 +176,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
       }
     }
     verifyToken();
+    getArticles();
   }, [localStorage.token]);
 
   const [pageReloaded, setPageReloaded] = useState(() => {
@@ -931,6 +957,8 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
                 search={search}
                 searchUser={searchUser}
                 setActiveTabView={setActiveTabView}
+                articles={articles}
+                FunctionContext={FunctionContext}
               />
               <FunctionContext.Provider value={generalFunctions}>
                 {children}
@@ -957,6 +985,8 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
                       search={search}
                       searchUser={searchUser}
                       setActiveTabView={setActiveTabView}
+                      articles={articles}
+                      FunctionContext={FunctionContext}
                     />
                   )}
                   <BottomNavbar darkMode={darkMode} />

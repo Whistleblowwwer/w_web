@@ -4,6 +4,7 @@ import proSet from "../assets/defaultProfilePicture.webp";
 import imgNoticias from "../assets/noticias_img.png";
 import imgParaTi from "../assets/parati_img.png";
 import imgLogoW from "../assets/w_logo.svg";
+import Article from "../components/Article";
 
 const Searchbar = ({
   darkMode,
@@ -17,6 +18,8 @@ const Searchbar = ({
   handleUserClick,
   activeTabView,
   setActiveTabView,
+  articles,
+  FunctionContext,
 }) => {
   const location = useLocation();
 
@@ -374,7 +377,24 @@ const Searchbar = ({
       )}
       {activeTabView === "noticias" && (
         <>
-          <img
+          <div
+            className="article-list h-full"
+            style={{
+              overflowY: "auto",
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+            }}
+          >
+            {articles.map((article) => (
+              <Article
+                key={article._id_article}
+                article={article}
+                FunctionContext={FunctionContext}
+              />
+            ))}
+          </div>
+
+          {/* <img
             src={imgNoticias}
             alt={"pon tu publicidad aqui"}
             className="object-cover rounded-lg"
@@ -386,10 +406,10 @@ const Searchbar = ({
               <p>
                 ¡Hola! Somos Whistleblowwer. Nosotros al igual que tu, fuimos
                 victimas de un incumplimiento de una desarrolladora
-                inmobiliaria.
+                inmobiliariaaa.
               </p>
             </div>
-          </div>
+          </div> */}
         </>
       )}
       {activeTabView === "empresas" && (
