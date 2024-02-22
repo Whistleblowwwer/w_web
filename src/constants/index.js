@@ -23,7 +23,7 @@ export const SIDEBAR_HOME_LINKS = [
     label: "Notificaciones",
     icon: notificaciones,
   },
-  { href: "/chats", key: "mensajes", label: "Mensajes", icon: chats  },
+  { href: "/chats", key: "mensajes", label: "Mensajes", icon: chats },
 ];
 
 export const BOTTOM_NAVBAR_LINKS = [
@@ -35,6 +35,6 @@ export const BOTTOM_NAVBAR_LINKS = [
 
 export const USER_PROFILE_TABS = [
   { tabName: "reseñas", key: "res", active: "active-reseñas" },
-  { tabName: "destacados", key: "dest", active: "active-destacados" },
-  { tabName: "multimedia", key: "multi", active: "active-multimedia" },
+  { tabName: "comentarios", key: "dest", active: "active-destacados" },
+  { tabName: "proyectos", key: "multi", active: "active-multimedia" },
 ];

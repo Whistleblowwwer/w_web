@@ -397,7 +397,7 @@ const Profile_empresa = ({ setAuth }) => {
                       className={`${darkMode ? 'dark-text-white' : ''} ${activeTabView === 'destacados' ? 'font-bold' : 'font-bold text-opacity-60'
                         } mb-2`}
                     >
-                      Destacados
+                      Comentatios
                     </p>
                     {activeTabView === 'destacados' && (
                       <div className="tab-indicator" />

@@ -1,4 +1,5 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
 
 import logoN from "../assets/NavLogo.png";
 import proSet from "../assets/defaultProfilePicture.webp";
@@ -12,13 +13,14 @@ import { formatDate, renderStars } from "../utils";
 import { USER_PROFILE_TABS } from "../constants";
 import PostCard from "./PostCard";
 import chatIcon from "../assets/chatIcon.png";
-import { useEffect, useState } from "react";
 import ProfilePicture from "./ProfilePicture";
 import defaultPp from "../assets/defaultProfilePicture.webp";
 import NewPostModal from "./NewPostModal";
 import mas from "../assets/Group 99.svg";
 import AddFiles from "../components/AddFiles";
 import CompanyAutocomplete from "../components/CompanyAutocomplete";
+import { handleLikeComment } from "../utils/commentsInteraction";
+import { NewCommentModal } from "../components";
 
 const ProfileSection = ({
   darkMode,
@@ -29,6 +31,7 @@ const ProfileSection = ({
   activeTabView,
   handleSetActiveTabView,
   postes,
+  commentsUser,
   name,
   handleUserClick,
   handleBusinessClick,
@@ -43,19 +46,25 @@ const ProfileSection = ({
   maxLength,
   selectedImages,
   setSelectedImages,
-  setCompanyModalOpen,
-  handleSearchCompanyClick,
-  suggestions,
-  setSelectedCompany,
-  companySearchQuery,
-  setCompanySearchQuery,
   reviewRating,
   handleRatingClick,
   showPublishIcon,
   handleAddPost,
+  FunctionContext,
 }) => {
   const [viewPictureModal, setViewPictureModal] = useState(false);
+  const [commentModalOpen, setCommentModalOpen] = useState(false);
+  const [textComment, setTextComment] = useState("");
+  const [idReviewComment, setIdReviewComment] = useState("");
+  const [isCommentingReview, setIsCommentingReview] = useState(undefined);
+  const [idReview, setIdReview] = useState("");
+  const [commentedComment, setCommentedComment] = useState("");
+  const [fetchResult, setFetchResult] = useState(undefined);
+
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // const { handleNewCommnentFromReview } = useContext(FunctionContext);
 
   const handleNavigate = () => {
     // Navigate to a different page
@@ -70,8 +79,129 @@ const ProfileSection = ({
 
   useEffect(() => {}, [userDetail]);
 
+  const handleLikeCommentAux = async (_id_comment) => {
+    console.log("idComment: ", _id_comment);
+    try {
+      await handleLikeComment(_id_comment);
+    } catch (error) {
+      console.error("Error handling like:", error);
+      // You can handle the error here, such as showing an error message to the user
+    }
+  };
+
+  // const handleTextCommnetChange = (event) => {
+  //   setTextComment(event.target.value);
+  // };
+
+  // const handleNewComment = () => {
+  //   handleNewCommnentFromReview(
+  //     idReviewComment,
+  //     isCommentingReview,
+  //     idReview,
+  //     textComment
+  //   );
+
+  //   if (isCommentingReview) {
+  //     const auxCommentObject = {
+  //       content: textComment,
+  //       is_valid: true,
+  //       createdAt: "2024-02-08T18:51:46.559Z",
+  //       updatedAt: "2024-02-08T18:51:46.559Z",
+  //       _id_review: "",
+  //       _id_parent: null,
+  //       likesCount: 0,
+  //       commentsCount: 0,
+  //       is_liked: false,
+  //       User: {
+  //         _id_user: "",
+  //         name: localStorage.userName,
+  //         last_name: localStorage.last_name,
+  //         nick_name: localStorage.userName + localStorage.last_name,
+  //         profile_picture_url: null,
+  //         is_followed: false,
+  //       },
+  //       Images: [],
+  //     };
+
+  //     setFetchResult((prevFetchResult) => ({
+  //       ...prevFetchResult,
+  //       Comments: [auxCommentObject, ...prevFetchResult?.Comments],
+  //     }));
+  //   } else {
+  //     if (!location.state.isComment) {
+  //       setFetchResult((prevFetchResult) => ({
+  //         ...prevFetchResult,
+  //         Comments: prevFetchResult?.Comments.map((prevPost) => {
+  //           if (prevPost._id_comment === commentedComment) {
+  //             return {
+  //               ...prevPost,
+  //               commentsCount: prevPost.commentsCount + 1,
+  //             };
+  //           }
+  //           return prevPost;
+  //         }),
+  //       }));
+  //     } else {
+  //       setFetchResult((prevFetchResult) => ({
+  //         ...prevFetchResult,
+  //         comment: {
+  //           ...prevFetchResult.comment,
+  //           Comments: prevFetchResult.comment.Comments.map((prevPost) => {
+  //             if (prevPost._id_comment === commentedComment) {
+  //               return {
+  //                 ...prevPost,
+  //                 commentsCount: prevPost.commentsCount + 1,
+  //               };
+  //             }
+  //             return prevPost;
+  //           }),
+  //         },
+  //       }));
+  //     }
+  //   }
+
+  //   setIdReviewComment("");
+  //   setIsCommentingReview(undefined);
+  //   setIdReview("");
+  //   setTextComment("");
+  //   setCommentModalOpen(!commentModalOpen);
+  // };
+
+  // const handleCommentClickAux = (
+  //   _id_review,
+  //   isComment,
+  //   _id_parent,
+  //   _id_comment
+  // ) => {
+  //   if (isComment) {
+  //     setIdReviewComment(_id_review);
+  //     setIdReview(_id_parent);
+  //     setIsCommentingReview(false);
+  //     setCommentModalOpen(true);
+  //     setTextComment("");
+  //     setCommentedComment(_id_comment);
+  //   } else {
+  //     setIdReviewComment(_id_review);
+  //     setIdReview(_id_parent);
+  //     setIsCommentingReview(true);
+  //     setCommentModalOpen(true);
+  //     setTextComment("");
+  //   }
+  // };
+
   return (
     <>
+      {/* {commentModalOpen && (
+        <NewCommentModal
+          handleCommentModal={handleCommentClickAux}
+          darkMode={darkMode}
+          handleTextCommentChange={handleTextCommnetChange}
+          textComment={textComment}
+          maxLength={1200}
+          addComment={() => handleNewComment()}
+          isReview={true}
+        />
+      )} */}
       {viewPictureModal && (
         <ProfilePicture
           darkMode={darkMode}
@@ -224,7 +354,6 @@ const ProfileSection = ({
                 {isBusiness ? "Reseñas" : "Siguiendo"}
               </p>
             </div>
-            <p>Siguen a este grupo</p>
             <div className="flex">
               {USER_PROFILE_TABS.map((tab) => (
                 <button
@@ -330,24 +459,65 @@ const ProfileSection = ({
         ) : (
           <></>
         )}
-        <div className="flex flex-col gap-1 mt-1 lg:pb-0 pb-14">
-          {postes.map((post, index) => (
-            <PostCard
-              key={index}
-              post={post}
-              name={name}
-              darkMode={darkMode}
-              handleUserClick={handleUserClick}
-              handleBusinessClick={handleBusinessClick}
-              handleCommentClick={handleCommentClick}
-              handleLike={handleLike}
-              handleReview={handleReview}
-              editable={editable}
-              isUserProfile={isUserProfile}
-              isBusiness={isBusiness}
-            />
-          ))}
-        </div>
+        {activeTabView === "reseñas" && (
+          <div className="flex flex-col gap-1 mt-1 lg:pb-0 pb-14">
+            {postes.map((post, index) => (
+              <PostCard
+                key={index}
+                post={post}
+                name={name}
+                darkMode={darkMode}
+                handleUserClick={handleUserClick}
+                handleBusinessClick={handleBusinessClick}
+                handleCommentClick={handleCommentClick}
+                handleLike={handleLike}
+                handleReview={handleReview}
+                editable={editable}
+                isUserProfile={isUserProfile}
+                isBusiness={isBusiness}
+              />
+            ))}
+          </div>
+        )}
+        {activeTabView === "comentarios" && (
+          <div className="flex flex-col gap-1 mt-1 lg:pb-0 pb-14">
+            {commentsUser.map((post, index) => (
+              <PostCard
+                key={post._id_comment}
+                post={post}
+                darkMode={darkMode}
+                handleBusinessClick={handleBusinessClick}
+                handleUserClick={handleUserClick}
+                // handleReview={handleChildComments}
+                handleLike={handleLikeCommentAux}
+                // handleCommentClick={handleCommentClickAux}
+                isBusiness={false}
+                isComment={true}
+              />
+            ))}
+          </div>
+        )}
+        {activeTabView === "proyectos" && (
+          <div className="flex flex-col gap-1 mt-1 lg:pb-0 pb-14">
+            Proyectos section
+            {/* {postes.map((post, index) => (
+              <PostCard
+                key={index}
+                post={post}
+                name={name}
+                darkMode={darkMode}
+                handleUserClick={handleUserClick}
+                handleBusinessClick={handleBusinessClick}
+                handleCommentClick={handleCommentClick}
+                handleLike={handleLike}
+                handleReview={handleReview}
+                editable={editable}
+                isUserProfile={isUserProfile}
+                isBusiness={isBusiness}
+              />
+            ))} */}
+          </div>
+        )}
       </div>
     </>
   );

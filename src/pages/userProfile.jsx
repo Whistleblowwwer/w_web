@@ -22,6 +22,8 @@ import {
   UpdateProfileModal,
 } from "../components";
 
+import { getPostes, getComments, getProjects } from "../utils/getUserData";
+
 export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
   const { handleUserClick, handleNewUpdateProfileModal, handleCommentClick } =
     useContext(FunctionContext);
@@ -59,6 +61,7 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
   const [name, setName] = useState([]);
   const [userDetail, setUserDetail] = useState("");
   const [postes, setPostes] = useState([]);
+  const [commentsUser, setCommentsUser] = useState([]);
   const navigate = useNavigate();
 
   const maxLength = 1200;
@@ -109,13 +112,6 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
     }
   };
 
-  // const handleCommentClick = (_id_review) => {
-  //   setIdReviewComment(_id_review);
-  //   setCommentModalOpen(!commentModalOpen);
-  //   console.log("Comment clicked!");
-  //   console.log("Comment modal status => ", commentModalOpen);
-  // };
-
   const handleTextChange2 = (event) => {
     setText2(event.target.value);
     if (event.target.value.trim() !== "") {
@@ -140,39 +136,26 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
   };
 
   useEffect(() => {
-    async function getPostes() {
+    const fetchData = async () => {
       try {
-        if (users && users._id_user) {
-          const myHeaders = new Headers();
-          myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+        // gettins postes data
+        const postesData = await getPostes(users);
+        setPostes(postesData);
 
-          const requestOptions = {
-            method: "GET",
-            headers: myHeaders,
-            redirect: "follow",
-          };
+        // gettins comments data
+        const commentsData = await getComments(users);
+        setCommentsUser(commentsData);
 
-          const response = await fetch(
-            `https://api.whistleblowwer.net/users/reviews?_id_user=${users._id_user}`,
-            requestOptions
-          );
-          const parseRes = await response.json();
-
-          // Check if 'reviews' property exists before setting the state
-          if (parseRes.reviews) {
-            setPostes(parseRes.reviews);
-          } else {
-            console.warn("El objeto business no tiene la propiedad 'reviews'");
-          }
-        } else {
-          console.error("El objeto business no tiene la propiedad _id_user");
-        }
-      } catch (err) {
-        console.error(err.message);
+        // // gettins postes data
+        // const postesData = await getPostes(users);
+        // setPostes(postesData);
+      } catch (error) {
+        console.error("Error fetching postes:", error);
       }
-    }
+    };
 
-    getPostes();
+    // Call the asynchronous function
+    fetchData();
   }, [users]);
 
   useEffect(() => {
@@ -393,12 +376,14 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
         activeTabView={activeTabView}
         handleSetActiveTabView={handleSetActiveTabView}
         postes={postes}
+        commentsUser={commentsUser}
         handleBusinessClick={handleBusinessClick}
         handleReview={handleReview}
         handleLike={handleLike}
         handleCommentClick={handleCommentClick}
         handleFollow={handleFollowUser}
         isUserProfile={true}
+        useContext={FunctionContext}
       />
       {/* <div className="w-1/4 bg-[#FFF] h-screen fixed right-0 p-4">
         <div className="relative">
