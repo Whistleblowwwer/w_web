@@ -66,6 +66,7 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
   const [userDetail, setUserDetail] = useState("");
   const [postes, setPostes] = useState([]);
   const [commentsUser, setCommentsUser] = useState([]);
+  const [projectsUser, setProjectsUser] = useState([]);
   const navigate = useNavigate();
 
   const maxLength = 1200;
@@ -149,6 +150,10 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
         // gettins comments data
         const commentsData = await getComments(users);
         setCommentsUser(commentsData);
+
+        // gettins comments data
+        const projectsData = await getProjects(users);
+        setProjectsUser(projectsData);
 
         // // gettins postes data
         // const postesData = await getPostes(users);
@@ -382,6 +387,7 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
         postes={postes}
         commentsUser={commentsUser}
         setCommentsUser={setCommentsUser}
+        projectsUser={projectsUser}
         handleBusinessClick={handleBusinessClick}
         handleReview={handleReview}
         handleLike={handleLike}

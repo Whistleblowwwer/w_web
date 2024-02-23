@@ -358,6 +358,7 @@ export default function BusinessProfile({
         handleRatingClick={handleRatingClick}
         showPublishIcon={showPublishIcon}
         handleAddPost={handleAddPost}
+        FunctionContext={FunctionContext}
       />
       {/* <div className="w-1/4 bg-[#FFF] h-screen fixed right-0 p-4">
           <div className="relative">

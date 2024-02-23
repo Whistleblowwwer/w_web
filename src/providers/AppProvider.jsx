@@ -82,8 +82,6 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
   const [tokenVerified, setTokenVerified] = useState(false);
   const [articles, setArticles] = useState([]);
 
-  console.log("articles app provider", articles);
-
   useEffect(() => {
     // Initialize pageReloaded in localStorage if not present
     if (localStorage.getItem("pageReloaded") === null) {
@@ -310,7 +308,6 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     _id_parent,
     textComment
   ) => {
-    console.log("handling comment!");
     if (!isComment) {
       setIdReviewComment(_id_review);
       setIsCommentingReview(false);

@@ -82,14 +82,14 @@ export async function getProjects(users) {
             };
 
             const response = await fetch(
-                `https://api.whistleblowwer.net/users/reviews?_id_user=${users._id_user}`,
+                `https://api.whistleblowwer.net/users/business/followed`,
                 requestOptions
             );
             const parseRes = await response.json();
 
             // Check if 'reviews' property exists before setting the state
-            if (parseRes.reviews) {
-                return parseRes.reviews;
+            if (parseRes.businesses) {
+                return parseRes.businesses;
             } else {
                 console.warn("El objeto business no tiene la propiedad 'reviews'");
             }

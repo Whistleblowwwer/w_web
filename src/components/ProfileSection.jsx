@@ -22,6 +22,7 @@ import CompanyAutocomplete from "../components/CompanyAutocomplete";
 import { handleLikeComment } from "../utils/commentsInteraction";
 import { NewCommentModal } from "../components";
 import { comma } from "postcss/lib/list";
+import CompanyCard from "../components/CompanyCard";
 
 const ProfileSection = ({
   darkMode,
@@ -33,6 +34,7 @@ const ProfileSection = ({
   handleSetActiveTabView,
   postes,
   commentsUser,
+  projectsUser,
   setCommentsUser,
   name,
   handleUserClick,
@@ -61,7 +63,6 @@ const ProfileSection = ({
   const [isCommentingReview, setIsCommentingReview] = useState(false);
   const [idReview, setIdReview] = useState("");
   const [commentedComment, setCommentedComment] = useState("");
-  const [fetchResult, setFetchResult] = useState(undefined);
 
   const { handleNewCommnentFromReview } = useContext(FunctionContext);
 
@@ -77,10 +78,7 @@ const ProfileSection = ({
     });
   };
 
-  useEffect(() => {}, [userDetail]);
-
   const handleLikeCommentAux = async (_id_comment) => {
-    console.log("idComment: ", _id_comment);
     try {
       await handleLikeComment(_id_comment);
     } catch (error) {
@@ -92,7 +90,6 @@ const ProfileSection = ({
     setTextComment(event.target.value);
   };
 
-  console.log("commentsUser", commentsUser);
   const handleNewComment = () => {
     handleNewCommnentFromReview(
       idReviewComment,
@@ -130,14 +127,14 @@ const ProfileSection = ({
       setIdReviewComment(_id_review);
       setIdReview(_id_parent);
       setIsCommentingReview(false);
-      setCommentModalOpen(true);
+      setCommentModalOpen(!commentModalOpen);
       setTextComment("");
       setCommentedComment(_id_comment);
     } else {
       setIdReviewComment(_id_review);
       setIdReview(_id_parent);
       setIsCommentingReview(true);
-      setCommentModalOpen(true);
+      setCommentModalOpen(!commentModalOpen);
       setTextComment("");
     }
   };
@@ -307,33 +304,35 @@ const ProfileSection = ({
                 {isBusiness ? "Reseñas" : "Siguiendo"}
               </p>
             </div>
-            <div className="flex">
-              {USER_PROFILE_TABS.map((tab) => (
-                <button
-                  key={tab.key}
-                  className={`w-1/3 ${
-                    activeTabView === tab.tabName
-                      ? darkMode
-                        ? tab.active
-                        : ""
-                      : ""
-                  }`}
-                  onClick={() => handleSetActiveTabView(tab.tabName)}
-                >
-                  <p
-                    className={`${darkMode ? "dark-text-white" : ""} ${
+            <div className="flex items-center">
+              {(!isBusiness ? USER_PROFILE_TABS : [USER_PROFILE_TABS[0]]).map(
+                (tab) => (
+                  <button
+                    key={tab.key}
+                    className={`${isBusiness ? "w-full" : "w-1/3"} ${
                       activeTabView === tab.tabName
-                        ? "font-bold"
-                        : "font-bold text-opacity-60"
-                    } capitalize`}
+                        ? darkMode
+                          ? tab.active
+                          : ""
+                        : ""
+                    }`}
+                    onClick={() => handleSetActiveTabView(tab.tabName)}
                   >
-                    {tab.tabName}
-                  </p>
-                  {activeTabView === tab.tabName && (
-                    <div className="tab-indicator" />
-                  )}
-                </button>
-              ))}
+                    <p
+                      className={`${darkMode ? "dark-text-white" : ""} ${
+                        activeTabView === tab.tabName
+                          ? "font-bold"
+                          : "font-bold text-opacity-60"
+                      } capitalize`}
+                    >
+                      {tab.tabName}
+                    </p>
+                    {activeTabView === tab.tabName && (
+                      <div className="tab-indicator" />
+                    )}
+                  </button>
+                )
+              )}
             </div>
           </div>
         </div>
@@ -432,7 +431,7 @@ const ProfileSection = ({
             ))}
           </div>
         )}
-        {activeTabView === "comentarios" && (
+        {activeTabView === "comentarios" && !isBusiness && (
           <div className="flex flex-col gap-1 mt-1 lg:pb-0 pb-14">
             {commentsUser.map((post, index) => (
               <PostCard
@@ -441,31 +440,25 @@ const ProfileSection = ({
                 darkMode={darkMode}
                 handleLike={handleLikeCommentAux}
                 handleCommentClick={handleCommentClickAux}
+                handleReview={() => {}}
+                handleUserClick={() => {}}
                 isBusiness={false}
                 isComment={true}
               />
             ))}
           </div>
         )}
-        {activeTabView === "proyectos" && (
+        {activeTabView === "proyectos" && !isBusiness && (
           <div className="flex flex-col gap-1 mt-1 lg:pb-0 pb-14">
-            Proyectos section
-            {/* {postes.map((post, index) => (
-              <PostCard
+            {projectsUser.map((post, index) => (
+              <CompanyCard
                 key={index}
                 post={post}
-                name={name}
                 darkMode={darkMode}
                 handleUserClick={handleUserClick}
                 handleBusinessClick={handleBusinessClick}
-                handleCommentClick={handleCommentClick}
-                handleLike={handleLike}
-                handleReview={handleReview}
-                editable={editable}
-                isUserProfile={isUserProfile}
-                isBusiness={isBusiness}
               />
-            ))} */}
+            ))}
           </div>
         )}
       </div>
