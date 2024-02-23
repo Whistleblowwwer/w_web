@@ -310,6 +310,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     _id_parent,
     textComment
   ) => {
+    console.log("handling comment!");
     if (!isComment) {
       setIdReviewComment(_id_review);
       setIsCommentingReview(false);

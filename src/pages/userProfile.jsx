@@ -25,8 +25,12 @@ import {
 import { getPostes, getComments, getProjects } from "../utils/getUserData";
 
 export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
-  const { handleUserClick, handleNewUpdateProfileModal, handleCommentClick } =
-    useContext(FunctionContext);
+  const {
+    handleUserClick,
+    handleNewUpdateProfileModal,
+    handleCommentClick,
+    handleNewCommentFromReview,
+  } = useContext(FunctionContext);
 
   //search variables
   const [showResults, setShowResults] = useState(false);
@@ -377,13 +381,15 @@ export default function UserProfile({ setAuth, darkMode, FunctionContext }) {
         handleSetActiveTabView={handleSetActiveTabView}
         postes={postes}
         commentsUser={commentsUser}
+        setCommentsUser={setCommentsUser}
         handleBusinessClick={handleBusinessClick}
         handleReview={handleReview}
         handleLike={handleLike}
         handleCommentClick={handleCommentClick}
         handleFollow={handleFollowUser}
         isUserProfile={true}
-        useContext={FunctionContext}
+        handleNewCommentFromReview={handleNewCommentFromReview}
+        FunctionContext={FunctionContext}
       />
       {/* <div className="w-1/4 bg-[#FFF] h-screen fixed right-0 p-4">
         <div className="relative">

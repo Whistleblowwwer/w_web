@@ -21,6 +21,7 @@ import AddFiles from "../components/AddFiles";
 import CompanyAutocomplete from "../components/CompanyAutocomplete";
 import { handleLikeComment } from "../utils/commentsInteraction";
 import { NewCommentModal } from "../components";
+import { comma } from "postcss/lib/list";
 
 const ProfileSection = ({
   darkMode,
@@ -32,6 +33,7 @@ const ProfileSection = ({
   handleSetActiveTabView,
   postes,
   commentsUser,
+  setCommentsUser,
   name,
   handleUserClick,
   handleBusinessClick,
@@ -56,18 +58,16 @@ const ProfileSection = ({
   const [commentModalOpen, setCommentModalOpen] = useState(false);
   const [textComment, setTextComment] = useState("");
   const [idReviewComment, setIdReviewComment] = useState("");
-  const [isCommentingReview, setIsCommentingReview] = useState(undefined);
+  const [isCommentingReview, setIsCommentingReview] = useState(false);
   const [idReview, setIdReview] = useState("");
   const [commentedComment, setCommentedComment] = useState("");
   const [fetchResult, setFetchResult] = useState(undefined);
 
-  const navigate = useNavigate();
-  const location = useLocation();
+  const { handleNewCommnentFromReview } = useContext(FunctionContext);
 
-  // const { handleNewCommnentFromReview } = useContext(FunctionContext);
+  const navigate = useNavigate();
 
   const handleNavigate = () => {
-    // Navigate to a different page
     navigate("/chats", {
       state: {
         id_user: userDetail?._id_user,
@@ -85,123 +85,76 @@ const ProfileSection = ({
       await handleLikeComment(_id_comment);
     } catch (error) {
       console.error("Error handling like:", error);
-      // You can handle the error here, such as showing an error message to the user
     }
   };
 
-  // const handleTextCommnetChange = (event) => {
-  //   setTextComment(event.target.value);
-  // };
+  const handleTextCommnetChange = (event) => {
+    setTextComment(event.target.value);
+  };
 
-  // const handleNewComment = () => {
-  //   handleNewCommnentFromReview(
-  //     idReviewComment,
-  //     isCommentingReview,
-  //     idReview,
-  //     textComment
-  //   );
+  console.log("commentsUser", commentsUser);
+  const handleNewComment = () => {
+    handleNewCommnentFromReview(
+      idReviewComment,
+      isCommentingReview,
+      idReview,
+      textComment
+    );
 
-  //   if (isCommentingReview) {
-  //     const auxCommentObject = {
-  //       content: textComment,
-  //       is_valid: true,
-  //       createdAt: "2024-02-08T18:51:46.559Z",
-  //       updatedAt: "2024-02-08T18:51:46.559Z",
-  //       _id_review: "",
-  //       _id_parent: null,
-  //       likesCount: 0,
-  //       commentsCount: 0,
-  //       is_liked: false,
-  //       User: {
-  //         _id_user: "",
-  //         name: localStorage.userName,
-  //         last_name: localStorage.last_name,
-  //         nick_name: localStorage.userName + localStorage.last_name,
-  //         profile_picture_url: null,
-  //         is_followed: false,
-  //       },
-  //       Images: [],
-  //     };
+    setCommentsUser((prevComments) => {
+      return prevComments.map((prevComment) => {
+        if (prevComment._id_comment === commentedComment) {
+          return {
+            ...prevComment,
+            commentsCount: prevComment.commentsCount + 1,
+          };
+        }
+        return prevComment;
+      });
+    });
 
-  //     setFetchResult((prevFetchResult) => ({
-  //       ...prevFetchResult,
-  //       Comments: [auxCommentObject, ...prevFetchResult?.Comments],
-  //     }));
-  //   } else {
-  //     if (!location.state.isComment) {
-  //       setFetchResult((prevFetchResult) => ({
-  //         ...prevFetchResult,
-  //         Comments: prevFetchResult?.Comments.map((prevPost) => {
-  //           if (prevPost._id_comment === commentedComment) {
-  //             return {
-  //               ...prevPost,
-  //               commentsCount: prevPost.commentsCount + 1,
-  //             };
-  //           }
-  //           return prevPost;
-  //         }),
-  //       }));
-  //     } else {
-  //       setFetchResult((prevFetchResult) => ({
-  //         ...prevFetchResult,
-  //         comment: {
-  //           ...prevFetchResult.comment,
-  //           Comments: prevFetchResult.comment.Comments.map((prevPost) => {
-  //             if (prevPost._id_comment === commentedComment) {
-  //               return {
-  //                 ...prevPost,
-  //                 commentsCount: prevPost.commentsCount + 1,
-  //               };
-  //             }
-  //             return prevPost;
-  //           }),
-  //         },
-  //       }));
-  //     }
-  //   }
+    setIdReviewComment("");
+    setIsCommentingReview(undefined);
+    setIdReview("");
+    setTextComment("");
+    setCommentModalOpen(!commentModalOpen);
+  };
 
-  //   setIdReviewComment("");
-  //   setIsCommentingReview(undefined);
-  //   setIdReview("");
-  //   setTextComment("");
-  //   setCommentModalOpen(!commentModalOpen);
-  // };
-
-  // const handleCommentClickAux = (
-  //   _id_review,
-  //   isComment,
-  //   _id_parent,
-  //   _id_comment
-  // ) => {
-  //   if (isComment) {
-  //     setIdReviewComment(_id_review);
-  //     setIdReview(_id_parent);
-  //     setIsCommentingReview(false);
-  //     setCommentModalOpen(true);
-  //     setTextComment("");
-  //     setCommentedComment(_id_comment);
-  //   } else {
-  //     setIdReviewComment(_id_review);
-  //     setIdReview(_id_parent);
-  //     setIsCommentingReview(true);
-  //     setCommentModalOpen(true);
-  //     setTextComment("");
-  //   }
-  // };
+  const handleCommentClickAux = (
+    _id_review,
+    isComment,
+    _id_parent,
+    _id_comment
+  ) => {
+    if (isComment) {
+      setIdReviewComment(_id_review);
+      setIdReview(_id_parent);
+      setIsCommentingReview(false);
+      setCommentModalOpen(true);
+      setTextComment("");
+      setCommentedComment(_id_comment);
+    } else {
+      setIdReviewComment(_id_review);
+      setIdReview(_id_parent);
+      setIsCommentingReview(true);
+      setCommentModalOpen(true);
+      setTextComment("");
+    }
+  };
 
   return (
     <>
-      {/* {commentModalOpen && (
+      {commentModalOpen && (
         <NewCommentModal
           handleCommentModal={handleCommentClickAux}
           darkMode={darkMode}
           handleTextCommentChange={handleTextCommnetChange}
           textComment={textComment}
           maxLength={1200}
-          addComment={() => handleNewComment()}
+          addComment={handleNewComment}
           isReview={true}
         />
-      )} */}
+      )}
       {viewPictureModal && (
         <ProfilePicture
           darkMode={darkMode}
@@ -486,11 +439,8 @@ const ProfileSection = ({
                 key={post._id_comment}
                 post={post}
                 darkMode={darkMode}
-                handleBusinessClick={handleBusinessClick}
-                handleUserClick={handleUserClick}
-                // handleReview={handleChildComments}
                 handleLike={handleLikeCommentAux}
-                // handleCommentClick={handleCommentClickAux}
+                handleCommentClick={handleCommentClickAux}
                 isBusiness={false}
                 isComment={true}
               />
