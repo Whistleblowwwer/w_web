@@ -8,6 +8,11 @@ import layer1 from "../assets/Andrés Orozco.jpg";
 import layer2 from "../assets/Victor Barrios.jpg";
 import layer3 from "../assets/Yelile Marcos.jpg";
 import header from "../assets/broker_header.svg";
+import Slider from "../components/Slider";
+import bannerBroker1 from "../assets/banner_broker1.jpg";
+import bannerBroker2 from "../assets/banner_broker2.jpg";
+import bannerAbogado1 from "../assets/banner_abogado1.jpg";
+import bannerAbogado2 from "../assets/banner_abogado2.jpg";
 
 export default function Search({ setAuth }) {
   const location = useLocation();
@@ -18,6 +23,8 @@ export default function Search({ setAuth }) {
 
   const [isBusinessVisible, setIsBusinessVisible] = useState(false);
   const [isPeopleVisible, setIsPeopleVisible] = useState(false);
+
+  console.log([bannerBroker1, bannerBroker2]);
 
   const handleTabClick = (tab) => {
     setSelectedTab(tab);
@@ -131,11 +138,7 @@ export default function Search({ setAuth }) {
         </div>
         {selectedTab == "asesores" && (
           <div className="flex flex-col">
-            <img className="pb-3" src={header} alt="banner" />
-            <div className="flex justify-between p-2">
-              <p className="text-[#671BF7]">Consigue ayuda ¡hoy!</p>
-              <p className="opacity-30">Reseñas de hoy</p>
-            </div>
+            <Slider images={[bannerBroker1, bannerBroker2]} />
             <img className="pb-3" src={layer1} alt="banner" />
             <img className="pb-3" src={layer2} alt="banner" />
             <img src={layer3} alt="banner" />
@@ -143,7 +146,7 @@ export default function Search({ setAuth }) {
         )}
         {selectedTab == "abogados" && (
           <div className="w-full h-full flex justify-between items-center">
-            <p>Proximamente</p>
+            <Slider images={[bannerAbogado1, bannerAbogado2]} />
           </div>
         )}
         {/* <div className="flex flex-col gap-2 p-4 rounded-lg bg-[#EEEFEF]">

@@ -5,6 +5,16 @@ import imgNoticias from "../assets/noticias_img.png";
 import imgParaTi from "../assets/parati_img.png";
 import imgLogoW from "../assets/w_logo.svg";
 import Article from "../components/Article";
+import Slider from "./Slider";
+import BannerHow1 from "../assets/banner_how1.jpg";
+import BannerHow2 from "../assets/banner_how2.jpg";
+import BannerHow3 from "../assets/banner_how3.jpg";
+import BannerHow4 from "../assets/banner_how4.jpg";
+import BannerHow5 from "../assets/banner_how5.jpg";
+import BannerNoticias1 from "../assets/banner_startup1.jpg";
+import BannerNoticias2 from "../assets/banner_startup2.jpg";
+import BannerTendencias1 from "../assets/banner_defraudados.jpg";
+import BannerTendencias2 from "../assets/banner_defraudados2.jpg";
 
 const Searchbar = ({
   darkMode,
@@ -212,24 +222,27 @@ const Searchbar = ({
             </button>
             <button
               className={`${
-                activeTabView === "tendencias"
+                activeTabView === "empresas"
                   ? darkMode
-                    ? "active-tendencias"
+                    ? "active-empresas"
                     : ""
                   : ""
-              } flex-grow mr-0 mb-2`}
-              onClick={() => setActiveTabView("tendencias")}
+              } flex-grow mr-2 mb-2 `}
+              onClick={() => {
+                setActiveTabView("empresas");
+                handleSearch("");
+              }}
             >
               <p
                 className={`${darkMode ? "dark-text-white" : ""} ${
-                  activeTabView === "tendencias"
+                  activeTabView === "empresas"
                     ? "font-bold"
                     : "font-bold text-opacity-60"
                 } mb-2`}
               >
-                Tendencias
+                Empresas
               </p>
-              {activeTabView === "tendencias" && (
+              {activeTabView === "empresas" && (
                 <div className="tab-indicator" />
               )}
             </button>
@@ -256,29 +269,27 @@ const Searchbar = ({
                 <div className="tab-indicator" />
               )}
             </button>
+
             <button
               className={`${
-                activeTabView === "empresas"
+                activeTabView === "tendencias"
                   ? darkMode
-                    ? "active-empresas"
+                    ? "active-tendencias"
                     : ""
                   : ""
-              } flex-grow mr-2 mb-2 `}
-              onClick={() => {
-                setActiveTabView("empresas");
-                handleSearch("");
-              }}
+              } flex-grow mr-0 mb-2`}
+              onClick={() => setActiveTabView("tendencias")}
             >
               <p
                 className={`${darkMode ? "dark-text-white" : ""} ${
-                  activeTabView === "empresas"
+                  activeTabView === "tendencias"
                     ? "font-bold"
                     : "font-bold text-opacity-60"
                 } mb-2`}
               >
-                Empresas
+                Tendencias
               </p>
-              {activeTabView === "empresas" && (
+              {activeTabView === "tendencias" && (
                 <div className="tab-indicator" />
               )}
             </button>
@@ -364,53 +375,9 @@ const Searchbar = ({
         </div>
       )}
       {activeTabView === "parati" && isSearchVisible == false && (
-        <img
-          src={imgParaTi}
-          alt={"pon tu publicidad aqui"}
-          className="object-cover rounded-lg"
+        <Slider
+          images={[BannerHow1, BannerHow2, BannerHow3, BannerHow4, BannerHow5]}
         />
-      )}
-      {activeTabView === "tendencias" && (
-        <div className="w-full h-full flex justify-center items-center">
-          <p>Contenido en tendencias</p>
-        </div>
-      )}
-      {activeTabView === "noticias" && (
-        <>
-          <div
-            className="article-list h-full"
-            style={{
-              overflowY: "auto",
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
-            }}
-          >
-            {articles.map((article) => (
-              <Article
-                key={article._id_article}
-                article={article}
-                FunctionContext={FunctionContext}
-              />
-            ))}
-          </div>
-
-          {/* <img
-            src={imgNoticias}
-            alt={"pon tu publicidad aqui"}
-            className="object-cover rounded-lg"
-          />
-          <div className="pt-10 flex">
-            <img src={imgLogoW} alt="" className="w-[20%] h-[20%]" />
-            <div className="flex flex-col pl-3">
-              <p className="pb-2 pt-3">HOLA, SOMOS WHISTLEBLOWWER</p>
-              <p>
-                ¡Hola! Somos Whistleblowwer. Nosotros al igual que tu, fuimos
-                victimas de un incumplimiento de una desarrolladora
-                inmobiliariaaa.
-              </p>
-            </div>
-          </div> */}
-        </>
       )}
       {activeTabView === "empresas" && (
         <div>
@@ -427,6 +394,33 @@ const Searchbar = ({
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {activeTabView === "noticias" && (
+        <>
+          <Slider images={[BannerNoticias1, BannerNoticias2]} />
+          <div
+            className="article-list h-full"
+            style={{
+              overflowY: "auto",
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+            }}
+          >
+            {articles.map((article) => (
+              <Article
+                key={article._id_article}
+                article={article}
+                FunctionContext={FunctionContext}
+              />
+            ))}
+          </div>
+        </>
+      )}
+      {activeTabView === "tendencias" && (
+        <div>
+          <Slider images={[BannerTendencias1, BannerTendencias2]} />
         </div>
       )}
     </div>
