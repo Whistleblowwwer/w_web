@@ -5,6 +5,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import logoN from "../assets/w_logo.svg";
 import LogoNuevo from '../assets/LogoNuevo.png';
 import imagenDeFondoCompleto from '../assets/FondoCompletoCelular-removebg-preview.png';
+import imagenFondoCelular from '../assets/CelularCompletoFondo-removebg-preview.png';
+import '../styles/querys.css';
 
 export default function Login({ setAuth }) {
   const location = useLocation();
@@ -81,13 +83,13 @@ export default function Login({ setAuth }) {
       <div>
         <Toaster position="top-center" reverseOrder={false} />
       </div>
-      <form className="py-1" onSubmit={onSubmitForm}>
+      <form className="py-1 response-form" onSubmit={onSubmitForm}>
         <div className={`bg-[#FBFCF8] flex items-center w-[100%] rounded-[20px] overflow-hidden`}>
-          <div className="flex response-login justify-center sm:w-[100%] md:w-[120%] lg:w-[64%] xl:w-[64%] 2xl:w-[75%] mr-[4%]">
+          <div className="flex response-login-imagen justify-center sm:w-[100%] md:w-[120%] lg:w-[64%] xl:w-[64%] 2xl:w-[75%] mr-[4%]">
             <img src={imagenDeFondoCompleto} alt="Imagen de fondo" className="w-[100%]" />
           </div>
           <div
-            className={`w-auto h-auto response-login rounded-[10px] sm:w-[60%] md:w-[60%] lg:w-[40%] xl:w-[35%] 2xl:w-[48%] `}
+            className={`w-auto h-auto response-login-form rounded-[10px] sm:w-[60%] md:w-[60%] lg:w-[40%] xl:w-[35%] 2xl:w-[48%] `}
           >
             <div className="flex justify-center items-center pt-8">
               <img
@@ -167,6 +169,7 @@ export default function Login({ setAuth }) {
                 </a>
               </p>
             </div>
+            <img src={imagenFondoCelular} alt="Celular" className="fondo-celular-response" />
           </div>
         </div>
       </form>

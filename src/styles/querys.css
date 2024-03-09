@@ -1,0 +1,23 @@
+.fondo-celular-response{
+    display: none;
+}
+
+@media screen and (max-width: 720px) {
+    .response-login-imagen{
+        display: none;
+    }
+    .response-form{
+        width: 80%;
+        margin-top: -30%;
+    }
+    .response-login-form{
+        width: 100%;
+    }
+    .response-login-form h1{
+        font-size: 20px;
+    }
+    .fondo-celular-response{
+        display: block;
+        width: 100%;
+    }
+  }
