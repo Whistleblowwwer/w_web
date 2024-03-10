@@ -184,10 +184,12 @@ export default function Login({ setAuth }) {
                 </a>
               </p>
             </div>
-            <img src={imagenFondoCelular} alt="Celular" className="fondo-celular-response" />
+          
           </div>
+          
         </div>
       </form>
+      <img src={imagenFondoCelular} alt="Celular" className="fondo-celular-response" />
     </div>
   );
 }
