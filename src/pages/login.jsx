@@ -16,6 +16,17 @@ export default function Login({ setAuth }) {
     localStorage.setItem("pageReloaded", "false");
   });
 
+  useEffect(() => {
+    const fontLink = document.createElement('link');
+    fontLink.href = 'https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap';
+    fontLink.rel = 'stylesheet';
+    document.head.appendChild(fontLink);
+
+    return () => {
+      document.head.removeChild(fontLink);
+    };
+  }, []);
+
   const navigate = useNavigate();
 
   const handleButtonClick = (url) => {
@@ -91,16 +102,19 @@ export default function Login({ setAuth }) {
           >
             <div className="flex justify-center items-center pt-8">
               <img
-                src={LogoNuevo}
+                src={logoN}
                 alt="Logo"
-                className="w-12 h-auto cursor-pointer"
+                className="w-16 h-auto cursor-pointer"
+                style={{ width: '5rem' }}
               />
+              
             </div>
             <div className="flex items-center justify-center">
               <h1
-                className={`text-neutral-900 text-[26px] font-bold leading-7 mt-8 ${
+                className={`text-neutral-900 text-[26px] font-bold leading-7 mt-4 ${
                   darkMode ? "dark-text-white" : ""
                 }`}
+                style={{ fontWeight: 700 }}
               >
                 Inicia sesión
               </h1>
@@ -112,7 +126,8 @@ export default function Login({ setAuth }) {
                 onChange={(e) => onChange(e)}
                 placeholder="Correo electrónico"
                 required
-                className="placeholder-opacity-60 mr-4 mt-3 p-2 rounded-[8px] w-[87%] h-8 bg-white text-neutral-900 text-opacity-100 text-xs font-medium leading-[11.17px] border border-gray-200"
+                className="placeholder-opacity-60 mr-4 mt-3 p-5 rounded-[8px] w-[87%] h-8 bg-white text-neutral-900 text-opacity-100 text-xs font-medium leading-[11.17px] border border-gray-200"
+                style={{ fontSize: '14px' }} // Ajuste de padding aquí
               />
             </div>
             <div className="flex justify-center items-center">
@@ -123,14 +138,16 @@ export default function Login({ setAuth }) {
                   onChange={(e) => onChange(e)}
                   placeholder="Contraseña"
                   required
-                  className={`placeholder-opacity-60 mr-4 mt-3 p-2 rounded-[8px] w-[87%] h-8 bg-white text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] border border-gray-200 ${
+                  className={`placeholder-opacity-60 mr-4 mt-3 p-5 rounded-[8px] w-[87%] h-8 bg-white text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] border border-gray-200  ${
                       darkMode ? "dark-register-bt placeholder-black-dk" : ""
-                  }`}
+                      
+                }` }
+                style={{ fontSize: '14px' }}
               />
             </div>
             <div className="flex mt-2 ml-8">
               <p
-                className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${
+                className={`text-zinc-900 text-[11px] font-medium leading-[20px] ${
                   darkMode ? "dark-text-white" : ""
                 }`}
               >
@@ -140,7 +157,7 @@ export default function Login({ setAuth }) {
             <div className="flex justify-center items-center mt-[30px]">
               <button
                 type="submit"
-                className={`hover:bg-gray-700 py-2 px-4 mt-4 w-[60%] h-[41px] bg-[#641F89] rounded-[44px] relative ${
+                className={`hover:bg-gray-700 py-2 px-4 mt-4 w-[60%] h-[41px] bg-[#641F89] rounded-[8px] relative ${
                   darkMode ? "dark-button" : ""
                 }`}
               >
@@ -149,13 +166,13 @@ export default function Login({ setAuth }) {
                     darkMode ? "dark-text" : ""
                   }`}
                 >
-                  Login
+                  Ingresar
                 </span>
               </button>
             </div>
-            <div className="flex justify-center items-center mt-4 pb-4">
+            <div className="flex justify-center items-center mt-4 pb-8">
               <p
-                className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${
+                className={`text-zinc-900 text-[11px] font-medium leading-[9.31px] ${
                   darkMode ? "dark-text-white" : ""
                 }`}
               >

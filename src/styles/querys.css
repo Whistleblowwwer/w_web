@@ -34,12 +34,17 @@
     }
     .response-login-form{
         width: 100%;
+        
     }
     .response-login-form h1{
         font-size: 20px;
     }
     .fondo-celular-response{
         display: block;
-        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%; /* Ajusta el ancho como necesites */
+        height: auto; /* Mantiene la proporción de la imagen */
     }
   }
