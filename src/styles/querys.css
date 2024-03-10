@@ -1,14 +1,30 @@
 .fondo-celular-response{
     display: none;
 }
-
-@media screen and (max-width: 720px) {
+.response-form{
+    width: 40%;
+}
+.container-form {
+    background-image: url('../assets/FondoCompletoCelular-removebg-preview.png');
+    background-position: left; 
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+@media screen and (max-width: 1024px) {
     .response-login-imagen{
         display: none;
     }
     .response-form{
-        width: 80%;
-        margin-top: -30%;
+        margin-top: 0;
+        padding: 0;
+        width: 100vw;
+        height: 100vh;
+    }
+    .main-response{
+        background-color: #FBFCF8;
+    }
+    .ocultar-response-login{
+        display: none;
     }
     .response-login-form{
         width: 100%;

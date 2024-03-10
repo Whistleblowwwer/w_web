@@ -76,20 +76,18 @@ export default function Login({ setAuth }) {
 
   return (
     <div
-      className={`overflow-y-hidden w-screen flex justify-center items-center h-screen ${
+      className={`overflow-y-hidden w-screen flex items-center h-screen p-0 container-form ${
         darkMode ? "dark-register-bg" : ""
       }`}
     >
       <div>
         <Toaster position="top-center" reverseOrder={false} />
       </div>
+      <div className="w-[50%] ocultar-response-login"></div>
       <form className="py-1 response-form" onSubmit={onSubmitForm}>
-        <div className={`bg-[#FBFCF8] flex items-center w-[100%] rounded-[20px] overflow-hidden`}>
-          <div className="flex response-login-imagen justify-center sm:w-[100%] md:w-[120%] lg:w-[64%] xl:w-[64%] 2xl:w-[75%] mr-[4%]">
-            <img src={imagenDeFondoCompleto} alt="Imagen de fondo" className="w-[100%]" />
-          </div>
+        <div className={`bg-[#FBFCF8] flex items-center justify-center w-[100%] rounded-[20px] overflow-hidden`}>
           <div
-            className={`w-auto h-auto response-login-form rounded-[10px] sm:w-[60%] md:w-[60%] lg:w-[40%] xl:w-[35%] 2xl:w-[48%] `}
+            className={`w-[80%] response-login-form `}
           >
             <div className="flex justify-center items-center pt-8">
               <img
