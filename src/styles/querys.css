@@ -11,6 +11,9 @@
     background-size: contain;
 }
 @media screen and (max-width: 1024px) {
+    .container-form {
+        background-image: none;
+    }
     .response-login-imagen{
         display: none;
     }
@@ -22,6 +25,9 @@
     }
     .main-response{
         background-color: #FBFCF8;
+        overflow-x: hidden;
+        padding: 0;
+        overflow-y: hidden;
     }
     .ocultar-response-login{
         display: none;

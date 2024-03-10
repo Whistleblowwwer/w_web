@@ -76,14 +76,14 @@ export default function Login({ setAuth }) {
 
   return (
     <div
-      className={`overflow-y-hidden w-screen flex items-center h-screen p-0 container-form ${
+      className={`overflow-y-hidden w-screen flex overflow-x-hidden items-center h-screen p-0 container-form ${
         darkMode ? "dark-register-bg" : ""
       }`}
     >
       <div>
         <Toaster position="top-center" reverseOrder={false} />
       </div>
-      <div className="w-[50%] ocultar-response-login"></div>
+      <div className="w-[50%] ocultar-response-login overflow-x-hidden"></div>
       <form className="py-1 response-form" onSubmit={onSubmitForm}>
         <div className={`bg-[#FBFCF8] flex items-center justify-center w-[100%] rounded-[20px] overflow-hidden`}>
           <div
