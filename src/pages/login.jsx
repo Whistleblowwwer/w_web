@@ -3,6 +3,10 @@ import { Toaster, toast } from "react-hot-toast";
 import google from "../assets/Group 3.svg";
 import { useNavigate, useLocation } from "react-router-dom";
 import logoN from "../assets/w_logo.svg";
+import LogoNuevo from '../assets/LogoNuevo.png';
+import imagenDeFondoCompleto from '../assets/FondoCompletoCelular-removebg-preview.png';
+import imagenFondoCelular from '../assets/CelularCompletoFondo-removebg-preview.png';
+import '../styles/querys.css';
 
 export default function Login({ setAuth }) {
   const location = useLocation();
@@ -11,6 +15,17 @@ export default function Login({ setAuth }) {
   useEffect(() => {
     localStorage.setItem("pageReloaded", "false");
   });
+
+  useEffect(() => {
+    const fontLink = document.createElement('link');
+    fontLink.href = 'https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap';
+    fontLink.rel = 'stylesheet';
+    document.head.appendChild(fontLink);
+
+    return () => {
+      document.head.removeChild(fontLink);
+    };
+  }, []);
 
   const navigate = useNavigate();
 
@@ -72,55 +87,38 @@ export default function Login({ setAuth }) {
 
   return (
     <div
-      className={`overflow-y-hidden w-screen flex justify-center items-center h-screen ${
+      className={`overflow-y-hidden w-screen flex overflow-x-hidden items-center h-screen p-0 container-form ${
         darkMode ? "dark-register-bg" : ""
       }`}
     >
       <div>
         <Toaster position="top-center" reverseOrder={false} />
       </div>
-      <form className="py-1" onSubmit={onSubmitForm}>
-        <div className={`w-screen flex justify-center items-center h-screen`}>
+      <div className="w-[50%] ocultar-response-login overflow-x-hidden"></div>
+      <form className="py-1 response-form" onSubmit={onSubmitForm}>
+        <div className={`bg-[#FBFCF8] flex items-center justify-center w-[100%] rounded-[20px] overflow-hidden`}>
           <div
-            className={`w-auto h-auto bg-[#FBFCF8] rounded-[10px] sm:w-[60%] md:w-[60%] lg:w-[40%] xl:w-[35%] 2xl:w-[35%] m-[2%]`}
+            className={`w-[80%] response-login-form `}
           >
             <div className="flex justify-center items-center pt-8">
               <img
                 src={logoN}
                 alt="Logo"
-                className="w-12 h-auto cursor-pointer"
+                className="w-16 h-auto cursor-pointer"
+                style={{ width: '5rem' }}
               />
+              
             </div>
-            <div className="flex items-left">
+            <div className="flex items-center justify-center">
               <h1
-                className={`text-neutral-900 text-xl font-semibold leading-7 mt-8 ml-8 ${
+                className={`text-neutral-900 text-[26px] font-bold leading-7 mt-4 ${
                   darkMode ? "dark-text-white" : ""
                 }`}
+                style={{ fontWeight: 700 }}
               >
-                Iniciar sesión con Whistleblowwer
+                Inicia sesión
               </h1>
             </div>
-
-            {/* <div className="flex justify-center items-center mt-7">
-              <button
-                className={`hover:bg-gray-700 py-2 px-4 mt-4 w-[280px] h-[41px] bg-neutral-900 rounded-[44px] relative ${
-                  darkMode ? "dark-button" : ""
-                }`}
-              >
-                <img
-                  src={google}
-                  alt="google"
-                  className="w-4.5 h-4.5 mr-2 absolute left-10 top-1/2 transform -translate-y-1/2"
-                />
-                <span
-                  className={`text-stone-50 text-[15px] font-medium leading-[13.96px] pl-6 ${
-                    darkMode ? "dark-text" : ""
-                  }`}
-                >
-                  Iniciar sesión con Google
-                </span>
-              </button>
-            </div> */}
             <div className="flex justify-center items-center mt-3">
               <input
                 name="client_email"
@@ -128,50 +126,53 @@ export default function Login({ setAuth }) {
                 onChange={(e) => onChange(e)}
                 placeholder="Correo electrónico"
                 required
-                className="placeholder-black mr-4 mt-4 p-2 rounded-[10px] w-[87%] h-8 bg-stone-200 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px]"
+                className="placeholder-opacity-60 mr-4 mt-3 p-5 rounded-[8px] w-[87%] h-8 bg-white text-neutral-900 text-opacity-100 text-xs font-medium leading-[11.17px] border border-gray-200"
+                style={{ fontSize: '14px' }} // Ajuste de padding aquí
               />
             </div>
             <div className="flex justify-center items-center">
               <input
-                type="password"
-                name="client_password"
-                value={client_password}
-                onChange={(e) => onChange(e)}
-                placeholder="Contraseña"
-                required
-                className={`placeholder-black mr-4 mt-4 p-2 rounded-[10px] w-[87%] h-8 bg-stone-200 text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] ${
-                  darkMode ? "dark-register-bt placeholder-black-dk" : ""
-                }`}
+                  type="password"
+                  name="client_password"
+                  value={client_password}
+                  onChange={(e) => onChange(e)}
+                  placeholder="Contraseña"
+                  required
+                  className={`placeholder-opacity-60 mr-4 mt-3 p-5 rounded-[8px] w-[87%] h-8 bg-white text-neutral-900 text-opacity-60 text-xs font-medium leading-[11.17px] border border-gray-200  ${
+                      darkMode ? "dark-register-bt placeholder-black-dk" : ""
+                      
+                }` }
+                style={{ fontSize: '14px' }}
               />
             </div>
             <div className="flex mt-2 ml-8">
               <p
-                className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${
+                className={`text-zinc-900 text-[11px] font-medium leading-[20px] ${
                   darkMode ? "dark-text-white" : ""
                 }`}
               >
                 ¿Olvidaste tu contraseña?
               </p>
             </div>
-            <div className="flex justify-center items-center mt-[120px]">
+            <div className="flex justify-center items-center mt-[30px]">
               <button
                 type="submit"
-                className={`hover:bg-gray-700 py-2 px-4 mt-4 w-[60%] h-[41px] bg-neutral-900 rounded-[44px] relative ${
+                className={`hover:bg-gray-700 py-2 px-4 mt-4 w-[60%] h-[41px] bg-[#641F89] rounded-[8px] relative ${
                   darkMode ? "dark-button" : ""
                 }`}
               >
                 <span
-                  className={`text-stone-50 text-[15px] font-medium leading-[13.96px] ${
+                  className={`text-stone-50 text-[15px] font-bold leading-[13.96px] ${
                     darkMode ? "dark-text" : ""
                   }`}
                 >
-                  Iniciar sesión
+                  Ingresar
                 </span>
               </button>
             </div>
-            <div className="flex justify-center items-center mt-4 pb-4">
+            <div className="flex justify-center items-center mt-4 pb-8">
               <p
-                className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${
+                className={`text-zinc-900 text-[11px] font-medium leading-[9.31px] ${
                   darkMode ? "dark-text-white" : ""
                 }`}
               >
@@ -183,9 +184,12 @@ export default function Login({ setAuth }) {
                 </a>
               </p>
             </div>
+          
           </div>
+          
         </div>
       </form>
+      <img src={imagenFondoCelular} alt="Celular" className="fondo-celular-response" />
     </div>
   );
 }

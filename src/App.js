@@ -17,6 +17,7 @@ import SingleArticlePage from "./pages/singleArticlePage"
 
 import Tyc from "./pages/tyc";
 import AvisoPrivavidad from "./pages/avisoPrivacidad";
+import './styles/querys.css';
 
 import {
   BrowserRouter as Router,
@@ -68,7 +69,7 @@ function App() {
 
   return (
     <main
-      className={`bg-[#EEEFEF] w-full flex gap-1 pt-20 pb-14 lg:p-0 lg:pb-0`}
+      className={`bg-[#EEEFEF] main-response w-full flex gap-1 pt-20 pb-14 lg:p-0 lg:pb-0`}
     >
       <Router>
         {!loading ? (<AppProvider FunctionContext={FunctionContext} token={localStorage.token}>
