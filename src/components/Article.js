@@ -7,7 +7,10 @@ function Article({ article, FunctionContext }) {
     const navigate = useNavigate();
 
     const handleBusinessClick = async () => {
-        navigate(`/SingleArticle?title=${article.title}&subtitle=${article.subtitle}&author=${article.Author.name}&img_url=${article.img_url}&createdAt=${article.createdAt}&content=${article.content}`);
+        // Construct the URL with multiple query parameters
+        navigate(`/SingleArticle?_id_article=${article._id_article}&title=${encodeURIComponent(article.title)}&subtitle=${encodeURIComponent(article.subtitle)}&content=${encodeURIComponent(article.content)}&img_url=${encodeURIComponent(article.img_url)}&createdAt=${encodeURIComponent(article.createdAt)}&author_name=${encodeURIComponent(article.Author.name)}`);
+
+
     };
 
     return (
