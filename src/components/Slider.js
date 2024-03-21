@@ -18,7 +18,7 @@ function Slider({ images }) {
     return (
         <div id="default-carousel" className="relative w-full overflow-hidden" data-carousel="slide">
             {/* <!-- Carousel wrapper --> */}
-            <div className="relative h-56 md:h-96 overflow-hidden">
+            <div className="relative md:h-96 overflow-hidden">
                 {images.map((imageUrl, index) => (
                     <div
                         key={index}
