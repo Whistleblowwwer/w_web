@@ -155,7 +155,7 @@ const MainSection = ({
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-1 mt-1 lg:pb-0">
+          <div className="flex flex-col gap-0.5 mt-0.5 lg:pb-0">
             {postes?.map((post, index) => (
               <PostCard
                 key={index}

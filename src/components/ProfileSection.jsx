@@ -248,7 +248,7 @@ const ProfileSection = ({
                 </div>
               </div>
               <div className="flex items-center lg:items-end flex-col md:flex-row lg:flex-col xl:flex-row gap-2 pt-3 justify-between w-full lg:w-auto lg:justify-end">
-                <div className="opacity-30 flex items-center text-right py-1.5 gap-1">
+                <div className="opacity-30 flex items-center text-right py-1.5 gap-0.5">
                   <i className="fa-regular fa-calendar"></i>
                   {userDetail && (
                     <p>
@@ -337,7 +337,7 @@ const ProfileSection = ({
           </div>
         </div>
         {!isUserProfile ? (
-          <div className={`bg-[#FFF] flex flex-col gap-1 mt-1 `}>
+          <div className={`bg-[#FFF] flex flex-col gap-0.5 mt-1 `}>
             <input
               className={`input-style w-full rounded-lg bg-gray-50 p-4 ${
                 darkMode ? "dark-register" : ""
@@ -412,7 +412,7 @@ const ProfileSection = ({
           <></>
         )}
         {activeTabView === "reseñas" && (
-          <div className="flex flex-col gap-1 mt-1 lg:pb-0 pb-14">
+          <div className="flex flex-col gap-0.5 mt-0.5 lg:pb-0 pb-14">
             {postes.map((post, index) => (
               <PostCard
                 key={index}
@@ -432,7 +432,7 @@ const ProfileSection = ({
           </div>
         )}
         {activeTabView === "comentarios" && !isBusiness && (
-          <div className="flex flex-col gap-1 mt-1 lg:pb-0 pb-14">
+          <div className="flex flex-col gap-0.5 mt-0.5 lg:pb-0 pb-14">
             {commentsUser.map((post, index) => (
               <PostCard
                 key={post._id_comment}
@@ -449,7 +449,7 @@ const ProfileSection = ({
           </div>
         )}
         {activeTabView === "proyectos" && !isBusiness && (
-          <div className="flex flex-col gap-1 mt-1 lg:pb-0 pb-14">
+          <div className="flex flex-col gap-0.5 mt-0.5 lg:pb-0 pb-14">
             {projectsUser.map((post, index) => (
               <CompanyCard
                 key={index}

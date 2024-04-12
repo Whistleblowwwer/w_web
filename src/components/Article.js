@@ -18,9 +18,9 @@ function Article({ article, FunctionContext }) {
             <img className="w-1/3" src={article.img_url} alt={article.title} />
             <div className="w-2/3 px-6 py-4">
                 <div className="font-bold text-xl mb-2">{article.title}</div>
-                <p className="text-gray-700 text-lg">{article.subtitle}</p>
-                <p className="text-gray-600 text-sm mt-2">Autor: {article.Author.name}</p>
-                <p className="text-gray-600 text-sm">Fecha: {new Date(article.createdAt).toLocaleDateString()}</p>
+                <p className="text-gray-700 text-lg mb-4">{article.subtitle}</p>
+               
+                <p className="text-gray-600 text-sm">{new Date(article.createdAt).toLocaleDateString()}</p>
             </div>
         </div>
     );

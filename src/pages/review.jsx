@@ -221,7 +221,7 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
       ) : (
         <div className="lg:w-[50%] w-full bg-[#EEEFEF] lg:px-0 p-1">
           <div
-            className="flex bg-[#FFF] gap-2 items-center px-3 pt-3"
+            className="flex bg-[#FFF] gap-2 items-center px-3 pt-3 pb-3"
             onClick={() => navigate(-1)}
           >
             <i className="fa-solid fa-arrow-left-long cursor-pointer"></i>
@@ -259,7 +259,7 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
             </>
           ) : (
             <>
-              <div className="flex flex-col gap-1 mt-1 lg:pb-0">
+              <div className="flex flex-col gap-0.5 mt-0.5 lg:pb-0">
                 <PostCard
                   post={fetchResult}
                   darkMode={darkMode}

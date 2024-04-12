@@ -151,14 +151,22 @@ const PostCard = ({
           isOwnPost={isOwnPost}
         />
       )}
-      <div className={`bg-[#FFF] p-4 flex flex-col gap-4`}>
+      <div className={`bg-[#FFF] cursor-pointer p-4 flex flex-col gap-4 `}
+           onClick={(event) => {
+              event.stopPropagation();
+             return handleReview(post);
+           }}>
         {!isBusiness && post?.Business && (
-          <>
-            <div></div>
-            <div className="bg-[rgba(255, 255, 255, 0.5)] flex justify-between items-center">
-              <div
-                className="flex flex-col justify-start text-left cursor-pointer"
-                onClick={() => handleBusinessClick(post?.Business)}
+          <>      
+            <div className=" bg-[rgba(255, 255, 255, 0.5)] flex justify-between items-center cursor-pointer" 
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    return handleBusinessClick(post?.Business);
+                  }}>
+             <div className="flex items-center">
+               <div
+                className="flex flex-col justify-start text-left"
+            
               >
                 <p className="text-black text-base font-bold">
                   {post?.Business?.name}
@@ -166,18 +174,30 @@ const PostCard = ({
                 <span className="text-sm opacity-40 mt-[-3%]">
                   {post?.Business?.entity}
                 </span>
+                
               </div>
+              <p className="text-neutral-400 text-base font-bold p-2">
+                 •
+                </p>
               <p
-                className="text-indigo-400 text-base pr-[50%] font-semibold cursor-pointer"
-                onClick={() => handleFollowBusiness(post.Business._id_business)}
+                className="text-indigo-400 text-base  font-semibold cursor-pointer"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  return handleFollowBusiness(post.Business._id_business);
+                }}
               >
                 {followConditionBusiness ? "Siguiendo" : "Unirte"}
               </p>
+             </div>
+             
               <img
                 src={paginaEmpre}
                 alt="empresa"
                 className="cursor-pointer rounded-full"
-                onClick={() => handleBusinessClick(post?.Business)}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  return handleBusinessClick(post?.Business);
+                }}
               />
             </div>
           </>
@@ -189,8 +209,11 @@ const PostCard = ({
                 className={`flex justify-between items-center ${
                   !isUserProfile && "cursor-pointer"
                 }`}
-                onClick={() =>
-                  isUserProfile ? {} : handleUserClick(post?.User)
+                onClick={(event) =>
+                  {
+                    event.stopPropagation();
+                    return isUserProfile ? {} : handleUserClick(post?.User);
+                  }
                 }
               >
                 <div className="flex flex-col">
@@ -229,7 +252,8 @@ const PostCard = ({
                   fill="currentColor"
                   viewBox="0 0 16 16"
                   className={`w-8 h-8`}
-                  onClick={() => {
+                  onClick={(event) => {
+                    event.stopPropagation();
                     handleDeleteModal();
                   }}
                 >
@@ -241,7 +265,8 @@ const PostCard = ({
                 fill="currentColor"
                 viewBox="0 0 16 16"
                 className={`w-8 h-8 responsive-postimg`}
-                onClick={() => {
+                onClick={(event) => {
+                  event.stopPropagation();
                   handleDeleteModal();
                 }}
               >
@@ -251,8 +276,8 @@ const PostCard = ({
           </div>
           <div className="flex flex-col gap-2">
             <p
-              className={`cursor-pointer prevent-word-break text-black text-sm font-normal leading-normal tracking-wide responsive-post`}
-              onClick={() => handleReview(post)}
+              className={` prevent-word-break text-black text-sm font-normal leading-normal tracking-wide responsive-post`}
+         
             >
               {post?.content}
             </p>
@@ -260,7 +285,10 @@ const PostCard = ({
               <div className="grid grid-rows-2 grid-flow-col gap-2 max-h-[250px] sm:max-h-[300px] md:max-h-[400px] lg:max-h-[500] 2xl:max-h-[700px]">
                 {post?.Images.slice(0, 3).map((image, index) => (
                   <div
-                    onClick={() => handleViewPicture(image)}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      return handleViewPicture(image);
+                    }}
                     className={` cursor-pointer
                       ${
                         index < 1
@@ -299,21 +327,28 @@ const PostCard = ({
                 width: "25px",
                 cursor: "pointer",
               }}
-              onClick={() =>
-                handleAuxLike(isComment ? post?._id_comment : post?._id_review)
+              onClick={(event) =>
+                
+                {
+                  event.stopPropagation();
+                  return handleAuxLike(isComment ? post?._id_comment : post?._id_review);
+                }
               }
             />
             <div
               className="bg-[#F5F5F5] px-6 py-3 rounded-full w-full cursor-pointer text-gray-400"
-              onClick={() =>
-                isComment
-                  ? handleCommentClick(
+              onClick={(event) =>
+                {
+                  event.stopPropagation();
+                  return isComment
+                    ? handleCommentClick(
                       post?._id_comment,
                       true,
                       post?._id_review,
                       post?._id_comment
                     )
-                  : handleCommentClick(post?._id_review, false, undefined)
+                    : handleCommentClick(post?._id_review, false, undefined);
+                }
               }
             >
               Escribe una respuesta...

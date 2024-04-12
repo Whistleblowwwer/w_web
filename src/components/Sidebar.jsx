@@ -58,12 +58,18 @@ const Sidebar = ({
           </button> */}
         </div>
         <div className="w-full items-center">
-          <div className="flex items-center justify-center p-9">
+          <div className="flex items-center justify-center pb-4">
             <button
-              className="bg-purple-800 py-2 px-4 mt-4 w-[280px] h-[41px] bg-neutral-900 rounded-[44px] relative mt-12"
+              className="bg-purple-800 py-2 px-4 mt-4 w-[280px] h-[48px] bg-neutral-900 rounded-[44px] relative mt-12"
+               style={{
+                     
+                      background: 
+                        "linear-gradient(267deg, #8E1DA1 0%, #2D015A 100%)"
+                       
+                    }}
               onClick={handleNewCompanyModal}
             >
-              <p className="text-stone-50 text-[15px] font-medium leading-[13.96px]">
+              <p className="text-stone-50 text-[16px] font-medium leading-[13.96px]">
                 Crear empresa
               </p>
             </button>

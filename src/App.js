@@ -69,7 +69,7 @@ function App() {
 
   return (
     <main
-      className={`bg-[#EEEFEF] main-response w-full flex gap-1 pt-20 pb-14 lg:p-0 lg:pb-0`}
+      className={`bg-[#EEEFEF] main-response w-full flex gap-0.5 pt-20 pb-14 lg:p-0 lg:pb-0`}
     >
       <Router>
         {!loading ? (<AppProvider FunctionContext={FunctionContext} token={localStorage.token}>

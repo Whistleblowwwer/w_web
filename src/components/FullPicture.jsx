@@ -21,11 +21,7 @@ const FullPicture = ({ darkMode, picture, handleViewPicture }) => {
             </button>
           </div>
           <div className="h-[90%]">
-            <img
-              src={picture}
-              alt="Full"
-              className="rounded-[20px] w-full h-full"
-            />
+          <img src={picture} alt="Full" className="rounded-[20px] w-full h-full object-contain" />
           </div>
         </div>
       </div>
