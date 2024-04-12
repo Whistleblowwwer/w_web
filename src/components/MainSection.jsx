@@ -54,13 +54,15 @@ const MainSection = ({
               darkMode ? "dark-register-bg" : ""
             }`}
           >
-            <input
+            <textarea
               className={`input-style w-full rounded-lg bg-gray-50 p-4 ${
                 darkMode ? "dark-register" : ""
               }`}
               onChange={handleTextChange2}
               placeholder="Escribe algo..."
               value={textPost}
+              maxLength={1200}
+              wrap="soft" 
               style={{ paddingBottom: "90px" }}
             />
             <div className="opacity text-gray-500 text-sm mt-1 ml-2">

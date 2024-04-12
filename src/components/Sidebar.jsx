@@ -68,19 +68,37 @@ const Sidebar = ({
               </p>
             </button>
           </div>
-          <div className="flex justify-center text-gray-600">
-            <a href="/t&c" target="_blank" rel="noopener noreferrer">
-              Terminos y condiciones
-            </a>
-          </div>
-          <div className="flex justify-center text-gray-600 mb-6">
+          {/* <div className="flex justify-center text-gray-600 mb-6">
             <a
               href="/aviso-privacidad"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Aviso de privacidad
+              Privacidad
             </a>
+          </div> */}
+          <div className="flex justify-center text-gray-600 text-xs mb-5"></div>
+          <div className="flex justify-center text-gray-600 mb-6 text-xs">
+            <p>
+              D.R.© ANCER 2023, S.A.P.I. DE C.V., México 2023. Utilización del
+              sitio únicamente bajo
+              <u>
+                <a href="/t&c" target="_blank" rel="noopener noreferrer">
+                  {" Términos Legales "}
+                </a>
+              </u>
+              Pedro Infante #1000, Colonia Cumbres Oro Regency, Monterrey, Nuevo
+              León, México. 64347.
+              <u>
+                <a
+                  href="/avisoPrivacidad"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {" Aviso de Privacidad. "}
+                </a>
+              </u>
+            </p>
           </div>
 
           <div className="flex justify-between">

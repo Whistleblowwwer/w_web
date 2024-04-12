@@ -1,0 +1,61 @@
+.fondo-celular-response{
+    display: none;
+}
+.response-form{
+    width: 40%;
+}
+.container-form {
+    background-image: url('../assets/FondoCompletoCelular-removebg-preview.png');
+    background-position: left; 
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+@media screen and (max-width: 1024px) {
+    .container-form {
+        min-height: 100vh; /* Asegura que tenga al menos la altura de la pantalla */
+        display: flex;
+        flex-direction: column; /* Hace que los hijos se alineen en columna */
+        justify-content: space-between; /* Espacia los elementos: contenido arriba, imagen abajo */
+        background-image: none;
+    }
+    .container-form {
+        position: relative; /* Esto es crítico para el posicionamiento absoluto de la imagen */
+    }
+    
+    
+    .response-login-imagen{
+        display: none;
+    }
+    .response-form{
+        margin-top: 0;
+        padding: 0;
+        width: 100vw;
+        height: 100vh;
+    }
+    .main-response{
+        background-color: #FBFCF8;
+        overflow-x: hidden;
+        padding: 0;
+        overflow-y: hidden;
+    }
+    .ocultar-response-login{
+        display: none;
+    }
+    .response-login-form{
+        width: 100%;
+    
+        
+        
+    }
+    .response-login-form h1{
+        font-size: 20px;
+    }
+    .fondo-celular-response{
+        display: block;
+      
+        bottom: 0;
+  
+        width: 100%; /* Ajusta el ancho como necesites */
+       
+    }
+  }

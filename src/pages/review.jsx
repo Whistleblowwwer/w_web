@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { NewCommentModal } from "../components";
 
 import { PostCard } from "../components";
 
@@ -10,19 +11,126 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
     handleReview,
     handleChildComments,
     handleLike,
-    handleCommentClick,
+    // handleCommentClick,
     handleCommentComment,
     handleCommentReview,
+    handleNewCommnentFromReview,
   } = useContext(FunctionContext);
 
   const location = useLocation();
   const navigate = useNavigate();
 
   const [fetchResult, setFetchResult] = useState(undefined);
-  // const reviewValue = location.state ? location.state.reviewValue : null;
+  const [commentModalOpen, setCommentModalOpen] = useState(false);
+  const [textComment, setTextComment] = useState("");
+  const [idReviewComment, setIdReviewComment] = useState("");
+  const [isCommentingReview, setIsCommentingReview] = useState(undefined);
+  const [idReview, setIdReview] = useState("");
+  const [commentedComment, setCommentedComment] = useState("");
+
   const reviewOrCommentData = location.state.isComment
     ? location.state.comment
     : location.state.reviewValue;
+
+  const handleTextCommnetChange = (event) => {
+    setTextComment(event.target.value);
+  };
+
+  const handleCommentClickAux = (
+    _id_review,
+    isComment,
+    _id_parent,
+    _id_comment
+  ) => {
+    if (isComment) {
+      setIdReviewComment(_id_review);
+      setIdReview(_id_parent);
+      setIsCommentingReview(false);
+      setCommentModalOpen(true);
+      setTextComment("");
+      setCommentedComment(_id_comment);
+    } else {
+      setIdReviewComment(_id_review);
+      setIdReview(_id_parent);
+      setIsCommentingReview(true);
+      setCommentModalOpen(true);
+      setTextComment("");
+    }
+  };
+
+  const handleNewComment = () => {
+    handleNewCommnentFromReview(
+      idReviewComment,
+      isCommentingReview,
+      idReview,
+      textComment
+    );
+
+    if (isCommentingReview) {
+      const auxCommentObject = {
+        content: textComment,
+        is_valid: true,
+        createdAt: "2024-02-08T18:51:46.559Z",
+        updatedAt: "2024-02-08T18:51:46.559Z",
+        _id_review: "",
+        _id_parent: null,
+        likesCount: 0,
+        commentsCount: 0,
+        is_liked: false,
+        User: {
+          _id_user: "",
+          name: localStorage.userName,
+          last_name: localStorage.last_name,
+          nick_name: localStorage.userName + localStorage.last_name,
+          profile_picture_url: null,
+          is_followed: false,
+        },
+        Images: [],
+      };
+
+      setFetchResult((prevFetchResult) => ({
+        ...prevFetchResult,
+        Comments: [auxCommentObject, ...prevFetchResult?.Comments],
+      }));
+    } else {
+      if (!location.state.isComment) {
+        setFetchResult((prevFetchResult) => ({
+          ...prevFetchResult,
+          Comments: prevFetchResult?.Comments.map((prevPost) => {
+            if (prevPost._id_comment === commentedComment) {
+              return {
+                ...prevPost,
+                commentsCount: prevPost.commentsCount + 1,
+              };
+            }
+            return prevPost;
+          }),
+        }));
+      } else {
+        setFetchResult((prevFetchResult) => ({
+          ...prevFetchResult,
+          comment: {
+            ...prevFetchResult.comment,
+            Comments: prevFetchResult.comment.Comments.map((prevPost) => {
+              if (prevPost._id_comment === commentedComment) {
+                return {
+                  ...prevPost,
+                  commentsCount: prevPost.commentsCount + 1,
+                };
+              }
+              return prevPost;
+            }),
+          },
+        }));
+      }
+    }
+
+    setIdReviewComment("");
+    setIsCommentingReview(undefined);
+    setIdReview("");
+    setTextComment("");
+    setCommentModalOpen(!commentModalOpen);
+  };
 
   useEffect(() => {
     async function getPostes() {
@@ -67,7 +175,6 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
           parseRes.message === "Comment liked successfully" ||
           parseRes.message === "Comment unliked successfully"
         ) {
-          window.location.reload();
         }
       } catch (err) {
         console.error(err.message);
@@ -78,6 +185,17 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
 
   return (
     <>
+      {commentModalOpen && (
+        <NewCommentModal
+          handleCommentModal={handleCommentClickAux}
+          darkMode={darkMode}
+          handleTextCommentChange={handleTextCommnetChange}
+          textComment={textComment}
+          maxLength={1200}
+          addComment={() => handleNewComment()}
+          isReview={true}
+        />
+      )}
       {fetchResult === undefined ? (
         <div className="flex items-center justify-center lg:w-[50%] w-full bg-[#EEEFEF] lg:px-0 p-1">
           <div role="status" className="text-center">
@@ -118,8 +236,7 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
                   handleUserClick={handleUserClick}
                   handleReview={handleReview}
                   handleLike={handleLikeComment}
-                  handleCommentClick={handleCommentClick}
-                  handleCommentReview={handleCommentComment}
+                  handleCommentClick={handleCommentClickAux}
                   isComment={true}
                   isBusiness={false}
                 />
@@ -133,9 +250,7 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
                       handleUserClick={handleUserClick}
                       handleReview={handleChildComments}
                       handleLike={handleLikeComment}
-                      handleCommentComment={handleCommentComment}
-                      handleCommentReview={handleCommentReview}
-                      handleCommentClick={handleCommentClick}
+                      handleCommentClick={handleCommentClickAux}
                       isComment={true}
                       isBusiness={false}
                     />
@@ -152,22 +267,20 @@ export default function Review({ setAuth, darkMode, FunctionContext }) {
                   handleUserClick={handleUserClick}
                   handleReview={handleReview}
                   handleLike={handleLike}
-                  handleCommentClick={handleCommentClick}
+                  handleCommentClick={handleCommentClickAux}
                   isComment={false}
                 />
                 {fetchResult.Comments &&
-                  fetchResult.Comments.map((post, index) => (
+                  fetchResult.Comments.map((post) => (
                     <PostCard
-                      key={index}
+                      key={post._id_comment}
                       post={post}
                       darkMode={darkMode}
                       handleBusinessClick={handleBusinessClick}
                       handleUserClick={handleUserClick}
                       handleReview={handleChildComments}
                       handleLike={handleLikeComment}
-                      handleCommentComment={handleCommentComment}
-                      handleCommentReview={handleCommentReview}
-                      handleCommentClick={handleCommentClick}
+                      handleCommentClick={handleCommentClickAux}
                       isBusiness
                       isComment={true}
                     />

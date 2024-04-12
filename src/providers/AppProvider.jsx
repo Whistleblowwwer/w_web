@@ -1,6 +1,6 @@
 import { redirect, useLocation, useNavigate } from "react-router-dom";
 import { uploadFiles } from "../utils";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Toaster, toast } from "react-hot-toast";
 
 import {
@@ -80,11 +80,34 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     isComment: false,
   });
   const [tokenVerified, setTokenVerified] = useState(false);
+  const [articles, setArticles] = useState([]);
 
   useEffect(() => {
     // Initialize pageReloaded in localStorage if not present
     if (localStorage.getItem("pageReloaded") === null) {
       localStorage.setItem("pageReloaded", "false");
+    }
+
+    async function getArticles() {
+      try {
+        const myHeaders = new Headers();
+        myHeaders.append("authorization", `Bearer ${localStorage.token}`);
+        const requestOptions = {
+          method: "GET",
+          headers: myHeaders,
+          redirect: "follow",
+        };
+
+        const response = await fetch(
+          "https://api.whistleblowwer.net/articles",
+          requestOptions
+        );
+
+        const result = await response.json();
+        setArticles(result);
+      } catch (error) {
+        console.error("Error fetching articles:", error);
+      }
     }
 
     async function verifyToken() {
@@ -139,7 +162,6 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
               setPageReloaded(true);
               localStorage.setItem("pageReloaded", "true");
             } else {
-              console.log("error here!");
               getName();
               getPostes();
             }
@@ -152,6 +174,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
       }
     }
     verifyToken();
+    getArticles();
   }, [localStorage.token]);
 
   const [pageReloaded, setPageReloaded] = useState(() => {
@@ -277,6 +300,34 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
       handleCommentComment();
     }
   };
+  const initialRender = useRef(true);
+
+  const handleNewCommnentFromReview = (
+    _id_review,
+    isComment,
+    _id_parent,
+    textComment
+  ) => {
+    if (!isComment) {
+      setIdReviewComment(_id_review);
+      setIsCommentingReview(false);
+      setIdReview(_id_parent);
+      setTextComment(textComment);
+    } else {
+      setIdReviewComment(_id_review);
+      setIdReview(_id_parent);
+      setIsCommentingReview(true);
+      setTextComment(textComment);
+    }
+  };
+
+  useEffect(() => {
+    if (initialRender.current) {
+      initialRender.current = false;
+    } else {
+      if (textComment != "" && !commentModalOpen) handleNewCommnent();
+    }
+  }, [idReviewComment, idReview, isCommentingReview, textComment]);
 
   const handleTextChange2 = (event) => {
     setText(event.target.value);
@@ -299,12 +350,13 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
         headers: myHeaders,
         redirect: "follow",
       };
+      const url_companies =
+        e == ""
+          ? `https://api.whistleblowwer.net/business/`
+          : `https://api.whistleblowwer.net/business/search-name-entity?searchTerm=${e}`;
 
       try {
-        const response = await fetch(
-          `https://api.whistleblowwer.net/business/search?name=${e}&city=&enitty=&country=&address=&state=`,
-          requestOptions
-        );
+        const response = await fetch(url_companies, requestOptions);
         const parseRes = await response.json();
         setBusinesses(parseRes.businesses || []);
       } catch (err) {
@@ -327,6 +379,10 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
   const headersBase = getHeadersBase();
 
   const handleAddPost = async () => {
+    const API_BASE_URL = "https://api.whistleblowwer.net";
+    const REVIEW_ENDPOINT = `${API_BASE_URL}/reviews`;
+    const BUCKET_ENDPOINT = `${API_BASE_URL}/bucket/review`;
+
     async function createReview() {
       const body = JSON.stringify({
         content: textPost,
@@ -343,10 +399,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
         redirect: "follow",
       };
 
-      const response = await fetch(
-        "https://api.whistleblowwer.net/reviews",
-        requestOptions
-      );
+      const response = await fetch(REVIEW_ENDPOINT, requestOptions);
       const jsonRes = await response.json();
 
       setText("");
@@ -354,33 +407,41 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
       setShowPublishIcon(false);
       return jsonRes;
     }
-    const post = await createReview();
-    let auxPostJson = post?.review;
 
-    if (
-      post.message === "Review created successfully" &&
-      selectedImages.length > 0
-    ) {
-      headersBase.delete("Content-Type");
+    try {
+      const post = await createReview(textPost, selectedCompany, reviewRating);
 
-      try {
-        const res = await uploadFiles(
-          `https://api.whistleblowwer.net/bucket/review?_id_review=${post.review._id_review}`,
-          headersBase,
-          selectedImages,
-          selectedImages.length > 1 ? true : false
-        );
-        auxPostJson.Images = res.Images;
-      } catch (error) {
-        console.error("Error al subir los archivos:", error);
+      if (post.message === "Review created successfully") {
+        if (selectedImages.length > 0) {
+          headersBase.delete("Content-Type");
+
+          try {
+            const uploadUrl = `${BUCKET_ENDPOINT}?_id_review=${post.review._id_review}`;
+            const res = await uploadFiles(
+              uploadUrl,
+              headersBase,
+              selectedImages,
+              selectedImages.length > 1
+            );
+            post.review.Images = res.Images;
+          } catch (error) {
+            console.error("Error uploading files:", error);
+          }
+        }
+        toast.success("Review Creado Exitosamente!");
+
+        setPostes([post.review, ...postes]);
+        setText("");
+        setSelectedImages([]);
+        setCompanySearchQuery("");
+        setReviewRating(0);
+        setPostModalOpen(false);
+      } else {
+        console.log("Error: Review not created successfully");
       }
+    } catch (error) {
+      console.error("Error creating review:", error);
     }
-    setPostes([auxPostJson, ...postes]);
-    setText("");
-    setSelectedImages([]);
-    setCompanySearchQuery("");
-    setReviewRating(0);
-    setPostModalOpen(false);
   };
 
   const handleLike = (_id_review) => {
@@ -459,7 +520,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
           // TO-DO: elminar este if, mejorar logica para no tener que recargar pagina
           const currentUrl = window.location.href;
           if (currentUrl.includes("/review")) {
-            window.location.reload();
+            // window.location.reload();
           }
         }
       } catch (err) {
@@ -508,13 +569,13 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
         const validationComment = await response.json();
         if (validationComment.message === "Comment created successfully") {
           toast.success("Comentario enviado");
-          window.location.reload();
+          // window.location.reload();
         }
       } catch (err) {
         console.error(err.message);
       }
     }
-    setCommentModalOpen(!commentModalOpen);
+    setCommentModalOpen(false);
     postComment();
   };
 
@@ -569,8 +630,6 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     }
     getCompanies();
   };
-
-  console.log("");
 
   useEffect(() => {
     if (
@@ -668,6 +727,10 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
         setUpdateForm(parseRes.user);
         setName(parseRes.user);
         localStorage.setItem("userName", JSON.stringify(parseRes.user.name));
+        localStorage.setItem(
+          "last_name",
+          JSON.stringify(parseRes.user.last_name)
+        );
         localStorage.setItem("userId", JSON.stringify(parseRes.user._id_user));
       } catch (err) {
         console.error(err.message);
@@ -783,6 +846,7 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
     handleCommentReview,
     handleNewUpdateProfileModal,
     handleDeleteClick,
+    handleNewCommnentFromReview,
   };
 
   return (
@@ -891,6 +955,8 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
                 search={search}
                 searchUser={searchUser}
                 setActiveTabView={setActiveTabView}
+                articles={articles}
+                FunctionContext={FunctionContext}
               />
               <FunctionContext.Provider value={generalFunctions}>
                 {children}
@@ -917,6 +983,8 @@ const AppProvider = ({ children, darkMode, FunctionContext, token }) => {
                       search={search}
                       searchUser={searchUser}
                       setActiveTabView={setActiveTabView}
+                      articles={articles}
+                      FunctionContext={FunctionContext}
                     />
                   )}
                   <BottomNavbar darkMode={darkMode} />

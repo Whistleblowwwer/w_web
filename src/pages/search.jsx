@@ -4,7 +4,15 @@ import proSet from "../assets/defaultProfilePicture.webp";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getHeadersBase } from "../utils/getHeaders";
 import defaultPp from "../assets/defaultProfilePicture.webp";
-import bannerAsesores from "../assets/BannerProntoAsesores.jpeg";
+import layer1 from "../assets/Andrés Orozco.jpg";
+import layer2 from "../assets/Victor Barrios.jpg";
+import layer3 from "../assets/Yelile Marcos.jpg";
+import header from "../assets/broker_header.svg";
+import Slider from "../components/Slider";
+import bannerBroker1 from "../assets/banner_broker1.jpg";
+import bannerBroker2 from "../assets/banner_broker2.jpg";
+import bannerAbogado1 from "../assets/banner_abogado1.jpg";
+import bannerAbogado2 from "../assets/banner_abogado2.jpg";
 
 export default function Search({ setAuth }) {
   const location = useLocation();
@@ -15,6 +23,8 @@ export default function Search({ setAuth }) {
 
   const [isBusinessVisible, setIsBusinessVisible] = useState(false);
   const [isPeopleVisible, setIsPeopleVisible] = useState(false);
+
+  console.log([bannerBroker1, bannerBroker2]);
 
   const handleTabClick = (tab) => {
     setSelectedTab(tab);
@@ -72,10 +82,10 @@ export default function Search({ setAuth }) {
   }, []);
 
   return (
-    <div className="w-[30%] bg-[#FFF] lg:block hidden p-4 overflow-y-auto h-screen">
+    <div className="w-[30%] bg-[#FFF] lg:block hidden p-4">
       <div className="flex flex-col gap-4 ">
         <h1 className="text-[22px] font-semibold mb-2">Buscar</h1>
-        <div className="overflow-y-auto mt-3">
+        <div className="mt-3">
           <div className="w-full">
             <div className="flex gap-4">
               <button
@@ -127,13 +137,16 @@ export default function Search({ setAuth }) {
           </div>
         </div>
         {selectedTab == "asesores" && (
-          <div className="w-full">
-            <img src={bannerAsesores} alt="banner" />
+          <div className="flex flex-col">
+            <Slider images={[bannerBroker1, bannerBroker2]} />
+            <img className="pb-3" src={layer1} alt="banner" />
+            <img className="pb-3" src={layer2} alt="banner" />
+            <img src={layer3} alt="banner" />
           </div>
         )}
         {selectedTab == "abogados" && (
           <div className="w-full h-full flex justify-between items-center">
-            <p>Proximamente</p>
+            <Slider images={[bannerAbogado1, bannerAbogado2]} />
           </div>
         )}
         {/* <div className="flex flex-col gap-2 p-4 rounded-lg bg-[#EEEFEF]">

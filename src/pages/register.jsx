@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Toaster, toast } from "react-hot-toast";
 import { join } from "path-browserify";
+import logoN from "../assets/w_logo.svg";
 
 export default function Register({ setAuth }) {
   const location = useLocation();
@@ -29,11 +30,9 @@ export default function Register({ setAuth }) {
     username: "",
     last_name: "",
     email: "",
-    phone_number: "",
     birth_date: "",
     gender: "",
     password: "",
-    role: "consumer",
   });
 
   const [otpCode, setOtpCode] = useState({
@@ -219,27 +218,28 @@ export default function Register({ setAuth }) {
         <div
           className={`w-auto h-auto bg-[#FBFCF8] rounded-[10px] ${
             darkMode ? "dark-register" : ""
-          } sm:w-[50%] md:w-[60%] lg:w-[40%] xl:w-[30%] 2xl:w-[20%] m-[3%]`}
+          } sm:w-[50%] md:w-[60%] lg:w-[40%] xl:w-[35%] 2xl:w-[35%] m-[3%]`}
         >
-          <div className="flex justify-between items-center">
+          <div className="flex justify-center items-center pt-8">
+            <img
+              src={logoN}
+              alt="Logo"
+              className="w-12 h-auto cursor-pointer"
+            />
+          </div>
+          <div className="flex items-left">
             <h1
-              className={`text-neutral-900 text-3xl font-semibold leading-7 mt-8 ml-8 ${
+              className={`text-neutral-900 text-xl font-semibold leading-7 mt-8 ml-8 ${
                 darkMode ? "dark-text-white" : ""
               }`}
             >
-              Crea tu cuenta
+              Crear cuenta en Whistleblowwer
             </h1>
-            <button
-              className={`mr-4 mb-3 ${darkMode ? "dark-text-white" : ""}`}
-              onClick={() => Navigate(-1)}
-            >
-              <i className="fas fa-times"></i>
-            </button>
           </div>
           <form onSubmit={onSubmitForm}>
             {step == 1 && (
               <>
-                <div className="flex mt-5 ml-5">
+                <div className="flex mt-5 ml-8">
                   <p
                     className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${
                       darkMode ? "dark-text-white" : ""
@@ -260,7 +260,7 @@ export default function Register({ setAuth }) {
                     onChange={(e) => onChange(e)}
                   ></input>
                 </div>
-                <div className="flex mt-5 ml-5">
+                <div className="flex mt-5 ml-8">
                   <p
                     className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${
                       darkMode ? "dark-text-white" : ""
@@ -281,7 +281,7 @@ export default function Register({ setAuth }) {
                     onChange={(e) => onChange(e)}
                   ></input>
                 </div>
-                <div className="flex mt-5 ml-5">
+                <div className="flex mt-5 ml-8">
                   <p
                     className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${
                       darkMode ? "dark-text-white" : ""
@@ -302,7 +302,7 @@ export default function Register({ setAuth }) {
                     onChange={(e) => onChange(e)}
                   ></input>
                 </div>
-                <div className="flex mt-5 ml-5">
+                <div className="flex mt-5 ml-8">
                   <p
                     className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${
                       darkMode ? "dark-text-white" : ""
@@ -365,7 +365,7 @@ export default function Register({ setAuth }) {
               </>
             )}
             {step == 3 && (
-              <>
+              <div className="flex flex-col">
                 <div className="flex mt-5 ml-5">
                   <p
                     className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${
@@ -375,37 +375,16 @@ export default function Register({ setAuth }) {
                     Contraseña
                   </p>
                 </div>
-                <div className="flex justify-center items-center">
+                <div className="flex justify-between items-center ml-5">
                   <input
                     type="password"
                     name="password"
                     placeholder="Contraseña"
                     required
-                    className={`mr-4 mt-2 p-2  rounded-[10px] w-[87%] h-8 bg-stone-200 text-neutral-900 text-opacity-100 text-xs font-medium leading-[11.17px] ${
+                    className={`mr-4 mt-2 p-2  rounded-[10px] w-[95%] h-8 bg-stone-200 text-neutral-900 text-opacity-100 text-xs font-medium leading-[11.17px] ${
                       darkMode ? "dark-register-bt placeholder-black-dk" : ""
                     }`}
                     value={password}
-                    onChange={(e) => onChange(e)}
-                  ></input>
-                </div>
-                <div className="flex mt-5 ml-5">
-                  <p
-                    className={`text-zinc-900 text-[10px] font-medium leading-[9.31px] ${
-                      darkMode ? "dark-text-white" : ""
-                    }`}
-                  >
-                    Telefono
-                  </p>
-                </div>
-                <div className="flex justify-center items-center">
-                  <input
-                    name="phone_number"
-                    placeholder="Telefono"
-                    className={`mr-4 mt-2 p-2  rounded-[10px] w-[87%] h-8 bg-stone-200 text-neutral-900 text-opacity-100 text-xs font-medium leading-[11.17px] ${
-                      darkMode ? "dark-register-bt placeholder-black-dk" : ""
-                    }`}
-                    value={phone_number}
-                    required
                     onChange={(e) => onChange(e)}
                   ></input>
                 </div>
@@ -415,15 +394,13 @@ export default function Register({ setAuth }) {
                       darkMode ? "dark-text-white" : ""
                     }`}
                   >
-                    Cumpleaños
+                    Fecha de nacimiento
                   </p>
                 </div>
-                <div className="flex justify-center items-center mt-2 text-neutral-900 text-opacity-100 text-xs font-semibold leading-[11.17px] mr-4 mt-[3px]">
-                  <div className="mr-3">
+                <div className="flex justify-between mt-2 text-neutral-900 text-opacity-100 text-xs font-semibold leading-[11.17px] ml-1 mt-[3px]">
+                  <div className="ml-5">
                     <select
-                      className={` h-8 bg-stone-200 rounded-[10px] ${
-                        darkMode ? "dark-register-bt placeholder-black-dk" : ""
-                      }`}
+                      className={` h-8 w-[180%] bg-stone-200 rounded-[10px]`}
                       name="month"
                       value={selectedMonth}
                       required
@@ -444,11 +421,9 @@ export default function Register({ setAuth }) {
                       <option value="12">Diciembre</option>
                     </select>
                   </div>
-                  <div className="mr-3">
+                  <div className="">
                     <select
-                      className={`w-[100%] h-8 bg-stone-200 rounded-[10px] mr-5 ${
-                        darkMode ? "dark-register-bt placeholder-black-dk" : ""
-                      }`}
+                      className={`w-[200%] h-8 bg-stone-200 rounded-[10px]`}
                       name="day"
                       value={selectedDay}
                       onChange={onChangeDay}
@@ -488,9 +463,9 @@ export default function Register({ setAuth }) {
                       <option value="31">31</option>
                     </select>
                   </div>
-                  <div>
+                  <div className="mr-20">
                     <select
-                      className={`w-[120%] h-8 bg-stone-200 rounded-[10px] ${
+                      className={`w-[200%] h-8 bg-stone-200 rounded-[10px] ${
                         darkMode ? "dark-register-bt placeholder-black-dk" : ""
                       }`}
                       name="year"
@@ -612,9 +587,9 @@ export default function Register({ setAuth }) {
                     Género
                   </p>
                 </div>
-                <div className="flex justify-center items-center mt-5 text-neutral-900 text-opacity-100 text-xs font-semibold leading-[11.17px] mr-1 mt-[3px]">
+                <div className="flex justify-between items-center mt-5 text-neutral-900 text-opacity-100 text-xs font-semibold leading-[11.17px] mr-1 mt-[3px]">
                   <div
-                    className={`w-[120px] h-8 bg-stone-200 rounded-[10px] mr-3 flex justify-around items-center ${
+                    className={`w-[120px] h-8 bg-stone-200 rounded-[10px] mr-3 ml-5 flex justify-around items-center ${
                       darkMode ? "dark-register-bt placeholder-black-dk" : ""
                     }`}
                   >
@@ -644,7 +619,7 @@ export default function Register({ setAuth }) {
                     ></input>
                   </div>
                   <div
-                    className={`w-[120px] h-8 bg-stone-200 rounded-[10px] mr-3 flex justify-around items-center ${
+                    className={`w-[120px] h-8 bg-stone-200 rounded-[10px] mr-6 flex justify-around items-center ${
                       darkMode ? "dark-register-bt placeholder-black-dk" : ""
                     }`}
                   >
@@ -669,7 +644,7 @@ export default function Register({ setAuth }) {
                     </span>
                   </button>
                 </div>
-              </>
+              </div>
             )}
 
             <div
@@ -685,7 +660,7 @@ export default function Register({ setAuth }) {
                   onClick={handlePrevious}
                 >
                   <span className="text-stone-50 text-[15px] font-medium leading-[13.96px]">
-                    {step == 2 ? "cambiar numero" : "atras"}
+                    {step == 2 ? "cambiar correo" : "atras"}
                   </span>
                 </button>
               )}
@@ -700,33 +675,26 @@ export default function Register({ setAuth }) {
                 </button>
               )}
             </div>
-            <div className="flex justify-center items-center w-[100%] mt-10 pb-4">
-              <p
-                className={`text-neutral-900 text-[10px] font-medium mt-4 ml-10 mr-[28px] translate-x-[-12px] ${
-                  darkMode ? "dark-text-white" : ""
-                }`}
-              >
-                Al registrarte, aceptas los{" "}
-                <a href="/t&c" target="_blank" className="underline">
-                  Términos legales
-                </a>{" "}
-                y la{" "}
-                <a
-                  href="aviso-privacidad"
-                  target="_blank"
-                  className="underline"
-                >
-                  Política de privacidad
-                </a>{" "}
-                , incluida la política de{" "}
-                <a
-                  href="aviso-privacidad"
-                  target="_blank"
-                  className="underline"
-                >
-                  Uso de Cookies
-                </a>
-                .
+            <div className="flex justify-center items-center w-[100%] mt-10 pb-4 text-xs text-gray-500	">
+              <p className="ml-4 mr-4">
+                D.R.© ANCER 2023, S.A.P.I. DE C.V., México 2023. Utilización del
+                sitio únicamente bajo
+                <u>
+                  <a href="/t&c" target="_blank" rel="noopener noreferrer">
+                    {" Términos Legales "}
+                  </a>
+                </u>
+                Pedro Infante #1000, Colonia Cumbres Oro Regency, Monterrey,
+                Nuevo León, México. 64347.
+                <u>
+                  <a
+                    href="/avisoPrivacidad"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {" Aviso de Privacidad. "}
+                  </a>
+                </u>
               </p>
             </div>
           </form>

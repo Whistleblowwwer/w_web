@@ -401,7 +401,6 @@ const Profile_user = ({ setAuth }) => {
                   <p className='mr-4'>Seguidores</p>
                   <p>Reseñas</p>
                 </div>
-                <p>Siguen a este grupo</p>
                 <div className="flex">
                   <button
                     className={`${activeTabView === 'reseñas' ? (darkMode ? 'active-reseñas' : '') : ''} mr-7`}
@@ -425,7 +424,7 @@ const Profile_user = ({ setAuth }) => {
                       className={`${darkMode ? 'dark-text-white' : ''} ${activeTabView === 'destacados' ? 'font-bold' : 'font-bold text-opacity-60'
                         } mb-2`}
                     >
-                      Destacados
+                      Comentarios
                     </p>
                     {activeTabView === 'destacados' && (
                       <div className="tab-indicator" />

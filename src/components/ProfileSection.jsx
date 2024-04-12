@@ -1,4 +1,5 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
 
 import logoN from "../assets/NavLogo.png";
 import proSet from "../assets/defaultProfilePicture.webp";
@@ -12,13 +13,16 @@ import { formatDate, renderStars } from "../utils";
 import { USER_PROFILE_TABS } from "../constants";
 import PostCard from "./PostCard";
 import chatIcon from "../assets/chatIcon.png";
-import { useEffect, useState } from "react";
 import ProfilePicture from "./ProfilePicture";
 import defaultPp from "../assets/defaultProfilePicture.webp";
 import NewPostModal from "./NewPostModal";
 import mas from "../assets/Group 99.svg";
 import AddFiles from "../components/AddFiles";
 import CompanyAutocomplete from "../components/CompanyAutocomplete";
+import { handleLikeComment } from "../utils/commentsInteraction";
+import { NewCommentModal } from "../components";
+import { comma } from "postcss/lib/list";
+import CompanyCard from "../components/CompanyCard";
 
 const ProfileSection = ({
   darkMode,
@@ -29,6 +33,9 @@ const ProfileSection = ({
   activeTabView,
   handleSetActiveTabView,
   postes,
+  commentsUser,
+  projectsUser,
+  setCommentsUser,
   name,
   handleUserClick,
   handleBusinessClick,
@@ -43,22 +50,25 @@ const ProfileSection = ({
   maxLength,
   selectedImages,
   setSelectedImages,
-  setCompanyModalOpen,
-  handleSearchCompanyClick,
-  suggestions,
-  setSelectedCompany,
-  companySearchQuery,
-  setCompanySearchQuery,
   reviewRating,
   handleRatingClick,
   showPublishIcon,
   handleAddPost,
+  FunctionContext,
 }) => {
   const [viewPictureModal, setViewPictureModal] = useState(false);
+  const [commentModalOpen, setCommentModalOpen] = useState(false);
+  const [textComment, setTextComment] = useState("");
+  const [idReviewComment, setIdReviewComment] = useState("");
+  const [isCommentingReview, setIsCommentingReview] = useState(false);
+  const [idReview, setIdReview] = useState("");
+  const [commentedComment, setCommentedComment] = useState("");
+
+  const { handleNewCommnentFromReview } = useContext(FunctionContext);
+
   const navigate = useNavigate();
 
   const handleNavigate = () => {
-    // Navigate to a different page
     navigate("/chats", {
       state: {
         id_user: userDetail?._id_user,
@@ -68,10 +78,80 @@ const ProfileSection = ({
     });
   };
 
-  useEffect(() => {}, [userDetail]);
+  const handleLikeCommentAux = async (_id_comment) => {
+    try {
+      await handleLikeComment(_id_comment);
+    } catch (error) {
+      console.error("Error handling like:", error);
+    }
+  };
+
+  const handleTextCommnetChange = (event) => {
+    setTextComment(event.target.value);
+  };
+
+  const handleNewComment = () => {
+    handleNewCommnentFromReview(
+      idReviewComment,
+      isCommentingReview,
+      idReview,
+      textComment
+    );
+
+    setCommentsUser((prevComments) => {
+      return prevComments.map((prevComment) => {
+        if (prevComment._id_comment === commentedComment) {
+          return {
+            ...prevComment,
+            commentsCount: prevComment.commentsCount + 1,
+          };
+        }
+        return prevComment;
+      });
+    });
+
+    setIdReviewComment("");
+    setIsCommentingReview(undefined);
+    setIdReview("");
+    setTextComment("");
+    setCommentModalOpen(!commentModalOpen);
+  };
+
+  const handleCommentClickAux = (
+    _id_review,
+    isComment,
+    _id_parent,
+    _id_comment
+  ) => {
+    if (isComment) {
+      setIdReviewComment(_id_review);
+      setIdReview(_id_parent);
+      setIsCommentingReview(false);
+      setCommentModalOpen(!commentModalOpen);
+      setTextComment("");
+      setCommentedComment(_id_comment);
+    } else {
+      setIdReviewComment(_id_review);
+      setIdReview(_id_parent);
+      setIsCommentingReview(true);
+      setCommentModalOpen(!commentModalOpen);
+      setTextComment("");
+    }
+  };
 
   return (
     <>
+      {commentModalOpen && (
+        <NewCommentModal
+          handleCommentModal={handleCommentClickAux}
+          darkMode={darkMode}
+          handleTextCommentChange={handleTextCommnetChange}
+          textComment={textComment}
+          maxLength={1200}
+          addComment={handleNewComment}
+          isReview={true}
+        />
+      )}
       {viewPictureModal && (
         <ProfilePicture
           darkMode={darkMode}
@@ -224,126 +304,163 @@ const ProfileSection = ({
                 {isBusiness ? "Reseñas" : "Siguiendo"}
               </p>
             </div>
-            <p>Siguen a este grupo</p>
-            <div className="flex">
-              {USER_PROFILE_TABS.map((tab) => (
-                <button
-                  key={tab.key}
-                  className={`w-1/3 ${
-                    activeTabView === tab.tabName
-                      ? darkMode
-                        ? tab.active
-                        : ""
-                      : ""
-                  }`}
-                  onClick={() => handleSetActiveTabView(tab.tabName)}
-                >
-                  <p
-                    className={`${darkMode ? "dark-text-white" : ""} ${
+            <div className="flex items-center">
+              {(!isBusiness ? USER_PROFILE_TABS : [USER_PROFILE_TABS[0]]).map(
+                (tab) => (
+                  <button
+                    key={tab.key}
+                    className={`${isBusiness ? "w-full" : "w-1/3"} ${
                       activeTabView === tab.tabName
-                        ? "font-bold"
-                        : "font-bold text-opacity-60"
-                    } capitalize`}
+                        ? darkMode
+                          ? tab.active
+                          : ""
+                        : ""
+                    }`}
+                    onClick={() => handleSetActiveTabView(tab.tabName)}
                   >
-                    {tab.tabName}
-                  </p>
-                  {activeTabView === tab.tabName && (
-                    <div className="tab-indicator" />
-                  )}
-                </button>
-              ))}
+                    <p
+                      className={`${darkMode ? "dark-text-white" : ""} ${
+                        activeTabView === tab.tabName
+                          ? "font-bold"
+                          : "font-bold text-opacity-60"
+                      } capitalize`}
+                    >
+                      {tab.tabName}
+                    </p>
+                    {activeTabView === tab.tabName && (
+                      <div className="tab-indicator" />
+                    )}
+                  </button>
+                )
+              )}
             </div>
           </div>
         </div>
-        <div className={`bg-[#FFF] flex flex-col gap-1 mt-1 `}>
-          <input
-            className={`input-style w-full rounded-lg bg-gray-50 p-4 ${
-              darkMode ? "dark-register" : ""
-            }`}
-            onChange={handleTextChange2}
-            placeholder="Escribe algo..."
-            value={textPost}
-            style={{ paddingBottom: "90px" }}
-          />
-          <div className="opacity text-gray-500 text-sm mt-1 ml-2">
-            {textPost.length}/{maxLength}
-          </div>
-          <div className="p-4 flex flex-col space-y-2">
-            <AddFiles
-              darkMode={darkMode}
-              selectedFiles={selectedImages}
-              setSelectedFiles={setSelectedImages}
-              isInHome={true}
+        {!isUserProfile ? (
+          <div className={`bg-[#FFF] flex flex-col gap-1 mt-1 `}>
+            <input
+              className={`input-style w-full rounded-lg bg-gray-50 p-4 ${
+                darkMode ? "dark-register" : ""
+              }`}
+              onChange={handleTextChange2}
+              placeholder="Escribe algo..."
+              value={textPost}
+              style={{ paddingBottom: "90px" }}
             />
-            <div className="flex flex-col lg:flex-row items-center justify-between w-full gap-4">
-              <div className="flex flex-row justify-between w-full lg:w-1/2">
-                <div className="flex items-center relative gap-2">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <i
-                      key={star}
-                      className={`fa-solid fa-star ${
-                        star <= reviewRating ? "dark-text-white" : ""
-                      }`}
-                      style={{
-                        color: star <= reviewRating ? "#688BFF" : "#D9D9D9",
-                        fontSize: "18px",
-                        cursor: "pointer",
-                      }}
-                      onClick={() => handleRatingClick(star)}
-                    ></i>
-                  ))}
-                </div>
-                <button
-                  style={{
-                    display: showPublishIcon ? "none" : "block",
-                    background: showPublishIcon
-                      ? "linear-gradient(267deg, #8E1DA1 0%, #2D015A 100%)"
-                      : "#F8F8FB",
-                  }}
-                  className={`bg-[#F8F8FB] w-[45%] h-[42px] rounded-full`}
-                >
-                  <p
-                    className={`text-[#A9A9A9] text-md ${
-                      darkMode ? "dark-text" : ""
-                    }`}
+            <div className="opacity text-gray-500 text-sm mt-1 ml-2">
+              {textPost.length}/{maxLength}
+            </div>
+            <div className="p-4 flex flex-col space-y-2">
+              <AddFiles
+                darkMode={darkMode}
+                selectedFiles={selectedImages}
+                setSelectedFiles={setSelectedImages}
+                isInHome={true}
+              />
+              <div className="flex flex-col lg:flex-row items-center justify-between w-full gap-4">
+                <div className="flex flex-row justify-between w-full lg:w-1/2">
+                  <div className="flex items-center relative gap-2">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <i
+                        key={star}
+                        className={`fa-solid fa-star ${
+                          star <= reviewRating ? "dark-text-white" : ""
+                        }`}
+                        style={{
+                          color: star <= reviewRating ? "#688BFF" : "#D9D9D9",
+                          fontSize: "18px",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => handleRatingClick(star)}
+                      ></i>
+                    ))}
+                  </div>
+                  <button
+                    style={{
+                      display: showPublishIcon ? "none" : "block",
+                      background: showPublishIcon
+                        ? "linear-gradient(267deg, #8E1DA1 0%, #2D015A 100%)"
+                        : "#F8F8FB",
+                    }}
+                    className={`bg-[#F8F8FB] w-[45%] h-[42px] rounded-full`}
                   >
-                    Publicar
-                  </p>
-                </button>
-                <button
-                  onClick={handleAddPost}
-                  style={{
-                    display: showPublishIcon ? "block" : "none",
-                    background: showPublishIcon
-                      ? "linear-gradient(267deg, #8E1DA1 0%, #2D015A 100%)"
-                      : "#F8F8FB",
-                  }}
-                  className={`bg-[#F8F8FB] w-[45%] h-[42px] rounded-full`}
-                >
-                  <p className={`text-[#FFF] text-md`}>Publicar</p>
-                </button>
+                    <p
+                      className={`text-[#A9A9A9] text-md ${
+                        darkMode ? "dark-text" : ""
+                      }`}
+                    >
+                      Publicar
+                    </p>
+                  </button>
+                  <button
+                    onClick={handleAddPost}
+                    style={{
+                      display: showPublishIcon ? "block" : "none",
+                      background: showPublishIcon
+                        ? "linear-gradient(267deg, #8E1DA1 0%, #2D015A 100%)"
+                        : "#F8F8FB",
+                    }}
+                    className={`bg-[#F8F8FB] w-[45%] h-[42px] rounded-full`}
+                  >
+                    <p className={`text-[#FFF] text-md`}>Publicar</p>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="flex flex-col gap-1 mt-1 lg:pb-0 pb-14">
-          {postes.map((post, index) => (
-            <PostCard
-              key={index}
-              post={post}
-              name={name}
-              darkMode={darkMode}
-              handleUserClick={handleUserClick}
-              handleBusinessClick={handleBusinessClick}
-              handleCommentClick={handleCommentClick}
-              handleLike={handleLike}
-              handleReview={handleReview}
-              editable={editable}
-              isUserProfile={isUserProfile}
-              isBusiness={isBusiness}
-            />
-          ))}
-        </div>
+        ) : (
+          <></>
+        )}
+        {activeTabView === "reseñas" && (
+          <div className="flex flex-col gap-1 mt-1 lg:pb-0 pb-14">
+            {postes.map((post, index) => (
+              <PostCard
+                key={index}
+                post={post}
+                name={name}
+                darkMode={darkMode}
+                handleUserClick={handleUserClick}
+                handleBusinessClick={handleBusinessClick}
+                handleCommentClick={handleCommentClick}
+                handleLike={handleLike}
+                handleReview={handleReview}
+                editable={editable}
+                isUserProfile={isUserProfile}
+                isBusiness={isBusiness}
+              />
+            ))}
+          </div>
+        )}
+        {activeTabView === "comentarios" && !isBusiness && (
+          <div className="flex flex-col gap-1 mt-1 lg:pb-0 pb-14">
+            {commentsUser.map((post, index) => (
+              <PostCard
+                key={post._id_comment}
+                post={post}
+                darkMode={darkMode}
+                handleLike={handleLikeCommentAux}
+                handleCommentClick={handleCommentClickAux}
+                handleReview={() => {}}
+                handleUserClick={() => {}}
+                isBusiness={false}
+                isComment={true}
+              />
+            ))}
+          </div>
+        )}
+        {activeTabView === "proyectos" && !isBusiness && (
+          <div className="flex flex-col gap-1 mt-1 lg:pb-0 pb-14">
+            {projectsUser.map((post, index) => (
+              <CompanyCard
+                key={index}
+                post={post}
+                darkMode={darkMode}
+                handleUserClick={handleUserClick}
+                handleBusinessClick={handleBusinessClick}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </>
   );
